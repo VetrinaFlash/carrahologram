@@ -15,7 +15,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<!-- display=block: aspetta il font prima di mostrare il testo, evita FOUT su iOS -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=block" rel="stylesheet"/>
+<!-- preload Bebas Neue esplicitamente -->
+<link rel="preload" as="font" crossorigin href="https://fonts.gstatic.com/s/bebasneue/v14/JTUSjIg69CK48gW7PXoo9Wdhyzbi.woff2" type="font/woff2"/>
 
 <style>
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -193,6 +196,7 @@ body {
   filter: drop-shadow(0 0 16px rgba(200,146,42,.35));
   margin-bottom: 8px;
   animation: fU .6s .05s both;
+
 }
 .hook {
   font-family: 'Cormorant Garamond', serif;
@@ -450,38 +454,49 @@ function L(l) {
   }
 })();
 
-/* ── SLOGAN FIT — loop iterativo, garantito su qualsiasi device ── */
+/* ── SLOGAN FIT — misura con Canvas, indipendente dal DOM/iOS ── */
 (function() {
   var el = document.querySelector('.slogan');
   if (!el) return;
+  var TEXT = el.textContent.trim();
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
 
-  function fit() {
-    /* 1. reset al valore CSS */
-    el.style.fontSize = '';
-    var pw = el.parentElement.offsetWidth;
+  function measureText(fontSize) {
+    ctx.font = fontSize + 'px "Bebas Neue", sans-serif';
+    return ctx.measureText(TEXT).width;
+  }
+
+  function applyFit() {
+    var pw = el.parentElement.offsetWidth - 16; /* 8px margine per lato */
     if (!pw || pw < 10) return;
-
-    /* 2. loop: riduci di 1px finché non entra */
-    var max = 200; /* safety cap iterazioni */
-    while (el.scrollWidth > pw && max-- > 0) {
-      var cur = parseFloat(window.getComputedStyle(el).fontSize);
-      if (cur <= 8) break; /* floor assoluto */
-      el.style.fontSize = (cur - 1) + 'px';
-    }
+    /* Calcola font-size ideale: pw / (larghezza_a_1px) */
+    var w1 = measureText(1);
+    if (!w1 || w1 <= 0) return;
+    var ideal = Math.floor(pw / w1);
+    /* Clamp tra 10px e 48px */
+    ideal = Math.max(10, Math.min(48, ideal));
+    el.style.fontSize = ideal + 'px';
+    el.style.letterSpacing = '0';
   }
 
-  /* Esegui a intervalli crescenti per catturare qualsiasi ritardo font iOS */
-  [0, 30, 80, 200, 400, 700, 1200, 2000, 3500].forEach(function(t) {
-    setTimeout(fit, t);
+  function doFit() {
+    applyFit();
+  }
+
+  /* Aspetta Bebas Neue poi misura */
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('40px "Bebas Neue"').then(function() {
+      doFit();
+    }).catch(function() { doFit(); });
+  }
+
+  /* Fallback multipli per iOS lento */
+  [0, 100, 300, 600, 1000, 2000].forEach(function(t) {
+    setTimeout(doFit, t);
   });
-  window.addEventListener('resize', fit);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(function() {
-      fit();
-      setTimeout(fit, 150);
-      setTimeout(fit, 500);
-    });
-  }
+
+  window.addEventListener('resize', doFit);
 })();
 
 /* ── FORM ── */
