@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Raffaella Carrà – Live From Heaven | Official Hologram Concert</title>
+<meta name="description" content="Il primo concerto ologramma ufficiale di Raffaella Carrà. Scopri per primo le date."/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://raffaellalivefromheaven.com/"/>
+<meta property="og:title" content="Raffaella Carrà – Live From Heaven | Official Hologram Concert"/>
+<meta property="og:description" content="Preparati a fare rumore."/>
+<meta property="og:image" content="header.png"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+
+<audio id="snd" src="rumore.mp4" loop preload="none" playsinline webkit-playsinline></audio>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+<style>
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:  #C8922A;
+  --gold2: #E8C46A;
+  --gold3: #F9EDCA;
+  --gold4: #5C3A06;
+  --blue:  #5BCFFF;
+  --dark:  #000;
+  --panel: #050505;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: #000;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  /* iOS Safari fix */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ══ FULL PAGE LAYOUT ══ */
+.page {
+  width: 100vw;
+  height: 100vh;
+  height: -webkit-fill-available;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* ══ STARS LAYER ══ */
+.stars-global {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 999;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+.s {
+  position: absolute; border-radius: 50%; background: #fff;
+  opacity: 0;
+  animation: twinkle var(--d,2s) var(--dl,0s) ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0; transform: scale(.3); }
+  50%      { opacity: var(--op,.8); transform: scale(1); }
+}
+.spk {
+  position: absolute; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, #fff 0%, var(--gold3) 30%, var(--gold2) 65%, transparent 100%);
+  animation: spkUp var(--d,5s) var(--dl,0s) ease-in infinite;
+}
+@keyframes shoot {
+  0%   { opacity: 0; transform: rotate(var(--rot,22deg)) translateX(0); }
+  8%   { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--rot,22deg)) translateX(220px); }
+}
+
+@keyframes spkUp {
+  0%   { opacity: 0; transform: translate(0,0) scale(.5); }
+  7%   { opacity: 1; }
+  80%  { opacity: .4; }
+  100% { opacity: 0; transform: translate(var(--tx,0px), var(--ty,-260px)) scale(.05); }
+}
+
+/* ══ IMAGE SECTION — 80% height ══ */
+.col-img {
+  position: relative;
+  flex: 0 0 80%;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The three images stacked vertically filling 100% of col-img */
+.img-stack {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.img-header {
+  /* header.png: logo "RAFFAELLA – Live From Heaven" */
+  flex: 0 0 28%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.img-body {
+  /* body.png: golden wig silhouette — centerpiece */
+  flex: 0 0 46%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.img-footer {
+  /* footer.png: "Official Hologram Concert" badge */
+  flex: 0 0 26%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.img-header img,
+.img-body img,
+.img-footer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+}
+
+/* Subtle breathe animation only on body (wig) */
+.img-body img {
+  animation: breathe 12s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.025); }
+}
+
+/* Bottom fade into form */
+.col-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 22%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.65) 60%, #000 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ══ FORM SECTION — 20% height ══ */
+.col-form {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  overflow: hidden;
+  /* subtle top glow */
+  border-top: 1px solid rgba(200,146,42,.12);
+}
+.col-form::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%; transform: translateX(-50%);
+  width: 70%; height: 120px;
+  background: radial-gradient(ellipse, rgba(200,146,42,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ══ CONTROLS (top-right corner overlay) ══ */
+.ctrl {
+  position: absolute;
+  top: 16px; right: 16px;
+  display: flex; align-items: center; gap: 8px;
+  z-index: 10;
+}
+.langs { display: flex; gap: 4px; }
+.lb {
+  background: rgba(0,0,0,.5);
+  border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.25);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px; font-weight: 500; letter-spacing: 2px;
+  padding: 4px 7px; border-radius: 2px; cursor: pointer; transition: all .2s;
+  backdrop-filter: blur(4px);
+}
+.lb:hover, .lb.on {
+  border-color: var(--gold2); color: var(--gold2);
+  background: rgba(200,146,42,.1);
+}
+#abtn {
+  background: rgba(0,0,0,.5);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 50%; width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s; flex-shrink: 0;
+  backdrop-filter: blur(4px);
+}
+#abtn:hover, #abtn.on { border-color: var(--gold2); background: rgba(200,146,42,.1); }
+#abtn svg { width: 12px; height: 12px; fill: rgba(255,255,255,.35); transition: fill .2s; }
+#abtn:hover svg, #abtn.on svg { fill: var(--gold2); }
+.eq { display: flex; gap: 2px; align-items: flex-end; height: 10px; }
+.eq i { width: 2px; background: var(--gold2); border-radius: 1px; height: 2px;
+  opacity: 0; font-style: normal; transition: opacity .3s;
+  animation: eqb var(--d,.5s) ease-in-out infinite alternate; }
+#abtn.on .eq i { opacity: 1; }
+@keyframes eqb { from{height:2px} to{height:9px} }
+
+/* ══ FORM INNER ══ */
+.form-inner {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Slogan */
+.slogan {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(18px, 5.5vw, 40px);
+  letter-spacing: .08em;
+  white-space: nowrap;
+  background: linear-gradient(150deg, #fff 0%, var(--gold3) 30%, var(--gold2) 55%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(200,146,42,.35));
+  margin-bottom: 10px;
+  text-align: center;
+  animation: fU .6s .05s both;
+  /* scale down to fit if still too wide */
+  max-width: 100%;
+  transform-origin: center;
+}
+
+/* Hook / Newsletter label */
+.hook {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(11px, 2vw, 14px);
+  font-weight: 300; font-style: italic;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .1em;
+  margin-bottom: 12px;
+  text-align: center;
+  animation: fU .6s .15s both;
+}
+
+/* Form pill */
+.pill-wrap {
+  width: 100%;
+  animation: fU .6s .25s both;
+}
+.pill {
+  display: flex;
+  border: 1px solid rgba(200,146,42,.3);
+  border-radius: 2px; overflow: hidden;
+  background: rgba(0,0,0,.7);
+  box-shadow: 0 0 0 1px rgba(200,146,42,.04) inset, 0 4px 24px rgba(0,0,0,.5);
+  transition: border-color .3s, box-shadow .3s;
+}
+.pill:focus-within {
+  border-color: rgba(200,146,42,.65);
+  box-shadow: 0 0 0 1px rgba(200,146,42,.08) inset, 0 4px 32px rgba(0,0,0,.6), 0 0 28px rgba(200,146,42,.1);
+}
+.pill input {
+  flex: 1; min-width: 0;
+  background: transparent; border: none; outline: none;
+  color: #fff; font-family: 'Montserrat', sans-serif;
+  font-size: 12px; font-weight: 300; letter-spacing: .8px;
+  padding: 13px 16px;
+}
+.pill input::placeholder { color: rgba(255,255,255,.18); font-style: italic; }
+.pill button {
+  background: linear-gradient(135deg, var(--gold4) 0%, var(--gold) 48%, var(--gold2) 100%);
+  border: none; color: #000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  padding: 13px 22px; cursor: pointer; flex-shrink: 0;
+  transition: filter .2s, transform .1s; white-space: nowrap;
+  position: relative; overflow: hidden;
+}
+.pill button::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+  transform: translateX(-100%); animation: sh 5s 2.5s infinite;
+}
+@keyframes sh { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+.pill button:hover { filter: brightness(1.12); }
+.pill button:active { transform: scale(.99); }
+
+.fine {
+  margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+  font-size: 8px; font-weight: 300; letter-spacing: 1.5px;
+  color: rgba(255,255,255,.14);
+  animation: fU .6s .35s both;
+}
+.fine span { display: flex; align-items: center; gap: 5px; }
+.fine span::before { content: '—'; opacity: .3; font-size: 9px; }
+.fine span:first-child::before { display: none; }
+
+/* Bottom proof + flag */
+.btm {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin-top: 8px;
+  animation: fU .6s .45s both;
+}
+.proof { font-size: 8px; font-weight: 300; letter-spacing: 2px; color: rgba(255,255,255,.14); text-transform: uppercase; }
+.proof b { color: rgba(200,146,42,.38); }
+.flag { display: flex; gap: 3px; }
+.flag s { display: block; width: 12px; height: 2px; border-radius: 1px; text-decoration: none; }
+.flag s:nth-child(1) { background: #009246; }
+.flag s:nth-child(2) { background: rgba(255,255,255,.7); }
+.flag s:nth-child(3) { background: #CE2B37; }
+
+/* Success state */
+.form-ok { display: none; flex-direction: column; align-items: center; gap: 8px; padding: 4px 0; }
+.ok-ico {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--gold2); background: rgba(200,146,42,.06);
+  display: flex; align-items: center; justify-content: center;
+}
+.ok-ico svg { width: 17px; height: 17px; fill: none; stroke: var(--gold2); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.form-ok p { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--gold2); text-align: center; }
+.form-ok small { font-size: 8.5px; font-weight: 300; letter-spacing: 2px; color: rgba(255,255,255,.25); text-transform: uppercase; text-align: center; }
+
+@keyframes fU { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+/* ══ DESKTOP large: vertical layout, bigger images ══ */
+@media (min-width: 900px) {
+  .slogan {
+    font-size: clamp(28px, 3vw, 48px);
+  }
+  .hook {
+    font-size: clamp(13px, 1.2vw, 16px);
+  }
+  .form-inner {
+    max-width: 600px;
+  }
+  .pill input { padding: 15px 20px; font-size: 13px; }
+  .pill button { padding: 15px 30px; font-size: 9px; letter-spacing: 3.5px; }
+  .img-header { flex: 0 0 33%; }
+  .img-body   { flex: 0 0 42%; }
+  .img-footer { flex: 0 0 25%; }
+}
+
+/* ══ MOBILE tweaks ══ */
+@media (max-width: 899px) {
+  .ctrl {
+    top: 12px; right: 12px;
+  }
+  .lb { font-size: 7.5px; padding: 3px 6px; }
+  #abtn { width: 26px; height: 26px; }
+  .col-form {
+    padding: 0 16px;
+    justify-content: center;
+  }
+  .slogan {
+    font-size: clamp(16px, 5.8vw, 32px);
+    letter-spacing: .05em;
+    margin-bottom: 7px;
+  }
+  .hook {
+    font-size: clamp(10px, 2.8vw, 13px);
+    margin-bottom: 9px;
+  }
+  .pill input { padding: 11px 14px; font-size: 12px; }
+  .pill button { padding: 11px 18px; font-size: 7.5px; letter-spacing: 2.5px; }
+}
+
+/* Landscape phones: stay vertical, just tighten spacing */
+@media (max-width: 899px) and (orientation: landscape) {
+  .col-img { flex: 0 0 75%; }
+  .slogan { font-size: clamp(15px, 3.5vw, 24px); margin-bottom: 5px; }
+  .hook { margin-bottom: 7px; font-size: clamp(9px, 2vw, 12px); }
+  .pill input { padding: 9px 12px; }
+  .pill button { padding: 9px 16px; }
+  .fine { margin-top: 5px; }
+  .btm { margin-top: 5px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ GLOBAL STARS (full page) ══ -->
+<div class="stars-global" id="stars-global" aria-hidden="true"></div>
+
+<!-- ══ CONTROLS overlay ══ -->
+<div class="ctrl">
+  <nav class="langs" aria-label="Language">
+    <button class="lb on"  onclick="L('it')">IT</button>
+    <button class="lb"     onclick="L('en')">EN</button>
+    <button class="lb"     onclick="L('es')">ES</button>
+    <button class="lb"     onclick="L('pt')">PT</button>
+    <button class="lb"     onclick="L('de')">DE</button>
+    <button class="lb"     onclick="L('fr')">FR</button>
+  </nav>
+  <button id="abtn" aria-label="Music">
+    <div class="eq">
+      <i style="--d:.44s"></i>
+      <i style="--d:.60s;animation-delay:.08s"></i>
+      <i style="--d:.48s;animation-delay:.19s"></i>
+      <i style="--d:.66s;animation-delay:.04s"></i>
+    </div>
+    <svg viewBox="0 0 24 24" style="display:none" id="aico"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  </button>
+</div>
+
+<div class="page">
+
+  <!-- ══ IMAGE PANEL (80% height) ══ -->
+  <div class="col-img" role="img" aria-label="Raffaella Carrà – Live From Heaven – Official Hologram Concert">
+    <div class="img-stack">
+      <div class="img-header">
+        <img src="header.png"
+             alt="Raffaella – Live From Heaven"
+             loading="eager" fetchpriority="high"/>
+      </div>
+      <div class="img-body">
+        <img src="body.png"
+             alt="Raffaella Carrà silhouette"
+             loading="eager"/>
+      </div>
+      <div class="img-footer">
+        <img src="footer.png"
+             alt="Official Hologram Concert"
+             loading="eager"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FORM PANEL (20% height) ══ -->
+  <main class="col-form" aria-labelledby="slogan">
+
+    <div class="form-inner">
+
+      <p class="slogan" id="slogan">PREPARATI A FARE RUMORE</p>
+
+      <p class="hook" data-t="hook">Scopri per prima le date dei concerti ufficiali.</p>
+
+      <div class="pill-wrap">
+        <div id="fform">
+          <div class="pill">
+            <input type="email" id="fe"
+                   placeholder="la tua email"
+                   data-tp="pe"
+                   autocomplete="email"
+                   required
+                   aria-label="Indirizzo email"/>
+            <button type="button" onclick="sub()" data-t="cta">Avvisami</button>
+          </div>
+          <p class="fine">
+            <span data-t="n1">Nessuno spam</span>
+            <span data-t="n2">Solo notizie ufficiali</span>
+            <span data-t="n3">Cancellazione in qualsiasi momento</span>
+          </p>
+        </div>
+        <div class="form-ok" id="fok">
+          <div class="ok-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p data-t="okt">Sei nella lista.</p>
+          <small data-t="oks">Ti scriveremo con le novità ufficiali.</small>
+        </div>
+      </div>
+
+      <div class="btm">
+        <p class="proof" data-t="proof"><b>12.400+</b> fan in lista</p>
+        <div class="flag" aria-label="Bandiera italiana"><s></s><s></s><s></s></div>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+/* ── TRANSLATIONS ── */
+const T = {
+  it:{ hook:"Scopri per prima le date dei concerti ufficiali.", pe:"la tua email", cta:"Avvisami", n1:"Nessuno spam", n2:"Solo notizie ufficiali", n3:"Cancellazione in qualsiasi momento", okt:"Sei nella lista.", oks:"Ti scriveremo con le novità ufficiali.", proof:"<b>12.400+</b> fan in lista" },
+  en:{ hook:"Be the first to discover the official concert dates.", pe:"your@email.com", cta:"Notify Me", n1:"No spam", n2:"Official news only", n3:"Unsubscribe anytime", okt:"You're on the list.", oks:"We'll be in touch with official news.", proof:"<b>12,400+</b> fans on the list" },
+  es:{ hook:"Descubre primero las fechas de los conciertos oficiales.", pe:"tu@email.com", cta:"Avísame", n1:"Sin spam", n2:"Solo noticias oficiales", n3:"Baja cuando quieras", okt:"Estás en la lista.", oks:"Te escribiremos con las novedades.", proof:"<b>12.400+</b> fans en la lista" },
+  pt:{ hook:"Sê o primeiro a descobrir as datas dos concertos oficiais.", pe:"o.teu@email.com", cta:"Avisa-me", n1:"Sem spam", n2:"Só notícias oficiais", n3:"Cancela quando quiseres", okt:"Estás na lista.", oks:"Vamos escrever-te com as novidades.", proof:"<b>12.400+</b> fãs na lista" },
+  de:{ hook:"Entdecke als Erster die offiziellen Konzerttermine.", pe:"deine@email.de", cta:"Benachrichtigen", n1:"Kein Spam", n2:"Nur offizielle News", n3:"Jederzeit abmeldbar", okt:"Du bist auf der Liste.", oks:"Wir schreiben dir mit den Neuigkeiten.", proof:"<b>12.400+</b> Fans auf der Liste" },
+  fr:{ hook:"Découvrez en avant-première les dates des concerts officiels.", pe:"votre@email.fr", cta:"Me prévenir", n1:"Aucun spam", n2:"Nouvelles officielles", n3:"Désinscription à tout moment", okt:"Vous êtes sur la liste.", oks:"Nous vous écrirons avec les nouvelles.", proof:"<b>12 400+</b> fans sur la liste" }
+};
+let lang = 'it';
+function L(l) {
+  lang = l; document.documentElement.lang = l;
+  const t = T[l];
+  document.querySelectorAll('[data-t]').forEach(el => { const k = el.getAttribute('data-t'); if (t[k] !== undefined) el.innerHTML = t[k]; });
+  document.querySelectorAll('[data-tp]').forEach(el => { const k = el.getAttribute('data-tp'); if (t[k]) el.placeholder = t[k]; });
+  document.querySelectorAll('.lb').forEach(b => b.classList.toggle('on', b.textContent === l.toUpperCase()));
+}
+
+/* ── GLOBAL STARS ── */
+(function() {
+  const c = document.getElementById('stars-global');
+  if (!c) return;
+
+  // Layer 1: dense base stars
+  for (let i = 0; i < 600; i++) {
+    const el = document.createElement('div'); el.className = 's';
+    const r = Math.random();
+    let s, op;
+    if (r < .55)      { s = 0.4 + Math.random() * 0.7;  op = 0.25 + Math.random() * 0.4; }
+    else if (r < .80) { s = 1.0 + Math.random() * 1.2;  op = 0.4  + Math.random() * 0.45; }
+    else if (r < .94) { s = 2.0 + Math.random() * 2.0;  op = 0.5  + Math.random() * 0.45; }
+    else              { s = 3.5 + Math.random() * 3.0;  op = 0.65 + Math.random() * 0.35; }
+    const glow = s * 7;
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      width:${s}px; height:${s}px;
+      --d:${0.8 + Math.random() * 4.0}s;
+      --dl:${Math.random() * 12}s;
+      --op:${op};
+      box-shadow: 0 0 ${glow}px rgba(255,250,210,${op}),
+                  0 0 ${glow*2}px rgba(255,235,150,${op*.75}),
+                  0 0 ${glow*4}px rgba(232,196,106,${op*.5}),
+                  0 0 ${glow*8}px rgba(200,146,42,${op*.25});
+    `;
+    c.appendChild(el);
+  }
+
+  // Layer 2: extra tiny bright dots
+  for (let i = 0; i < 300; i++) {
+    const el = document.createElement('div'); el.className = 's';
+    const s  = 0.4 + Math.random() * 1.4;
+    const op = 0.45 + Math.random() * 0.55;
+    const glow = s * 7;
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      width:${s}px; height:${s}px;
+      --d:${0.5 + Math.random() * 2.2}s;
+      --dl:${Math.random() * 9}s;
+      --op:${op};
+      box-shadow: 0 0 ${glow}px rgba(255,255,220,${op}),
+                  0 0 ${glow*3}px rgba(255,235,150,${op*.6});
+    `;
+    c.appendChild(el);
+  }
+
+  // Layer 3: shooting stars
+  function shootingStar() {
+    const el = document.createElement('div');
+    const startX = Math.random() * 75;
+    const startY = Math.random() * 45;
+    const len    = 80 + Math.random() * 180;
+    const dur    = 0.5 + Math.random() * 0.9;
+    el.style.cssText = `
+      position:absolute;
+      left:${startX}%;
+      top:${startY}%;
+      width:${len}px; height:1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,245,200,.85) 55%, #fff 100%);
+      border-radius: 2px;
+      transform: rotate(${18 + Math.random()*22}deg);
+      box-shadow: 0 0 5px rgba(255,235,150,.9), 0 0 14px rgba(255,235,150,.5);
+      opacity: 0;
+      animation: shoot ${dur}s ease-out forwards;
+    `;
+    c.appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000 + 120);
+  }
+  setInterval(() => { if (Math.random() > .35) shootingStar(); }, 1600);
+  setTimeout(() => { shootingStar(); shootingStar(); }, 400);
+
+})();
+
+/* ── SPARKS (rising gold on form area) ── */
+(function() {
+  const form = document.querySelector('.col-form');
+  const c = document.createElement('div');
+  c.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;';
+  form.insertBefore(c, form.firstChild);
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('div'); el.className = 'spk';
+    const s = 0.8 + Math.random() * 3.5;
+    const tx = (Math.random() - .5) * 100;
+    const ty = -(60 + Math.random() * 200);
+    const glow = s * 5;
+    el.style.cssText = `
+      left:${5 + Math.random() * 90}%;
+      bottom:${Math.random() * 50}%;
+      width:${s}px; height:${s}px;
+      --d:${2.5 + Math.random() * 7}s;
+      --dl:${Math.random() * 12}s;
+      --tx:${tx}px; --ty:${ty}px;
+      box-shadow: 0 0 ${glow}px rgba(255,235,150,1),
+                  0 0 ${glow*2.5}px rgba(232,196,106,.8),
+                  0 0 ${glow*5}px rgba(200,146,42,.5);
+    `;
+    c.appendChild(el);
+  }
+})();
+
+/* ── FORM ── */
+function sub() {
+  const em = document.getElementById('fe');
+  if (!em.value || !em.value.includes('@')) {
+    em.style.outline = '1px solid rgba(210,70,70,.5)'; em.focus();
+    setTimeout(() => em.style.outline = '', 1500); return;
+  }
+  document.getElementById('fform').style.display = 'none';
+  document.getElementById('fok').style.display = 'flex';
+}
+document.getElementById('fe').addEventListener('keydown', e => { if (e.key === 'Enter') sub(); });
+
+/* ── AUDIO ── */
+const snd = document.getElementById('snd'), abtn = document.getElementById('abtn');
+let playing = false;
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+  // iOS requires a silent play/pause on user gesture to unlock audio context
+  snd.load();
+  const p = snd.play();
+  if (p !== undefined) {
+    p.then(() => { snd.pause(); snd.currentTime = 0; }).catch(() => {});
+  }
+}
+
+function tryPlay() {
+  if (!snd.src) return;
+  snd.volume = 0;
+  snd.currentTime = 0;
+  const p = snd.play();
+  if (p !== undefined) {
+    p.then(() => {
+      playing = true; abtn.classList.add('on');
+      let v = 0;
+      const iv = setInterval(() => { v = Math.min(.65, v + .02); snd.volume = v; if (v >= .65) clearInterval(iv); }, 120);
+    }).catch(() => { playing = false; abtn.classList.remove('on'); });
+  }
+}
+
+abtn.addEventListener('click', () => {
+  unlockAudio();
+  if (!playing) { tryPlay(); return; }
+  let v = snd.volume;
+  const iv = setInterval(() => { v = Math.max(0, v - .04); snd.volume = v; if (v <= 0) { snd.pause(); clearInterval(iv); } }, 80);
+  playing = false; abtn.classList.remove('on');
+});
+
+// On first interaction unlock audio context (needed for iOS)
+function onFirstInteraction() {
+  unlockAudio();
+  // Don't autoplay — wait for user to tap music button
+}
+['touchstart', 'touchend', 'click'].forEach(ev =>
+  document.addEventListener(ev, function h() {
+    onFirstInteraction();
+    document.removeEventListener(ev, h);
+  }, { once: true, passive: true })
+);
+</script>
+</body>
+</html>
