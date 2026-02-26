@@ -173,10 +173,19 @@ body {
 /* Slogan */
 .slogan {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(11px, 5.2vw, 46px);
-  letter-spacing: .02em;
+  /* 
+    "PREPARATI A FARE RUMORE" in Bebas Neue con letter-spacing 0
+    occupa circa 15.5ch. Per stare in 100% del container:
+    font-size = 100vw / 15.5 * 0.92 (margine sicurezza) ≈ 5.9vw
+    Su desktop max-width 540px quindi max font = 540/15.5*0.92 ≈ 32px
+  */
+  font-size: clamp(10px, 5.9vw, 34px);
+  letter-spacing: 0;
   white-space: nowrap;
-  display: block; width: 100%; text-align: center;
+  display: block;
+  width: 100%;
+  text-align: center;
+  overflow: visible;
   background: linear-gradient(150deg, #fff 0%, var(--gold3) 30%, var(--gold2) 55%, var(--gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -189,7 +198,7 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(10px, 1.8vw, 14px);
   font-weight: 300; font-style: italic;
-  color: rgba(255,255,255,.35); letter-spacing: .08em;
+  color: rgba(255,255,255,.65); letter-spacing: .08em;
   margin-bottom: 10px; text-align: center;
   animation: fU .6s .15s both;
 }
@@ -197,17 +206,17 @@ body {
 /* Pill */
 .pill-wrap { width: 100%; animation: fU .6s .25s both; }
 .pill {
-  display: flex; border: 1px solid rgba(200,146,42,.3);
+  display: flex; border: 1px solid rgba(200,146,42,.7);
   border-radius: 2px; overflow: hidden; background: rgba(0,0,0,.7);
   transition: border-color .3s, box-shadow .3s;
 }
-.pill:focus-within { border-color: rgba(200,146,42,.65); box-shadow: 0 0 28px rgba(200,146,42,.1); }
+.pill:focus-within { border-color: rgba(200,146,42,1); box-shadow: 0 0 28px rgba(200,146,42,.25); }
 .pill input {
   flex:1; min-width:0; background:transparent; border:none; outline:none;
   color:#fff; font-family:'Montserrat',sans-serif;
   font-size:12px; font-weight:300; letter-spacing:.8px; padding:13px 16px;
 }
-.pill input::placeholder { color:rgba(255,255,255,.2); font-style:italic; }
+.pill input::placeholder { color:rgba(255,255,255,.45); font-style:italic; }
 .pill button {
   background: linear-gradient(135deg, var(--gold4) 0%, var(--gold) 48%, var(--gold2) 100%);
   border:none; color:#000; font-family:'Montserrat',sans-serif;
@@ -226,7 +235,7 @@ body {
 
 .fine {
   margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
-  font-size:7.5px; letter-spacing:1.5px; color:rgba(255,255,255,.45);
+  font-size:7.5px; letter-spacing:1.5px; color:rgba(255,255,255,.6);
   animation: fU .6s .35s both;
 }
 .fine span::before { content:'—'; opacity:.3; margin-right:5px; }
@@ -236,8 +245,8 @@ body {
   display:flex; align-items:center; justify-content:center; gap:14px;
   margin-top:8px; animation: fU .6s .45s both;
 }
-.proof { font-size:8px; letter-spacing:2px; color:rgba(255,255,255,.42); text-transform:uppercase; }
-.proof b { color:rgba(200,146,42,.38); }
+.proof { font-size:8px; letter-spacing:2px; color:rgba(255,255,255,.6); text-transform:uppercase; }
+.proof b { color:rgba(200,146,42,.8); }
 .flag { display:flex; gap:3px; }
 .flag s { display:block; width:12px; height:2px; border-radius:1px; text-decoration:none; }
 .flag s:nth-child(1) { background:#009246; }
@@ -276,7 +285,7 @@ body {
 @media (max-width: 390px) {
   .col-img { padding-top: 48px; }
   .lb { font-size: 7px; padding: 4px 6px; letter-spacing: 1.5px; }
-  .slogan { font-size: clamp(10px, 4.8vw, 18px); letter-spacing: .01em; }
+  .slogan { font-size: clamp(10px, 5.9vw, 34px); letter-spacing: 0; }
   .hook { font-size: 10px; }
   .pill input  { padding: 10px 12px; font-size: 11px; }
   .pill button { padding: 10px 14px; font-size: 7px; letter-spacing: 2px; }
@@ -441,30 +450,36 @@ function L(l) {
   }
 })();
 
-/* ── SLOGAN FIT — mai tagliata su nessun device ── */
+/* ── SLOGAN FIT — loop iterativo, garantito su qualsiasi device ── */
 (function() {
   var el = document.querySelector('.slogan');
   if (!el) return;
+
   function fit() {
-    el.style.transform = 'none';
-    el.style.transformOrigin = 'center top';
-    var pw = el.parentElement.offsetWidth - 10;
-    var sw = el.scrollWidth;
-    if (sw > 0 && sw > pw) {
-      el.style.transform = 'scaleX(' + ((pw / sw) * 0.98) + ')';
+    /* 1. reset al valore CSS */
+    el.style.fontSize = '';
+    var pw = el.parentElement.offsetWidth;
+    if (!pw || pw < 10) return;
+
+    /* 2. loop: riduci di 1px finché non entra */
+    var max = 200; /* safety cap iterazioni */
+    while (el.scrollWidth > pw && max-- > 0) {
+      var cur = parseFloat(window.getComputedStyle(el).fontSize);
+      if (cur <= 8) break; /* floor assoluto */
+      el.style.fontSize = (cur - 1) + 'px';
     }
   }
-  /* multipli tentativi: iOS carica i font con ritardo variabile */
-  fit();
-  [30, 100, 250, 500, 800, 1500, 2500].forEach(function(t) {
+
+  /* Esegui a intervalli crescenti per catturare qualsiasi ritardo font iOS */
+  [0, 30, 80, 200, 400, 700, 1200, 2000, 3500].forEach(function(t) {
     setTimeout(fit, t);
   });
   window.addEventListener('resize', fit);
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function() {
       fit();
-      setTimeout(fit, 200);
-      setTimeout(fit, 600);
+      setTimeout(fit, 150);
+      setTimeout(fit, 500);
     });
   }
 })();
