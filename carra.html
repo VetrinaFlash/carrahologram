@@ -13,7 +13,7 @@
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
 
-<audio id="snd" src="rumore.mp4" loop preload="none" playsinline webkit-playsinline></audio>
+<!-- audio created dynamically via JS only on user interaction -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -238,18 +238,25 @@ html, body {
 /* Slogan */
 .slogan {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(18px, 5.5vw, 40px);
-  letter-spacing: .08em;
+  /* 
+    "PREPARATI A FARE RUMORE" = 24 chars with spaces
+    At letter-spacing 0 Bebas Neue ~0.6em per char → 24*0.6 = 14.4em total width
+    To fit in 100% of container: font-size = 100vw / 15 ≈ 6.5vw
+    We clamp it generously so it never overflows
+  */
+  font-size: clamp(14px, 5.8vw, 46px);
+  letter-spacing: .04em;
   white-space: nowrap;
+  display: block;
+  width: 100%;
+  text-align: center;
+  /* scale to fit container if still too wide on any device */
+  overflow: hidden;
   background: linear-gradient(150deg, #fff 0%, var(--gold3) 30%, var(--gold2) 55%, var(--gold) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   filter: drop-shadow(0 0 18px rgba(200,146,42,.35));
   margin-bottom: 10px;
-  text-align: center;
   animation: fU .6s .05s both;
-  /* scale down to fit if still too wide */
-  max-width: 100%;
-  transform-origin: center;
 }
 
 /* Hook / Newsletter label */
@@ -374,8 +381,8 @@ html, body {
     justify-content: center;
   }
   .slogan {
-    font-size: clamp(16px, 5.8vw, 32px);
-    letter-spacing: .05em;
+    font-size: clamp(12px, 5.2vw, 28px);
+    letter-spacing: .02em;
     margin-bottom: 7px;
   }
   .hook {
@@ -612,6 +619,25 @@ function L(l) {
   }
 })();
 
+/* ── SLOGAN FIT ── */
+(function fitSlogan() {
+  const el = document.querySelector('.slogan');
+  if (!el) return;
+  function scale() {
+    el.style.transform = 'none';
+    const parent = el.parentElement.offsetWidth;
+    const self   = el.scrollWidth;
+    if (self > parent) {
+      el.style.transform = 'scaleX(' + ((parent - 8) / self) + ')';
+      el.style.transformOrigin = 'center';
+    }
+  }
+  scale();
+  window.addEventListener('resize', scale);
+  // run again after fonts load
+  if (document.fonts) document.fonts.ready.then(scale);
+})();
+
 /* ── FORM ── */
 function sub() {
   const em = document.getElementById('fe');
@@ -624,55 +650,61 @@ function sub() {
 }
 document.getElementById('fe').addEventListener('keydown', e => { if (e.key === 'Enter') sub(); });
 
-/* ── AUDIO ── */
-const snd = document.getElementById('snd'), abtn = document.getElementById('abtn');
+/* ── AUDIO — lazy loaded, iOS safe ── */
+const abtn = document.getElementById('abtn');
+let snd = null;
 let playing = false;
-let audioUnlocked = false;
 
-function unlockAudio() {
-  if (audioUnlocked) return;
-  audioUnlocked = true;
-  // iOS requires a silent play/pause on user gesture to unlock audio context
-  snd.load();
-  const p = snd.play();
-  if (p !== undefined) {
-    p.then(() => { snd.pause(); snd.currentTime = 0; }).catch(() => {});
+function createAudio() {
+  if (snd) return;
+  try {
+    snd = new Audio();
+    snd.loop = true;
+    snd.volume = 0;
+    // only set src after object created — avoids iOS pre-load crash
+    snd.src = 'rumore.mp4';
+  } catch(e) {
+    snd = null;
   }
 }
 
 function tryPlay() {
-  if (!snd.src) return;
+  createAudio();
+  if (!snd) return;
   snd.volume = 0;
-  snd.currentTime = 0;
   const p = snd.play();
   if (p !== undefined) {
     p.then(() => {
-      playing = true; abtn.classList.add('on');
+      playing = true;
+      abtn.classList.add('on');
       let v = 0;
-      const iv = setInterval(() => { v = Math.min(.65, v + .02); snd.volume = v; if (v >= .65) clearInterval(iv); }, 120);
-    }).catch(() => { playing = false; abtn.classList.remove('on'); });
+      const iv = setInterval(() => {
+        v = Math.min(.65, v + .02);
+        snd.volume = v;
+        if (v >= .65) clearInterval(iv);
+      }, 120);
+    }).catch(() => {
+      playing = false;
+      abtn.classList.remove('on');
+    });
   }
 }
 
-abtn.addEventListener('click', () => {
-  unlockAudio();
-  if (!playing) { tryPlay(); return; }
+function stopPlay() {
+  if (!snd) return;
   let v = snd.volume;
-  const iv = setInterval(() => { v = Math.max(0, v - .04); snd.volume = v; if (v <= 0) { snd.pause(); clearInterval(iv); } }, 80);
-  playing = false; abtn.classList.remove('on');
-});
-
-// On first interaction unlock audio context (needed for iOS)
-function onFirstInteraction() {
-  unlockAudio();
-  // Don't autoplay — wait for user to tap music button
+  const iv = setInterval(() => {
+    v = Math.max(0, v - .05);
+    snd.volume = v;
+    if (v <= 0) { snd.pause(); clearInterval(iv); }
+  }, 80);
+  playing = false;
+  abtn.classList.remove('on');
 }
-['touchstart', 'touchend', 'click'].forEach(ev =>
-  document.addEventListener(ev, function h() {
-    onFirstInteraction();
-    document.removeEventListener(ev, h);
-  }, { once: true, passive: true })
-);
+
+abtn.addEventListener('click', () => {
+  if (!playing) { tryPlay(); } else { stopPlay(); }
+});
 </script>
 </body>
 </html>
