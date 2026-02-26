@@ -132,9 +132,9 @@ body {
   width: 100%; height: 100%;
   display: flex; flex-direction: column;
 }
-.img-header { flex: 0 0 28%; overflow: hidden; }
-.img-body   { flex: 0 0 46%; overflow: hidden; }
-.img-footer { flex: 0 0 26%; overflow: hidden; }
+.img-header { flex: 0 0 20%; overflow: hidden; }
+.img-body   { flex: 0 0 65%; overflow: hidden; }
+.img-footer { flex: 0 0 15%; overflow: hidden; }
 .img-header img, .img-body img, .img-footer img {
   width: 100%; height: 100%;
   object-fit: contain; object-position: center center; display: block;
@@ -259,13 +259,22 @@ body {
   .form-inner { max-width: 600px; }
   .pill input { padding: 15px 20px; font-size: 13px; }
   .pill button { padding: 15px 30px; font-size: 9px; }
-  .img-header { flex: 0 0 33%; }
-  .img-body   { flex: 0 0 42%; }
-  .img-footer { flex: 0 0 25%; }
+  .img-header { flex: 0 0 20%; }
+  .img-body   { flex: 0 0 65%; }
+  .img-footer { flex: 0 0 15%; }
+}
+
+/* ══ MOBILE: immagine inizia sotto il selettore lingua ══ */
+@media (max-width: 899px) {
+  .col-img {
+    /* ctrl è alto ~32px + 12px top = 44px, aggiungiamo 8px di respiro */
+    padding-top: 52px;
+  }
 }
 
 /* ══ SMALL PHONE ══ */
 @media (max-width: 390px) {
+  .col-img { padding-top: 48px; }
   .lb { font-size: 7px; padding: 4px 6px; letter-spacing: 1.5px; }
   .slogan { font-size: clamp(12px, 5vw, 20px); }
   .hook { font-size: 10px; }
