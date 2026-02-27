@@ -13,15 +13,76 @@ export async function onRequestPost(context) {
     await context.env.VISITOR_COUNT.put(`subscriber_${userEmail}`, new Date().toISOString());
 
     // 3. Prepara il template email in HTML (abbinato ai colori del tuo sito)
-    const emailHtml = `
-      <div style="background-color: #000000; color: #ffffff; font-family: 'Montserrat', Arial, sans-serif; padding: 40px 20px; text-align: center;">
-        <h1 style="color: #E8C46A; letter-spacing: 2px; margin-bottom: 20px; font-family: 'Bebas Neue', Arial, sans-serif;">PREPARATI A FARE RUMORE</h1>
-        <p style="font-size: 16px; line-height: 1.6; font-weight: 300;">Ciao!</p>
-        <p style="font-size: 16px; line-height: 1.6; font-weight: 300;">Grazie per esserti iscritto. Sei ufficialmente nella lista per scoprire in anteprima mondiale le date del <strong>Raffaella Carrà &ndash; Live From Heaven | Official Hologram Concert</strong>.</p>
-        <p style="font-size: 16px; line-height: 1.6; font-weight: 300; color: #5BCFFF;">Ti scriveremo non appena ci saranno novità ufficiali e i biglietti saranno disponibili.</p>
-        <hr style="border: 0; border-top: 1px solid rgba(200,146,42,0.3); margin: 30px auto; width: 50%;">
-        <p style="font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px;">Ricevi questa email perch&eacute; ti sei iscritto su raffaellalivefromheaven.com.<br>Nessuno spam, solo notizie ufficiali.</p>
-      </div>
+const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="background-color: #000000; margin: 0; padding: 0; font-family: 'Montserrat', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000;">
+          <tr>
+            <td align="center" style="padding: 50px 20px;">
+              
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px; background-color: #000000;">
+                
+                <tr>
+                  <td align="center" style="padding-bottom: 20px;">
+                    <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 18px; color: #E8C46A; margin: 0; letter-spacing: 1px;">
+                      Raffaella Carrà – Live From Heaven
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td align="center" style="padding-bottom: 40px;">
+                    <h1 style="font-family: 'Bebas Neue', Impact, sans-serif; font-size: 38px; color: #ffffff; letter-spacing: 2px; margin: 0; text-transform: uppercase;">
+                      Preparati a fare <span style="color: #E8C46A;">rumore</span>
+                    </h1>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td align="left" style="padding-bottom: 30px;">
+                    <p style="font-size: 14px; line-height: 1.8; color: #ffffff; font-weight: 300; margin: 0 0 20px 0;">
+                      La tua iscrizione è confermata.
+                    </p>
+                    <p style="font-size: 14px; line-height: 1.8; color: #ffffff; font-weight: 300; margin: 0 0 20px 0;">
+                      Sei ufficialmente nella lista esclusiva per scoprire in anteprima mondiale le date del primo <strong>Official Hologram Concert</strong> dedicato a Raffaella Carrà.
+                    </p>
+                    <p style="font-size: 14px; line-height: 1.8; color: #ffffff; font-weight: 300; margin: 0;">
+                      Niente spam, nessuna distrazione. Riceverai un nostro messaggio solo quando saremo pronti a svelare le date ufficiali e ad aprire le prevendite dei biglietti.
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td align="center" style="padding: 30px 0;">
+                    <div style="border-top: 1px solid #C8922A; opacity: 0.3; width: 60%;"></div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td align="center">
+                    <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: #E8C46A; margin: 0 0 15px 0;">
+                      Official Hologram Concert
+                    </p>
+                    <p style="font-size: 10px; color: #666666; line-height: 1.5; margin: 0; letter-spacing: 0.5px; text-transform: uppercase;">
+                      Hai ricevuto questa email perché ti sei iscritto su <br>
+                      <a href="https://raffaellacarraofficial.com" style="color: #E8C46A; text-decoration: none;">raffaellacarraofficial.com</a><br><br>
+                      © 2026 Raffaella Carrà Official.
+                    </p>
+                  </td>
+                </tr>
+
+              </table>
+              
+            </td>
+          </tr>
+        </table>
+      </body>
+      </html>
     `;
 
     // 4. Invia l'email tramite Resend
@@ -32,7 +93,7 @@ export async function onRequestPost(context) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Raffaella Carrà Official <newsletter@raffaellacarraofficial.com>',
+        from: 'Newsletter Raffaella Carrà Hologram <newsletter@raffaellacarraofficial.com>',
         to: [userEmail],
         subject: 'Preparati a fare rumore ✨ Sei nella lista.',
         html: emailHtml

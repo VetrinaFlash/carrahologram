@@ -461,7 +461,7 @@ function L(l) {
   }
 })();
 
-/* ── SLOGAN FIT — misura con Canvas, indipendente dal DOM/iOS ── */
+/* ── SLOGAN FIT — canvas measurement, works on all devices & resolutions ── */
 (function() {
   var el = document.querySelector('.slogan');
   if (!el) return;
@@ -469,41 +469,40 @@ function L(l) {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
 
-  function measureText(fontSize) {
+  function getContainerWidth() {
+    /* Usa il form-inner (max-width 540px) come riferimento corretto */
+    var inner = document.querySelector('.form-inner');
+    var col   = document.querySelector('.col-form');
+    var ref   = inner || col || el.parentElement;
+    /* offsetWidth già rispetta max-width */
+    return ref.offsetWidth - 16; /* 8px margine per lato */
+  }
+
+  function measureAt(fontSize) {
     ctx.font = fontSize + 'px "Bebas Neue", sans-serif';
     return ctx.measureText(TEXT).width;
   }
 
   function applyFit() {
-    var pw = el.parentElement.offsetWidth - 16; /* 8px margine per lato */
+    var pw = getContainerWidth();
     if (!pw || pw < 10) return;
-    /* Calcola font-size ideale: pw / (larghezza_a_1px) */
-    var w1 = measureText(1);
+    var w1 = measureAt(1);
     if (!w1 || w1 <= 0) return;
-    var ideal = Math.floor(pw / w1);
-    /* Clamp tra 10px e 48px */
-    ideal = Math.max(10, Math.min(48, ideal));
+    /* font-size ideale = larghezza disponibile / larghezza testo a 1px */
+    var ideal = pw / w1;
+    /* margine sicurezza 4% + clamp */
+    ideal = Math.floor(ideal * 0.96);
+    ideal = Math.max(10, Math.min(60, ideal));
     el.style.fontSize = ideal + 'px';
     el.style.letterSpacing = '0';
   }
 
-  function doFit() {
-    applyFit();
-  }
-
-  /* Aspetta Bebas Neue poi misura */
+  /* Aspetta font poi applica — più tentativi per dispositivi lenti */
   if (document.fonts && document.fonts.load) {
-    document.fonts.load('40px "Bebas Neue"').then(function() {
-      doFit();
-    }).catch(function() { doFit(); });
+    document.fonts.load('40px "Bebas Neue"').then(applyFit).catch(applyFit);
   }
-
-  /* Fallback multipli per iOS lento */
-  [0, 100, 300, 600, 1000, 2000].forEach(function(t) {
-    setTimeout(doFit, t);
-  });
-
-  window.addEventListener('resize', doFit);
+  [0, 80, 200, 500, 1000, 2000].forEach(function(t) { setTimeout(applyFit, t); });
+  window.addEventListener('resize', applyFit);
 })();
 
 /* ── FORM ── */
@@ -586,11 +585,15 @@ var response = await fetch('/api/counter');
   }
 })();
 
-/* ── AUDIO — funziona al primo tocco su iOS e desktop ── */
+/* ── AUDIO — iOS + Android + Desktop, primo tocco ovunque ── */
 var abtn = document.getElementById('abtn');
 var snd = null;
 var playing = false;
 var started = false;
+
+function initSnd() {
+  if (!snd) { snd = new Audio('rumore.mp4'); snd.loop = true; }
+}
 
 function fadeIn() {
   var v = 0;
@@ -602,50 +605,51 @@ function fadeIn() {
 }
 
 function doPlay() {
-  if (!snd) {
-    snd = new Audio('rumore.mp4');
-    snd.loop = true;
-  }
+  initSnd();
   snd.volume = 0;
   var p = snd.play();
   if (p && p.then) {
     p.then(function() {
-      playing = true;
-      abtn.classList.add('on');
-      fadeIn();
-    }).catch(function() {});
+      playing = true; abtn.classList.add('on'); fadeIn();
+    }).catch(function() {
+      /* Android/Chrome a volte rigetta: riprova subito */
+      setTimeout(function() {
+        if (!snd) return;
+        var p2 = snd.play();
+        if (p2 && p2.then) {
+          p2.then(function(){ playing = true; abtn.classList.add('on'); fadeIn(); }).catch(function(){});
+        }
+      }, 50);
+    });
   } else {
-    playing = true;
-    abtn.classList.add('on');
-    fadeIn();
+    playing = true; abtn.classList.add('on'); fadeIn();
   }
 }
 
 function doStop() {
-  playing = false;
-  abtn.classList.remove('on');
+  playing = false; abtn.classList.remove('on');
   if (!snd) return;
   var v = snd.volume;
   var iv = setInterval(function() {
-    v = Math.max(0, v - .06);
-    snd.volume = v;
+    v = Math.max(0, v - .06); snd.volume = v;
     if (v <= 0) { clearInterval(iv); try { snd.pause(); snd.currentTime = 0; } catch(e){} }
   }, 60);
 }
 
-/* Pulsante: toggle play/stop */
-abtn.addEventListener('pointerdown', function(e) {
-  e.stopPropagation();
+/* Pulsante musica — NO stopPropagation così l'evento arriva anche a document */
+abtn.addEventListener('pointerdown', function() {
+  started = true; /* marca come avviato manualmente */
   if (playing) { doStop(); } else { doPlay(); }
 });
 
-/* Prima interazione ovunque sulla pagina → autoplay musicale */
-function onFirstInteraction() {
+/* Prima interazione OVUNQUE sulla pagina → parte la musica automaticamente.
+   Funziona su Android Chrome, iOS Safari, desktop.
+   Il listener è passive:true e once:true — non interferisce con nulla. */
+document.addEventListener('pointerdown', function() {
   if (started) return;
   started = true;
   doPlay();
-}
-document.addEventListener('pointerdown', onFirstInteraction, { once: true, passive: true });
+}, { once: true, passive: true });
 </script>
 </body>
 </html>
