@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Raffaella Carrà – Live From Heaven | Official Hologram Concert</title>
+<meta name="description" content="Il primo concerto ologramma ufficiale di Raffaella Carrà. Scopri per primo le date."/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://raffaellalivefromheaven.com/"/>
+<meta property="og:title" content="Raffaella Carrà – Live From Heaven | Official Hologram Concert"/>
+<meta property="og:description" content="Preparati a fare rumore."/>
+<meta property="og:image" content="header.png"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<!-- display=block: aspetta il font prima di mostrare il testo, evita FOUT su iOS -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=block" rel="stylesheet"/>
+<!-- preload Bebas Neue esplicitamente -->
+<link rel="preload" as="font" crossorigin href="https://fonts.gstatic.com/s/bebasneue/v14/JTUSjIg69CK48gW7PXoo9Wdhyzbi.woff2" type="font/woff2"/>
+
+<style>
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:  #C8922A;
+  --gold2: #E8C46A;
+  --gold3: #F9EDCA;
+  --gold4: #5C3A06;
+  --blue:  #5BCFFF;
+}
+
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+body {
+  width: 100%;
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  background: #000;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+/* ══ STARS — on top of everything ══ */
+#stars-global {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+.s {
+  position: absolute; border-radius: 50%; background: #fff; opacity: 0;
+  animation: twinkle var(--d,2s) var(--dl,0s) ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0; transform: scale(.3); }
+  50%      { opacity: var(--op,.8); transform: scale(1); }
+}
+.spk {
+  position: absolute; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, #fff 0%, var(--gold3) 30%, var(--gold2) 65%, transparent 100%);
+  animation: spkUp var(--d,5s) var(--dl,0s) ease-in infinite;
+}
+@keyframes spkUp {
+  0%   { opacity:0; transform:translate(0,0) scale(.5); }
+  7%   { opacity:1; }
+  80%  { opacity:.4; }
+  100% { opacity:0; transform:translate(var(--tx,0px),var(--ty,-200px)) scale(.05); }
+}
+@keyframes shoot {
+  0%   { opacity:0; transform:translateX(0); }
+  8%   { opacity:1; }
+  100% { opacity:0; transform:translateX(200px); }
+}
+
+/* ══ CONTROLS — fixed top-right, always above images ══ */
+.ctrl {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 12px));
+  right: max(12px, env(safe-area-inset-right, 12px));
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.langs { display: flex; gap: 4px; }
+.lb {
+  background: rgba(0,0,0,.78);
+  border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.3);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px; font-weight: 500; letter-spacing: 2px;
+  padding: 5px 8px; border-radius: 2px; cursor: pointer; transition: all .2s;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.lb.on { border-color: var(--gold2); color: var(--gold2); background: rgba(0,0,0,.88); }
+#abtn {
+  background: rgba(0,0,0,.78);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50%; width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s; flex-shrink: 0;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#abtn.on { border-color: var(--gold2); background: rgba(0,0,0,.88); }
+.eq { display: flex; gap: 2px; align-items: flex-end; height: 11px; }
+.eq i { width: 2px; background: var(--gold2); border-radius: 1px; height: 2px;
+  opacity: 0; font-style: normal; transition: opacity .3s;
+  animation: eqb var(--d,.5s) ease-in-out infinite alternate; }
+#abtn.on .eq i { opacity: 1; }
+@keyframes eqb { from{height:2px} to{height:10px} }
+
+/* ══ PAGE ══ */
+.page {
+  display: flex; flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ══ IMAGE AREA — 80% ══ */
+.col-img {
+  flex: 0 0 80%;
+  position: relative; overflow: hidden; background: #000;
+  display: flex; flex-direction: column;
+  z-index: 1;
+}
+.img-stack {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+}
+.img-header { flex: 0 0 32%; overflow: hidden; }
+.img-body   { flex: 0 0 55%; overflow: hidden; }
+.img-footer { flex: 0 0 13%; overflow: hidden; }
+.img-header img, .img-body img, .img-footer img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center center; display: block;
+}
+.img-body img { animation: breathe 12s ease-in-out infinite; }
+@keyframes breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.025)} }
+.col-img::after {
+  content: ''; position: absolute; bottom:0; left:0; right:0; height:18%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.35) 75%, #000 100%);
+  pointer-events: none; z-index: 2;
+}
+
+/* ══ FORM AREA — 20% ══ */
+.col-form {
+  flex: 0 0 20%; position: relative; background: #000;
+  border-top: 1px solid rgba(200,146,42,.12);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 0 20px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  overflow: visible;
+  z-index: 10;
+}
+.col-form::before {
+  content: ''; position: absolute;
+  top:-50px; left:50%; transform:translateX(-50%);
+  width:70%; height:100px;
+  background: radial-gradient(ellipse, rgba(200,146,42,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.form-inner {
+  width: 100%; max-width: 540px;
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; z-index: 1;
+  overflow: visible;
+}
+
+/* Slogan */
+.slogan {
+  font-family: 'Bebas Neue', sans-serif;
+  /* 
+    "PREPARATI A FARE RUMORE" in Bebas Neue con letter-spacing 0
+    occupa circa 15.5ch. Per stare in 100% del container:
+    font-size = 100vw / 15.5 * 0.92 (margine sicurezza) ≈ 5.9vw
+    Su desktop max-width 540px quindi max font = 540/15.5*0.92 ≈ 32px
+  */
+  font-size: clamp(10px, 5.9vw, 34px);
+  letter-spacing: 0;
+  white-space: nowrap;
+  display: block;
+  width: 100%;
+  text-align: center;
+  overflow: visible;
+  background: linear-gradient(150deg, #fff 0%, var(--gold3) 30%, var(--gold2) 55%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 16px rgba(200,146,42,.35));
+  margin-bottom: 8px;
+  animation: fU .6s .05s both;
+
+}
+.hook {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(13px, 2.6vw, 19px);
+  font-weight: 600; font-style: italic;
+  color: var(--gold2);
+  letter-spacing: .06em;
+  margin-bottom: 10px; text-align: center;
+  animation: fU .6s .15s both;
+  text-shadow: 0 0 18px rgba(200,146,42,.5);
+}
+
+/* Pill */
+.pill-wrap { width: 100%; animation: fU .6s .25s both; }
+.pill {
+  display: flex; border: 1px solid rgba(200,146,42,.7);
+  border-radius: 2px; overflow: hidden; background: rgba(0,0,0,.7);
+  transition: border-color .3s, box-shadow .3s;
+}
+.pill:focus-within { border-color: rgba(200,146,42,1); box-shadow: 0 0 28px rgba(200,146,42,.25); }
+.pill input {
+  flex:1; min-width:0; background:transparent; border:none; outline:none;
+  color:#fff; font-family:'Montserrat',sans-serif;
+  font-size:12px; font-weight:300; letter-spacing:.8px; padding:13px 16px;
+}
+.pill input::placeholder { color:rgba(255,255,255,.45); font-style:italic; }
+.pill button {
+  background: linear-gradient(135deg, var(--gold4) 0%, var(--gold) 48%, var(--gold2) 100%);
+  border:none; color:#000; font-family:'Montserrat',sans-serif;
+  font-size:8px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+  padding:13px 22px; cursor:pointer; flex-shrink:0;
+  transition:filter .2s; white-space:nowrap;
+  position:relative; overflow:hidden;
+}
+.pill button::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:translateX(-100%); animation:sh 5s 2.5s infinite;
+}
+@keyframes sh { to{transform:translateX(100%)} }
+.pill button:hover { filter:brightness(1.12); }
+
+.fine {
+  margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+  font-size:7.5px; letter-spacing:1.5px; color:rgba(255,255,255,.6);
+  animation: fU .6s .35s both;
+}
+.fine span::before { content:'—'; opacity:.3; margin-right:5px; }
+.fine span:first-child::before { display:none; }
+
+.btm {
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  margin-top:8px; animation: fU .6s .45s both;
+}
+.proof { font-size:8px; letter-spacing:2px; color:rgba(255,255,255,.6); text-transform:uppercase; }
+.proof b { color:rgba(200,146,42,.8); }
+.flag { display:flex; gap:3px; }
+.flag s { display:block; width:12px; height:2px; border-radius:1px; text-decoration:none; }
+.flag s:nth-child(1) { background:#009246; }
+.flag s:nth-child(2) { background:rgba(255,255,255,.7); }
+.flag s:nth-child(3) { background:#CE2B37; }
+
+.form-ok { display:none; flex-direction:column; align-items:center; gap:8px; }
+.ok-ico { width:40px; height:40px; border-radius:50%; border:1px solid var(--gold2); background:rgba(200,146,42,.06); display:flex; align-items:center; justify-content:center; }
+.ok-ico svg { width:17px; height:17px; fill:none; stroke:var(--gold2); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.form-ok p { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:var(--gold2); }
+.form-ok small { font-size:8.5px; letter-spacing:2px; color:rgba(255,255,255,.25); text-transform:uppercase; text-align:center; }
+
+@keyframes fU { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ══ DESKTOP ══ */
+@media (min-width: 900px) {
+  .slogan { font-size: clamp(28px, 3vw, 48px); }
+  .hook { font-size: clamp(13px, 1.1vw, 15px); }
+  .form-inner { max-width: 600px; }
+  .pill input { padding: 15px 20px; font-size: 13px; }
+  .pill button { padding: 15px 30px; font-size: 9px; }
+  .img-header { flex: 0 0 32%; }
+  .img-body   { flex: 0 0 55%; }
+  .img-footer { flex: 0 0 13%; }
+}
+
+/* ══ MOBILE: immagine inizia sotto il selettore lingua ══ */
+@media (max-width: 899px) {
+  .col-img {
+    /* ctrl è alto ~32px + 12px top = 44px, aggiungiamo 8px di respiro */
+    padding-top: 52px;
+  }
+}
+
+/* ══ SMALL PHONE ══ */
+@media (max-width: 390px) {
+  .col-img { padding-top: 48px; }
+  .lb { font-size: 7px; padding: 4px 6px; letter-spacing: 1.5px; }
+  .slogan { font-size: clamp(10px, 5.9vw, 34px); letter-spacing: 0; }
+  .hook { font-size: 10px; }
+  .pill input  { padding: 10px 12px; font-size: 11px; }
+  .pill button { padding: 10px 14px; font-size: 7px; letter-spacing: 2px; }
+}
+
+/* ══ LANDSCAPE PHONE ══ */
+@media (max-width: 899px) and (orientation: landscape) {
+  .col-img { flex: 0 0 70%; }
+  .slogan  { font-size: clamp(12px, 3.5vw, 22px); margin-bottom: 4px; }
+  .hook    { font-size: clamp(9px, 1.8vw, 12px); margin-bottom: 5px; }
+  .pill input  { padding: 8px 12px; }
+  .pill button { padding: 8px 16px; }
+  .fine, .btm { margin-top: 4px; }
+}
+</style>
+</head>
+<body>
+
+<div id="stars-global" aria-hidden="true"></div>
+
+<!-- controls: fixed top-right z-index 9999, always above everything -->
+<div class="ctrl">
+  <nav class="langs" aria-label="Language">
+    <button class="lb on" onclick="L('it')">IT</button>
+    <button class="lb"    onclick="L('en')">EN</button>
+    <button class="lb"    onclick="L('es')">ES</button>
+    <button class="lb"    onclick="L('pt')">PT</button>
+    <button class="lb"    onclick="L('de')">DE</button>
+    <button class="lb"    onclick="L('fr')">FR</button>
+  </nav>
+  <button id="abtn" aria-label="Musica">
+    <div class="eq">
+      <i style="--d:.44s"></i>
+      <i style="--d:.60s;animation-delay:.08s"></i>
+      <i style="--d:.48s;animation-delay:.19s"></i>
+      <i style="--d:.66s;animation-delay:.04s"></i>
+    </div>
+  </button>
+</div>
+
+<div class="page">
+
+  <div class="col-img" role="img" aria-label="Raffaella Carrà – Live From Heaven – Official Hologram Concert">
+    <div class="img-stack">
+      <div class="img-header">
+        <img src="header.png" alt="Raffaella – Live From Heaven" loading="eager" fetchpriority="high"/>
+      </div>
+      <div class="img-body">
+        <img src="body.png" alt="Raffaella Carrà" loading="eager"/>
+      </div>
+      <div class="img-footer">
+        <img src="footer.png" alt="Official Hologram Concert" loading="eager"/>
+      </div>
+    </div>
+  </div>
+
+  <main class="col-form" aria-labelledby="slogan">
+    <div class="form-inner">
+
+      <p class="slogan" id="slogan">PREPARATI A FARE RUMORE</p>
+
+      <p class="hook" data-t="hook">Scopri per prima le date dei concerti ufficiali.</p>
+
+      <div class="pill-wrap">
+        <div id="fform">
+          <div class="pill">
+            <input type="email" id="fe"
+                   placeholder="la tua email"
+                   data-tp="pe"
+                   autocomplete="email"
+                   aria-label="Indirizzo email"/>
+            <button type="button" onclick="sub()" data-t="cta">Avvisami</button>
+          </div>
+          <p class="fine">
+            <span data-t="n1">Nessuno spam</span>
+            <span data-t="n2">Solo notizie ufficiali</span>
+            <span data-t="n3">Cancellazione in qualsiasi momento</span>
+          </p>
+        </div>
+        <div class="form-ok" id="fok">
+          <div class="ok-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <p data-t="okt">Sei nella lista.</p>
+          <small data-t="oks">Ti scriveremo con le novità ufficiali.</small>
+        </div>
+      </div>
+
+      <div class="btm">
+        <p class="proof"><b id="cnt">6.000</b><span id="cnt-label"> fan in lista</span></p>
+        <div class="flag" aria-label="Bandiera italiana"><s></s><s></s><s></s></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* ── TRANSLATIONS ── */
+var T = {
+  it:{ hook:"Scopri per prima le date dei concerti ufficiali.", pe:"la tua email", cta:"Avvisami", n1:"Nessuno spam", n2:"Solo notizie ufficiali", n3:"Cancellazione in qualsiasi momento", okt:"Sei nella lista.", oks:"Ti scriveremo con le novità ufficiali.", cntlabel:" fan in lista" },
+  en:{ hook:"Be the first to discover the official concert dates.", pe:"your@email.com", cta:"Notify Me", n1:"No spam", n2:"Official news only", n3:"Unsubscribe anytime", okt:"You're on the list.", oks:"We'll be in touch with official news.", cntlabel:" fans on the list" },
+  es:{ hook:"Descubre primero las fechas de los conciertos oficiales.", pe:"tu@email.com", cta:"Avísame", n1:"Sin spam", n2:"Solo noticias oficiales", n3:"Baja cuando quieras", okt:"Estás en la lista.", oks:"Te escribiremos con las novedades.", cntlabel:" fans en la lista" },
+  pt:{ hook:"Sê o primeiro a descobrir as datas dos concertos oficiais.", pe:"o.teu@email.com", cta:"Avisa-me", n1:"Sem spam", n2:"Só notícias oficiais", n3:"Cancela quando quiseres", okt:"Estás na lista.", oks:"Vamos escrever-te com as novidades.", cntlabel:" fãs na lista" },
+  de:{ hook:"Entdecke als Erster die offiziellen Konzerttermine.", pe:"deine@email.de", cta:"Benachrichtigen", n1:"Kein Spam", n2:"Nur offizielle News", n3:"Jederzeit abmeldbar", okt:"Du bist auf der Liste.", oks:"Wir schreiben dir mit den Neuigkeiten.", cntlabel:" Fans auf der Liste" },
+  fr:{ hook:"Découvrez en avant-première les dates des concerts officiels.", pe:"votre@email.fr", cta:"Me prévenir", n1:"Aucun spam", n2:"Nouvelles officielles", n3:"Désinscription à tout moment", okt:"Vous êtes sur la liste.", oks:"Nous vous écrirons avec les nouvelles.", cntlabel:" fans sur la liste" }
+};
+var lang = 'it';
+function L(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  var t = T[l];
+  document.querySelectorAll('[data-t]').forEach(function(el){ var k=el.getAttribute('data-t'); if(t[k]!==undefined) el.innerHTML=t[k]; });
+  document.querySelectorAll('[data-tp]').forEach(function(el){ var k=el.getAttribute('data-tp'); if(t[k]) el.placeholder=t[k]; });
+  document.querySelectorAll('.lb').forEach(function(b){ b.classList.toggle('on', b.textContent===l.toUpperCase()); });
+  var lbl = document.getElementById('cnt-label');
+  if (lbl && t.cntlabel) lbl.textContent = t.cntlabel;
+}
+
+/* ── STARS ── */
+(function() {
+  var c = document.getElementById('stars-global');
+  if (!c) return;
+  var mobile = window.innerWidth < 768;
+  var n = mobile ? 160 : 500;
+
+  for (var i=0; i<n; i++) {
+    var el = document.createElement('div');
+    el.className = 's';
+    var r = Math.random(), s, op;
+    if (r<.60)      { s=0.4+Math.random()*.8;  op=0.2+Math.random()*.4; }
+    else if (r<.85) { s=1.0+Math.random()*1.5; op=0.35+Math.random()*.45; }
+    else            { s=2.2+Math.random()*2.5;  op=0.5+Math.random()*.4; }
+    var glow = s*6;
+    el.style.cssText = 'left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;width:'+s+'px;height:'+s+'px;--d:'+(0.9+Math.random()*4)+'s;--dl:'+(Math.random()*11)+'s;--op:'+op+';box-shadow:0 0 '+glow+'px rgba(255,248,210,'+op+'),0 0 '+(glow*3)+'px rgba(232,196,106,'+(op*.5)+');';
+    c.appendChild(el);
+  }
+
+  // shooting stars — desktop only
+  if (!mobile) {
+    function shoot() {
+      var el = document.createElement('div');
+      var dur = 0.5+Math.random()*0.8;
+      el.style.cssText = 'position:absolute;left:'+Math.random()*75+'%;top:'+Math.random()*45+'%;width:'+(80+Math.random()*160)+'px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,245,200,.85) 55%,#fff);border-radius:2px;transform:rotate('+(18+Math.random()*22)+'deg);box-shadow:0 0 5px rgba(255,235,150,.9);opacity:0;animation:shoot '+dur+'s ease-out forwards;';
+      c.appendChild(el);
+      setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, dur*1000+200);
+    }
+    setInterval(function(){ if(Math.random()>.4) shoot(); }, 2000);
+    setTimeout(shoot, 1000);
+  }
+
+  // sparks in form
+  var form = document.querySelector('.col-form');
+  if (form) {
+    var sc = document.createElement('div');
+    sc.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;';
+    form.insertBefore(sc, form.firstChild);
+    var ns = mobile ? 12 : 30;
+    for (var j=0; j<ns; j++) {
+      var sp = document.createElement('div');
+      sp.className = 'spk';
+      var s2=0.8+Math.random()*3, tx=(Math.random()-.5)*80, ty=-(50+Math.random()*180), glow2=s2*5;
+      sp.style.cssText = 'left:'+(5+Math.random()*90)+'%;bottom:'+(Math.random()*50)+'%;width:'+s2+'px;height:'+s2+'px;--d:'+(2.5+Math.random()*7)+'s;--dl:'+(Math.random()*12)+'s;--tx:'+tx+'px;--ty:'+ty+'px;box-shadow:0 0 '+glow2+'px rgba(255,235,150,1),0 0 '+(glow2*3)+'px rgba(200,146,42,.5);';
+      sc.appendChild(sp);
+    }
+  }
+})();
+
+/* ── SLOGAN FIT — misura con Canvas, indipendente dal DOM/iOS ── */
+(function() {
+  var el = document.querySelector('.slogan');
+  if (!el) return;
+  var TEXT = el.textContent.trim();
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+
+  function measureText(fontSize) {
+    ctx.font = fontSize + 'px "Bebas Neue", sans-serif';
+    return ctx.measureText(TEXT).width;
+  }
+
+  function applyFit() {
+    var pw = el.parentElement.offsetWidth - 16; /* 8px margine per lato */
+    if (!pw || pw < 10) return;
+    /* Calcola font-size ideale: pw / (larghezza_a_1px) */
+    var w1 = measureText(1);
+    if (!w1 || w1 <= 0) return;
+    var ideal = Math.floor(pw / w1);
+    /* Clamp tra 10px e 48px */
+    ideal = Math.max(10, Math.min(48, ideal));
+    el.style.fontSize = ideal + 'px';
+    el.style.letterSpacing = '0';
+  }
+
+  function doFit() {
+    applyFit();
+  }
+
+  /* Aspetta Bebas Neue poi misura */
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('40px "Bebas Neue"').then(function() {
+      doFit();
+    }).catch(function() { doFit(); });
+  }
+
+  /* Fallback multipli per iOS lento */
+  [0, 100, 300, 600, 1000, 2000].forEach(function(t) {
+    setTimeout(doFit, t);
+  });
+
+  window.addEventListener('resize', doFit);
+})();
+
+/* ── FORM ── */
+/* ── FORM SUBMIT CON INVIO EMAIL ── */
+async function sub() {
+  var em = document.getElementById('fe');
+  var formDiv = document.getElementById('fform');
+  var btn = formDiv.querySelector('button');
+
+  // Controllo base validità
+  if (!em.value || em.value.indexOf('@') < 0) {
+    em.style.outline = '1px solid rgba(210,70,70,.5)';
+    em.focus();
+    setTimeout(function(){ em.style.outline=''; }, 1500);
+    return;
+  }
+
+  // Feedback visivo di caricamento
+  var originalText = btn.innerHTML;
+  btn.innerHTML = 'ATTENDI...';
+  btn.disabled = true;
+
+  try {
+    // Invia l'email alla nostra Cloudflare Function
+    var response = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: em.value })
+    });
+
+    if (response.ok) {
+      // Successo! Mostra il messaggio di ringraziamento
+      formDiv.style.display = 'none';
+      document.getElementById('fok').style.display = 'flex';
+    } else {
+      throw new Error('Errore server');
+    }
+  } catch (e) {
+    console.error(e);
+    // In caso di errore, rimetti il pulsante a posto e fai riprovare l'utente
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    alert("C'è stato un piccolo errore tecnico. Riprova tra qualche istante!");
+  }
+}
+document.getElementById('fe').addEventListener('keydown', function(e){ if(e.key==='Enter') sub(); });
+
+/* ── CONTATORE VISITATORI — aumenta di 1 ad ogni visita, localStorage ── */
+/* ── CONTATORE VISITATORI — da Cloudflare Worker ── */
+(async function() {
+  var BASE = 6000;
+  var el = document.getElementById('cnt');
+
+  // Funzione di formattazione originale (intatta)
+  function fmt(n) {
+    if (n >= 1000) {
+      var t = Math.floor(n / 1000);
+      var u = n % 1000;
+      var pad = u < 10 ? '00' + u : (u < 100 ? '0' + u : '' + u);
+      return t + '.' + pad + '+';
+    }
+    return n + '+';
+  }
+
+  try {
+    // URL DEL TUO WORKER CLOUDFLARE (lo inserirai nella Fase 3)
+var response = await fetch('/api/counter');    
+    if (response.ok) {
+      var data = await response.json();
+      if (el && data.count) {
+        el.textContent = fmt(data.count);
+      }
+    } else {
+      throw new Error('Risposta rete non ok');
+    }
+  } catch (e) {
+    console.error('Errore nel caricamento del contatore:', e);
+    // Fallback di sicurezza: se il server è irraggiungibile, mostra la base
+    if (el) el.textContent = fmt(BASE);
+  }
+})();
+
+/* ── AUDIO — funziona al primo tocco su iOS e desktop ── */
+var abtn = document.getElementById('abtn');
+var snd = null;
+var playing = false;
+var started = false;
+
+function fadeIn() {
+  var v = 0;
+  var iv = setInterval(function() {
+    v = Math.min(.65, v + .03);
+    if (snd) snd.volume = v;
+    if (v >= .65) clearInterval(iv);
+  }, 80);
+}
+
+function doPlay() {
+  if (!snd) {
+    snd = new Audio('rumore.mp4');
+    snd.loop = true;
+  }
+  snd.volume = 0;
+  var p = snd.play();
+  if (p && p.then) {
+    p.then(function() {
+      playing = true;
+      abtn.classList.add('on');
+      fadeIn();
+    }).catch(function() {});
+  } else {
+    playing = true;
+    abtn.classList.add('on');
+    fadeIn();
+  }
+}
+
+function doStop() {
+  playing = false;
+  abtn.classList.remove('on');
+  if (!snd) return;
+  var v = snd.volume;
+  var iv = setInterval(function() {
+    v = Math.max(0, v - .06);
+    snd.volume = v;
+    if (v <= 0) { clearInterval(iv); try { snd.pause(); snd.currentTime = 0; } catch(e){} }
+  }, 60);
+}
+
+/* Pulsante: toggle play/stop */
+abtn.addEventListener('pointerdown', function(e) {
+  e.stopPropagation();
+  if (playing) { doStop(); } else { doPlay(); }
+});
+
+/* Prima interazione ovunque sulla pagina → autoplay musicale */
+function onFirstInteraction() {
+  if (started) return;
+  started = true;
+  doPlay();
+}
+document.addEventListener('pointerdown', onFirstInteraction, { once: true, passive: true });
+</script>
+</body>
+</html>
