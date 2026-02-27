@@ -203,11 +203,13 @@ body {
 }
 .hook {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(10px, 1.8vw, 14px);
-  font-weight: 300; font-style: italic;
-  color: rgba(255,255,255,.65); letter-spacing: .08em;
+  font-size: clamp(13px, 2.6vw, 19px);
+  font-weight: 600; font-style: italic;
+  color: var(--gold2);
+  letter-spacing: .06em;
   margin-bottom: 10px; text-align: center;
   animation: fU .6s .15s both;
+  text-shadow: 0 0 18px rgba(200,146,42,.5);
 }
 
 /* Pill */
@@ -380,7 +382,7 @@ body {
       </div>
 
       <div class="btm">
-        <p class="proof" data-t="proof"><b>12.400+</b> fan in lista</p>
+        <p class="proof"><b id="cnt">6.000</b><span id="cnt-label"> fan in lista</span></p>
         <div class="flag" aria-label="Bandiera italiana"><s></s><s></s><s></s></div>
       </div>
 
@@ -391,12 +393,12 @@ body {
 <script>
 /* ── TRANSLATIONS ── */
 var T = {
-  it:{ hook:"Scopri per prima le date dei concerti ufficiali.", pe:"la tua email", cta:"Avvisami", n1:"Nessuno spam", n2:"Solo notizie ufficiali", n3:"Cancellazione in qualsiasi momento", okt:"Sei nella lista.", oks:"Ti scriveremo con le novità ufficiali.", proof:"<b>12.400+</b> fan in lista" },
-  en:{ hook:"Be the first to discover the official concert dates.", pe:"your@email.com", cta:"Notify Me", n1:"No spam", n2:"Official news only", n3:"Unsubscribe anytime", okt:"You're on the list.", oks:"We'll be in touch with official news.", proof:"<b>12,400+</b> fans on the list" },
-  es:{ hook:"Descubre primero las fechas de los conciertos oficiales.", pe:"tu@email.com", cta:"Avísame", n1:"Sin spam", n2:"Solo noticias oficiales", n3:"Baja cuando quieras", okt:"Estás en la lista.", oks:"Te escribiremos con las novedades.", proof:"<b>12.400+</b> fans en la lista" },
-  pt:{ hook:"Sê o primeiro a descobrir as datas dos concertos oficiais.", pe:"o.teu@email.com", cta:"Avisa-me", n1:"Sem spam", n2:"Só notícias oficiais", n3:"Cancela quando quiseres", okt:"Estás na lista.", oks:"Vamos escrever-te com as novidades.", proof:"<b>12.400+</b> fãs na lista" },
-  de:{ hook:"Entdecke als Erster die offiziellen Konzerttermine.", pe:"deine@email.de", cta:"Benachrichtigen", n1:"Kein Spam", n2:"Nur offizielle News", n3:"Jederzeit abmeldbar", okt:"Du bist auf der Liste.", oks:"Wir schreiben dir mit den Neuigkeiten.", proof:"<b>12.400+</b> Fans auf der Liste" },
-  fr:{ hook:"Découvrez en avant-première les dates des concerts officiels.", pe:"votre@email.fr", cta:"Me prévenir", n1:"Aucun spam", n2:"Nouvelles officielles", n3:"Désinscription à tout moment", okt:"Vous êtes sur la liste.", oks:"Nous vous écrirons avec les nouvelles.", proof:"<b>12 400+</b> fans sur la liste" }
+  it:{ hook:"Scopri per prima le date dei concerti ufficiali.", pe:"la tua email", cta:"Avvisami", n1:"Nessuno spam", n2:"Solo notizie ufficiali", n3:"Cancellazione in qualsiasi momento", okt:"Sei nella lista.", oks:"Ti scriveremo con le novità ufficiali.", cntlabel:" fan in lista" },
+  en:{ hook:"Be the first to discover the official concert dates.", pe:"your@email.com", cta:"Notify Me", n1:"No spam", n2:"Official news only", n3:"Unsubscribe anytime", okt:"You're on the list.", oks:"We'll be in touch with official news.", cntlabel:" fans on the list" },
+  es:{ hook:"Descubre primero las fechas de los conciertos oficiales.", pe:"tu@email.com", cta:"Avísame", n1:"Sin spam", n2:"Solo noticias oficiales", n3:"Baja cuando quieras", okt:"Estás en la lista.", oks:"Te escribiremos con las novedades.", cntlabel:" fans en la lista" },
+  pt:{ hook:"Sê o primeiro a descobrir as datas dos concertos oficiais.", pe:"o.teu@email.com", cta:"Avisa-me", n1:"Sem spam", n2:"Só notícias oficiais", n3:"Cancela quando quiseres", okt:"Estás na lista.", oks:"Vamos escrever-te com as novidades.", cntlabel:" fãs na lista" },
+  de:{ hook:"Entdecke als Erster die offiziellen Konzerttermine.", pe:"deine@email.de", cta:"Benachrichtigen", n1:"Kein Spam", n2:"Nur offizielle News", n3:"Jederzeit abmeldbar", okt:"Du bist auf der Liste.", oks:"Wir schreiben dir mit den Neuigkeiten.", cntlabel:" Fans auf der Liste" },
+  fr:{ hook:"Découvrez en avant-première les dates des concerts officiels.", pe:"votre@email.fr", cta:"Me prévenir", n1:"Aucun spam", n2:"Nouvelles officielles", n3:"Désinscription à tout moment", okt:"Vous êtes sur la liste.", oks:"Nous vous écrirons avec les nouvelles.", cntlabel:" fans sur la liste" }
 };
 var lang = 'it';
 function L(l) {
@@ -406,6 +408,8 @@ function L(l) {
   document.querySelectorAll('[data-t]').forEach(function(el){ var k=el.getAttribute('data-t'); if(t[k]!==undefined) el.innerHTML=t[k]; });
   document.querySelectorAll('[data-tp]').forEach(function(el){ var k=el.getAttribute('data-tp'); if(t[k]) el.placeholder=t[k]; });
   document.querySelectorAll('.lb').forEach(function(b){ b.classList.toggle('on', b.textContent===l.toUpperCase()); });
+  var lbl = document.getElementById('cnt-label');
+  if (lbl && t.cntlabel) lbl.textContent = t.cntlabel;
 }
 
 /* ── STARS ── */
@@ -515,6 +519,41 @@ function sub() {
   document.getElementById('fok').style.display = 'flex';
 }
 document.getElementById('fe').addEventListener('keydown', function(e){ if(e.key==='Enter') sub(); });
+
+/* ── CONTATORE VISITATORI — aumenta di 1 ad ogni visita, localStorage ── */
+/* ── CONTATORE VISITATORI — da Cloudflare Worker ── */
+(async function() {
+  var BASE = 6000;
+  var el = document.getElementById('cnt');
+
+  // Funzione di formattazione originale (intatta)
+  function fmt(n) {
+    if (n >= 1000) {
+      var t = Math.floor(n / 1000);
+      var u = n % 1000;
+      var pad = u < 10 ? '00' + u : (u < 100 ? '0' + u : '' + u);
+      return t + '.' + pad + '+';
+    }
+    return n + '+';
+  }
+
+  try {
+    // URL DEL TUO WORKER CLOUDFLARE (lo inserirai nella Fase 3)
+var response = await fetch('/api/counter');    
+    if (response.ok) {
+      var data = await response.json();
+      if (el && data.count) {
+        el.textContent = fmt(data.count);
+      }
+    } else {
+      throw new Error('Risposta rete non ok');
+    }
+  } catch (e) {
+    console.error('Errore nel caricamento del contatore:', e);
+    // Fallback di sicurezza: se il server è irraggiungibile, mostra la base
+    if (el) el.textContent = fmt(BASE);
+  }
+})();
 
 /* ── AUDIO — funziona al primo tocco su iOS e desktop ── */
 var abtn = document.getElementById('abtn');
