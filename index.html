@@ -31,35 +31,28 @@
   --blue:  #5BCFFF;
 }
 
-html {
-  height: 100%;
-  height: -webkit-fill-available;
-}
-body {
-  width: 100%;
-  min-height: 100%;
-  min-height: -webkit-fill-available;
-  background: #000;
-  color: #fff;
+html, body {
+  width: 100%; height: 100%;
+  background: #000; color: #fff;
   font-family: 'Montserrat', sans-serif;
   overflow: hidden;
+  /* iOS Safari */
+  height: -webkit-fill-available;
 }
 
-/* ══ STARS — on top of everything ══ */
+/* ══ STARS ══ */
 #stars-global {
   position: fixed; inset: 0;
-  pointer-events: none;
-  z-index: 9000;
-  overflow: hidden;
-  mix-blend-mode: screen;
+  pointer-events: none; z-index: 9000;
+  overflow: hidden; mix-blend-mode: screen;
 }
 .s {
   position: absolute; border-radius: 50%; background: #fff; opacity: 0;
   animation: twinkle var(--d,2s) var(--dl,0s) ease-in-out infinite;
 }
 @keyframes twinkle {
-  0%,100% { opacity: 0; transform: scale(.3); }
-  50%      { opacity: var(--op,.8); transform: scale(1); }
+  0%,100% { opacity:0; transform:scale(.3); }
+  50%     { opacity:var(--op,.8); transform:scale(1); }
 }
 .spk {
   position: absolute; border-radius: 50%; opacity: 0;
@@ -67,78 +60,110 @@ body {
   animation: spkUp var(--d,5s) var(--dl,0s) ease-in infinite;
 }
 @keyframes spkUp {
-  0%   { opacity:0; transform:translate(0,0) scale(.5); }
-  7%   { opacity:1; }
-  80%  { opacity:.4; }
-  100% { opacity:0; transform:translate(var(--tx,0px),var(--ty,-200px)) scale(.05); }
+  0%  { opacity:0; transform:translate(0,0) scale(.5); }
+  7%  { opacity:1; }
+  80% { opacity:.4; }
+  100%{ opacity:0; transform:translate(var(--tx,0px),var(--ty,-200px)) scale(.05); }
 }
 @keyframes shoot {
-  0%   { opacity:0; transform:translateX(0); }
-  8%   { opacity:1; }
-  100% { opacity:0; transform:translateX(200px); }
+  0%  { opacity:0; transform:translateX(0); }
+  8%  { opacity:1; }
+  100%{ opacity:0; transform:translateX(200px); }
 }
 
-/* ══ CONTROLS — fixed top-right, always above images ══ */
-.ctrl {
+/* ══ BARRA TOP — contatore a sx, lingua+musica a dx ══ */
+.topbar {
   position: fixed;
-  top: max(12px, env(safe-area-inset-top, 12px));
-  right: max(12px, env(safe-area-inset-right, 12px));
+  top: max(10px, env(safe-area-inset-top, 10px));
+  left: 0; right: 0;
+  padding: 0 max(12px, env(safe-area-inset-right, 12px));
   z-index: 9999;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  pointer-events: none;
 }
-.langs { display: flex; gap: 4px; }
+.topbar > * { pointer-events: all; }
+
+/* Contatore top-left */
+.top-counter {
+  background: rgba(0,0,0,.72);
+  border: 1px solid rgba(200,146,42,.35);
+  border-radius: 2px;
+  padding: 4px 10px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.top-counter b {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px; font-weight: 700; letter-spacing: 1px;
+  color: var(--gold2);
+}
+.top-counter span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7px; font-weight: 400; letter-spacing: 1.5px;
+  color: rgba(255,255,255,.45);
+  text-transform: uppercase;
+}
+
+/* Lingua + musica top-right */
+.ctrl { display: flex; align-items: center; gap: 6px; }
+.langs { display: flex; gap: 3px; }
 .lb {
   background: rgba(0,0,0,.78);
   border: 1px solid rgba(255,255,255,.2);
   color: rgba(255,255,255,.3);
   font-family: 'Montserrat', sans-serif;
   font-size: 8px; font-weight: 500; letter-spacing: 2px;
-  padding: 5px 8px; border-radius: 2px; cursor: pointer; transition: all .2s;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  padding: 5px 7px; border-radius: 2px; cursor: pointer; transition: all .2s;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 .lb.on { border-color: var(--gold2); color: var(--gold2); background: rgba(0,0,0,.88); }
 #abtn {
   background: rgba(0,0,0,.78);
   border: 1px solid rgba(255,255,255,.2);
-  border-radius: 50%; width: 32px; height: 32px;
+  border-radius: 50%; width: 30px; height: 30px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: all .2s; flex-shrink: 0;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 #abtn.on { border-color: var(--gold2); background: rgba(0,0,0,.88); }
-.eq { display: flex; gap: 2px; align-items: flex-end; height: 11px; }
+.eq { display: flex; gap: 2px; align-items: flex-end; height: 10px; }
 .eq i { width: 2px; background: var(--gold2); border-radius: 1px; height: 2px;
   opacity: 0; font-style: normal; transition: opacity .3s;
   animation: eqb var(--d,.5s) ease-in-out infinite alternate; }
 #abtn.on .eq i { opacity: 1; }
 @keyframes eqb { from{height:2px} to{height:10px} }
 
-/* ══ PAGE ══ */
+/* ══ PAGE — occupa esattamente il viewport, mai overflow ══ */
 .page {
   display: flex; flex-direction: column;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
 }
 
-/* ══ IMAGE AREA — 80% ══ */
+/* ══ IMMAGINI — 78% ══ */
 .col-img {
-  flex: 0 0 80%;
+  flex: 0 0 78%;
+  min-height: 0; /* fondamentale per flex shrink */
   position: relative; overflow: hidden; background: #000;
   display: flex; flex-direction: column;
   z-index: 1;
+  /* spazio per topbar */
+  padding-top: max(44px, calc(env(safe-area-inset-top, 0px) + 40px));
 }
 .img-stack {
   width: 100%; height: 100%;
   display: flex; flex-direction: column;
 }
-.img-header { flex: 0 0 32%; overflow: hidden; }
-.img-body   { flex: 0 0 55%; overflow: hidden; }
-.img-footer { flex: 0 0 13%; overflow: hidden; }
+.img-header { flex: 0 0 32%; min-height: 0; overflow: hidden; }
+.img-body   { flex: 0 0 55%; min-height: 0; overflow: hidden; }
+.img-footer { flex: 0 0 13%; min-height: 0; overflow: hidden; }
 .img-header img, .img-body img, .img-footer img {
   width: 100%; height: 100%;
   object-fit: contain; object-position: center center; display: block;
@@ -151,15 +176,17 @@ body {
   pointer-events: none; z-index: 2;
 }
 
-/* ══ FORM AREA — 20% ══ */
+/* ══ FORM — 22%, con min-height 0 per non traboccare ══ */
 .col-form {
-  flex: 0 0 20%; position: relative; background: #000;
+  flex: 1 1 22%;
+  min-height: 0;
+  position: relative; background: #000;
   border-top: 1px solid rgba(200,146,42,.12);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 0 20px;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  overflow: visible;
+  padding: 0 16px;
+  padding-bottom: max(6px, env(safe-area-inset-bottom, 6px));
+  overflow: hidden;
   z-index: 10;
 }
 .col-form::before {
@@ -170,68 +197,59 @@ body {
   pointer-events: none;
 }
 .form-inner {
-  width: 100%; max-width: 540px;
+  width: 100%; max-width: 560px;
   display: flex; flex-direction: column; align-items: center;
   position: relative; z-index: 1;
-  overflow: visible;
+  gap: 0;
 }
 
-/* Slogan */
+/* ══ SLOGAN — si adatta al container via JS canvas ══ */
 .slogan {
   font-family: 'Bebas Neue', sans-serif;
-  /* 
-    "PREPARATI A FARE RUMORE" in Bebas Neue con letter-spacing 0
-    occupa circa 15.5ch. Per stare in 100% del container:
-    font-size = 100vw / 15.5 * 0.92 (margine sicurezza) ≈ 5.9vw
-    Su desktop max-width 540px quindi max font = 540/15.5*0.92 ≈ 32px
-  */
-  font-size: clamp(10px, 5.9vw, 34px);
+  font-size: clamp(10px, 5.5vw, 38px);
   letter-spacing: 0;
   white-space: nowrap;
-  display: block;
-  width: 100%;
-  text-align: center;
+  display: block; width: 100%; text-align: center;
   overflow: visible;
   background: linear-gradient(150deg, #fff 0%, var(--gold3) 30%, var(--gold2) 55%, var(--gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 16px rgba(200,146,42,.35));
-  margin-bottom: 8px;
+  filter: drop-shadow(0 0 14px rgba(200,146,42,.35));
+  margin-bottom: clamp(3px, 1vh, 8px);
   animation: fU .6s .05s both;
-
 }
 .hook {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(13px, 2.6vw, 19px);
+  font-size: clamp(11px, 2.2vw, 17px);
   font-weight: 600; font-style: italic;
-  color: var(--gold2);
-  letter-spacing: .06em;
-  margin-bottom: 10px; text-align: center;
+  color: var(--gold2); letter-spacing: .06em;
+  margin-bottom: clamp(4px, 1.2vh, 10px);
+  text-align: center;
   animation: fU .6s .15s both;
-  text-shadow: 0 0 18px rgba(200,146,42,.5);
+  text-shadow: 0 0 16px rgba(200,146,42,.5);
 }
 
-/* Pill */
+/* ══ PILL ══ */
 .pill-wrap { width: 100%; animation: fU .6s .25s both; }
 .pill {
   display: flex; border: 1px solid rgba(200,146,42,.7);
   border-radius: 2px; overflow: hidden; background: rgba(0,0,0,.7);
   transition: border-color .3s, box-shadow .3s;
 }
-.pill:focus-within { border-color: rgba(200,146,42,1); box-shadow: 0 0 28px rgba(200,146,42,.25); }
+.pill:focus-within { border-color: rgba(200,146,42,1); box-shadow: 0 0 24px rgba(200,146,42,.2); }
 .pill input {
   flex:1; min-width:0; background:transparent; border:none; outline:none;
   color:#fff; font-family:'Montserrat',sans-serif;
-  font-size:12px; font-weight:300; letter-spacing:.8px; padding:13px 16px;
+  font-size: clamp(10px,1.5vw,13px); font-weight:300; letter-spacing:.6px;
+  padding: clamp(8px,1.5vh,14px) 14px;
 }
 .pill input::placeholder { color:rgba(255,255,255,.45); font-style:italic; }
 .pill button {
   background: linear-gradient(135deg, var(--gold4) 0%, var(--gold) 48%, var(--gold2) 100%);
   border:none; color:#000; font-family:'Montserrat',sans-serif;
-  font-size:8px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
-  padding:13px 22px; cursor:pointer; flex-shrink:0;
-  transition:filter .2s; white-space:nowrap;
+  font-size: clamp(7px,1vw,9px); font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
+  padding: clamp(8px,1.5vh,14px) clamp(14px,2.5vw,24px);
+  cursor:pointer; flex-shrink:0; transition:filter .2s; white-space:nowrap;
   position:relative; overflow:hidden;
 }
 .pill button::after {
@@ -243,71 +261,54 @@ body {
 .pill button:hover { filter:brightness(1.12); }
 
 .fine {
-  margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
-  font-size:7.5px; letter-spacing:1.5px; color:rgba(255,255,255,.6);
+  margin-top: clamp(3px,.8vh,7px);
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+  font-size: clamp(6px,1vw,8px); letter-spacing:1.2px; color:rgba(255,255,255,.55);
   animation: fU .6s .35s both;
 }
-.fine span::before { content:'—'; opacity:.3; margin-right:5px; }
+.fine span::before { content:'—'; opacity:.3; margin-right:4px; }
 .fine span:first-child::before { display:none; }
 
 .btm {
-  display:flex; align-items:center; justify-content:center; gap:14px;
-  margin-top:8px; animation: fU .6s .45s both;
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  margin-top: clamp(3px,.8vh,8px);
+  animation: fU .6s .45s both;
 }
-.proof { font-size:8px; letter-spacing:2px; color:rgba(255,255,255,.6); text-transform:uppercase; }
-.proof b { color:rgba(200,146,42,.8); }
+.proof { font-size: clamp(6px,1vw,8px); letter-spacing:1.8px; color:rgba(255,255,255,.55); text-transform:uppercase; }
+.proof b { color:rgba(200,146,42,.85); }
 .flag { display:flex; gap:3px; }
-.flag s { display:block; width:12px; height:2px; border-radius:1px; text-decoration:none; }
+.flag s { display:block; width:10px; height:2px; border-radius:1px; text-decoration:none; }
 .flag s:nth-child(1) { background:#009246; }
 .flag s:nth-child(2) { background:rgba(255,255,255,.7); }
 .flag s:nth-child(3) { background:#CE2B37; }
 
-.form-ok { display:none; flex-direction:column; align-items:center; gap:8px; }
-.ok-ico { width:40px; height:40px; border-radius:50%; border:1px solid var(--gold2); background:rgba(200,146,42,.06); display:flex; align-items:center; justify-content:center; }
-.ok-ico svg { width:17px; height:17px; fill:none; stroke:var(--gold2); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-.form-ok p { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:var(--gold2); }
-.form-ok small { font-size:8.5px; letter-spacing:2px; color:rgba(255,255,255,.25); text-transform:uppercase; text-align:center; }
+.form-ok { display:none; flex-direction:column; align-items:center; gap:6px; }
+.ok-ico { width:36px; height:36px; border-radius:50%; border:1px solid var(--gold2); background:rgba(200,146,42,.06); display:flex; align-items:center; justify-content:center; }
+.ok-ico svg { width:15px; height:15px; fill:none; stroke:var(--gold2); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.form-ok p { font-family:'Cormorant Garamond',serif; font-size:clamp(14px,2vw,18px); font-style:italic; color:var(--gold2); }
+.form-ok small { font-size:clamp(7px,1vw,9px); letter-spacing:2px; color:rgba(255,255,255,.25); text-transform:uppercase; text-align:center; }
 
-@keyframes fU { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fU { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
 
-/* ══ DESKTOP ══ */
+/* ══ DESKTOP WIDE ══ */
 @media (min-width: 900px) {
-  .slogan { font-size: clamp(28px, 3vw, 48px); }
-  .hook { font-size: clamp(13px, 1.1vw, 15px); }
-  .form-inner { max-width: 600px; }
-  .pill input { padding: 15px 20px; font-size: 13px; }
-  .pill button { padding: 15px 30px; font-size: 9px; }
-  .img-header { flex: 0 0 32%; }
-  .img-body   { flex: 0 0 55%; }
-  .img-footer { flex: 0 0 13%; }
-}
-
-/* ══ MOBILE: immagine inizia sotto il selettore lingua ══ */
-@media (max-width: 899px) {
-  .col-img {
-    /* ctrl è alto ~32px + 12px top = 44px, aggiungiamo 8px di respiro */
-    padding-top: 52px;
-  }
-}
-
-/* ══ SMALL PHONE ══ */
-@media (max-width: 390px) {
-  .col-img { padding-top: 48px; }
-  .lb { font-size: 7px; padding: 4px 6px; letter-spacing: 1.5px; }
-  .slogan { font-size: clamp(10px, 5.9vw, 34px); letter-spacing: 0; }
-  .hook { font-size: 10px; }
-  .pill input  { padding: 10px 12px; font-size: 11px; }
-  .pill button { padding: 10px 14px; font-size: 7px; letter-spacing: 2px; }
+  .col-img { padding-top: max(48px, calc(env(safe-area-inset-top,0px) + 44px)); }
+  .form-inner { max-width: 620px; }
 }
 
 /* ══ LANDSCAPE PHONE ══ */
 @media (max-width: 899px) and (orientation: landscape) {
-  .col-img { flex: 0 0 70%; }
-  .slogan  { font-size: clamp(12px, 3.5vw, 22px); margin-bottom: 4px; }
-  .hook    { font-size: clamp(9px, 1.8vw, 12px); margin-bottom: 5px; }
-  .pill input  { padding: 8px 12px; }
-  .pill button { padding: 8px 16px; }
-  .fine, .btm { margin-top: 4px; }
+  .col-img  { flex: 0 0 65%; padding-top: max(40px, calc(env(safe-area-inset-top,0px)+36px)); }
+  .col-form { flex: 1 1 35%; }
+  .hook     { margin-bottom: 3px; }
+  .fine, .btm { margin-top: 2px; }
+}
+
+/* ══ TINY PHONE (≤360px) ══ */
+@media (max-width: 360px) {
+  .lb { font-size: 7px; padding: 4px 5px; letter-spacing: 1px; }
+  .top-counter b { font-size: 8px; }
+  .top-counter span { font-size: 6px; }
 }
 </style>
 </head>
@@ -315,24 +316,30 @@ body {
 
 <div id="stars-global" aria-hidden="true"></div>
 
-<!-- controls: fixed top-right z-index 9999, always above everything -->
-<div class="ctrl">
-  <nav class="langs" aria-label="Language">
-    <button class="lb on" onclick="L('it')">IT</button>
-    <button class="lb"    onclick="L('en')">EN</button>
-    <button class="lb"    onclick="L('es')">ES</button>
-    <button class="lb"    onclick="L('pt')">PT</button>
-    <button class="lb"    onclick="L('de')">DE</button>
-    <button class="lb"    onclick="L('fr')">FR</button>
-  </nav>
-  <button id="abtn" aria-label="Musica">
-    <div class="eq">
-      <i style="--d:.44s"></i>
-      <i style="--d:.60s;animation-delay:.08s"></i>
-      <i style="--d:.48s;animation-delay:.19s"></i>
-      <i style="--d:.66s;animation-delay:.04s"></i>
-    </div>
-  </button>
+<!-- topbar: contatore a sx, lingua+musica a dx -->
+<div class="topbar">
+  <div class="top-counter">
+    <b id="cnt">6.000+</b>
+    <span id="cnt-label">fan in lista</span>
+  </div>
+  <div class="ctrl">
+    <nav class="langs" aria-label="Language">
+      <button class="lb on" onclick="L('it')">IT</button>
+      <button class="lb"    onclick="L('en')">EN</button>
+      <button class="lb"    onclick="L('es')">ES</button>
+      <button class="lb"    onclick="L('pt')">PT</button>
+      <button class="lb"    onclick="L('de')">DE</button>
+      <button class="lb"    onclick="L('fr')">FR</button>
+    </nav>
+    <button id="abtn" aria-label="Musica">
+      <div class="eq">
+        <i style="--d:.44s"></i>
+        <i style="--d:.60s;animation-delay:.08s"></i>
+        <i style="--d:.48s;animation-delay:.19s"></i>
+        <i style="--d:.66s;animation-delay:.04s"></i>
+      </div>
+    </button>
+  </div>
 </div>
 
 <div class="page">
@@ -381,10 +388,6 @@ body {
         </div>
       </div>
 
-      <div class="btm">
-        <p class="proof"><b id="cnt">6.000</b><span id="cnt-label"> fan in lista</span></p>
-        <div class="flag" aria-label="Bandiera italiana"><s></s><s></s><s></s></div>
-      </div>
 
     </div>
   </main>
