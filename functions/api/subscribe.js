@@ -12,66 +12,96 @@ export async function onRequestPost(context) {
     // Usiamo l'email come chiave per evitare duplicati
     await context.env.VISITOR_COUNT.put(`subscriber_${userEmail}`, new Date().toISOString());
 
-    // 3. Prepara il template email in HTML (abbinato ai colori del tuo sito)
+    // 3. Prepara il template email in HTML (design minimalista e elegante come il sito)
 const emailHtml = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+        </style>
       </head>
-      <body style="background-color: #000000; margin: 0; padding: 0; font-family: 'Montserrat', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000;">
+      <body style="background-color: #0a0a0a; margin: 0; padding: 0; font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #0a0a0a; min-height: 100vh;">
           <tr>
-            <td align="center" style="padding: 50px 20px;">
+            <td align="center" style="padding: 60px 20px;">
               
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px; background-color: #000000;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 520px;">
                 
+                <!-- Titolo principale -->
                 <tr>
-                  <td align="center" style="padding-bottom: 20px;">
-                    <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 18px; color: #E8C46A; margin: 0; letter-spacing: 1px;">
+                  <td align="center" style="padding-bottom: 50px;">
+                    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 48px; font-weight: 700; color: #ffffff; margin: 0; letter-spacing: -1px; line-height: 1.1;">
+                      Preparati a fare
+                    </h1>
+                    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 48px; font-weight: 700; color: #d4af37; margin: 8px 0 0 0; letter-spacing: -1px;">
+                      rumore
+                    </h2>
+                  </td>
+                </tr>
+
+                <!-- Sottotitolo elegante -->
+                <tr>
+                  <td align="center" style="padding-bottom: 45px;">
+                    <p style="font-size: 13px; letter-spacing: 2px; color: #999999; margin: 0; text-transform: uppercase; font-weight: 500;">
                       Raffaella Carrà – Live From Heaven
                     </p>
                   </td>
                 </tr>
 
+                <!-- Messaggio principale -->
                 <tr>
-                  <td align="center" style="padding-bottom: 40px;">
-                    <h1 style="font-family: 'Bebas Neue', Impact, sans-serif; font-size: 38px; color: #ffffff; letter-spacing: 2px; margin: 0; text-transform: uppercase;">
-                      Preparati a fare <span style="color: #E8C46A;">rumore</span>
-                    </h1>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td align="left" style="padding-bottom: 30px;">
-                    <p style="font-size: 14px; line-height: 1.8; color: #ffffff; font-weight: 300; margin: 0 0 20px 0;">
-                      La tua iscrizione è confermata.
+                  <td align="center" style="padding-bottom: 40px; border-top: 1px solid #333333; border-bottom: 1px solid #333333; padding-top: 40px;">
+                    <p style="font-size: 15px; line-height: 1.8; color: #e8e8e8; font-weight: 300; margin: 0 0 25px 0;">
+                      Sei ufficialmente nella lista esclusiva.
                     </p>
-                    <p style="font-size: 14px; line-height: 1.8; color: #ffffff; font-weight: 300; margin: 0 0 20px 0;">
-                      Sei ufficialmente nella lista esclusiva per scoprire in anteprima mondiale le date del primo <strong>Official Hologram Concert</strong> dedicato a Raffaella Carrà.
-                    </p>
-                    <p style="font-size: 14px; line-height: 1.8; color: #ffffff; font-weight: 300; margin: 0;">
-                      Niente spam, nessuna distrazione. Riceverai un nostro messaggio solo quando saremo pronti a svelare le date ufficiali e ad aprire le prevendite dei biglietti.
+                    <p style="font-size: 15px; line-height: 1.8; color: #d8d8d8; font-weight: 300; margin: 0;">
+                      Sarai tra i primi a scoprire le date del primo <strong style="color: #d4af37;">Official Hologram Concert</strong> dedicato a Raffaella Carrà.
                     </p>
                   </td>
                 </tr>
 
+                <!-- Sezione promessa -->
+                <tr>
+                  <td align="center" style="padding: 45px 30px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td align="left" style="padding-bottom: 18px;">
+                          <p style="font-size: 12px; letter-spacing: 1px; color: #999999; margin: 0; text-transform: uppercase;">✓ Nessuno spam</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" style="padding-bottom: 18px;">
+                          <p style="font-size: 12px; letter-spacing: 1px; color: #999999; margin: 0; text-transform: uppercase;">✓ Solo notizie ufficiali</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" style="padding-bottom: 0;">
+                          <p style="font-size: 12px; letter-spacing: 1px; color: #999999; margin: 0; text-transform: uppercase;">✓ Cancellazione in qualsiasi momento</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <!-- Divisore -->
                 <tr>
                   <td align="center" style="padding: 30px 0;">
-                    <div style="border-top: 1px solid #C8922A; opacity: 0.3; width: 60%;"></div>
+                    <div style="width: 40px; height: 1px; background-color: #d4af37; margin: 0 auto;"></div>
                   </td>
                 </tr>
 
+                <!-- Footer -->
                 <tr>
-                  <td align="center">
-                    <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: #E8C46A; margin: 0 0 15px 0;">
-                      Official Hologram Concert
+                  <td align="center" style="padding-top: 20px;">
+                    <p style="font-size: 11px; color: #666666; line-height: 1.6; margin: 0 0 20px 0; letter-spacing: 0.5px;">
+                      <a href="https://carrahologram.pages.dev/carra" style="color: #d4af37; text-decoration: none; font-weight: 500;">carrahologram.pages.dev</a>
                     </p>
-                    <p style="font-size: 10px; color: #666666; line-height: 1.5; margin: 0; letter-spacing: 0.5px; text-transform: uppercase;">
-                      Hai ricevuto questa email perché ti sei iscritto su <br>
-                      <a href="https://raffaellacarraofficial.com" style="color: #E8C46A; text-decoration: none;">raffaellacarraofficial.com</a><br><br>
-                      © 2026 Raffaella Carrà Official.
+                    <p style="font-size: 10px; color: #555555; line-height: 1.6; margin: 0; letter-spacing: 0.3px;">
+                      © 2026 Raffaella Carrà Official Hologram Concert<br>
+                      Realizzato con ✨
                     </p>
                   </td>
                 </tr>
@@ -93,9 +123,9 @@ const emailHtml = `
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Newsletter Raffaella Carrà Hologram <newsletter@raffaellacarraofficial.com>',
+        from: 'Raffaella Carrà Official <newsletter@carrahologram.pages.dev>',
         to: [userEmail],
-        subject: 'Preparati a fare rumore ✨ Sei nella lista.',
+        subject: 'Preparati a fare rumore ✨',
         html: emailHtml
       })
     });
