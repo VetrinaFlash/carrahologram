@@ -97,7 +97,7 @@ const emailHtml = `
                 <tr>
                   <td align="center" style="padding-top: 20px;">
                     <p style="font-size: 11px; color: #666666; line-height: 1.6; margin: 0 0 20px 0; letter-spacing: 0.5px;">
-                      <a href="https://carrahologram.pages.dev/carra" style="color: #d4af37; text-decoration: none; font-weight: 500;">carrahologram.pages.dev</a>
+                      <a href="https://raffaellacarraofficial.com" style="color: #d4af37; text-decoration: none; font-weight: 500;">carrahologram.pages.dev</a>
                     </p>
                     <p style="font-size: 10px; color: #555555; line-height: 1.6; margin: 0; letter-spacing: 0.3px;">
                       © 2026 Raffaella Carrà Official Hologram Concert<br>
@@ -123,7 +123,7 @@ const emailHtml = `
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Raffaella Carrà Official <newsletter@carrahologram.pages.dev>',
+        from: 'Raffaella Carrà Official <newsletter@raffaellacarraofficial.com>',
         to: [userEmail],
         subject: 'Preparati a fare rumore ✨',
         html: emailHtml
