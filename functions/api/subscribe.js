@@ -10,13 +10,11 @@ export async function onRequestPost(context) {
     // Salva l'email nel database KV
     await context.env.VISITOR_COUNT.put(`subscriber_${userEmail}`, new Date().toISOString());
 
-    // FONDAMENTALE: L'URL dell'immagine deve essere assoluto e pubblico.
-    // Carica il file header.jpg sul tuo sito e assicurati che questo link sia corretto!
-const headerImageUrl = "https://i.ibb.co/6YhT3p2/header.jpg";
-    // 1. VERSIONE TESTO SEMPLICE (Anti-Spam salvavita)
-    const plainText = `Preparati a fare rumore!\n\nSei ufficialmente nella lista esclusiva. Sarai tra i primi a scoprire le date del primo Official Hologram Concert dedicato a Raffaella Carrà.\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti, rispondi a questa email con "CANCELLAMI".`;
+    // 1. VERSIONE TESTO SEMPLICE (FONDAMENTALE PER L'ANTI-SPAM)
+    // Nessun link HTML, solo testo pulito. I filtri antispam verificano sempre che esista questa versione.
+    const plainText = `Raffaella Carrà - Live From Heaven\n\nPreparati a fare rumore.\n\nSei ufficialmente nella lista esclusiva. Sarai tra i primi a scoprire le date del primo Official Hologram Concert dedicato a Raffaella Carrà.\n\nVisita il sito ufficiale: https://raffaellacarraofficial.com\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\n---\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti e non ricevere più aggiornamenti, rispondi a questa email scrivendo "CANCELLAMI".`;
 
-    // 2. VERSIONE HTML (Design Sicuro per Client Email)
+    // 2. VERSIONE HTML (Design tipografico di lusso senza immagini)
     const emailHtml = `
       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       <html xmlns="http://www.w3.org/1999/xhtml">
@@ -31,29 +29,44 @@ const headerImageUrl = "https://i.ibb.co/6YhT3p2/header.jpg";
           <tr>
             <td align="center">
               
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 8px; overflow: hidden;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #0a0a0a; border: 1px solid #1a1a1a; border-top: 4px solid #d4af37; border-radius: 8px; overflow: hidden;">
                 
                 <tr>
-                  <td align="center" style="background-color: #000000;">
-                    <img src="${headerImageUrl}" alt="Raffaella Carrà - Live From Heaven" width="600" style="display: block; width: 100%; max-width: 600px; height: auto; border: 0;" />
+                  <td align="center" style="padding: 50px 30px 20px 30px; border-bottom: 1px solid #1a1a1a;">
+                    <h1 style="color: #ffffff; font-size: 28px; margin: 0; font-family: 'Times New Roman', Georgia, serif; text-transform: uppercase; letter-spacing: 4px;">
+                      Raffaella
+                    </h1>
+                    <h2 style="color: #d4af37; font-size: 20px; margin: 10px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 2px;">
+                      Live From Heaven
+                    </h2>
                   </td>
                 </tr>
 
                 <tr>
                   <td align="center" style="padding: 40px 30px;">
-                    <h1 style="color: #d4af37; font-size: 26px; margin: 0 0 20px 0; font-weight: normal; font-family: 'Times New Roman', Times, serif; font-style: italic;">
+                    <h3 style="color: #ffffff; font-size: 22px; margin: 0 0 20px 0; font-weight: normal; font-family: 'Times New Roman', Georgia, serif; font-style: italic;">
                       Sei nella lista esclusiva.
-                    </h1>
-                    <p style="color: #e0e0e0; font-size: 15px; line-height: 1.6; margin: 0 0 30px 0;">
-                      Benvenuto! Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo <strong>Official Hologram Concert</strong> dedicato all'icona immortale della TV italiana.
+                    </h3>
+                    <p style="color: #cccccc; font-size: 15px; line-height: 1.8; margin: 0 0 30px 0;">
+                      Benvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo <strong style="color: #d4af37; font-weight: normal;">Official Hologram Concert</strong> dedicato all'icona immortale della TV italiana.
                     </p>
                     
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #111111; border-left: 3px solid #d4af37; border-radius: 4px;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto 35px auto;">
                       <tr>
-                        <td style="padding: 20px;">
-                          <p style="color: #aaaaaa; font-size: 13px; margin: 0 0 10px 0;">✓ Zero spam, te lo promettiamo.</p>
-                          <p style="color: #aaaaaa; font-size: 13px; margin: 0 0 10px 0;">✓ Solo comunicazioni e date ufficiali.</p>
-                          <p style="color: #aaaaaa; font-size: 13px; margin: 0;">✓ Accesso prioritario ai biglietti.</p>
+                        <td align="center" style="background-color: #d4af37; border-radius: 4px; padding: 14px 30px;">
+                          <a href="https://raffaellacarraofficial.com" target="_blank" style="color: #000000; text-decoration: none; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
+                            Visita il sito ufficiale
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                    
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #111111; border-left: 2px solid #d4af37; padding: 20px;">
+                      <tr>
+                        <td align="left">
+                          <p style="color: #999999; font-size: 13px; margin: 0 0 8px 0;">✓ Zero spam, te lo promettiamo.</p>
+                          <p style="color: #999999; font-size: 13px; margin: 0 0 8px 0;">✓ Solo comunicazioni e date ufficiali.</p>
+                          <p style="color: #999999; font-size: 13px; margin: 0;">✓ Accesso prioritario ai biglietti.</p>
                         </td>
                       </tr>
                     </table>
@@ -61,14 +74,14 @@ const headerImageUrl = "https://i.ibb.co/6YhT3p2/header.jpg";
                 </tr>
 
                 <tr>
-                  <td align="center" style="padding: 30px; background-color: #080808; border-top: 1px solid #1a1a1a;">
-                    <p style="color: #555555; font-size: 11px; line-height: 1.5; margin: 0 0 10px 0;">
-                      Hai ricevuto questa email perché ti sei iscritto alla newsletter su <a href="https://raffaellacarraofficial.com" style="color: #d4af37; text-decoration: none;">raffaellacarraofficial.com</a>.
+                  <td align="center" style="padding: 30px; background-color: #080808; border-top: 1px solid #151515;">
+                    <p style="color: #666666; font-size: 11px; line-height: 1.6; margin: 0 0 10px 0;">
+                      Hai ricevuto questa email perché hai richiesto di iscriverti alla nostra newsletter dal sito ufficiale <a href="https://raffaellacarraofficial.com" style="color: #d4af37; text-decoration: none;">raffaellacarraofficial.com</a>.
                     </p>
-                    <p style="color: #444444; font-size: 11px; margin: 0 0 15px 0;">
-                      Se vuoi essere rimosso dalla lista, rispondi a questa email con la parola "CANCELLAMI".
+                    <p style="color: #555555; font-size: 11px; margin: 0 0 15px 0;">
+                      Se hai cambiato idea e non vuoi più ricevere notizie sull'evento, rispondi a questa email scrivendo "CANCELLAMI".
                     </p>
-                    <p style="color: #333333; font-size: 11px; margin: 0;">
+                    <p style="color: #444444; font-size: 11px; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
                       © 2026 Raffaella Carrà Official Hologram Concert
                     </p>
                   </td>
@@ -90,11 +103,12 @@ const headerImageUrl = "https://i.ibb.co/6YhT3p2/header.jpg";
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        // Il mittente DEVE coincidere con un dominio che hai verificato su Resend
         from: 'Raffaella Carrà Official <newsletter@raffaellacarraofficial.com>',
         to: [userEmail],
         subject: 'Sei in lista. Preparati a fare rumore ✨',
         html: emailHtml,
-        text: plainText // <-- QUESTO SALVA LA MAIL DALLO SPAM
+        text: plainText // QUESTO E' IL PARAMETRO CHE TI SALVA DALLO SPAM
       })
     });
 
