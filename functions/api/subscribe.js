@@ -12,8 +12,7 @@ export async function onRequestPost(context) {
 
     // FONDAMENTALE: L'URL dell'immagine deve essere assoluto e pubblico.
     // Carica il file header.jpg sul tuo sito e assicurati che questo link sia corretto!
-    const headerImageUrl = "https://raffaellacarraofficial.com/header.jpg";
-
+const headerImageUrl = "https://i.ibb.co/6YhT3p2/header.jpg";
     // 1. VERSIONE TESTO SEMPLICE (Anti-Spam salvavita)
     const plainText = `Preparati a fare rumore!\n\nSei ufficialmente nella lista esclusiva. Sarai tra i primi a scoprire le date del primo Official Hologram Concert dedicato a Raffaella Carrà.\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti, rispondi a questa email con "CANCELLAMI".`;
 
