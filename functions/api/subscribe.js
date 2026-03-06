@@ -32,8 +32,8 @@ export async function onRequestPost(context) {
                 
                 <tr>
                   <td align="center" style="padding: 50px 30px 30px 30px; border-bottom: 1px solid #1a1a1a;">
-                    <h1 style="color: #ffffff; font-size: 34px; margin: 0; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 6px; font-weight: normal;">
-                      Raffaella
+                    <h1 style="color: #ffffff; font-size: 38px; margin: 0; font-family: 'Trajan Pro', 'Cinzel', 'Felix Titling', 'Baskerville', 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 4px; font-weight: bold;">
+                      RAFFAELLA
                     </h1>
                     <h2 style="color: #d4af37; font-size: 15px; margin: 12px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 3px; font-weight: normal;">
                       Live From Heaven
@@ -115,7 +115,6 @@ export async function onRequestPost(context) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        // Assicurati che il dominio sia verificato su Resend!
         from: 'Raffaella Carrà Official <newsletter@raffaellacarraofficial.com>',
         to: [userEmail],
         subject: 'Sei in lista. Preparati a fare rumore ✨',
