@@ -13,7 +13,7 @@ export async function onRequestPost(context) {
     // 1. VERSIONE TESTO SEMPLICE (Fondamentale contro lo SPAM)
     const plainText = `Raffaella Carrà - Live From Heaven\n\nSei nella lista esclusiva.\n\nBenvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo Official Raffaella Carrà Hologram Concert.\n\nSEI PRONTO A FARE RUMORE?\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\nA presto,\nRaffa Holo Team\n\n---\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti e non ricevere più aggiornamenti, rispondi a questa email scrivendo "CANCELLAMI".`;
 
-    // 2. VERSIONE HTML (Design Tipografico Lusso - Anti-Spam)
+    // 2. VERSIONE HTML (Design Tipografico Effetto Neon/Outline - Anti-Spam)
     const emailHtml = `
       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,10 +32,21 @@ export async function onRequestPost(context) {
                 
                 <tr>
                   <td align="center" style="padding: 50px 30px 30px 30px; border-bottom: 1px solid #1a1a1a;">
-                    <h1 style="color: #ffffff; font-size: 38px; margin: 0; font-family: 'Trajan Pro', 'Cinzel', 'Felix Titling', 'Baskerville', 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 4px; font-weight: bold;">
+                    
+                    <h1 style="
+                      color: #0a0a0a; /* Colore uguale allo sfondo per creare il vuoto nel mezzo */
+                      font-size: 42px; 
+                      margin: 0; 
+                      font-family: 'Arial Black', Impact, sans-serif; 
+                      text-transform: uppercase; 
+                      letter-spacing: 8px; 
+                      font-weight: 900;
+                      -webkit-text-stroke: 2px #ffffff; /* Crea il contorno bianco */
+                      text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Crea il bagliore luminoso */
+                    ">
                       RAFFAELLA
                     </h1>
-                    <h2 style="color: #d4af37; font-size: 15px; margin: 12px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 3px; font-weight: normal;">
+                    <h2 style="color: #d4af37; font-size: 15px; margin: 15px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 3px; font-weight: normal;">
                       Live From Heaven
                     </h2>
                   </td>
