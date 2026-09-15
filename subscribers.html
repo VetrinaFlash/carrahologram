@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lista Iscritti – Raffaella Carrà Hologram</title>
+  <title>Lista Iscritti & Invio Newsletter – Raffaella Carrà Hologram</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
 
     .container {
       width: 100%;
-      max-width: 960px;
+      max-width: 980px;
     }
 
     /* Schermata di Login */
@@ -73,7 +73,7 @@
       gap: 12px;
     }
 
-    input[type="password"], input[type="text"] {
+    input[type="password"], input[type="text"], input[type="email"], select, textarea {
       width: 100%;
       background: #08080a;
       border: 1px solid var(--border);
@@ -81,12 +81,12 @@
       padding: 12px 16px;
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 15px;
+      font-size: 14px;
       outline: none;
       transition: border-color 0.2s;
     }
 
-    input:focus {
+    input:focus, select:focus, textarea:focus {
       border-color: var(--gold);
     }
 
@@ -113,6 +113,18 @@
 
     .btn-primary:hover {
       background: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-send {
+      background: linear-gradient(135deg, #d4af37 0%, #f5d77f 100%);
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-send:hover {
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
       transform: translateY(-1px);
     }
 
@@ -199,7 +211,7 @@
 
     .actions-bar {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -288,6 +300,119 @@
       font-size: 14px;
     }
 
+    /* Modal Invio Massivo */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal {
+      background: #111116;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: #111116;
+      z-index: 10;
+    }
+
+    .modal-body {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tab-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tab-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+
+    .preview-frame {
+      width: 100%;
+      height: 380px;
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: auto;
+    }
+
+    /* Box Avanzamento Invio */
+    .progress-box {
+      display: none;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background: #1a1a20;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 8px 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
     /* Toast Notifica */
     .toast {
       position: fixed;
@@ -323,12 +448,12 @@
       <div class="badge" style="margin-bottom: 12px;">Area Riservata</div>
       <h2 style="font-size: 20px; margin-bottom: 6px;">Accesso Mailing List</h2>
       <p style="color: var(--text-muted); font-size: 13px;">
-        Inserisci la password per visualizzare ed esportare tutti gli iscritti dal database.
+        Inserisci la password per gestire gli iscritti e inviare comunicazioni massive via Resend.
       </p>
 
       <form id="loginForm" onsubmit="handleLogin(event)" class="form-group">
         <input type="password" id="passwordInput" placeholder="Password di accesso" autofocus required />
-        <button type="submit" class="btn btn-primary" id="loginBtn">Sblocca Lista</button>
+        <button type="submit" class="btn btn-primary" id="loginBtn">Sblocca Pannello</button>
         <div id="errorMsg" class="error-msg">Password errata o connessione non riuscita.</div>
       </form>
     </div>
@@ -338,8 +463,8 @@
       
       <div class="top-header">
         <div>
-          <div class="badge">Database Cloudflare KV</div>
-          <h1 style="font-size: 26px; margin-top: 6px; font-weight: 700;">Iscritti Newsletter</h1>
+          <div class="badge">Raffaella Carrà Hologram Official</div>
+          <h1 style="font-size: 26px; margin-top: 6px; font-weight: 700;">Gestione Newsletter</h1>
         </div>
         <button class="btn btn-secondary btn-sm" onclick="logout()">Esci ✖</button>
       </div>
@@ -348,12 +473,15 @@
       <div class="stats-card">
         <div>
           <div class="stat-number" id="totalCount">-</div>
-          <div class="stat-label">Totale Iscritti Registrati</div>
+          <div class="stat-label">Totale Iscritti nel Database</div>
         </div>
 
         <div class="actions-bar">
+          <button class="btn btn-send" onclick="openBroadcastModal()">
+            ✉️ Invia Email Massiva
+          </button>
           <button class="btn btn-primary" onclick="downloadCSV()">
-            📥 Scarica CSV (Excel)
+            📥 Scarica CSV
           </button>
           <button class="btn btn-secondary" onclick="copyAllEmails()">
             📋 Copia Tutte
@@ -391,20 +519,270 @@
 
   </div>
 
+  <!-- MODAL INVIO EMAIL MASSIVA -->
+  <div id="broadcastModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-size: 18px; font-weight: 700; color: #fff;">Invia Comunicazione Massiva (Resend)</h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+            Invia un'email a tutti gli iscritti tramite l'API Batch di Resend.
+          </p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="closeBroadcastModal()">Chiudi ✖</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Mittente -->
+        <div>
+          <div class="field-label">
+            <span>Mittente (From)</span>
+            <span style="font-size: 11px; color: var(--gold-light);">Dominio certificato Resend</span>
+          </div>
+          <input type="text" id="broadcastFrom" value="Raffaella Carrà Official &lt;newsletter@raffaellacarraofficial.com&gt;" />
+        </div>
+
+        <!-- Destinatari -->
+        <div>
+          <div class="field-label">Destinatari dell'invio</div>
+          <select id="broadcastTarget" onchange="updateRecipientCount()">
+            <option value="all">Tutti gli iscritti registrati (caricamento...)</option>
+            <option value="filtered">Solo gli iscritti filtrati dalla ricerca</option>
+          </select>
+        </div>
+
+        <!-- Oggetto -->
+        <div>
+          <div class="field-label">Oggetto dell'email (Subject)</div>
+          <input type="text" id="broadcastSubject" placeholder="es. Aggiornamento esclusivo: aperte le prevendite ✨" />
+        </div>
+
+        <!-- Selettore Template -->
+        <div>
+          <div class="field-label">
+            <span>Modello Email</span>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-secondary btn-sm" onclick="loadOfficialTemplate()">👑 Ricarica Grafica Carrà</button>
+              <button class="btn btn-secondary btn-sm" onclick="loadSimpleTemplate()">📄 Testo Semplice</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs Editor / Anteprima -->
+        <div>
+          <div class="tab-buttons">
+            <button class="tab-btn active" id="tabEditBtn" onclick="switchTab('edit')">Modifica HTML / Testo</button>
+            <button class="tab-btn" id="tabPreviewBtn" onclick="switchTab('preview')">Anteprima dal Vivo</button>
+          </div>
+
+          <div id="editorTab">
+            <textarea id="broadcastHtml" rows="12" style="font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.5;" oninput="updatePreview()"></textarea>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+              💡 Suggerimento: Puoi usare il segnaposto <code>{{email}}</code> per inserire l'email dell'iscritto.
+            </div>
+          </div>
+
+          <div id="previewTab" style="display:none;">
+            <iframe id="previewFrame" class="preview-frame"></iframe>
+          </div>
+        </div>
+
+        <!-- Sezione Invio Prova -->
+        <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border); padding: 16px; border-radius: 10px;">
+          <div class="field-label" style="margin-bottom: 8px;">
+            <span>🧪 Invia prima una prova alla tua casella</span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <input type="email" id="testEmailInput" placeholder="inserisci-tua-email@gmail.com" />
+            <button class="btn btn-secondary" onclick="sendTestEmail()" id="testSendBtn">Invia Test</button>
+          </div>
+        </div>
+
+        <!-- Box Avanzamento Invio Massivo -->
+        <div id="progressBox" class="progress-box">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
+            <span id="progressStatusText">Preparazione invio lotti batch...</span>
+            <span id="progressCountText">0%</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="progressBarFill" class="progress-bar-fill"></div>
+          </div>
+          <div id="progressDetailText" style="font-size: 11px; color: var(--text-muted);">
+            Invio a pacchetti di 50-100 destinatari per rispetto dei limiti di frequenza.
+          </div>
+        </div>
+
+        <!-- Pulsante Finale Invio Massivo -->
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+          <button class="btn btn-secondary" onclick="closeBroadcastModal()">Annulla</button>
+          <button class="btn btn-send" id="massSendBtn" onclick="startMassSend()">
+            🚀 Invia Email a Tutti gli Iscritti
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notifica Copia -->
   <div id="toast" class="toast">✓ Email copiata negli appunti</div>
 
   <script>
     let currentPassword = '';
     let subscribersList = [];
+    let isSending = false;
 
-    // All'avvio controlla se c'è una password salvata nella sessione corrente
+    // Template ufficiale Raffaella Carrà ("Stiamo Arrivando" - Massima deliverability anti-spam)
+    const OFFICIAL_TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Raffaella Carrà - Live From Heaven | Stiamo Arrivando</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #050505; font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
+  
+  <!-- Preheader per anteprima inbox pulita e anti-spam -->
+  <div style="display:none;font-size:1px;color:#050505;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;">
+    L'attesa sta per finire. La produzione del primo Official Raffaella Carrà Hologram Concert è pronta. Ecco l'aggiornamento riservato alla lista esclusiva.
+  </div>
+
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #050505; padding: 40px 10px;">
+    <tr>
+      <td align="center">
+        
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #0a0a0a; border: 1px solid #1a1a1a; border-top: 4px solid #d4af37; border-radius: 8px; overflow: hidden;">
+          
+          <!-- Banner Superiore Ufficiale -->
+          <tr>
+            <td align="center" style="padding: 50px 30px 30px 30px; border-bottom: 1px solid #1a1a1a;">
+              <h1 style="color: #ffffff; font-size: 42px; margin: 0; font-family: 'Arial Black', Impact, Arial, sans-serif; text-transform: uppercase; letter-spacing: 6px; font-weight: 900;">
+                RAFFAELLA
+              </h1>
+              <h2 style="color: #d4af37; font-size: 15px; margin: 15px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 3px; font-weight: normal;">
+                Live From Heaven
+              </h2>
+            </td>
+          </tr>
+
+          <!-- Corpo Principale -->
+          <tr>
+            <td align="center" style="padding: 40px 30px;">
+              
+              <h3 style="color: #ffffff; font-size: 24px; margin: 0 0 25px 0; font-weight: normal; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; font-style: italic; text-align: center;">
+                L'attesa sta per finire. Stiamo arrivando.
+              </h3>
+              
+              <p style="color: #cccccc; font-size: 15px; line-height: 1.8; margin: 0 0 25px 0; text-align: left;">
+                Qualche tempo fa hai scelto di unirti alla nostra lista esclusiva per essere tra i primissimi a vivere il ritorno sul palco di Raffaella Carrà in una veste straordinaria e mai vista prima.
+              </p>
+              
+              <p style="color: #cccccc; font-size: 15px; line-height: 1.8; margin: 0 0 35px 0; text-align: left;">
+                Oggi siamo entusiasti di annunciarti che la produzione del primo <strong style="color: #d4af37; font-weight: normal;">Official Raffaella Carrà Hologram Concert</strong> è entrata nel suo momento decisivo. La tecnologia olografica volumetrica di nuova generazione, l'audio rimasterizzato dai nastri originali e un corpo di ballo eccezionale sono pronti a far rivivere la sua leggenda.
+              </p>
+
+              <!-- Divisore Elegante Oro -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 auto 35px auto;">
+                <tr>
+                  <td align="center" style="border-top: 1px solid #222222; border-bottom: 1px solid #222222; padding: 18px 0;">
+                    <h2 style="color: #d4af37; font-size: 18px; margin: 0; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 3px; font-weight: normal;">
+                      Sei pronto a fare rumore?
+                    </h2>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Box Notifica Esclusiva -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #111111; border-left: 3px solid #d4af37; padding: 22px; margin-bottom: 35px;">
+                <tr>
+                  <td align="left">
+                    <p style="color: #ffffff; font-size: 14px; font-weight: bold; margin: 0 0 12px 0;">
+                      ✨ COSA ACCADRÀ A BREVE PER GLI ISCRITTI:
+                    </p>
+                    <p style="color: #aaaaaa; font-size: 13px; line-height: 1.6; margin: 0 0 8px 0;">
+                      ✓ <strong>Annuncio Date Ufficiali:</strong> sveleremo il calendario delle prime date nelle grandi arene.
+                    </p>
+                    <p style="color: #aaaaaa; font-size: 13px; line-height: 1.6; margin: 0 0 8px 0;">
+                      ✓ <strong>Accesso Prioritario 24h:</strong> riceverai un link riservato per acquistare i tuoi biglietti 24 ore prima dell'apertura generale.
+                    </p>
+                    <p style="color: #aaaaaa; font-size: 13px; line-height: 1.6; margin: 0;">
+                      ✓ <strong>Posti Migliori Garantiti:</strong> la certezza di scegliere le poltronissime prima del sold out.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Bottone Call to Action Elegante -->
+              <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto 35px auto;">
+                <tr>
+                  <td align="center" style="border-radius: 4px; background-color: #d4af37;">
+                    <a href="https://raffaellacarraofficial.com" target="_blank" style="font-size: 13px; font-family: Arial, sans-serif; color: #000000; text-decoration: none; padding: 14px 28px; border-radius: 4px; display: inline-block; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                      SCOPRI IL SITO UFFICIALE ↗
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="color: #cccccc; font-size: 14px; line-height: 1.8; margin: 0 0 30px 0; text-align: left;">
+                Tieni d'occhio questa casella email nei prossimi giorni. Sarà qui che ti invieremo il codice e l'accesso diretto.
+              </p>
+
+              <!-- Firma -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 20px;">
+                <tr>
+                  <td align="right">
+                    <p style="color: #888888; font-size: 16px; margin: 0; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; font-style: italic;">
+                      A presto,<br>
+                      <span style="color: #d4af37; font-size: 20px;">Raffa Holo Team</span>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer Antispam Certificato e Trasparente -->
+          <tr>
+            <td align="center" style="padding: 30px; background-color: #080808; border-top: 1px solid #151515;">
+              <p style="color: #666666; font-size: 11px; line-height: 1.6; margin: 0 0 10px 0;">
+                Hai ricevuto questa comunicazione perché ti sei iscritto alla lista prioritaria su <a href="https://raffaellacarraofficial.com" style="color: #d4af37; text-decoration: none;">raffaellacarraofficial.com</a>.
+              </p>
+              <p style="color: #555555; font-size: 11px; margin: 0 0 15px 0;">
+                Se non desideri più ricevere aggiornamenti sull'evento, rispondi a questa email scrivendo "CANCELLAMI".
+              </p>
+              <p style="color: #444444; font-size: 11px; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
+                © 2026 Raffaella Carrà Official Hologram Concert • Tutti i diritti riservati
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>`;
+
+    const SIMPLE_TEMPLATE = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #111;">
+  <h2 style="color: #d4af37;">Raffaella Carrà Hologram Official</h2>
+  <p>Ciao,</p>
+  <p>L'attesa sta per finire: stiamo arrivando con le date ufficiali del tour!</p>
+  <p>A presto,<br><strong>Raffa Holo Team</strong></p>
+</div>`;
+
     window.addEventListener('DOMContentLoaded', () => {
       const savedPwd = sessionStorage.getItem('subscribers_pwd');
       if (savedPwd) {
         currentPassword = savedPwd;
         fetchSubscribers(savedPwd);
       }
+      document.getElementById('broadcastSubject').value = "L'attesa sta per finire. Stiamo arrivando ✨";
+      document.getElementById('broadcastHtml').value = OFFICIAL_TEMPLATE;
+      updatePreview();
     });
 
     async function handleLogin(e) {
@@ -417,7 +795,7 @@
       btn.disabled = true;
 
       const success = await fetchSubscribers(pwd);
-      btn.textContent = 'Sblocca Lista';
+      btn.textContent = 'Sblocca Pannello';
       btn.disabled = false;
 
       if (!success) {
@@ -440,6 +818,7 @@
           document.getElementById('totalCount').textContent = data.count || subscribersList.length;
 
           renderTable(subscribersList);
+          updateRecipientCount();
           return true;
         } else {
           return false;
@@ -489,14 +868,232 @@
 
     function filterSubscribers() {
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      if (!query) {
-        renderTable(subscribersList);
-        return;
+      let filtered = subscribersList;
+      if (query) {
+        filtered = subscribersList.filter(s => s.email.toLowerCase().includes(query));
       }
-      const filtered = subscribersList.filter(s => s.email.toLowerCase().includes(query));
       renderTable(filtered);
+      updateRecipientCount();
     }
 
+    function getActiveFilteredList() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (!query) return subscribersList;
+      return subscribersList.filter(s => s.email.toLowerCase().includes(query));
+    }
+
+    function updateRecipientCount() {
+      const target = document.getElementById('broadcastTarget');
+      const filtered = getActiveFilteredList();
+      target.options[0].text = `Tutti gli iscritti registrati (${subscribersList.length} contatti)`;
+      target.options[1].text = `Solo gli iscritti filtrati (${filtered.length} contatti)`;
+      
+      const massBtn = document.getElementById('massSendBtn');
+      const count = target.value === 'filtered' ? filtered.length : subscribersList.length;
+      massBtn.textContent = `🚀 Invia Email a ${count} Iscritti`;
+    }
+
+    /* Modal Gestione Invio */
+    function openBroadcastModal() {
+      updateRecipientCount();
+      document.getElementById('broadcastModal').style.display = 'flex';
+      updatePreview();
+    }
+
+    function closeBroadcastModal() {
+      if (isSending) {
+        if (!confirm("Un invio è in corso. Vuoi davvero chiudere la finestra?")) return;
+      }
+      document.getElementById('broadcastModal').style.display = 'none';
+    }
+
+    function switchTab(tab) {
+      const editBtn = document.getElementById('tabEditBtn');
+      const prevBtn = document.getElementById('tabPreviewBtn');
+      const editTab = document.getElementById('editorTab');
+      const prevTab = document.getElementById('previewTab');
+
+      if (tab === 'edit') {
+        editBtn.classList.add('active');
+        prevBtn.classList.remove('active');
+        editTab.style.display = 'block';
+        prevTab.style.display = 'none';
+      } else {
+        prevBtn.classList.add('active');
+        editBtn.classList.remove('active');
+        editTab.style.display = 'none';
+        prevTab.style.display = 'block';
+        updatePreview();
+      }
+    }
+
+    function updatePreview() {
+      const html = document.getElementById('broadcastHtml').value;
+      const iframe = document.getElementById('previewFrame');
+      iframe.srcdoc = html;
+    }
+
+    function loadOfficialTemplate() {
+      if (confirm("Vuoi ricaricare il modello grafico ufficiale Raffaella Carrà? Il testo e l'oggetto attuali verranno sostituiti.")) {
+        document.getElementById('broadcastSubject').value = "L'attesa sta per finire. Stiamo arrivando ✨";
+        document.getElementById('broadcastHtml').value = OFFICIAL_TEMPLATE;
+        updatePreview();
+      }
+    }
+
+    function loadSimpleTemplate() {
+      if (confirm("Vuoi caricare il modello a testo minimale? Il testo attuale verrà sostituito.")) {
+        document.getElementById('broadcastHtml').value = SIMPLE_TEMPLATE;
+        updatePreview();
+      }
+    }
+
+    /* Invio Test Singolo */
+    async function sendTestEmail() {
+      const testEmail = document.getElementById('testEmailInput').value.trim();
+      const subject = document.getElementById('broadcastSubject').value.trim();
+      const html = document.getElementById('broadcastHtml').value.trim();
+      const from = document.getElementById('broadcastFrom').value.trim();
+      const btn = document.getElementById('testSendBtn');
+
+      if (!testEmail || !testEmail.includes('@')) {
+        alert("Inserisci un indirizzo email valido per il test.");
+        return;
+      }
+      if (!subject) {
+        alert("Inserisci un oggetto per l'email di test.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Invio...";
+
+      try {
+        const res = await fetch('/api/send-broadcast', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': currentPassword
+          },
+          body: JSON.stringify({
+            password: currentPassword,
+            from: from,
+            subject: "[TEST] " + subject,
+            html: html,
+            recipients: [testEmail]
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast(`✓ Email di prova inviata con successo a ${testEmail}`);
+        } else {
+          alert("Errore invio prova: " + (data.error || "Errore sconosciuto"));
+        }
+      } catch (e) {
+        alert("Errore di rete: " + e.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Invia Test";
+      }
+    }
+
+    /* Invio Massivo a Lotti */
+    async function startMassSend() {
+      const targetType = document.getElementById('broadcastTarget').value;
+      const recipientsList = targetType === 'filtered' ? getActiveFilteredList() : subscribersList;
+      const emails = recipientsList.map(s => s.email);
+
+      if (emails.length === 0) {
+        alert("Nessun iscritto a cui inviare l'email.");
+        return;
+      }
+
+      const subject = document.getElementById('broadcastSubject').value.trim();
+      const html = document.getElementById('broadcastHtml').value.trim();
+      const from = document.getElementById('broadcastFrom').value.trim();
+
+      if (!subject) {
+        alert("Inserisci l'oggetto dell'email.");
+        return;
+      }
+      if (!html) {
+        alert("Inserisci il contenuto dell'email.");
+        return;
+      }
+
+      const confirmMsg = `Confermi l'invio dell'email a ${emails.length} destinatari?\n\nOggetto: "${subject}"\nMittente: "${from}"\n\nQuesta operazione non può essere annullata.`;
+      if (!confirm(confirmMsg)) return;
+
+      isSending = true;
+      const massBtn = document.getElementById('massSendBtn');
+      massBtn.disabled = true;
+
+      const progressBox = document.getElementById('progressBox');
+      const pStatus = document.getElementById('progressStatusText');
+      const pCount = document.getElementById('progressCountText');
+      const pFill = document.getElementById('progressBarFill');
+      const pDetail = document.getElementById('progressDetailText');
+
+      progressBox.style.display = 'block';
+
+      const BATCH_SIZE = 50; // Inviamo 50 email per ogni chiamata HTTP per fluidità e zero timeout
+      let totalSent = 0;
+      let totalErrors = 0;
+
+      for (let i = 0; i < emails.length; i += BATCH_SIZE) {
+        const chunk = emails.slice(i, i + BATCH_SIZE);
+        const currentBatchNum = Math.floor(i / BATCH_SIZE) + 1;
+        const totalBatches = Math.ceil(emails.length / BATCH_SIZE);
+
+        pStatus.textContent = `Invio in corso: lotto ${currentBatchNum} di ${totalBatches}...`;
+
+        try {
+          const res = await fetch('/api/send-broadcast', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-password': currentPassword
+            },
+            body: JSON.stringify({
+              password: currentPassword,
+              from: from,
+              subject: subject,
+              html: html,
+              recipients: chunk
+            })
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            totalSent += data.sentCount || chunk.length;
+          } else {
+            totalErrors += chunk.length;
+            console.error("Errore nel lotto:", data.error);
+          }
+        } catch (err) {
+          totalErrors += chunk.length;
+          console.error("Errore di rete lotto:", err);
+        }
+
+        const percentage = Math.min(100, Math.round(((i + chunk.length) / emails.length) * 100));
+        pCount.textContent = `${percentage}% (${totalSent}/${emails.length})`;
+        pFill.style.width = `${percentage}%`;
+        pDetail.textContent = `Inviate con successo: ${totalSent} | Errori: ${totalErrors}`;
+
+        // Pausa di 600ms tra i lotti per il rate limit
+        if (i + BATCH_SIZE < emails.length) {
+          await new Promise(r => setTimeout(r, 600));
+        }
+      }
+
+      isSending = false;
+      massBtn.disabled = false;
+      pStatus.textContent = `🎉 Invio completato! ${totalSent} email inviate con successo.`;
+      showToast(`✓ Invio completato: ${totalSent} email inviate!`);
+    }
+
+    /* Funzioni Export e Copia */
     function copySingleEmail(email) {
       navigator.clipboard.writeText(email).then(() => {
         showToast('✓ Email copiata!');
@@ -513,7 +1110,6 @@
 
     function downloadCSV() {
       if (!currentPassword) return;
-      // Download diretto dal backend
       window.location.href = `/api/subscribers?pwd=${encodeURIComponent(currentPassword)}&format=csv`;
     }
 
