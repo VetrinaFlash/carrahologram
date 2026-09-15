@@ -45,6 +45,7 @@ export async function onRequest(context) {
     const subject = body.subject;
     const htmlContent = body.html;
     let textContent = body.text || '';
+    const recipients = body.recipients;
 
     if (!subject || !subject.trim()) {
       return new Response(JSON.stringify({ success: false, error: "L'oggetto dell'email è obbligatorio." }), {
