@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista Iscritti – Raffaella Carrà Hologram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --card-bg: #131318;
+      --border: #23232c;
+      --gold: #d4af37;
+      --gold-light: #f5d77f;
+      --gold-dark: #8c6d1f;
+      --text: #f1f2f4;
+      --text-muted: #8b8ea2;
+      --accent: #22c55e;
+      --error: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      padding: 30px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    /* Schermata di Login */
+    #loginSection {
+      max-width: 440px;
+      margin: 80px auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #loginSection::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+    }
+
+    .login-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .form-group {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      background: #08080a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--gold);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: all 0.2s ease;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .error-msg {
+      color: var(--error);
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Schermata Dashboard */
+    #dashboardSection {
+      display: none;
+      width: 100%;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stats-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .stat-number {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--gold-light);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    .actions-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Barra di Ricerca */
+    .search-wrapper {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Tabella */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    thead {
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      padding: 14px 18px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 14px;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .email-cell {
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      color: #fff;
+      border-color: var(--gold);
+    }
+
+    .date-cell {
+      color: var(--text-muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      padding: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Toast Notifica */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e1e24;
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- SEZIONE LOGIN PASSWORD -->
+    <div id="loginSection">
+      <div class="login-icon">🔒</div>
+      <div class="badge" style="margin-bottom: 12px;">Area Riservata</div>
+      <h2 style="font-size: 20px; margin-bottom: 6px;">Accesso Mailing List</h2>
+      <p style="color: var(--text-muted); font-size: 13px;">
+        Inserisci la password per visualizzare ed esportare tutti gli iscritti dal database.
+      </p>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="form-group">
+        <input type="password" id="passwordInput" placeholder="Password di accesso" autofocus required />
+        <button type="submit" class="btn btn-primary" id="loginBtn">Sblocca Lista</button>
+        <div id="errorMsg" class="error-msg">Password errata o connessione non riuscita.</div>
+      </form>
+    </div>
+
+    <!-- SEZIONE DASHBOARD ISCRITTI -->
+    <div id="dashboardSection">
+      
+      <div class="top-header">
+        <div>
+          <div class="badge">Database Cloudflare KV</div>
+          <h1 style="font-size: 26px; margin-top: 6px; font-weight: 700;">Iscritti Newsletter</h1>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="logout()">Esci ✖</button>
+      </div>
+
+      <!-- Scheda Statistiche & Azioni -->
+      <div class="stats-card">
+        <div>
+          <div class="stat-number" id="totalCount">-</div>
+          <div class="stat-label">Totale Iscritti Registrati</div>
+        </div>
+
+        <div class="actions-bar">
+          <button class="btn btn-primary" onclick="downloadCSV()">
+            📥 Scarica CSV (Excel)
+          </button>
+          <button class="btn btn-secondary" onclick="copyAllEmails()">
+            📋 Copia Tutte
+          </button>
+          <button class="btn btn-secondary" onclick="downloadTXT()">
+            📄 Scarica TXT
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra di Ricerca in Tempo Reale -->
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="🔍 Cerca email nella lista..." oninput="filterSubscribers()" />
+      </div>
+
+      <!-- Tabella Iscritti -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 60px;">#</th>
+              <th>Indirizzo Email</th>
+              <th style="width: 200px;">Data Registrazione</th>
+            </tr>
+          </thead>
+          <tbody id="subscribersTableBody">
+            <tr>
+              <td colspan="3" class="empty-state">Caricamento iscritti in corso...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Toast Notifica Copia -->
+  <div id="toast" class="toast">✓ Email copiata negli appunti</div>
+
+  <script>
+    let currentPassword = '';
+    let subscribersList = [];
+
+    // All'avvio controlla se c'è una password salvata nella sessione corrente
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedPwd = sessionStorage.getItem('subscribers_pwd');
+      if (savedPwd) {
+        currentPassword = savedPwd;
+        fetchSubscribers(savedPwd);
+      }
+    });
+
+    async function handleLogin(e) {
+      if (e) e.preventDefault();
+      const pwd = document.getElementById('passwordInput').value.trim();
+      const err = document.getElementById('errorMsg');
+      const btn = document.getElementById('loginBtn');
+      err.style.display = 'none';
+      btn.textContent = 'Verifica...';
+      btn.disabled = true;
+
+      const success = await fetchSubscribers(pwd);
+      btn.textContent = 'Sblocca Lista';
+      btn.disabled = false;
+
+      if (!success) {
+        err.style.display = 'block';
+      }
+    }
+
+    async function fetchSubscribers(pwd) {
+      try {
+        const res = await fetch('/api/subscribers?pwd=' + encodeURIComponent(pwd));
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          currentPassword = pwd;
+          sessionStorage.setItem('subscribers_pwd', pwd);
+          subscribersList = data.subscribers || [];
+
+          document.getElementById('loginSection').style.display = 'none';
+          document.getElementById('dashboardSection').style.display = 'block';
+          document.getElementById('totalCount').textContent = data.count || subscribersList.length;
+
+          renderTable(subscribersList);
+          return true;
+        } else {
+          return false;
+        }
+      } catch (err) {
+        console.error("Errore fetch:", err);
+        return false;
+      }
+    }
+
+    function renderTable(list) {
+      const tbody = document.getElementById('subscribersTableBody');
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Nessun iscritto trovato.</td></tr>';
+        return;
+      }
+
+      let html = '';
+      list.forEach((sub, idx) => {
+        let dateFormatted = '-';
+        if (sub.date) {
+          try {
+            const d = new Date(sub.date);
+            dateFormatted = d.toLocaleDateString('it-IT', {
+              day: '2-digit', month: '2-digit', year: 'numeric',
+              hour: '2-digit', minute: '2-digit'
+            });
+          } catch (_) {}
+        }
+
+        html += `
+          <tr>
+            <td style="color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px;">${idx + 1}</td>
+            <td>
+              <div class="email-cell">
+                <span>${escapeHtml(sub.email)}</span>
+                <button class="copy-btn" onclick="copySingleEmail('${escapeHtml(sub.email)}')">Copia</button>
+              </div>
+            </td>
+            <td class="date-cell">${dateFormatted}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function filterSubscribers() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (!query) {
+        renderTable(subscribersList);
+        return;
+      }
+      const filtered = subscribersList.filter(s => s.email.toLowerCase().includes(query));
+      renderTable(filtered);
+    }
+
+    function copySingleEmail(email) {
+      navigator.clipboard.writeText(email).then(() => {
+        showToast('✓ Email copiata!');
+      });
+    }
+
+    function copyAllEmails() {
+      if (subscribersList.length === 0) return;
+      const emails = subscribersList.map(s => s.email).join(', ');
+      navigator.clipboard.writeText(emails).then(() => {
+        showToast(`✓ Copiate ${subscribersList.length} email negli appunti`);
+      });
+    }
+
+    function downloadCSV() {
+      if (!currentPassword) return;
+      // Download diretto dal backend
+      window.location.href = `/api/subscribers?pwd=${encodeURIComponent(currentPassword)}&format=csv`;
+    }
+
+    function downloadTXT() {
+      if (subscribersList.length === 0) return;
+      const content = subscribersList.map(s => s.email).join('\n');
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'iscritti_raffaella_carra.txt';
+      link.click();
+      URL.revokeObjectURL(link.href);
+      showToast('✓ File TXT scaricato');
+    }
+
+    function logout() {
+      sessionStorage.removeItem('subscribers_pwd');
+      currentPassword = '';
+      document.getElementById('passwordInput').value = '';
+      document.getElementById('dashboardSection').style.display = 'none';
+      document.getElementById('loginSection').style.display = 'block';
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 2500);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>
