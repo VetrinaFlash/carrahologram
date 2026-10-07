@@ -162,9 +162,9 @@ const server = http.createServer(async (req, res) => {
   }
 
   // File statici
-  let filePath = path.join(__dirname, pathname === '/' ? 'resend-check.html' : pathname);
+  let filePath = path.join(__dirname, pathname === '/' ? 'index.html' : pathname);
   if (!fs.existsSync(filePath)) {
-    filePath = path.join(__dirname, 'resend-check.html');
+    filePath = path.join(__dirname, 'index.html');
   }
 
   const ext = path.extname(filePath).toLowerCase();
@@ -173,6 +173,9 @@ const server = http.createServer(async (req, res) => {
     '.js': 'application/javascript',
     '.css': 'text/css',
     '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.svg': 'image/svg+xml',
     '.mp4': 'video/mp4'
   };
 

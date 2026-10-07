@@ -11,7 +11,7 @@ export async function onRequestPost(context) {
     await context.env.VISITOR_COUNT.put(`subscriber_${userEmail}`, new Date().toISOString());
 
     // 1. VERSIONE TESTO SEMPLICE (Fondamentale contro lo SPAM)
-    const plainText = `Raffaella Carrà - Live From Heaven\n\nSei nella lista esclusiva.\n\nBenvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo Official Raffaella Carrà Hologram Concert.\n\nSEI PRONTO A FARE RUMORE?\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\nA presto,\nRaffa Holo Team\n\n---\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti e non ricevere più aggiornamenti, rispondi a questa email scrivendo "CANCELLAMI".`;
+    const plainText = `Raffaella Carrà - The Show Must Go On\n\nSei nella lista esclusiva.\n\nBenvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo Official Raffaella Carrà Hologram Concert.\n\nSEI PRONTO A FARE RUMORE?\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\nA presto,\nRaffa Holo Team\n\n---\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti e non ricevere più aggiornamenti, rispondi a questa email scrivendo "CANCELLAMI".`;
 
     // 2. VERSIONE HTML (Design Sicuro per tutti i Client Email)
     const emailHtml = `
@@ -20,7 +20,7 @@ export async function onRequestPost(context) {
       <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Raffaella Carrà - Live From Heaven</title>
+        <title>Raffaella Carrà - The Show Must Go On</title>
       </head>
       <body style="margin: 0; padding: 0; background-color: #050505; font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
         
@@ -38,7 +38,7 @@ export async function onRequestPost(context) {
                     </h1>
 
                     <h2 style="color: #d4af37; font-size: 15px; margin: 15px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 3px; font-weight: normal;">
-                      Live From Heaven
+                      The Show Must Go On
                     </h2>
                   </td>
                 </tr>

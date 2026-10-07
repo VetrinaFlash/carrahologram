@@ -3,533 +3,1606 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>Raffaella Carrà – Live From Heaven | Official Hologram Concert</title>
-<meta name="description" content="Il primo concerto ologramma ufficiale di Raffaella Carrà. Scopri per primo le date."/>
+<title>Raffaella Carrà – The Show Must Go On | Official Hologram Concert</title>
+<meta name="description" content="Il primo concerto ologramma ufficiale di Raffaella Carrà. The Show Must Go On. Scopri le date e acquista i biglietti."/>
 <meta name="robots" content="index,follow"/>
 <link rel="canonical" href="https://raffaellalivefromheaven.com/"/>
-<meta property="og:title" content="Raffaella Carrà – Live From Heaven | Official Hologram Concert"/>
-<meta property="og:description" content="Preparati a fare rumore."/>
-<meta property="og:image" content="header.png"/>
+<meta property="og:title" content="Raffaella Carrà – The Show Must Go On | Official Hologram Concert"/>
+<meta property="og:description" content="The Show Must Go On. Preparati a fare rumore."/>
+<meta property="og:image" content="poster-desktop.jpg"/>
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
+<meta name="theme-color" content="#020204"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<!-- display=block: aspetta il font prima di mostrare il testo, evita FOUT su iOS -->
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=block" rel="stylesheet"/>
-<!-- preload Bebas Neue esplicitamente -->
-<link rel="preload" as="font" crossorigin href="https://fonts.gstatic.com/s/bebasneue/v14/JTUSjIg69CK48gW7PXoo9Wdhyzbi.woff2" type="font/woff2"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500;1,700&family=Montserrat:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet"/>
 
 <style>
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --gold:  #C8922A;
-  --gold2: #E8C46A;
-  --gold3: #F9EDCA;
-  --gold4: #5C3A06;
-  --blue:  #5BCFFF;
+  --gold:       #D4AF37;
+  --gold2:      #F7DE8B;
+  --gold3:      #FFF6DC;
+  --gold-dark:  #8C6D1F;
+  --neon-red:   #FF1E4B;
+  --neon-orange:#FF6200;
+  --neon-blue:  #00D4FF;
+  --neon-green: #00FF88;
+  --bg-black:   #020204;
+  --header-h:   54px;
 }
 
 html, body {
-  width: 100%; height: 100%;
-  background: #000; color: #fff;
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg-black);
+  color: #fff;
   font-family: 'Montserrat', sans-serif;
-  overflow: hidden;
-  /* iOS Safari */
-  height: -webkit-fill-available;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ══ STARS ══ */
+/* ══ IMMERSIVE FULLSCREEN CONTAINER ══ */
+.main-stage-viewport {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #000;
+}
+
+/* ══ BACKGROUND STAGE (100% FULLSCREEN COVER) ══ */
+.stage-bg-image {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+  filter: contrast(1.08) brightness(1.03);
+  animation: stageBgIn 1.2s ease-out both;
+}
+@keyframes stageBgIn {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ══ LASER CANVAS & ATMOSPHERIC PARTICLES ══ */
+#laser-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+  mix-blend-mode: screen;
+}
+
 #stars-global {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 9000;
-  overflow: hidden; mix-blend-mode: screen;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  mix-blend-mode: screen;
 }
 .s {
   position: absolute; border-radius: 50%; background: #fff; opacity: 0;
   animation: twinkle var(--d,2s) var(--dl,0s) ease-in-out infinite;
 }
 @keyframes twinkle {
-  0%,100% { opacity:0; transform:scale(.3); }
-  50%     { opacity:var(--op,.8); transform:scale(1); }
-}
-.spk {
-  position: absolute; border-radius: 50%; opacity: 0;
-  background: radial-gradient(circle, #fff 0%, var(--gold3) 30%, var(--gold2) 65%, transparent 100%);
-  animation: spkUp var(--d,5s) var(--dl,0s) ease-in infinite;
-}
-@keyframes spkUp {
-  0%  { opacity:0; transform:translate(0,0) scale(.5); }
-  7%  { opacity:1; }
-  80% { opacity:.4; }
-  100%{ opacity:0; transform:translate(var(--tx,0px),var(--ty,-200px)) scale(.05); }
-}
-@keyframes shoot {
-  0%  { opacity:0; transform:translateX(0); }
-  8%  { opacity:1; }
-  100%{ opacity:0; transform:translateX(200px); }
+  0%,100% { opacity: 0; transform: scale(.3); }
+  50%     { opacity: var(--op,.8); transform: scale(1); }
 }
 
-/* ══ BARRA TOP — contatore a sx, lingua+musica a dx ══ */
-.topbar {
+/* ══ TOP HEADER NAVBAR (COMPACT, SLEEK & FIXED HEIGHT) ══ */
+.site-header {
   position: fixed;
-  top: max(10px, env(safe-area-inset-top, 10px));
-  left: 0; right: 0;
-  padding: 0 max(12px, env(safe-area-inset-right, 12px));
-  z-index: 9999;
+  top: 0; left: 0; right: 0;
+  height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: max(16px, env(safe-area-inset-left, 16px));
+  padding-right: max(16px, env(safe-area-inset-right, 16px));
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  background: rgba(2, 2, 4, 0.78);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  pointer-events: none;
+  gap: 12px;
+  height: 100%;
 }
-.topbar > * { pointer-events: all; }
 
-/* Contatore top-left */
-.top-counter {
-  background: rgba(0,0,0,.72);
-  border: 1px solid rgba(200,146,42,.35);
-  border-radius: 2px;
-  padding: 4px 10px;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: center; gap: 5px;
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.brand-badge {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 1.8px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,30,75,0.8), 0 0 20px rgba(212,175,55,0.5);
   white-space: nowrap;
 }
-.top-counter b {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 9px; font-weight: 700; letter-spacing: 1px;
-  color: var(--gold2);
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,30,75,0.18);
+  border: 1px solid rgba(255,30,75,0.45);
+  color: #ff607d;
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
-.top-counter span {
+.live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--neon-red);
+  box-shadow: 0 0 8px var(--neon-red);
+  animation: pulseDot 1.4s infinite;
+}
+@keyframes pulseDot {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%     { transform: scale(1.4); opacity: 0.5; }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+}
+.nav-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 4px;
+  transition: all .25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.nav-link:hover, .nav-link.active {
+  color: #fff;
+  background: rgba(212,175,55,0.14);
+  text-shadow: 0 0 10px rgba(212,175,55,0.6);
+}
+.nav-link.highlight {
+  border: 1px solid rgba(212,175,55,0.55);
+  color: var(--gold2);
+  background: rgba(212,175,55,0.08);
+}
+.nav-link.highlight:hover {
+  background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(255,30,75,0.3));
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(212,175,55,0.35);
+}
+.nav-badge-soon {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: rgba(0,212,255,0.22);
+  border: 1px solid rgba(0,212,255,0.55);
+  color: var(--neon-blue);
+  letter-spacing: 1px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.top-counter {
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(212,175,55,0.35);
+  border-radius: 4px;
+  padding: 5px 9px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.top-counter b { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--gold2); }
+.top-counter span { font-size: 8px; font-weight: 500; letter-spacing: 1.5px; color: rgba(255,255,255,0.55); text-transform: uppercase; }
+
+.langs { display: flex; gap: 3px; }
+.lb {
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.5);
   font-family: 'Montserrat', sans-serif;
-  font-size: 7px; font-weight: 400; letter-spacing: 1.5px;
-  color: rgba(255,255,255,.45);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  padding: 5px 7px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.lb:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+.lb.on {
+  border-color: var(--gold2);
+  color: var(--gold2);
+  background: rgba(212,175,55,0.18);
+  box-shadow: 0 0 10px rgba(212,175,55,0.25);
+}
+
+#abtn {
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s; flex-shrink: 0;
+}
+#abtn.on {
+  border-color: var(--gold2);
+  background: rgba(212,175,55,0.2);
+  box-shadow: 0 0 14px rgba(212,175,55,0.35);
+}
+.eq { display: flex; gap: 2px; align-items: flex-end; height: 12px; }
+.eq i { width: 2px; background: var(--gold2); border-radius: 1px; height: 2px; opacity: 0.4; font-style: normal; transition: opacity .3s; }
+#abtn.on .eq i { opacity: 1; animation: eqb var(--d,.5s) ease-in-out infinite alternate; }
+@keyframes eqb { from{height:2px} to{height:12px} }
+
+.mobile-menu-btn {
+  display: none;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(212,175,55,0.35);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px;
+  color: #fff;
+  width: 34px; height: 34px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.mobile-menu-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+  left: 0; right: 0;
+  background: rgba(4,4,7,0.97);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(212,175,55,0.3);
+  padding: 18px 22px;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 999;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.85);
+}
+.mobile-drawer.open { display: flex; }
+.mobile-drawer .nav-link { font-size: 13px; padding: 10px 14px; border-radius: 6px; background: rgba(255,255,255,0.03); }
+.drawer-divider {
+  height: 1px;
+  background: rgba(212,175,55,0.2);
+  margin: 4px 0;
+}
+.drawer-section-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
+.drawer-langs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ══ VISUAL LAYERS (CENTERED RAFFAELLA + MARQUEE + SIGNATURE) ══ */
+.stage-visual-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+/* 1. Broadway Marquee: COMPLETAMENTE SOTTO IL MENU, SPAZIO PULITO E ARIA */
+.marquee-box {
+  position: absolute;
+  top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 26px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(74vw, 780px);
+  z-index: 2; /* Dietro Raffaella per non coprirle il viso! */
+  text-align: center;
+  pointer-events: none;
+  will-change: transform;
+}
+.marquee-box img {
+  width: 100%;
+  height: auto;
+  max-height: 18vh;
+  object-fit: contain;
+  filter: drop-shadow(0 0 25px rgba(255,30,75,0.85)) drop-shadow(0 0 55px rgba(212,175,55,0.7));
+  animation: neonBulbPowerOn 1.6s 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both, marqueeBulbPulse 4s 2.2s ease-in-out infinite alternate;
+  will-change: filter;
+}
+@keyframes neonBulbPowerOn {
+  0%   { opacity: 0; filter: brightness(0.1); }
+  25%  { opacity: 0.85; filter: brightness(2.2) drop-shadow(0 0 40px #ff1e4b); }
+  35%  { opacity: 0.3; filter: brightness(0.4); }
+  50%  { opacity: 1; filter: brightness(1.6) drop-shadow(0 0 50px #ff8a00); }
+  100% { opacity: 1; filter: drop-shadow(0 0 25px rgba(255,30,75,0.85)) drop-shadow(0 0 55px rgba(212,175,55,0.7)); }
+}
+@keyframes marqueeBulbPulse {
+  0% {
+    filter: drop-shadow(0 0 22px rgba(255,30,75,0.8)) drop-shadow(0 0 45px rgba(212,175,55,0.65));
+  }
+  50% {
+    filter: drop-shadow(0 0 34px rgba(255,30,75,0.95)) drop-shadow(0 0 65px rgba(255,98,0,0.85)) drop-shadow(0 0 85px rgba(212,175,55,0.5));
+  }
+  100% {
+    filter: drop-shadow(0 0 22px rgba(255,30,75,0.8)) drop-shadow(0 0 45px rgba(212,175,55,0.65));
+  }
+}
+
+/* 2. Raffaella Hologram: IN PRIMO PIANO rispetto all'insegna (Viso 100% visibile e limpido!) */
+.character-box {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 78vh;
+  max-height: 820px;
+  width: auto;
+  z-index: 5; /* In primo piano rispetto all'insegna! */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+  will-change: transform;
+}
+.character-box img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 0 20px rgba(255,30,75,0.5)) drop-shadow(0 0 40px rgba(0,212,255,0.35));
+  animation: holoMaterialize 1.5s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both, holoFloatBreathe 6s 1.8s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+@keyframes holoMaterialize {
+  0%   { opacity: 0; filter: blur(14px) brightness(3) contrast(2); transform: scale(0.94); }
+  30%  { opacity: 0.7; filter: blur(5px) brightness(2); }
+  60%  { opacity: 0.9; filter: blur(2px) brightness(1.3); }
+  100% { opacity: 1; filter: drop-shadow(0 0 20px rgba(255,30,75,0.5)) drop-shadow(0 0 40px rgba(0,212,255,0.35)); transform: scale(1); }
+}
+@keyframes holoFloatBreathe {
+  0%   { transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(255,30,75,0.5)) drop-shadow(0 0 40px rgba(0,212,255,0.35)); }
+  50%  { transform: translateY(-5px) scale(1.015); filter: drop-shadow(0 0 30px rgba(255,30,75,0.75)) drop-shadow(0 0 55px rgba(0,212,255,0.5)); }
+  100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(255,30,75,0.5)) drop-shadow(0 0 40px rgba(0,212,255,0.35)); }
+}
+
+/* 3. Golden Signature (Right Side) */
+.signature-box {
+  position: absolute;
+  top: 30%;
+  right: 7%;
+  width: 17vw;
+  max-width: 210px;
+  z-index: 6;
+  pointer-events: none;
+  will-change: transform;
+}
+.signature-box img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 16px rgba(212,175,55,0.85)) drop-shadow(0 0 32px rgba(255,98,0,0.55));
+  animation: sigIn 1.4s 1.2s ease-out both, sigFloat 5s 2.6s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+@keyframes sigIn {
+  from { opacity: 0; transform: scale(0.85) rotate(-5deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0); }
+}
+@keyframes sigFloat {
+  0%   { transform: translateY(0) rotate(0deg); }
+  50%  { transform: translateY(-6px) rotate(1.5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* ══ STAGE OVERLAY TYPOGRAPHY & CTAs ══ */
+.stage-action-overlay {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  margin-top: auto;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  padding: 0 16px;
+}
+
+/* MOTTO: THE SHOW MUST GO ON. */
+.motto-heading {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(24px, 5.2vw, 54px);
+  letter-spacing: clamp(1px, 0.6vw, 4px);
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 4px;
+  user-select: none;
+  animation: neonIgnite 1.8s 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, neonHumPulse 4s 2.8s ease-in-out infinite alternate;
+}
+@keyframes neonIgnite {
+  0%   { opacity: 0; text-shadow: none; }
+  10%  { opacity: 0.15; text-shadow: none; }
+  14%  { opacity: 1; text-shadow: 0 0 10px #ff6200; }
+  18%  { opacity: 0.2; text-shadow: none; }
+  22%  { opacity: 1; text-shadow: 0 0 25px #ff1e4b; }
+  26%  { opacity: 0.4; }
+  32%  {
+    opacity: 1;
+    text-shadow:
+      0 0 6px #fff,
+      0 0 14px #fff,
+      0 0 26px var(--neon-red),
+      0 0 45px var(--neon-red),
+      0 0 70px var(--neon-orange),
+      0 0 100px rgba(255,30,75,0.75);
+  }
+  100% {
+    opacity: 1;
+    text-shadow:
+      0 0 6px #fff,
+      0 0 14px #fff,
+      0 0 26px var(--neon-red),
+      0 0 45px var(--neon-red),
+      0 0 70px var(--neon-orange),
+      0 0 100px rgba(255,30,75,0.75);
+  }
+}
+@keyframes neonHumPulse {
+  0% {
+    text-shadow:
+      0 0 6px #fff,
+      0 0 14px #fff,
+      0 0 24px var(--neon-red),
+      0 0 45px var(--neon-red),
+      0 0 70px var(--neon-orange),
+      0 0 100px rgba(255,30,75,0.75);
+  }
+  50% {
+    text-shadow:
+      0 0 8px #fff,
+      0 0 18px #fff,
+      0 0 32px var(--neon-red),
+      0 0 58px var(--neon-red),
+      0 0 88px var(--neon-orange),
+      0 0 120px rgba(255,98,0,0.85);
+  }
+  100% {
+    text-shadow:
+      0 0 6px #fff,
+      0 0 14px #fff,
+      0 0 24px var(--neon-red),
+      0 0 45px var(--neon-red),
+      0 0 70px var(--neon-orange),
+      0 0 100px rgba(255,30,75,0.75);
+  }
+}
+
+/* SUBTITLE: OFFICIAL HOLOGRAM CONCERT */
+.sub-holo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 580px;
+  margin-bottom: 8px;
+  animation: fUp 0.8s 1.3s ease-out both;
+}
+.laser-bracket {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+.sub-holo-text {
+  font-family: 'Orbitron', 'Montserrat', sans-serif;
+  font-size: clamp(10px, 1.6vw, 14px);
+  font-weight: 700;
+  letter-spacing: clamp(2px, 0.4vw, 5px);
+  color: var(--neon-blue);
+  text-shadow: 0 0 14px var(--neon-blue), 0 0 28px rgba(0,212,255,0.5);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* DATE: 28 DICEMBRE 2026 */
+.date-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  animation: fUp 0.8s 1.5s ease-out both;
+}
+.gold-bracket {
+  width: 44px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), var(--gold), transparent);
+  box-shadow: 0 0 8px var(--gold);
+}
+.date-text {
+  font-family: 'Cinzel', 'Montserrat', serif;
+  font-size: clamp(14px, 2.4vw, 22px);
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--gold3);
+  text-shadow: 0 0 16px rgba(212,175,55,0.9), 0 0 30px rgba(212,175,55,0.5);
+}
+
+/* BUTTON: ACQUISTA TICKET */
+.ticket-cta-wrap {
+  margin: 0 auto 14px auto;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fUp 0.8s 1.7s ease-out both;
+}
+.btn-buy-ticket {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 13px clamp(20px, 3vw, 32px);
+  border-radius: 6px;
+  background: linear-gradient(135deg, #FF1E4B 0%, #D4AF37 50%, #FF6200 100%);
+  background-size: 200% auto;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(12px, 1.6vw, 15px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 28px rgba(255,30,75,0.6), 0 0 50px rgba(212,175,55,0.4);
+  animation: pulseBorderGlow 3s ease-in-out infinite alternate;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+@keyframes pulseBorderGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(255,30,75,0.6), 0 0 45px rgba(212,175,55,0.35);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255,30,75,0.85), 0 0 68px rgba(212,175,55,0.6), 0 0 95px rgba(255,98,0,0.45);
+  }
+}
+.btn-buy-ticket::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  transform: translateX(-100%);
+  animation: shineSweep 3.5s infinite;
+  pointer-events: none;
+}
+@keyframes shineSweep {
+  0%, 30% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}
+.btn-buy-ticket:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 45px rgba(255,30,75,0.9), 0 0 75px rgba(212,175,55,0.75);
+  border-color: #fff;
+}
+.btn-buy-ticket:active {
+  transform: scale(0.98);
+}
+.btn-buy-ticket .ico-tkt {
+  font-size: 18px;
+  filter: drop-shadow(0 0 6px #fff);
+}
+
+/* ══ COMPACT EMAIL SUBSCRIPTION PILL ══ */
+.email-card-wrap {
+  width: 100%;
+  max-width: 560px;
+  background: rgba(8,8,12,0.82);
+  border: 1px solid rgba(212,175,55,0.32);
+  border-radius: 8px;
+  padding: 12px 18px;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(212,175,55,0.12);
+  position: relative;
+  overflow: hidden;
+  animation: fUp 0.8s 1.9s ease-out both;
+}
+.email-card-wrap::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--neon-red), var(--gold), var(--neon-blue));
+}
+.hook-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(13px, 1.6vw, 16px);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--gold2);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  text-shadow: 0 0 12px rgba(212,175,55,0.4);
+}
+
+.pill-box {
+  display: flex;
+  border: 1px solid rgba(212,175,55,0.65);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.85);
+  transition: border-color .3s, box-shadow .3s;
+}
+.pill-box:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 22px rgba(212,175,55,0.35);
+}
+.pill-box input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(11px, 1.4vw, 13px);
+  font-weight: 400;
+  letter-spacing: .6px;
+  padding: 9px 12px;
+}
+.pill-box input::placeholder {
+  color: rgba(255,255,255,0.45);
+  font-style: italic;
+}
+.pill-box button {
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 48%, var(--gold2) 100%);
+  border: none;
+  color: #000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(9px, 1.2vw, 11px);
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 9px clamp(14px, 2.2vw, 22px);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: filter .2s;
+  white-space: nowrap;
+}
+.pill-box button:hover { filter: brightness(1.15); }
+
+.fine-print {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: clamp(7px, 1vw, 8px);
+  letter-spacing: 1.2px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
+.fine-print span::before { content: '•'; opacity: .4; margin-right: 6px; }
+.fine-print span:first-child::before { display: none; }
+
+.form-ok {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+.ok-ico {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--gold2);
+  background: rgba(212,175,55,0.12);
+  display: flex; align-items: center; justify-content: center;
+}
+.ok-ico svg {
+  width: 18px; height: 18px;
+  fill: none;
+  stroke: var(--gold2);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.form-ok p { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--gold2); }
+.form-ok small { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.45); text-transform: uppercase; }
+
+/* ══ ORIGINAL PARTNERS FOOTER (CON LOGHI ORIGINALI DALLA LOCANDINA) ══ */
+.partners-footer {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 24px max(10px, env(safe-area-inset-bottom, 10px)) 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 20;
+  animation: fUp 0.8s 2.1s ease-out both;
+}
+
+.partner-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.partner-logo-img {
+  height: clamp(34px, 4.2vh, 48px);
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(0,0,0,0.9));
+  transition: transform .25s ease;
+}
+.partner-logo-img:hover {
+  transform: scale(1.05);
+}
+
+.rtl-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.rtl-tag {
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.6);
   text-transform: uppercase;
 }
 
-/* Lingua + musica top-right */
-.ctrl { display: flex; align-items: center; gap: 6px; }
-.langs { display: flex; gap: 3px; }
-.lb {
-  background: rgba(0,0,0,.78);
-  border: 1px solid rgba(255,255,255,.2);
-  color: rgba(255,255,255,.3);
-  font-family: 'Montserrat', sans-serif;
-  font-size: 8px; font-weight: 500; letter-spacing: 2px;
-  padding: 5px 7px; border-radius: 2px; cursor: pointer; transition: all .2s;
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+@keyframes fUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.lb.on { border-color: var(--gold2); color: var(--gold2); background: rgba(0,0,0,.88); }
-#abtn {
-  background: rgba(0,0,0,.78);
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 50%; width: 30px; height: 30px;
+
+/* ══ MODALS (TICKETS & MERCH) ══ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.modal-backdrop.active { display: flex; opacity: 1; }
+.modal-window {
+  background: #0d0d14;
+  border: 1px solid rgba(212,175,55,0.5);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 560px;
+  padding: 28px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 50px rgba(255,30,75,0.25);
+  transform: translateY(20px);
+  transition: transform .3s ease;
+}
+.modal-backdrop.active .modal-window { transform: translateY(0); }
+.modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  color: #fff;
+  cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all .2s; flex-shrink: 0;
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  font-size: 16px;
 }
-#abtn.on { border-color: var(--gold2); background: rgba(0,0,0,.88); }
-.eq { display: flex; gap: 2px; align-items: flex-end; height: 10px; }
-.eq i { width: 2px; background: var(--gold2); border-radius: 1px; height: 2px;
-  opacity: 0; font-style: normal; transition: opacity .3s;
-  animation: eqb var(--d,.5s) ease-in-out infinite alternate; }
-#abtn.on .eq i { opacity: 1; }
-@keyframes eqb { from{height:2px} to{height:10px} }
+.modal-title { font-family: 'Cinzel', serif; font-size: 20px; color: var(--gold2); margin-bottom: 8px; letter-spacing: 2px; }
+.modal-desc { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 20px; }
+.ticket-tiers { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.tier-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,175,55,0.25);
+  border-radius: 8px;
+}
+.tier-name { font-weight: 700; font-size: 13px; color: #fff; }
+.tier-info { font-size: 11px; color: rgba(255,255,255,0.5); }
+.tier-tag { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 4px; background: rgba(255,30,75,0.2); color: var(--neon-red); }
 
-/* ══ PAGE — occupa esattamente il viewport, mai overflow ══ */
-.page {
-  display: flex; flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  max-height: 100dvh;
-  overflow: hidden;
-}
-
-/* ══ IMMAGINI — 78% ══ */
-.col-img {
-  flex: 0 0 78%;
-  min-height: 0; /* fondamentale per flex shrink */
-  position: relative; overflow: hidden; background: #000;
-  display: flex; flex-direction: column;
-  z-index: 1;
-  /* spazio per topbar */
-  padding-top: max(44px, calc(env(safe-area-inset-top, 0px) + 40px));
-}
-.img-stack {
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column;
-}
-.img-header { flex: 0 0 32%; min-height: 0; overflow: hidden; }
-.img-body   { flex: 0 0 55%; min-height: 0; overflow: hidden; }
-.img-footer { flex: 0 0 13%; min-height: 0; overflow: hidden; }
-.img-header img, .img-body img, .img-footer img {
-  width: 100%; height: 100%;
-  object-fit: contain; object-position: center center; display: block;
-}
-.img-body img { animation: breathe 12s ease-in-out infinite; }
-@keyframes breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.025)} }
-.col-img::after {
-  content: ''; position: absolute; bottom:0; left:0; right:0; height:18%;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.35) 75%, #000 100%);
-  pointer-events: none; z-index: 2;
+/* ══ RESPONSIVE MEDIA QUERIES ══ */
+@media (max-width: 1120px) {
+  .nav-link { padding: 6px 10px; font-size: 10px; letter-spacing: 1.2px; }
+  .top-counter span { display: none; }
+  .brand-badge { font-size: 12px; }
 }
 
-/* ══ FORM — 22%, con min-height 0 per non traboccare ══ */
-.col-form {
-  flex: 1 1 22%;
-  min-height: 0;
-  position: relative; background: #000;
-  border-top: 1px solid rgba(200,146,42,.12);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 0 16px;
-  padding-bottom: max(6px, env(safe-area-inset-bottom, 6px));
-  overflow: hidden;
-  z-index: 10;
-}
-.col-form::before {
-  content: ''; position: absolute;
-  top:-50px; left:50%; transform:translateX(-50%);
-  width:70%; height:100px;
-  background: radial-gradient(ellipse, rgba(200,146,42,.07) 0%, transparent 70%);
-  pointer-events: none;
-}
-.form-inner {
-  width: 100%; max-width: 560px;
-  display: flex; flex-direction: column; align-items: center;
-  position: relative; z-index: 1;
-  gap: 0;
+@media (max-width: 960px) {
+  :root { --header-h: 50px; }
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+  .langs { display: none; } /* Lingue spostate nel mobile drawer */
+  .signature-box { display: none; }
+  .marquee-box {
+    top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 16px);
+    width: 90vw;
+    max-width: 460px;
+  }
+  .marquee-box img { max-height: 14vh; }
+  .character-box { height: 76vh; max-height: 640px; }
+  .motto-heading { white-space: normal; }
+  .partners-footer { justify-content: center; gap: 14px; flex-wrap: wrap; }
 }
 
-/* ══ SLOGAN — si adatta al container via JS canvas ══ */
-.slogan {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(10px, 5.5vw, 38px);
-  letter-spacing: 0;
-  white-space: nowrap;
-  display: block; width: 100%; text-align: center;
-  overflow: visible;
-  background: linear-gradient(150deg, #fff 0%, var(--gold3) 30%, var(--gold2) 55%, var(--gold) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 14px rgba(200,146,42,.35));
-  margin-bottom: clamp(3px, 1vh, 8px);
-  animation: fU .6s .05s both;
-}
-.hook {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(11px, 2.2vw, 17px);
-  font-weight: 600; font-style: italic;
-  color: var(--gold2); letter-spacing: .06em;
-  margin-bottom: clamp(4px, 1.2vh, 10px);
-  text-align: center;
-  animation: fU .6s .15s both;
-  text-shadow: 0 0 16px rgba(200,146,42,.5);
+@media (max-width: 480px) {
+  .top-counter { padding: 4px 7px; }
+  .top-counter b { font-size: 9px; }
+  .top-counter span { display: none; }
+  .brand-badge { font-size: 11px; letter-spacing: 1.2px; }
+  .live-pill { font-size: 8px; padding: 2px 5px; }
+  .fine-print { flex-direction: column; gap: 4px; align-items: center; }
+  .fine-print span::before { display: none; }
 }
 
-/* ══ PILL ══ */
-.pill-wrap { width: 100%; animation: fU .6s .25s both; }
-.pill {
-  display: flex; border: 1px solid rgba(200,146,42,.7);
-  border-radius: 2px; overflow: hidden; background: rgba(0,0,0,.7);
-  transition: border-color .3s, box-shadow .3s;
-}
-.pill:focus-within { border-color: rgba(200,146,42,1); box-shadow: 0 0 24px rgba(200,146,42,.2); }
-.pill input {
-  flex:1; min-width:0; background:transparent; border:none; outline:none;
-  color:#fff; font-family:'Montserrat',sans-serif;
-  font-size: clamp(10px,1.5vw,13px); font-weight:300; letter-spacing:.6px;
-  padding: clamp(8px,1.5vh,14px) 14px;
-}
-.pill input::placeholder { color:rgba(255,255,255,.45); font-style:italic; }
-.pill button {
-  background: linear-gradient(135deg, var(--gold4) 0%, var(--gold) 48%, var(--gold2) 100%);
-  border:none; color:#000; font-family:'Montserrat',sans-serif;
-  font-size: clamp(7px,1vw,9px); font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
-  padding: clamp(8px,1.5vh,14px) clamp(14px,2.5vw,24px);
-  cursor:pointer; flex-shrink:0; transition:filter .2s; white-space:nowrap;
-  position:relative; overflow:hidden;
-}
-.pill button::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
-  transform:translateX(-100%); animation:sh 5s 2.5s infinite;
-}
-@keyframes sh { to{transform:translateX(100%)} }
-.pill button:hover { filter:brightness(1.12); }
-
-.fine {
-  margin-top: clamp(3px,.8vh,7px);
-  display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
-  font-size: clamp(6px,1vw,8px); letter-spacing:1.2px; color:rgba(255,255,255,.55);
-  animation: fU .6s .35s both;
-}
-.fine span::before { content:'—'; opacity:.3; margin-right:4px; }
-.fine span:first-child::before { display:none; }
-
-.btm {
-  display:flex; align-items:center; justify-content:center; gap:12px;
-  margin-top: clamp(3px,.8vh,8px);
-  animation: fU .6s .45s both;
-}
-.proof { font-size: clamp(6px,1vw,8px); letter-spacing:1.8px; color:rgba(255,255,255,.55); text-transform:uppercase; }
-.proof b { color:rgba(200,146,42,.85); }
-.flag { display:flex; gap:3px; }
-.flag s { display:block; width:10px; height:2px; border-radius:1px; text-decoration:none; }
-.flag s:nth-child(1) { background:#009246; }
-.flag s:nth-child(2) { background:rgba(255,255,255,.7); }
-.flag s:nth-child(3) { background:#CE2B37; }
-
-.form-ok { display:none; flex-direction:column; align-items:center; gap:6px; }
-.ok-ico { width:36px; height:36px; border-radius:50%; border:1px solid var(--gold2); background:rgba(200,146,42,.06); display:flex; align-items:center; justify-content:center; }
-.ok-ico svg { width:15px; height:15px; fill:none; stroke:var(--gold2); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-.form-ok p { font-family:'Cormorant Garamond',serif; font-size:clamp(14px,2vw,18px); font-style:italic; color:var(--gold2); }
-.form-ok small { font-size:clamp(7px,1vw,9px); letter-spacing:2px; color:rgba(255,255,255,.25); text-transform:uppercase; text-align:center; }
-
-@keyframes fU { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
-
-/* ══ DESKTOP WIDE ══ */
-@media (min-width: 900px) {
-  .col-img { padding-top: max(48px, calc(env(safe-area-inset-top,0px) + 44px)); }
-  .form-inner { max-width: 620px; }
+@media (max-width: 370px) {
+  .live-pill { display: none; }
 }
 
-/* ══ LANDSCAPE PHONE ══ */
-@media (max-width: 899px) and (orientation: landscape) {
-  .col-img  { flex: 0 0 65%; padding-top: max(40px, calc(env(safe-area-inset-top,0px)+36px)); }
-  .col-form { flex: 1 1 35%; }
-  .hook     { margin-bottom: 3px; }
-  .fine, .btm { margin-top: 2px; }
+@media (max-height: 740px) {
+  .marquee-box { top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 10px); }
+  .marquee-box img { max-height: 14vh; }
+  .character-box { height: 72vh; }
+  .stage-action-overlay { margin-bottom: 6px; }
+  .email-card-wrap { padding: 8px 14px; }
+  .btn-buy-ticket { padding: 10px 20px; }
 }
 
-/* ══ TINY PHONE (≤360px) ══ */
-@media (max-width: 360px) {
-  .lb { font-size: 7px; padding: 4px 5px; letter-spacing: 1px; }
-  .top-counter b { font-size: 8px; }
-  .top-counter span { font-size: 6px; }
+@media (max-height: 620px) {
+  .marquee-box img { max-height: 12vh; }
+  .character-box { height: 68vh; }
 }
 </style>
 </head>
 <body>
 
+<!-- Dynamic Laser & Stars System -->
+<canvas id="laser-canvas"></canvas>
 <div id="stars-global" aria-hidden="true"></div>
 
-<!-- topbar: contatore a sx, lingua+musica a dx -->
-<div class="topbar">
-  <div class="top-counter">
-    <b id="cnt">6.000+</b>
-    <span id="cnt-label">fan in lista</span>
+<!-- Top Navigation Bar -->
+<header class="site-header">
+  <div class="nav-container">
+    
+    <a href="#" class="nav-brand">
+      <span class="brand-badge">RAFFAELLA CARRÀ</span>
+      <span class="live-pill"><span class="live-dot"></span> LIVE HOLOGRAM</span>
+    </a>
+
+    <!-- Desktop Navigation Tabs -->
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link active" data-t="navHome">HOME</a></li>
+        <li><a href="#tickets" class="nav-link highlight" onclick="openModal('ticketModal'); return false;" data-t="navBuyTicket">🎟️ ACQUISTA TICKET</a></li>
+        <li>
+          <a href="#merch" class="nav-link" onclick="openModal('merchModal'); return false;">
+            <span data-t="navMerch">MERCHANDISING</span> <span class="nav-badge-soon" data-t="badgeSoon">SOON</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Nav Right Controls -->
+    <div class="nav-actions">
+      <!-- Live Counter -->
+      <div class="top-counter" title="Iscritti alla prevendita ufficiale">
+        <b id="cnt">6.000+</b>
+        <span id="cnt-label">fan in lista</span>
+      </div>
+
+      <!-- Languages -->
+      <div class="langs" aria-label="Language">
+        <button class="lb on" onclick="L('it')">IT</button>
+        <button class="lb"    onclick="L('en')">EN</button>
+        <button class="lb"    onclick="L('es')">ES</button>
+        <button class="lb"    onclick="L('pt')">PT</button>
+        <button class="lb"    onclick="L('de')">DE</button>
+        <button class="lb"    onclick="L('fr')">FR</button>
+      </div>
+
+      <!-- Audio Music Button -->
+      <button id="abtn" aria-label="Musica" title="Attiva/Disattiva Audio">
+        <div class="eq">
+          <i style="--d:.44s"></i>
+          <i style="--d:.60s;animation-delay:.08s"></i>
+          <i style="--d:.48s;animation-delay:.19s"></i>
+          <i style="--d:.66s;animation-delay:.04s"></i>
+        </div>
+      </button>
+
+      <!-- Mobile Menu Hamburger -->
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      </button>
+    </div>
+
   </div>
-  <div class="ctrl">
-    <nav class="langs" aria-label="Language">
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="#" class="nav-link" onclick="toggleMobileMenu()" data-t="navHome">HOME</a>
+    <a href="#tickets" class="nav-link highlight" onclick="toggleMobileMenu(); openModal('ticketModal'); return false;" data-t="navBuyTicket">🎟️ ACQUISTA TICKET</a>
+    <a href="#merch" class="nav-link" onclick="toggleMobileMenu(); openModal('merchModal'); return false;">
+      <span data-t="navMerch">MERCHANDISING</span> <span class="nav-badge-soon" data-t="badgeSoon">SOON</span>
+    </a>
+    <div class="drawer-divider"></div>
+    <div class="drawer-section-title">LINGUA / LANGUAGE</div>
+    <div class="drawer-langs">
       <button class="lb on" onclick="L('it')">IT</button>
       <button class="lb"    onclick="L('en')">EN</button>
       <button class="lb"    onclick="L('es')">ES</button>
       <button class="lb"    onclick="L('pt')">PT</button>
       <button class="lb"    onclick="L('de')">DE</button>
       <button class="lb"    onclick="L('fr')">FR</button>
-    </nav>
-    <button id="abtn" aria-label="Musica">
-      <div class="eq">
-        <i style="--d:.44s"></i>
-        <i style="--d:.60s;animation-delay:.08s"></i>
-        <i style="--d:.48s;animation-delay:.19s"></i>
-        <i style="--d:.66s;animation-delay:.04s"></i>
+    </div>
+  </div>
+</header>
+
+<!-- Main Immersive Fullscreen Stage -->
+<main class="main-stage-viewport" id="stageViewport">
+  
+  <!-- 1. Background Stage (100% Fullscreen Cover) -->
+  <img class="stage-bg-image" src="stage-background.jpg" alt="Concert Stage Lasers" loading="eager" fetchpriority="high"/>
+
+  <!-- 2. Visual Elements: Marquee BEHIND Raffaella + Raffaella Hologram (Viso 100% visibile!) + Signature -->
+  <div class="stage-visual-container" id="visualStage">
+    
+    <!-- Broadway Marquee Sign (DIETRO a Raffaella, arcuata sopra la testa) -->
+    <div class="marquee-box" id="marqueeBox">
+      <img src="marquee-final.png" alt="Raffaella Carrà Marquee"/>
+    </div>
+
+    <!-- Golden Signature (Desktop Right) -->
+    <div class="signature-box" id="sigBox">
+      <img src="signature-gold.png" alt="Raffaella Carrà Signature"/>
+    </div>
+
+    <!-- Raffaella Carrà Hologram (IN PRIMO PIANO rispetto all'insegna, Viso e capelli completamente liberi!) -->
+    <div class="character-box" id="charBox">
+      <img src="raffaella-cutout.png" alt="Raffaella Carrà Hologram" loading="eager"/>
+    </div>
+
+  </div>
+
+  <!-- 3. Dynamic Center Action Overlay (Motto, Subtitle, Date, Ticket Button, Email) -->
+  <div class="stage-action-overlay">
+
+    <!-- Motto: THE SHOW MUST GO ON. -->
+    <h1 class="motto-heading">THE SHOW MUST GO ON.</h1>
+
+    <!-- Subtitle: OFFICIAL HOLOGRAM CONCERT -->
+    <div class="sub-holo-row">
+      <span class="laser-bracket"></span>
+      <span class="sub-holo-text" data-t="subHolo">OFFICIAL HOLOGRAM CONCERT</span>
+      <span class="laser-bracket"></span>
+    </div>
+
+    <!-- Date: 28 DICEMBRE 2026 -->
+    <div class="date-row">
+      <span class="gold-bracket"></span>
+      <span class="date-text" id="eventDate" data-t="eventDate">28 DICEMBRE 2026</span>
+      <span class="gold-bracket"></span>
+    </div>
+
+    <!-- BOTTONE SOTTO LA DATA: ACQUISTA TICKET -->
+    <div class="ticket-cta-wrap">
+      <button class="btn-buy-ticket" onclick="openModal('ticketModal')">
+        <span class="ico-tkt">🎟️</span>
+        <span data-t="ctaTicket">ACQUISTA TICKET</span>
+      </button>
+    </div>
+
+    <!-- Email Pre-sale Form -->
+    <div class="email-card-wrap">
+      <p class="hook-text" data-t="hook">Scopri per prima le date e accedi alla prevendita esclusiva.</p>
+
+      <div id="fform">
+        <div class="pill-box">
+          <input type="email" id="fe"
+                 placeholder="la tua email"
+                 data-tp="pe"
+                 autocomplete="email"
+                 aria-label="Indirizzo email"/>
+          <button type="button" onclick="sub()" data-t="cta">Avvisami</button>
+        </div>
+        <p class="fine-print">
+          <span data-t="n1">Nessuno spam</span>
+          <span data-t="n2">Solo notizie ufficiali</span>
+          <span data-t="n3">Cancellazione in qualsiasi momento</span>
+        </p>
       </div>
+
+      <!-- Stato conferma -->
+      <div class="form-ok" id="fok">
+        <div class="ok-ico">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p data-t="okt">Sei nella lista ufficiale.</p>
+        <small data-t="oks">Ti scriveremo per accedere alla prevendita prima di tutti.</small>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 4. Partners & Production Footer (LOGHI UFFICIALI AD ALTA DEFINIZIONE) -->
+  <footer class="partners-footer">
+    <!-- Laserman Industries + Andrea Prince -->
+    <div class="partner-item">
+      <img class="partner-logo-img" src="logo-laserman-official.png" alt="A Production By Lasermán Industries Andrea Prince"/>
+    </div>
+
+    <!-- Official Radio Partner RTL 102.5 -->
+    <div class="rtl-wrap">
+      <img class="partner-logo-img" style="height:clamp(42px, 5.2vh, 60px);" src="logo-rtl-official.png" alt="Official Radio Partner RTL 102.5"/>
+    </div>
+
+    <!-- Atlantico Roma -->
+    <div class="partner-item">
+      <img class="partner-logo-img" src="logo-atlantico-official.png" alt="Atlantico Roma"/>
+    </div>
+  </footer>
+
+</main>
+
+<!-- Modal: Acquista Ticket -->
+<div class="modal-backdrop" id="ticketModal" onclick="closeModalOnBg(event, 'ticketModal')">
+  <div class="modal-window">
+    <button class="modal-close" onclick="closeModal('ticketModal')">&times;</button>
+    <h3 class="modal-title" data-t="modalTicketTitle">BIGLIETTI & PREVENDITA</h3>
+    <p class="modal-desc" data-t="modalTicketDesc">
+      L'Official Hologram Concert si terrà a Roma @ Atlantico il 28 Dicembre 2026. Gli iscritti alla lista hanno diritto all'accesso anticipato con posti riservati.
+    </p>
+    
+    <div class="ticket-tiers">
+      <div class="tier-item">
+        <div>
+          <div class="tier-name">VIP HOLOGRAM EXPERIENCE</div>
+          <div class="tier-info">Prime file fronte palco + Pass commemorativo + Ingresso VIP</div>
+        </div>
+        <span class="tier-tag">PREVENDITA RISERVATA</span>
+      </div>
+      <div class="tier-item">
+        <div>
+          <div class="tier-name">PARTERRE GOLD</div>
+          <div class="tier-info">Parterre numerato ad alta visibilità ologramma</div>
+        </div>
+        <span class="tier-tag">PRIORITÀ FAN</span>
+      </div>
+      <div class="tier-item">
+        <div>
+          <div class="tier-name">POSTO UNICO</div>
+          <div class="tier-info">Accesso standard concerto</div>
+        </div>
+        <span class="tier-tag">EARLY BIRD</span>
+      </div>
+    </div>
+
+    <button class="btn-buy-ticket" onclick="focusEmailAndClose('ticketModal')">
+      <span data-t="modalTicketBtn">ISCRIVITI PER ACCEDERE ALLA PREVENDITA</span>
     </button>
   </div>
 </div>
 
-<div class="page">
-
-  <div class="col-img" role="img" aria-label="Raffaella Carrà – Live From Heaven – Official Hologram Concert">
-    <div class="img-stack">
-      <div class="img-header">
-        <img src="header.png" alt="Raffaella – Live From Heaven" loading="eager" fetchpriority="high"/>
-      </div>
-      <div class="img-body">
-        <img src="body.png" alt="Raffaella Carrà" loading="eager"/>
-      </div>
-      <div class="img-footer">
-        <img src="footer.png" alt="Official Hologram Concert" loading="eager"/>
-      </div>
+<!-- Modal: Merchandising -->
+<div class="modal-backdrop" id="merchModal" onclick="closeModalOnBg(event, 'merchModal')">
+  <div class="modal-window">
+    <button class="modal-close" onclick="closeModal('merchModal')">&times;</button>
+    <h3 class="modal-title" data-t="modalMerchTitle">OFFICIAL STORE</h3>
+    <p class="modal-desc" data-t="modalMerchDesc">
+      La capsule collection ufficiale "The Show Must Go On" è in produzione. T-shirt olografiche, Cyber Bomber Jacket e il vinile esclusivo da collezione saranno disponibili in anteprima per i fan iscritti.
+    </p>
+    <div style="text-align:center; padding:15px; background:rgba(212,175,55,0.08); border:1px dashed var(--gold); border-radius:8px; margin-bottom:20px;">
+      <span style="font-family:'Cinzel',serif; color:var(--gold2); font-size:14px; letter-spacing:2px;">SCONTO 15% SUL PRIMO ORDINE PER GLI ISCRITTI</span>
     </div>
+    <button class="btn-buy-ticket" onclick="focusEmailAndClose('merchModal')">
+      <span data-t="modalMerchBtn">NOTIFICAMI AL LANCIO</span>
+    </button>
   </div>
-
-  <main class="col-form" aria-labelledby="slogan">
-    <div class="form-inner">
-
-      <p class="slogan" id="slogan">PREPARATI A FARE RUMORE</p>
-
-      <p class="hook" data-t="hook">Scopri per prima le date dei concerti ufficiali.</p>
-
-      <div class="pill-wrap">
-        <div id="fform">
-          <div class="pill">
-            <input type="email" id="fe"
-                   placeholder="la tua email"
-                   data-tp="pe"
-                   autocomplete="email"
-                   aria-label="Indirizzo email"/>
-            <button type="button" onclick="sub()" data-t="cta">Avvisami</button>
-          </div>
-          <p class="fine">
-            <span data-t="n1">Nessuno spam</span>
-            <span data-t="n2">Solo notizie ufficiali</span>
-            <span data-t="n3">Cancellazione in qualsiasi momento</span>
-          </p>
-        </div>
-        <div class="form-ok" id="fok">
-          <div class="ok-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <p data-t="okt">Sei nella lista.</p>
-          <small data-t="oks">Ti scriveremo con le novità ufficiali.</small>
-        </div>
-      </div>
-
-
-    </div>
-  </main>
 </div>
 
 <script>
-/* ── TRANSLATIONS ── */
+/* ── MULTI-LANGUAGE TRANSLATIONS ── */
 var T = {
-  it:{ hook:"Scopri per prima le date dei concerti ufficiali.", pe:"la tua email", cta:"Avvisami", n1:"Nessuno spam", n2:"Solo notizie ufficiali", n3:"Cancellazione in qualsiasi momento", okt:"Sei nella lista.", oks:"Ti scriveremo con le novità ufficiali.", cntlabel:" fan in lista" },
-  en:{ hook:"Be the first to discover the official concert dates.", pe:"your@email.com", cta:"Notify Me", n1:"No spam", n2:"Official news only", n3:"Unsubscribe anytime", okt:"You're on the list.", oks:"We'll be in touch with official news.", cntlabel:" fans on the list" },
-  es:{ hook:"Descubre primero las fechas de los conciertos oficiales.", pe:"tu@email.com", cta:"Avísame", n1:"Sin spam", n2:"Solo noticias oficiales", n3:"Baja cuando quieras", okt:"Estás en la lista.", oks:"Te escribiremos con las novedades.", cntlabel:" fans en la lista" },
-  pt:{ hook:"Sê o primeiro a descobrir as datas dos concertos oficiais.", pe:"o.teu@email.com", cta:"Avisa-me", n1:"Sem spam", n2:"Só notícias oficiais", n3:"Cancela quando quiseres", okt:"Estás na lista.", oks:"Vamos escrever-te com as novidades.", cntlabel:" fãs na lista" },
-  de:{ hook:"Entdecke als Erster die offiziellen Konzerttermine.", pe:"deine@email.de", cta:"Benachrichtigen", n1:"Kein Spam", n2:"Nur offizielle News", n3:"Jederzeit abmeldbar", okt:"Du bist auf der Liste.", oks:"Wir schreiben dir mit den Neuigkeiten.", cntlabel:" Fans auf der Liste" },
-  fr:{ hook:"Découvrez en avant-première les dates des concerts officiels.", pe:"votre@email.fr", cta:"Me prévenir", n1:"Aucun spam", n2:"Nouvelles officielles", n3:"Désinscription à tout moment", okt:"Vous êtes sur la liste.", oks:"Nous vous écrirons avec les nouvelles.", cntlabel:" fans sur la liste" }
+  it: {
+    navHome: "HOME",
+    navBuyTicket: "🎟️ ACQUISTA TICKET",
+    navMerch: "MERCHANDISING",
+    badgeSoon: "SOON",
+    subHolo: "OFFICIAL HOLOGRAM CONCERT",
+    eventDate: "28 DICEMBRE 2026",
+    ctaTicket: "ACQUISTA TICKET",
+    hook: "Scopri per prima le date e accedi alla prevendita esclusiva.",
+    pe: "la tua email",
+    cta: "Avvisami",
+    n1: "Nessuno spam",
+    n2: "Solo notizie ufficiali",
+    n3: "Cancellazione in qualsiasi momento",
+    okt: "Sei nella lista ufficiale.",
+    oks: "Ti scriveremo per accedere alla prevendita prima di tutti.",
+    cntlabel: "fan in lista",
+    modalTicketTitle: "BIGLIETTI & PREVENDITA",
+    modalTicketDesc: "L'Official Hologram Concert si terrà a Roma @ Atlantico il 28 Dicembre 2026. Gli iscritti alla lista hanno diritto all'accesso anticipato con posti riservati.",
+    modalTicketBtn: "ISCRIVITI PER ACCEDERE ALLA PREVENDITA",
+    modalMerchTitle: "OFFICIAL STORE",
+    modalMerchDesc: "La capsule collection ufficiale 'The Show Must Go On' è in produzione. T-shirt olografiche, Cyber Bomber Jacket e vinile da collezione in edizione limitata.",
+    modalMerchBtn: "NOTIFICAMI AL LANCIO"
+  },
+  en: {
+    navHome: "HOME",
+    navBuyTicket: "🎟️ BUY TICKETS",
+    navMerch: "MERCHANDISE",
+    badgeSoon: "SOON",
+    subHolo: "OFFICIAL HOLOGRAM CONCERT",
+    eventDate: "DECEMBER 28, 2026",
+    ctaTicket: "BUY TICKETS",
+    hook: "Be the first to access exclusive pre-sales and official tour dates.",
+    pe: "your@email.com",
+    cta: "Notify Me",
+    n1: "No spam",
+    n2: "Official news only",
+    n3: "Unsubscribe anytime",
+    okt: "You're on the official list.",
+    oks: "We will email you with priority pre-sale ticket access.",
+    cntlabel: "fans on the list",
+    modalTicketTitle: "TICKETS & PRE-SALE",
+    modalTicketDesc: "The Official Hologram Concert takes place in Rome @ Atlantico on December 28, 2026. Pre-sale members receive early access with priority seating.",
+    modalTicketBtn: "JOIN LIST FOR EARLY ACCESS",
+    modalMerchTitle: "OFFICIAL STORE",
+    modalMerchDesc: "The exclusive tour collection 'The Show Must Go On' is coming soon. Hologram tour tees, cyber bomber jackets, and limited edition vinyl.",
+    modalMerchBtn: "NOTIFY ME ON LAUNCH"
+  },
+  es: {
+    navHome: "INICIO",
+    navBuyTicket: "🎟️ COMPRAR ENTRADAS",
+    navMerch: "MERCHANDISING",
+    badgeSoon: "PRONTO",
+    subHolo: "OFFICIAL HOLOGRAM CONCERT",
+    eventDate: "28 DICIEMBRE 2026",
+    ctaTicket: "COMPRAR ENTRADAS",
+    hook: "Descubre primero las fechas y accede a la preventa exclusiva.",
+    pe: "tu@email.com",
+    cta: "Avísame",
+    n1: "Sin spam",
+    n2: "Solo noticias oficiales",
+    n3: "Baja cuando quieras",
+    okt: "Estás en la lista oficial.",
+    oks: "Te escribiremos con acceso prioritario a las entradas.",
+    cntlabel: "fans en la lista",
+    modalTicketTitle: "ENTRADAS Y PREVENTA",
+    modalTicketDesc: "El Official Hologram Concert tendrá lugar en Roma @ Atlantico el 28 de diciembre de 2026. Acceso prioritario para inscritos.",
+    modalTicketBtn: "UNIRME PARA LA PREVENTA",
+    modalMerchTitle: "TIENDA OFICIAL",
+    modalMerchDesc: "La colección oficial del tour 'The Show Must Go On' llegará muy pronto con camisetas holográficas y ediciones de vinilo limitadas.",
+    modalMerchBtn: "AVÍSAME AL LANZAMIENTO"
+  },
+  pt: {
+    navHome: "INÍCIO",
+    navBuyTicket: "🎟️ COMPRAR BILHETES",
+    navMerch: "MERCHANDISING",
+    badgeSoon: "BREVE",
+    subHolo: "OFFICIAL HOLOGRAM CONCERT",
+    eventDate: "28 DEZEMBRO 2026",
+    ctaTicket: "COMPRAR BILHETES",
+    hook: "Sê o primeiro a aceder à pré-venda exclusiva e datas oficiais.",
+    pe: "o.teu@email.com",
+    cta: "Avisa-me",
+    n1: "Sem spam",
+    n2: "Só notícias oficiais",
+    n3: "Cancela quando quiseres",
+    okt: "Estás na lista oficial.",
+    oks: "Vamos escrever-te com acesso prioritário aos bilhetes.",
+    cntlabel: "fãs na lista",
+    modalTicketTitle: "BILHETES E PRÉ-VENDA",
+    modalTicketDesc: "O Concerto Oficial Holograma terá lugar em Roma @ Atlantico a 28 de Dezembro de 2026.",
+    modalTicketBtn: "ADERIR À PRÉ-VENDA",
+    modalMerchTitle: "LOJA OFICIAL",
+    modalMerchDesc: "Coleção exclusiva 'The Show Must Go On' disponível em breve.",
+    modalMerchBtn: "AVISAR NO LANÇAMENTO"
+  },
+  de: {
+    navHome: "HOME",
+    navBuyTicket: "🎟️ TICKETS KAUFEN",
+    navMerch: "MERCHANDISE",
+    badgeSoon: "BALD",
+    subHolo: "OFFICIAL HOLOGRAM CONCERT",
+    eventDate: "28. DEZEMBER 2026",
+    ctaTicket: "TICKETS KAUFEN",
+    hook: "Erfahre als Erster die Termine und sichere dir exklusiven Vorverkaufs-Zugang.",
+    pe: "deine@email.de",
+    cta: "Benachrichtigen",
+    n1: "Kein Spam",
+    n2: "Nur offizielle News",
+    n3: "Jederzeit abmeldbar",
+    okt: "Du bist auf der offiziellen Liste.",
+    oks: "Wir schreiben dir mit exklusivem Ticket-Vorverkauf.",
+    cntlabel: "Fans auf der Liste",
+    modalTicketTitle: "TICKETS & VORVERKAUF",
+    modalTicketDesc: "Das Official Hologram Concert findet in Rom @ Atlantico am 28. Dezember 2026 statt.",
+    modalTicketBtn: "FÜR VORVERKAUF ANMELDEN",
+    modalMerchTitle: "OFFIZIELLER STORE",
+    modalMerchDesc: "Die exklusive Tourkollektion 'The Show Must Go On' erscheint in Kürze.",
+    modalMerchBtn: "BEI START BENACHRICHTIGEN"
+  },
+  fr: {
+    navHome: "ACCUEIL",
+    navBuyTicket: "🎟️ ACHETER BILLETS",
+    navMerch: "MERCHANDISING",
+    badgeSoon: "BIENTÔT",
+    subHolo: "OFFICIAL HOLOGRAM CONCERT",
+    eventDate: "28 DÉCEMBRE 2026",
+    ctaTicket: "ACHETER BILLETS",
+    hook: "Accédez en avant-première aux préventes et aux dates de concerts officiels.",
+    pe: "votre@email.fr",
+    cta: "Me prévenir",
+    n1: "Aucun spam",
+    n2: "Nouvelles officielles",
+    n3: "Désinscription à tout moment",
+    okt: "Vous êtes sur la liste officielle.",
+    oks: "Nous vous écrirons avec un accès prioritaire à la billetterie.",
+    cntlabel: "fans sur la liste",
+    modalTicketTitle: "BILLETS & PRÉVENTE",
+    modalTicketDesc: "L'Official Hologram Concert aura lieu à Rome @ Atlantico le 28 Décembre 2026.",
+    modalTicketBtn: "REJOINDRE LA PRÉVENTE",
+    modalMerchTitle: "BOUTIQUE OFFICIELLE",
+    modalMerchDesc: "La collection officielle du tour 'The Show Must Go On' arrive très bientôt.",
+    modalMerchBtn: "ME PRÉVENIR AU LANCEMENT"
+  }
 };
+
 var lang = 'it';
 function L(l) {
   lang = l;
   document.documentElement.lang = l;
   var t = T[l];
-  document.querySelectorAll('[data-t]').forEach(function(el){ var k=el.getAttribute('data-t'); if(t[k]!==undefined) el.innerHTML=t[k]; });
-  document.querySelectorAll('[data-tp]').forEach(function(el){ var k=el.getAttribute('data-tp'); if(t[k]) el.placeholder=t[k]; });
-  document.querySelectorAll('.lb').forEach(function(b){ b.classList.toggle('on', b.textContent===l.toUpperCase()); });
+  if (!t) return;
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    var k = el.getAttribute('data-t');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  document.querySelectorAll('[data-tp]').forEach(function(el){
+    var k = el.getAttribute('data-tp');
+    if (t[k]) el.placeholder = t[k];
+  });
+  document.querySelectorAll('.lb').forEach(function(b){
+    b.classList.toggle('on', b.textContent === l.toUpperCase());
+  });
   var lbl = document.getElementById('cnt-label');
   if (lbl && t.cntlabel) lbl.textContent = t.cntlabel;
 }
 
-/* ── STARS ── */
+/* ── INTERACTIVE 3D PARALLAX (MOUSE / MOBILE GYROSCOPE) ── */
+(function() {
+  var stage = document.getElementById('visualStage');
+  var raffa = document.getElementById('charBox');
+  var marquee = document.getElementById('marqueeBox');
+  var sig = document.getElementById('sigBox');
+  if (!stage) return;
+
+  var targetX = 0, targetY = 0;
+  var currentX = 0, currentY = 0;
+
+  window.addEventListener('mousemove', function(e) {
+    var cx = window.innerWidth / 2;
+    var cy = window.innerHeight / 2;
+    targetX = (e.clientX - cx) / cx;
+    targetY = (e.clientY - cy) / cy;
+  }, { passive: true });
+
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', function(e) {
+      if (e.gamma !== null && e.beta !== null) {
+        targetX = Math.min(1, Math.max(-1, e.gamma / 25));
+        targetY = Math.min(1, Math.max(-1, (e.beta - 45) / 25));
+      }
+    }, { passive: true });
+  }
+
+  function updateParallax() {
+    currentX += (targetX - currentX) * 0.06;
+    currentY += (targetY - currentY) * 0.06;
+
+    if (raffa) {
+      raffa.style.transform = 'translate3d(calc(-50% + ' + (currentX * 16) + 'px), ' + (currentY * 5) + 'px, 0)';
+    }
+    if (marquee) {
+      marquee.style.transform = 'translate3d(calc(-50% + ' + (-currentX * 7) + 'px), ' + (-currentY * 2.5) + 'px, 0)';
+    }
+    if (sig) {
+      sig.style.transform = 'translate3d(' + (-currentX * 11) + 'px, ' + (-currentY * 4) + 'px, 0)';
+    }
+
+    requestAnimationFrame(updateParallax);
+  }
+  requestAnimationFrame(updateParallax);
+})();
+
+/* ── MODAL SYSTEM ── */
+function openModal(id) {
+  var m = document.getElementById(id);
+  if (m) m.classList.add('active');
+}
+function closeModal(id) {
+  var m = document.getElementById(id);
+  if (m) m.classList.remove('active');
+}
+function closeModalOnBg(e, id) {
+  if (e.target && e.target.id === id) closeModal(id);
+}
+function focusEmailAndClose(id) {
+  closeModal(id);
+  var em = document.getElementById('fe');
+  if (em) {
+    em.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(function(){
+      em.focus();
+      if (em.parentElement) {
+        em.parentElement.style.borderColor = 'var(--gold2)';
+        em.parentElement.style.boxShadow = '0 0 25px rgba(212,175,55,0.6)';
+        setTimeout(function(){
+          em.parentElement.style.borderColor = '';
+          em.parentElement.style.boxShadow = '';
+        }, 1500);
+      }
+    }, 400);
+  }
+}
+function toggleMobileMenu() {
+  var d = document.getElementById('mobileDrawer');
+  if (d) d.classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var d = document.getElementById('mobileDrawer');
+  var btn = document.querySelector('.mobile-menu-btn');
+  if (d && d.classList.contains('open')) {
+    if (!d.contains(e.target) && !btn.contains(e.target)) {
+      d.classList.remove('open');
+    }
+  }
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeModal('ticketModal');
+    closeModal('merchModal');
+    var d = document.getElementById('mobileDrawer');
+    if (d) d.classList.remove('open');
+  }
+});
+
+/* ── INTERACTIVE 360° STARBURST CONCERT LASER ENGINE ── */
+(function() {
+  var canvas = document.getElementById('laser-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var width, height;
+  var lasers = [];
+  var mouseX = 0, mouseY = 0;
+  var time = 0;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    initLasers();
+  }
+
+  var colors = ['#FF1E4B', '#00D4FF', '#00FF88', '#FF6200', '#FFDF00', '#C026D3'];
+
+  function initLasers() {
+    lasers = [];
+    var count = window.innerWidth < 768 ? 10 : 16;
+    for (var i = 0; i < count; i++) {
+      var angleFraction = i / count;
+      var targetAngle = angleFraction * Math.PI * 2;
+      lasers.push({
+        baseAngle: targetAngle,
+        speed: 0.0008 + (i % 3) * 0.0006,
+        color: colors[i % colors.length],
+        alpha: 0.22 + Math.random() * 0.35,
+        dist: Math.max(width, height) * 1.2,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  window.addEventListener('mousemove', function(e) {
+    var cx = width / 2;
+    var cy = height / 2;
+    mouseX = (e.clientX - cx) / cx * 40;
+    mouseY = (e.clientY - cy) / cy * 25;
+  }, { passive: true });
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    time += 0.015;
+
+    // Origin: behind Raffaella's head
+    var ox = width / 2 + mouseX * 0.4 + Math.sin(time * 0.5) * 8;
+    var oy = height * 0.22 + mouseY * 0.4;
+
+    // Soft spotlight halo behind her head
+    var haloRadius = Math.min(width, height) * 0.38;
+    var haloGrad = ctx.createRadialGradient(ox, oy, 15, ox, oy, haloRadius);
+    haloGrad.addColorStop(0, 'rgba(255, 30, 75, 0.16)');
+    haloGrad.addColorStop(0.35, 'rgba(0, 212, 255, 0.09)');
+    haloGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.beginPath();
+    ctx.arc(ox, oy, haloRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Render Laser Beams
+    lasers.forEach(function(l, idx) {
+      var curAngle = l.baseAngle + Math.sin(time * 0.6 + l.phase) * 0.28 + (mouseX / width) * 0.4;
+      var tx = ox + Math.cos(curAngle) * l.dist;
+      var ty = oy + Math.sin(curAngle) * l.dist;
+      var beamAlpha = l.alpha * (0.65 + Math.sin(time * 2 + idx) * 0.35);
+
+      // Pass 1: Diffuse colored laser corona
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(ox, oy);
+      ctx.lineTo(tx, ty);
+      ctx.strokeStyle = l.color;
+      ctx.globalAlpha = beamAlpha * 0.45;
+      ctx.lineWidth = idx % 2 === 0 ? 5 : 3.5;
+      ctx.shadowBlur = 22;
+      ctx.shadowColor = l.color;
+      ctx.stroke();
+      ctx.restore();
+
+      // Pass 2: Razor-thin bright white-hot laser core
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(ox, oy);
+      ctx.lineTo(tx, ty);
+      ctx.strokeStyle = '#ffffff';
+      ctx.globalAlpha = beamAlpha * 0.85;
+      ctx.lineWidth = 1.2;
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = l.color;
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ── STARS & SPARKS ── */
 (function() {
   var c = document.getElementById('stars-global');
   if (!c) return;
   var mobile = window.innerWidth < 768;
-  var n = mobile ? 160 : 500;
+  var n = mobile ? 100 : 250;
 
-  for (var i=0; i<n; i++) {
+  for (var i = 0; i < n; i++) {
     var el = document.createElement('div');
     el.className = 's';
     var r = Math.random(), s, op;
-    if (r<.60)      { s=0.4+Math.random()*.8;  op=0.2+Math.random()*.4; }
-    else if (r<.85) { s=1.0+Math.random()*1.5; op=0.35+Math.random()*.45; }
-    else            { s=2.2+Math.random()*2.5;  op=0.5+Math.random()*.4; }
-    var glow = s*6;
-    el.style.cssText = 'left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;width:'+s+'px;height:'+s+'px;--d:'+(0.9+Math.random()*4)+'s;--dl:'+(Math.random()*11)+'s;--op:'+op+';box-shadow:0 0 '+glow+'px rgba(255,248,210,'+op+'),0 0 '+(glow*3)+'px rgba(232,196,106,'+(op*.5)+');';
+    if (r < 0.6) { s = 0.5 + Math.random() * 0.8; op = 0.2 + Math.random() * 0.4; }
+    else if (r < 0.88) { s = 1.2 + Math.random() * 1.5; op = 0.35 + Math.random() * 0.45; }
+    else { s = 2.4 + Math.random() * 2.5; op = 0.5 + Math.random() * 0.4; }
+    var glow = s * 5;
+    el.style.cssText = 'left:' + Math.random() * 100 + '%;top:' + Math.random() * 100 + '%;width:' + s + 'px;height:' + s + 'px;--d:' + (1 + Math.random() * 4) + 's;--dl:' + (Math.random() * 8) + 's;--op:' + op + ';box-shadow:0 0 ' + glow + 'px rgba(255,248,210,' + op + '),0 0 ' + (glow * 2) + 'px rgba(212,175,55,' + (op * .5) + ');';
     c.appendChild(el);
   }
-
-  // shooting stars — desktop only
-  if (!mobile) {
-    function shoot() {
-      var el = document.createElement('div');
-      var dur = 0.5+Math.random()*0.8;
-      el.style.cssText = 'position:absolute;left:'+Math.random()*75+'%;top:'+Math.random()*45+'%;width:'+(80+Math.random()*160)+'px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,245,200,.85) 55%,#fff);border-radius:2px;transform:rotate('+(18+Math.random()*22)+'deg);box-shadow:0 0 5px rgba(255,235,150,.9);opacity:0;animation:shoot '+dur+'s ease-out forwards;';
-      c.appendChild(el);
-      setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, dur*1000+200);
-    }
-    setInterval(function(){ if(Math.random()>.4) shoot(); }, 2000);
-    setTimeout(shoot, 1000);
-  }
-
-  // sparks in form
-  var form = document.querySelector('.col-form');
-  if (form) {
-    var sc = document.createElement('div');
-    sc.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;';
-    form.insertBefore(sc, form.firstChild);
-    var ns = mobile ? 12 : 30;
-    for (var j=0; j<ns; j++) {
-      var sp = document.createElement('div');
-      sp.className = 'spk';
-      var s2=0.8+Math.random()*3, tx=(Math.random()-.5)*80, ty=-(50+Math.random()*180), glow2=s2*5;
-      sp.style.cssText = 'left:'+(5+Math.random()*90)+'%;bottom:'+(Math.random()*50)+'%;width:'+s2+'px;height:'+s2+'px;--d:'+(2.5+Math.random()*7)+'s;--dl:'+(Math.random()*12)+'s;--tx:'+tx+'px;--ty:'+ty+'px;box-shadow:0 0 '+glow2+'px rgba(255,235,150,1),0 0 '+(glow2*3)+'px rgba(200,146,42,.5);';
-      sc.appendChild(sp);
-    }
-  }
 })();
 
-/* ── SLOGAN FIT — canvas measurement, works on all devices & resolutions ── */
-(function() {
-  var el = document.querySelector('.slogan');
-  if (!el) return;
-  var TEXT = el.textContent.trim();
-  var canvas = document.createElement('canvas');
-  var ctx = canvas.getContext('2d');
-
-  function getContainerWidth() {
-    /* Usa il form-inner (max-width 540px) come riferimento corretto */
-    var inner = document.querySelector('.form-inner');
-    var col   = document.querySelector('.col-form');
-    var ref   = inner || col || el.parentElement;
-    /* offsetWidth già rispetta max-width */
-    return ref.offsetWidth - 16; /* 8px margine per lato */
-  }
-
-  function measureAt(fontSize) {
-    ctx.font = fontSize + 'px "Bebas Neue", sans-serif';
-    return ctx.measureText(TEXT).width;
-  }
-
-  function applyFit() {
-    var pw = getContainerWidth();
-    if (!pw || pw < 10) return;
-    var w1 = measureAt(1);
-    if (!w1 || w1 <= 0) return;
-    /* font-size ideale = larghezza disponibile / larghezza testo a 1px */
-    var ideal = pw / w1;
-    /* margine sicurezza 4% + clamp */
-    ideal = Math.floor(ideal * 0.96);
-    ideal = Math.max(10, Math.min(60, ideal));
-    el.style.fontSize = ideal + 'px';
-    el.style.letterSpacing = '0';
-  }
-
-  /* Aspetta font poi applica — più tentativi per dispositivi lenti */
-  if (document.fonts && document.fonts.load) {
-    document.fonts.load('40px "Bebas Neue"').then(applyFit).catch(applyFit);
-  }
-  [0, 80, 200, 500, 1000, 2000].forEach(function(t) { setTimeout(applyFit, t); });
-  window.addEventListener('resize', applyFit);
-})();
-
-/* ── FORM ── */
-/* ── FORM SUBMIT CON INVIO EMAIL ── */
+/* ── EMAIL SUBSCRIPTION VIA API ── */
 async function sub() {
   var em = document.getElementById('fe');
   var formDiv = document.getElementById('fform');
   var btn = formDiv.querySelector('button');
 
-  // Controllo base validità
   if (!em.value || em.value.indexOf('@') < 0) {
-    em.style.outline = '1px solid rgba(210,70,70,.5)';
+    em.style.outline = '2px solid rgba(255,30,75,0.7)';
     em.focus();
-    setTimeout(function(){ em.style.outline=''; }, 1500);
+    setTimeout(function(){ em.style.outline = ''; }, 1600);
     return;
   }
 
-  // Feedback visivo di caricamento
   var originalText = btn.innerHTML;
   btn.innerHTML = 'ATTENDI...';
   btn.disabled = true;
 
   try {
-    // Invia l'email alla nostra Cloudflare Function
     var response = await fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -537,29 +1610,42 @@ async function sub() {
     });
 
     if (response.ok) {
-      // Successo! Mostra il messaggio di ringraziamento
+      try { localStorage.setItem('carra_subscribed', 'true'); } catch(e){}
       formDiv.style.display = 'none';
       document.getElementById('fok').style.display = 'flex';
+      var cntEl = document.getElementById('cnt');
+      if (cntEl) {
+        var cur = parseInt(cntEl.textContent.replace(/[^0-9]/g, '')) || 6000;
+        cntEl.textContent = (cur + 1).toLocaleString('it-IT') + '+';
+      }
     } else {
       throw new Error('Errore server');
     }
   } catch (e) {
     console.error(e);
-    // In caso di errore, rimetti il pulsante a posto e fai riprovare l'utente
     btn.innerHTML = originalText;
     btn.disabled = false;
     alert("C'è stato un piccolo errore tecnico. Riprova tra qualche istante!");
   }
 }
-document.getElementById('fe').addEventListener('keydown', function(e){ if(e.key==='Enter') sub(); });
+document.getElementById('fe').addEventListener('keydown', function(e){ if (e.key === 'Enter') sub(); });
 
-/* ── CONTATORE VISITATORI — aumenta di 1 ad ogni visita, localStorage ── */
-/* ── CONTATORE VISITATORI — da Cloudflare Worker ── */
+// Check existing subscription
+try {
+  if (localStorage.getItem('carra_subscribed') === 'true') {
+    var fform = document.getElementById('fform');
+    var fok = document.getElementById('fok');
+    if (fform && fok) {
+      fform.style.display = 'none';
+      fok.style.display = 'flex';
+    }
+  }
+} catch(e){}
+
+/* ── CONTATORE VISITATORI / PREVENDITA ── */
 (async function() {
   var BASE = 6000;
   var el = document.getElementById('cnt');
-
-  // Funzione di formattazione originale (intatta)
   function fmt(n) {
     if (n >= 1000) {
       var t = Math.floor(n / 1000);
@@ -571,24 +1657,19 @@ document.getElementById('fe').addEventListener('keydown', function(e){ if(e.key=
   }
 
   try {
-    // URL DEL TUO WORKER CLOUDFLARE (lo inserirai nella Fase 3)
-var response = await fetch('/api/counter');    
+    var response = await fetch('/api/counter');
     if (response.ok) {
       var data = await response.json();
-      if (el && data.count) {
-        el.textContent = fmt(data.count);
-      }
+      if (el && data.count) el.textContent = fmt(data.count);
     } else {
-      throw new Error('Risposta rete non ok');
+      throw new Error('Net err');
     }
   } catch (e) {
-    console.error('Errore nel caricamento del contatore:', e);
-    // Fallback di sicurezza: se il server è irraggiungibile, mostra la base
     if (el) el.textContent = fmt(BASE);
   }
 })();
 
-/* ── AUDIO — iOS + Android + Desktop, primo tocco ovunque ── */
+/* ── AUDIO BACKGROUND (rumore.mp4) ── */
 var abtn = document.getElementById('abtn');
 var snd = null;
 var playing = false;
@@ -615,7 +1696,6 @@ function doPlay() {
     p.then(function() {
       playing = true; abtn.classList.add('on'); fadeIn();
     }).catch(function() {
-      /* Android/Chrome a volte rigetta: riprova subito */
       setTimeout(function() {
         if (!snd) return;
         var p2 = snd.play();
@@ -639,15 +1719,12 @@ function doStop() {
   }, 60);
 }
 
-/* Pulsante musica — NO stopPropagation così l'evento arriva anche a document */
 abtn.addEventListener('pointerdown', function() {
-  started = true; /* marca come avviato manualmente */
+  started = true;
   if (playing) { doStop(); } else { doPlay(); }
 });
 
-/* Prima interazione OVUNQUE sulla pagina → parte la musica automaticamente.
-   Funziona su Android Chrome, iOS Safari, desktop.
-   Il listener è passive:true e once:true — non interferisce con nulla. */
+/* Autoplay al primo click/tocco ovunque */
 document.addEventListener('pointerdown', function() {
   if (started) return;
   started = true;
