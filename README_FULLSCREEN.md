@@ -1,8 +1,8 @@
 # CarraHologram — versione a schermata unica
 
-Home senza scroll, con locandina originale intera: verticale su schermi verticali e orizzontale sugli altri. I margini necessari ad altri rapporti di schermo sono riempiti da uno sfondo ambientale. Nessun rifacimento del volto o delle scritte.
+Home senza scroll composta da livelli HTML indipendenti: sfondo a copertura totale, insegna, figura originale scontornata, firma, titolo, sottotitolo, data e marchi dei partner. Le scritte principali provengono dai ritagli della locandina; il viso non è stato rigenerato. La locandina intera è disponibile solo per il download e l'anteprima social.
 
-Controlli: informazioni, audio su richiesta, sei lingue e biglietti. Informazioni e iscrizione si aprono in dialoghi. Animazioni leggere e rispetto di `prefers-reduced-motion`.
+La composizione si adatta allo schermo. Entrata progressiva, fasci luminosi leggeri e parallax discreto sui livelli con mouse; movimento disattivato con `prefers-reduced-motion`. Informazioni e iscrizione si aprono in dialoghi. Sei lingue e audio solo su richiesta.
 
 ## Aggiornare il sito esistente
 
@@ -11,6 +11,7 @@ Copia nella **radice del repository `carrahologram`, branch `new`**, i file cont
 I file modificati/aggiunti sono:
 - `index.html`, `concert.css`, `concert.js`, `site-config.js`
 - `poster-desktop.jpg`, `poster-mobile.jpg`, `vivaticket.png`
+- `stage-background.jpg` e tutte le immagini `scene-*.png`
 - questo documento
 
 Il pacchetto include anche `rumore.mp4`, `subscribers.html` e le funzioni API esistenti per avere i componenti del sito nello stesso archivio; questi file non sono stati modificati.
@@ -25,6 +26,6 @@ Quando il link è disponibile, inseriscilo in `site-config.js`, nel campo `ticke
 
 ## Verifiche svolte
 
-Browser Chromium: 1440×900, 390×844, 320×568, 768×1024, 844×390, 2560×1080. Verificati assenza di overflow, immagini, finestre, contenimento del focus, Escape, cambio delle sei lingue e riduzione del movimento. Modulo verificato con risposte simulate di successo ed errore, senza creare iscritti né inviare email. Le credenziali backend non sono state usate nei test.
+Browser Chromium: 1440×900, 390×844, 320×568, 768×1024, 844×390, 2560×1080. Verificati almeno otto elementi immagine distinti nella scena, assenza della locandina intera nella home, assenza di overflow, immagini, finestre, contenimento del focus, Escape, cambio delle sei lingue e riduzione del movimento. Modulo verificato con risposte simulate di successo ed errore, senza creare iscritti né inviare email. Le credenziali backend non sono state usate nei test.
 
 Per l'anteprima locale: `python3 -m http.server 8000`, poi apri `http://localhost:8000`. Le funzioni Cloudflare non vengono eseguite da questo server statico.

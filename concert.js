@@ -38,6 +38,23 @@
   get('language').addEventListener('change',e=>setLanguage(e.target.value));
   setLanguage(language);
 
+  // Pointer depth applies only to separate art layers; the original face is not distorted.
+  const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const pointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const scene = document.querySelector('.experience');
+  let frame = 0;
+  function resetDepth() { scene.style.setProperty('--px','0px'); scene.style.setProperty('--py','0px'); }
+  document.addEventListener('pointermove', event => {
+    if (motion.matches || !pointer.matches || document.querySelector('dialog[open]')) return;
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      scene.style.setProperty('--px', ((event.clientX / innerWidth - .5) * 9).toFixed(2)+'px');
+      scene.style.setProperty('--py', ((event.clientY / innerHeight - .5) * 5).toFixed(2)+'px');
+    });
+  }, {passive:true});
+  document.documentElement.addEventListener('pointerleave',resetDepth);
+  motion.addEventListener('change',resetDepth);
+
   // The native dialog provides focus containment, Escape and background inertness.
   function openDialog(id) {
     document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());

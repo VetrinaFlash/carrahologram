@@ -19,18 +19,24 @@
 <body>
   <main class="experience" aria-labelledby="event-title">
     <h1 id="event-title" class="sr-only">Raffaella Carrà — The Show Must Go On. Official Hologram Concert. 28 dicembre 2026, Atlantico Roma.</h1>
-    <picture class="ambient" aria-hidden="true">
-      <source media="(max-aspect-ratio: 1/1)" srcset="poster-mobile.jpg">
-      <img src="poster-desktop.jpg" alt="" decoding="async">
-    </picture>
-    <div class="stage">
-      <picture class="poster">
-        <source media="(max-aspect-ratio: 1/1)" srcset="poster-mobile.jpg" width="864" height="1536">
-        <img src="poster-desktop.jpg" width="1536" height="864" alt="Locandina originale: Raffaella Carrà, The Show Must Go On, Official Hologram Concert. 28 dicembre 2026, Atlantico Roma. Produzione Lasermán Industries, Andrea Prince. Radio partner RTL 102.5." fetchpriority="high" decoding="async">
-      </picture>
+    <img class="scene-background" src="stage-background.jpg" alt="" aria-hidden="true" fetchpriority="high">
+    <div class="scene-shade" aria-hidden="true"></div>
+    <div class="scene-lasers" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="scene-art" id="sceneArt">
+      <div class="stage-marquee"><img src="scene-name.png" alt="Raffaella Carrà" width="794" height="202" fetchpriority="high"></div>
+      <div class="character-layer"><img class="stage-character" src="scene-raffaella.png" alt="Raffaella Carrà" width="362" height="484" fetchpriority="high"></div>
+      <img class="stage-signature" src="scene-signature.png" alt="" aria-hidden="true">
     </div>
-    <div class="edge-light edge-light--pink" aria-hidden="true"></div>
-    <div class="edge-light edge-light--blue" aria-hidden="true"></div>
+    <div class="show-copy">
+      <img class="show-title" src="scene-title.png" width="1350" height="94" alt="The Show Must Go On.">
+      <img class="show-subtitle" src="scene-subtitle.png" width="882" height="34" alt="Official Hologram Concert">
+      <div class="show-date"><span aria-hidden="true"></span><img src="scene-date.png" width="481" height="45" alt="28 dicembre 2026"><span aria-hidden="true"></span></div>
+    </div>
+    <div class="scene-partners" aria-label="Produzione, radio partner e luogo del concerto">
+      <img class="production-mark" src="scene-production.png" alt="A production by Lasermán Industries, Andrea Prince">
+      <div class="radio-partner"><span>OFFICIAL RADIO PARTNER</span><img src="scene-rtl.png" alt="RTL 102.5"></div>
+      <div class="venue-mark"><img src="scene-atlantico.png" alt="Atlantico"><span>ROMA</span></div>
+    </div>
   </main>
 
   <header class="controls">
