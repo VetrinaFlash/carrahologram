@@ -267,36 +267,6 @@
   window.addEventListener('resize',schedulePoster);
   schedulePoster();
 
-  // Live countdown to 28 Ottobre
-  function updateCountdown() {
-    const targetConfig = window.CARRA_CONFIG?.countdownTarget || '2026-10-28T00:00:00+02:00';
-    let target = new Date(targetConfig);
-    const now = new Date();
-    if (isNaN(target.getTime())) {
-      target = new Date('2026-10-28T00:00:00+02:00');
-    }
-    let diff = Math.max(0, Math.floor((target.getTime() - now.getTime()) / 1000));
-    const d = Math.floor(diff / 86400);
-    diff %= 86400;
-    const h = Math.floor(diff / 3600);
-    diff %= 3600;
-    const m = Math.floor(diff / 60);
-    const s = diff % 60;
-
-    const pad = n => String(n).padStart(2, '0');
-    const elD = get('cdDays');
-    const elH = get('cdHours');
-    const elM = get('cdMins');
-    const elS = get('cdSecs');
-
-    if (elD && elD.textContent !== String(d)) elD.textContent = String(d);
-    if (elH && elH.textContent !== pad(h)) elH.textContent = pad(h);
-    if (elM && elM.textContent !== pad(m)) elM.textContent = pad(m);
-    if (elS && elS.textContent !== pad(s)) elS.textContent = pad(s);
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
   // ══ STELLINE ELEGANTI ISPIRATE A RAFFAELLACARRAOFFICIAL.COM ══
   (function initStars() {
     // 1. Sfondo stellato globale
@@ -334,16 +304,16 @@
       }
     }
 
-    // 2. Stelline e polvere d'oro raffinate concentrate attorno a RAFFAELLA CARRÀ
+    // 2. Stelline e polvere d'oro visibili e brillanti attorno a RAFFAELLA CARRÀ
     const letterStarsContainer = document.getElementById('carraLetterStars');
     if (letterStarsContainer) {
       const letterZones = [
-        // Sinistra attorno a R di RAFFAELLA
-        { xMin: 5,  xMax: 18, yMin: 5,  yMax: 24, count: 14 },
+        // Sinistra attorno alla R di RAFFAELLA (lato sinistro e base)
+        { xMin: 4,  xMax: 19, yMin: 4,  yMax: 25, count: 24 },
         // Destra attorno a CARRÀ e accento À
-        { xMin: 82, xMax: 96, yMin: 4,  yMax: 24, count: 16 },
-        // Polvere di stelle sopra la curvatura del titolo
-        { xMin: 18, xMax: 82, yMin: 4,  yMax: 14, count: 18 }
+        { xMin: 81, xMax: 97, yMin: 3,  yMax: 25, count: 28 },
+        // Sopra la curvatura e tra le lettere del titolo
+        { xMin: 18, xMax: 82, yMin: 4,  yMax: 16, count: 36 }
       ];
 
       letterZones.forEach(zone => {
@@ -351,33 +321,37 @@
           const star = document.createElement('div');
           star.className = 's';
           const r = Math.random();
-          let sz = r < 0.65 ? (0.8 + Math.random() * 0.8) : (1.6 + Math.random() * 0.9);
-          let op = 0.35 + Math.random() * 0.55;
-          let glow = sz * 4;
+          let sz;
+          if (r < 0.50)      sz = 1.2 + Math.random() * 1.0;
+          else if (r < 0.85) sz = 2.2 + Math.random() * 1.2;
+          else               sz = 3.4 + Math.random() * 1.2;
+
+          let op = 0.60 + Math.random() * 0.40;
+          let glow = sz * 3.5;
           let x = zone.xMin + Math.random() * (zone.xMax - zone.xMin);
           let y = zone.yMin + Math.random() * (zone.yMax - zone.yMin);
-          let dur = 1.4 + Math.random() * 3.0;
-          let delay = Math.random() * 6;
+          let dur = 1.3 + Math.random() * 2.8;
+          let delay = Math.random() * 5.5;
 
-          star.style.cssText = `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${dur.toFixed(2)}s;--dl:${delay.toFixed(2)}s;--op:${op.toFixed(2)};box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,248,210,${op.toFixed(2)}), 0 0 ${(glow * 2.5).toFixed(1)}px rgba(232,196,106,${(op * 0.6).toFixed(2)});`;
+          star.style.cssText = `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${dur.toFixed(2)}s;--dl:${delay.toFixed(2)}s;--op:${op.toFixed(2)};box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,255,255,0.95), 0 0 ${(glow * 2.2).toFixed(1)}px rgba(255,238,170,0.9), 0 0 ${(glow * 4).toFixed(1)}px rgba(232,196,106,0.65);`;
           letterStarsContainer.appendChild(star);
         }
       });
 
       // Risalita di scintille dorate (spk) morbide attorno alla scritta
-      for (let k = 0; k < 12; k++) {
+      for (let k = 0; k < 22; k++) {
         const spk = document.createElement('div');
         spk.className = 'spk';
-        const sz = 1.0 + Math.random() * 1.6;
-        const x = (k % 2 === 0) ? (6 + Math.random() * 14) : (80 + Math.random() * 15);
-        const y = 14 + Math.random() * 18;
-        const tx = (Math.random() - 0.5) * 35;
-        const ty = -(35 + Math.random() * 85);
+        const sz = 1.2 + Math.random() * 1.8;
+        const x = (k % 3 === 0) ? (5 + Math.random() * 15) : ((k % 3 === 1) ? (80 + Math.random() * 16) : (20 + Math.random() * 60));
+        const y = 12 + Math.random() * 16;
+        const tx = (Math.random() - 0.5) * 40;
+        const ty = -(40 + Math.random() * 95);
         const glow = sz * 4;
-        const dur = 3.2 + Math.random() * 4.2;
-        const delay = Math.random() * 8;
+        const dur = 3.0 + Math.random() * 3.8;
+        const delay = Math.random() * 7;
 
-        spk.style.cssText = `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${dur.toFixed(2)}s;--dl:${delay.toFixed(2)}s;--tx:${tx.toFixed(1)}px;--ty:${ty.toFixed(1)}px;box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,235,150,1), 0 0 ${(glow * 2).toFixed(1)}px rgba(200,146,42,0.6);`;
+        spk.style.cssText = `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${dur.toFixed(2)}s;--dl:${delay.toFixed(2)}s;--tx:${tx.toFixed(1)}px;--ty:${ty.toFixed(1)}px;box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,245,180,1), 0 0 ${(glow * 2.5).toFixed(1)}px rgba(232,196,106,0.75);`;
         letterStarsContainer.appendChild(spk);
       }
     }

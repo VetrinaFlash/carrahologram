@@ -1,9 +1,9 @@
 /* ==========================================================================
    RAFFAELLA CARRÀ — STELLINE ELEGANTI ISPIRATE A RAFFAELLACARRAOFFICIAL.COM
-   Stelline delicate, puntiformi, bagliore dorato naturale e micro-scintille.
+   Brillanti, vive, armoniose ed eleganti attorno al lettering "RAFFAELLA CARRÀ".
    ========================================================================== */
 
-/* ══ 1. SFONDO STELLATO GLOBALE (raffaellacarraofficial.com) ══ */
+/* ══ 1. SFONDO STELLATO GLOBALE ══ */
 #stars-global {
   position: fixed;
   inset: 0;
@@ -26,12 +26,12 @@
 
 @keyframes twinkle {
   0%, 100% {
-    opacity: 0;
-    transform: scale(0.3);
+    opacity: 0.1;
+    transform: scale(0.35);
   }
   50% {
-    opacity: var(--op, 0.85);
-    transform: scale(1);
+    opacity: var(--op, 0.95);
+    transform: scale(1.15);
   }
 }
 
@@ -41,9 +41,9 @@
   border-radius: 50%;
   opacity: 0;
   pointer-events: none;
-  background: radial-gradient(circle, #ffffff 0%, #f9edca 30%, #e8c46a 65%, transparent 100%);
+  background: radial-gradient(circle, #ffffff 0%, #fff2cb 25%, #e8c46a 60%, transparent 100%);
   will-change: opacity, transform;
-  animation: spkUp var(--d, 5s) var(--dl, 0s) ease-in infinite;
+  animation: spkUp var(--d, 4.5s) var(--dl, 0s) ease-in infinite;
 }
 
 @keyframes spkUp {
@@ -51,25 +51,25 @@
     opacity: 0;
     transform: translate(0, 0) scale(0.4);
   }
-  8% {
+  10% {
     opacity: 1;
   }
-  80% {
-    opacity: 0.45;
+  75% {
+    opacity: 0.65;
   }
   100% {
     opacity: 0;
-    transform: translate(var(--tx, 0px), var(--ty, -140px)) scale(0.08);
+    transform: translate(var(--tx, 0px), var(--ty, -150px)) scale(0.1);
   }
 }
 
 /* Stelle cadenti delicate */
 .shooting-star {
   position: absolute;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 245, 200, 0.85) 55%, #ffffff);
+  height: 1.5px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 245, 200, 0.9) 55%, #ffffff);
   border-radius: 2px;
-  box-shadow: 0 0 5px rgba(255, 235, 150, 0.9);
+  box-shadow: 0 0 6px rgba(255, 235, 150, 0.95);
   opacity: 0;
   pointer-events: none;
   animation: shoot var(--dur, 0.8s) ease-out forwards;
@@ -78,7 +78,7 @@
 @keyframes shoot {
   0%   { opacity: 0; transform: translateX(0); }
   10%  { opacity: 1; }
-  100% { opacity: 0; transform: translateX(200px); }
+  100% { opacity: 0; transform: translateX(220px); }
 }
 
 /* ══ 2. CLUSTER STELLINE ACCANTO ALLA SCRITTA "RAFFAELLA CARRÀ" ══ */
@@ -94,16 +94,16 @@
   mix-blend-mode: screen;
 }
 
-/* Micro-glints sui vertici chiave (10px–12px max, delicatissimi, non invadenti) */
+/* Micro-glints luminosi e cristallini sui vertici delle lettere (14px–18px) */
 .micro-glint {
   position: absolute;
-  width: var(--sz, 11px);
-  height: var(--sz, 11px);
+  width: var(--sz, 16px);
+  height: var(--sz, 16px);
   transform: translate(-50%, -50%);
   pointer-events: none;
   mix-blend-mode: screen;
   will-change: opacity, transform, filter;
-  animation: microTwinkle var(--d, 3.2s) var(--dl, 0s) ease-in-out infinite;
+  animation: microTwinkle var(--d, 3s) var(--dl, 0s) ease-in-out infinite;
 }
 
 .micro-glint svg {
@@ -115,54 +115,66 @@
 
 @keyframes microTwinkle {
   0%, 100% {
-    opacity: 0.12;
-    transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+    opacity: 0.18;
+    transform: translate(-50%, -50%) scale(0.65) rotate(0deg);
   }
   50% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.15) rotate(15deg);
-    filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 6px rgba(255, 238, 170, 0.85));
+    transform: translate(-50%, -50%) scale(1.22) rotate(18deg);
+    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 10px rgba(255, 238, 170, 0.95)) drop-shadow(0 0 18px rgba(232, 196, 106, 0.75));
   }
 }
 
-/* L'accento sulla À: leggermente più brillante con aura oro caldo */
+/* L'iconico accento sulla À di CARRÀ: il più vivo e brillante */
 .glint--accent {
-  animation: accentPulse 2.8s 0.2s ease-in-out infinite;
+  animation: accentPulse 2.6s 0.2s ease-in-out infinite;
 }
 
 @keyframes accentPulse {
   0%, 100% {
-    opacity: 0.2;
-    transform: translate(-50%, -50%) scale(0.65) rotate(-4deg);
+    opacity: 0.28;
+    transform: translate(-50%, -50%) scale(0.72) rotate(-5deg);
   }
   48% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.25) rotate(16deg);
-    filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px rgba(255, 238, 170, 0.9)) drop-shadow(0 0 16px rgba(232, 196, 106, 0.55));
+    transform: translate(-50%, -50%) scale(1.36) rotate(20deg);
+    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 14px rgba(255, 245, 210, 1)) drop-shadow(0 0 28px rgba(232, 196, 106, 0.85)) drop-shadow(0 0 40px rgba(237, 37, 69, 0.5));
   }
 }
 
-/* Coordinate Desktop per i micro-glint sui vertici della scritta */
+/* Coordinate Desktop per i micro-glint sui vertici della scritta (1536x864) */
 @media (min-aspect-ratio: 1001/1000) {
-  .glint--r-top   { left: 13.2%; top: 5.8%;  --sz: 11px; --d: 3.0s; --dl: 0.0s; }
-  .glint--r-bot   { left: 9.8%;  top: 21.8%; --sz: 10px; --d: 3.5s; --dl: 1.1s; }
-  .glint--c-apex  { left: 66.8%; top: 6.2%;  --sz: 11px; --d: 3.2s; --dl: 0.6s; }
-  .glint--accent  { left: 87.5%; top: 7.2%;  --sz: 13px; --d: 2.8s; --dl: 0.2s; }
-  .glint--a-foot  { left: 90.6%; top: 22.4%; --sz: 10px; --d: 3.4s; --dl: 1.8s; }
+  .glint--r-top   { left: 13.0%; top: 5.6%;  --sz: 18px; --d: 2.8s; --dl: 0.0s; }
+  .glint--r-bot   { left: 9.6%;  top: 22.0%; --sz: 16px; --d: 3.4s; --dl: 1.1s; }
+  .glint--a1-top  { left: 21.2%; top: 7.2%;  --sz: 14px; --d: 3.1s; --dl: 0.4s; }
+  .glint--f-top   { left: 28.8%; top: 7.8%;  --sz: 15px; --d: 2.9s; --dl: 1.5s; }
+  .glint--e-top   { left: 42.8%; top: 6.8%;  --sz: 14px; --d: 3.3s; --dl: 0.8s; }
+  .glint--ll-top  { left: 49.2%; top: 6.8%;  --sz: 14px; --d: 3.0s; --dl: 1.9s; }
+  .glint--c-apex  { left: 66.8%; top: 6.0%;  --sz: 17px; --d: 3.2s; --dl: 0.6s; }
+  .glint--c-bot   { left: 70.2%; top: 21.0%; --sz: 15px; --d: 3.5s; --dl: 1.4s; }
+  .glint--a2-top  { left: 75.8%; top: 10.6%; --sz: 15px; --d: 2.7s; --dl: 2.1s; }
+  .glint--accent  { left: 87.5%; top: 7.2%;  --sz: 21px; --d: 2.5s; --dl: 0.2s; }
+  .glint--a-foot  { left: 90.6%; top: 22.4%; --sz: 16px; --d: 3.2s; --dl: 1.7s; }
 }
 
-/* Coordinate Mobile per i micro-glint */
+/* Coordinate Mobile per i micro-glint (864x1536) */
 @media (max-aspect-ratio: 1/1) {
-  .glint--r-top   { left: 13.5%; top: 6.8%;  --sz: 10px; --d: 3.0s; --dl: 0.0s; }
-  .glint--r-bot   { left: 6.8%;  top: 15.6%; --sz: 9px;  --d: 3.5s; --dl: 1.1s; }
-  .glint--c-apex  { left: 64.8%; top: 7.2%;  --sz: 10px; --d: 3.2s; --dl: 0.6s; }
-  .glint--accent  { left: 88.5%; top: 6.6%;  --sz: 12px; --d: 2.8s; --dl: 0.2s; }
-  .glint--a-foot  { left: 90.2%; top: 16.0%; --sz: 9px;  --d: 3.4s; --dl: 1.8s; }
+  .glint--r-top   { left: 13.5%; top: 6.6%;  --sz: 15px; --d: 2.8s; --dl: 0.0s; }
+  .glint--r-bot   { left: 6.8%;  top: 15.6%; --sz: 13px; --d: 3.4s; --dl: 1.1s; }
+  .glint--a1-top  { left: 20.8%; top: 7.8%;  --sz: 12px; --d: 3.1s; --dl: 0.4s; }
+  .glint--f-top   { left: 29.5%; top: 7.6%;  --sz: 13px; --d: 2.9s; --dl: 1.5s; }
+  .glint--e-top   { left: 43.0%; top: 7.0%;  --sz: 12px; --d: 3.3s; --dl: 0.8s; }
+  .glint--ll-top  { left: 49.5%; top: 6.9%;  --sz: 12px; --d: 3.0s; --dl: 1.9s; }
+  .glint--c-apex  { left: 64.8%; top: 7.0%;  --sz: 14px; --d: 3.2s; --dl: 0.6s; }
+  .glint--c-bot   { left: 69.0%; top: 15.2%; --sz: 13px; --d: 3.5s; --dl: 1.4s; }
+  .glint--a2-top  { left: 76.0%; top: 10.4%; --sz: 13px; --d: 2.7s; --dl: 2.1s; }
+  .glint--accent  { left: 88.5%; top: 6.5%;  --sz: 18px; --d: 2.5s; --dl: 0.2s; }
+  .glint--a-foot  { left: 90.2%; top: 16.0%; --sz: 14px; --d: 3.2s; --dl: 1.7s; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .s, .spk, .micro-glint, .shooting-star {
     animation: none !important;
-    opacity: 0.75 !important;
+    opacity: 0.85 !important;
   }
 }
