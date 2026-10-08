@@ -88,19 +88,40 @@
     } catch {}
   }
 
-  audioButton.addEventListener('click',async()=>{
-    if(audioPending) return;
-    get('audioStatus').textContent = '';
-    if(!audio) { audio = new Audio('rumore.mp4'); audio.loop = true; audio.volume = .35; audio.preload = 'none'; audio.addEventListener('pause',audioLabel); audio.addEventListener('play',audioLabel); }
-    if(!audio.paused) { audio.pause(); audioLabel(); return; }
+  // Try audible autoplay; browsers that require a gesture are retried on interaction.
+  let autoplayWanted = true;
+  let resumeAfterVisibility = false;
+  audio = new Audio('rumore.mp3');
+  audio.loop = true; audio.volume = .35; audio.preload = 'auto';
+  audio.addEventListener('pause',audioLabel); audio.addEventListener('play',audioLabel);
+  async function playMusic(manual = false) {
+    if(audioPending || document.hidden) return;
     audioPending = true;
-    try { await audio.play(); } catch { get('audioStatus').textContent = t('audioError'); }
-    finally { audioPending = false; audioLabel(); }
+    get('audioStatus').textContent = '';
+    try { await audio.play(); autoplayWanted = false; }
+    catch(error) {
+      if(error.name === 'NotAllowedError') autoplayWanted = true;
+      else if(manual) get('audioStatus').textContent = t('audioError');
+    } finally { audioPending = false; audioLabel(); }
+  }
+  audioButton.addEventListener('click',()=>{
+    if(audioPending) return;
+    if(!audio.paused) { autoplayWanted = false; resumeAfterVisibility = false; audio.pause(); }
+    else playMusic(true);
   });
+  function unlockAudio(event) {
+    if(!event.isTrusted || event.target.closest?.('#audioButton') || !autoplayWanted) return;
+    if(event.type === 'keydown' && (event.ctrlKey || event.metaKey || event.altKey)) return;
+    playMusic();
+  }
+  document.addEventListener('click',unlockAudio);
+  document.addEventListener('keydown',unlockAudio);
   document.addEventListener('visibilitychange',()=>{
-    document.body.classList.toggle('is-hidden', document.hidden);
-    if(document.hidden && audio) audio.pause();
+    document.body.classList.toggle('is-hidden',document.hidden);
+    if(document.hidden) { resumeAfterVisibility = !audio.paused; audio.pause(); }
+    else if(resumeAfterVisibility || autoplayWanted) { resumeAfterVisibility = false; playMusic(); }
   });
+  playMusic();
 
   function showSubscribed() {
     forms.forEach(form=>{form.hidden=true;const status=statusFor(form);status.dataset.statusKey='success';status.textContent=t('success');});
@@ -139,6 +160,36 @@
   const posterCanvas=document.querySelector('.poster-canvas');
   const posterContext=posterCanvas.getContext('2d');
   let posterRenderFrame=0;
+  const rtlBackgrounds = {};
+  for(const orientation of ['desktop','mobile']) {
+    const background = new Image();
+    background.addEventListener('load',schedulePoster);
+    background.src = 'rtl-background-'+orientation+'.png';
+    rtlBackgrounds[orientation] = background;
+  }
+  // Only use the generated background in the caption/logo area, never the figure or titles.
+  function cleanRadioArea(context,poster,background,iw,ih,x,y,scale) {
+    if(!background.complete || !background.naturalWidth) return;
+    const desktop=iw>ih;
+    const regions=desktop?[[664,712,184,19],[707,730,102,101]]:[[332,1102,199,20],[377,1124,109,109]];
+    for(const [left,top,width,height] of regions) {
+      const patch=document.createElement('canvas');patch.width=width+24;patch.height=height+24;
+      const ctx=patch.getContext('2d');
+      ctx.drawImage(background,(left-12)*background.naturalWidth/iw,(top-12)*background.naturalHeight/ih,(width+24)*background.naturalWidth/iw,(height+24)*background.naturalHeight/ih,0,0,patch.width,patch.height);
+      ctx.globalCompositeOperation='destination-in';
+      for(const horizontal of [true,false]) {
+        const length=horizontal?patch.width:patch.height;
+        const gradient=ctx.createLinearGradient(0,0,horizontal?length:0,horizontal?0:length);
+        gradient.addColorStop(0,'transparent');gradient.addColorStop(12/length,'black');gradient.addColorStop(1-12/length,'black');gradient.addColorStop(1,'transparent');
+        ctx.fillStyle=gradient;ctx.fillRect(0,0,patch.width,patch.height);
+      }
+      context.drawImage(patch,x+(left-12)*scale,y+(top-12)*scale,patch.width*scale,patch.height*scale);
+    }
+    // Copy the original round logo itself, shifted down by only a few pixels.
+    const [cx,cy,r,shift]=desktop?[758,780,46,14]:[431,1177,49,20];
+    context.save();context.beginPath();context.arc(x+cx*scale,y+(cy+shift)*scale,r*scale,0,Math.PI*2);context.clip();
+    context.drawImage(poster,cx-r,cy-r,r*2,r*2,x+(cx-r)*scale,y+(cy-r+shift)*scale,r*2*scale,r*2*scale);context.restore();
+  }
   function renderPoster(){
     posterRenderFrame=0;
     if(!poster.complete||!poster.naturalWidth||!posterContext)return;
@@ -154,6 +205,7 @@
     for(let row=0;row<3;row++)for(let col=0;col<3;col++){
       posterContext.drawImage(poster,sx[col],sy[row],sx[col+1]-sx[col],sy[row+1]-sy[row],dx[col],dy[row],dx[col+1]-dx[col],dy[row+1]-dy[row]);
     }
+    cleanRadioArea(posterContext,poster,rtlBackgrounds[iw>ih?'desktop':'mobile'],iw,ih,x,y,scale);
     document.documentElement.style.setProperty('--poster-ticket-y',(bounds.top+y+ih*scale*.636)+'px');
     posterFrame.classList.add('is-rendered');
   }

@@ -161,3 +161,13 @@ body.is-hidden .scene-lasers i{animation-play-state:paused}
  .home-signup .email-row{height:40px}
  .controls{height:46px}.quiet-button,.icon-button,.language-control select{height:36px;min-height:36px}
 }
+
+/* Slightly wider ticket and signup controls, with room to shrink on smaller screens. */
+@media(min-aspect-ratio:1001/1000) and (min-height:581px){
+ .action-dock{width:min(790px,82vw);gap:20px}
+ .action-dock .ticket-button,.action-dock .home-signup{width:calc((100% - 20px)/2);min-width:0}
+}
+@media(max-aspect-ratio:1/1){
+ .action-dock .ticket-button{width:min(330px,86vw)}
+ .action-dock .home-signup{width:min(390px,94vw)}
+}
