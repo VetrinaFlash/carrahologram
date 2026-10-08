@@ -1,325 +1,101 @@
-/* Additional sections share the existing six-language switcher. */
-const sectionCopy = {
-  it: [
-    "IL CONCERTO",
-    "Scopri il concerto ↓",
-    "UNA NOTTE. UN’ICONA.",
-    "Preparati a fare rumore.",
-    "L’Official Hologram Concert di Raffaella Carrà. Il 28 dicembre 2026, all’Atlantico di Roma.",
-    "QUANDO",
-    "Segna la data. Lo show continua.",
-    "Aggiungi al calendario ↗",
-    "DOVE",
-    "La tua prossima notte di musica dal vivo.",
-    "Come arrivare ↗",
-    "BIGLIETTI",
-    "VIVI LO SHOW",
-    "Tutte le informazioni sulla prevendita.",
-    "Scopri la prevendita ↗",
-    "RESTA IN PRIMA FILA",
-    "Non perdere<br>il prossimo annuncio.",
-    "Date, biglietti e novità. Tutto dalla lista ufficiale.",
-    "La tua email",
-    "ATTENDI…",
-    "Non è stato possibile completare l’iscrizione. Riprova tra qualche istante.",
-  ],
-  en: [
-    "THE CONCERT",
-    "Discover the concert ↓",
-    "ONE NIGHT. ONE ICON.",
-    "Get ready to make some noise.",
-    "Raffaella Carrà’s Official Hologram Concert. December 28, 2026, at Atlantico in Rome.",
-    "WHEN",
-    "Save the date. The show goes on.",
-    "Add to calendar ↗",
-    "WHERE",
-    "Your next night of live music.",
-    "Get directions ↗",
-    "TICKETS",
-    "EXPERIENCE THE SHOW",
-    "All the information about pre-sales.",
-    "Discover pre-sales ↗",
-    "STAY IN THE FRONT ROW",
-    "Don’t miss<br>the next announcement.",
-    "Dates, tickets and news. From the official list.",
-    "Your email",
-    "PLEASE WAIT…",
-    "We couldn’t complete your subscription. Please try again shortly.",
-  ],
-  es: [
-    "EL CONCIERTO",
-    "Descubre el concierto ↓",
-    "UNA NOCHE. UN ICONO.",
-    "Prepárate para hacer ruido.",
-    "El Official Hologram Concert de Raffaella Carrà. El 28 de diciembre de 2026, en Atlantico, Roma.",
-    "CUÁNDO",
-    "Anota la fecha. El espectáculo continúa.",
-    "Añadir al calendario ↗",
-    "DÓNDE",
-    "Tu próxima noche de música en directo.",
-    "Cómo llegar ↗",
-    "ENTRADAS",
-    "VIVE EL ESPECTÁCULO",
-    "Toda la información sobre la preventa.",
-    "Descubre la preventa ↗",
-    "EN PRIMERA FILA",
-    "No te pierdas<br>el próximo anuncio.",
-    "Fechas, entradas y noticias de la lista oficial.",
-    "Tu email",
-    "ESPERA…",
-    "No se pudo completar la suscripción. Inténtalo de nuevo en unos instantes.",
-  ],
-  pt: [
-    "O CONCERTO",
-    "Descobre o concerto ↓",
-    "UMA NOITE. UM ÍCONE.",
-    "Prepara-te para fazer barulho.",
-    "O Official Hologram Concert de Raffaella Carrà. 28 de dezembro de 2026, no Atlantico, Roma.",
-    "QUANDO",
-    "Marca a data. O espetáculo continua.",
-    "Adicionar ao calendário ↗",
-    "ONDE",
-    "A tua próxima noite de música ao vivo.",
-    "Como chegar ↗",
-    "BILHETES",
-    "VIVE O ESPETÁCULO",
-    "Todas as informações sobre a pré-venda.",
-    "Descobre a pré-venda ↗",
-    "NA PRIMEIRA FILA",
-    "Não percas<br>o próximo anúncio.",
-    "Datas, bilhetes e novidades da lista oficial.",
-    "O teu email",
-    "AGUARDA…",
-    "Não foi possível concluir a inscrição. Tenta novamente em instantes.",
-  ],
-  de: [
-    "DAS KONZERT",
-    "Konzert entdecken ↓",
-    "EINE NACHT. EINE IKONE.",
-    "Mach dich bereit für Rumore.",
-    "Raffaella Carràs Official Hologram Concert. Am 28. Dezember 2026 im Atlantico in Rom.",
-    "WANN",
-    "Merke dir das Datum. Die Show geht weiter.",
-    "Zum Kalender hinzufügen ↗",
-    "WO",
-    "Deine nächste Nacht mit Live-Musik.",
-    "Anfahrt ↗",
-    "TICKETS",
-    "ERLEBE DIE SHOW",
-    "Alle Informationen zum Vorverkauf.",
-    "Vorverkauf entdecken ↗",
-    "IN DER ERSTEN REIHE",
-    "Verpasse nicht<br>die nächste Ankündigung.",
-    "Termine, Tickets und Neuigkeiten aus der offiziellen Liste.",
-    "Deine E-Mail",
-    "BITTE WARTEN…",
-    "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuche es gleich noch einmal.",
-  ],
-  fr: [
-    "LE CONCERT",
-    "Découvrir le concert ↓",
-    "UNE NUIT. UNE ICÔNE.",
-    "Préparez-vous à faire du bruit.",
-    "L’Official Hologram Concert de Raffaella Carrà. Le 28 décembre 2026 à l’Atlantico, Rome.",
-    "QUAND",
-    "Notez la date. Le spectacle continue.",
-    "Ajouter au calendrier ↗",
-    "OÙ",
-    "Votre prochaine soirée de musique live.",
-    "Itinéraire ↗",
-    "BILLETS",
-    "VIVEZ LE SPECTACLE",
-    "Toutes les informations sur les préventes.",
-    "Découvrir les préventes ↗",
-    "AU PREMIER RANG",
-    "Ne manquez pas<br>la prochaine annonce.",
-    "Dates, billets et actualités de la liste officielle.",
-    "Votre email",
-    "PATIENCE…",
-    "L’inscription n’a pas abouti. Veuillez réessayer dans quelques instants.",
-  ],
-};
-const sectionKeys = [
-  "navEvent",
-  "discover",
-  "eventEyebrow",
-  "eventHeading",
-  "eventIntro",
-  "whenLabel",
-  "whenText",
-  "calendar",
-  "whereLabel",
-  "whereText",
-  "directions",
-  "ticketsLabel",
-  "ticketHeading",
-  "ticketText",
-  "ticketDetails",
-  "updatesEyebrow",
-  "updatesHeading",
-  "updatesIntro",
-  "emailLabel",
-  "pending",
-  "formError",
-];
-Object.entries(sectionCopy).forEach(([code, values]) =>
-  sectionKeys.forEach((key, i) => (T[code][key] = values[i])),
-);
-// Use one fade timer, including fast repeated audio toggles.
-let audioFade;
-fadeIn = function () {
-  clearInterval(audioFade);
-  let v = snd.volume;
-  audioFade = setInterval(() => {
-    v = Math.min(0.65, v + 0.03);
-    snd.volume = v;
-    if (v >= 0.65) clearInterval(audioFade);
-  }, 80);
-};
-doStop = function () {
-  clearInterval(audioFade);
-  playing = false;
-  abtn.classList.remove("on");
-  abtn.setAttribute("aria-pressed", "false");
-  if (snd) {
-    snd.pause();
-    snd.currentTime = 0;
+'use strict';
+(() => {
+  const copy = {
+    it: {info:'Il concerto',language:'Lingua',tickets:'Biglietti',intro:'Una notte con l’icona dello spettacolo italiano.',when:'Quando',where:'Dove',date:'28 dicembre 2026',directions:'Come arrivare ↗',calendar:'Aggiungi al calendario ↗',poster:'Scarica la locandina ↓',ticketInfo:'Biglietti e aggiornamenti',ticketTitle:'Ci vediamo sotto il palco.',ticketIntro:'Lascia la tua email per ricevere le novità sui biglietti e sul concerto.',buy:'Acquista su Vivaticket ↗',email:'La tua email',notify:'Avvisami',finePrint:'Solo aggiornamenti sul concerto. Per cancellarti, rispondi a una nostra email con “CANCELLAMI”.',close:'Chiudi',audioOn:'Attiva la musica',audioOff:'Disattiva la musica',audioError:'Audio non disponibile. Riprova tra poco.',pending:'Invio…',success:'Sei nella lista. Ti aggiorneremo via email.',error:'Iscrizione non riuscita. Riprova tra poco.'},
+    en: {info:'The concert',language:'Language',tickets:'Tickets',intro:'A night with an icon of Italian entertainment.',when:'When',where:'Where',date:'28 December 2026',directions:'Get directions ↗',calendar:'Add to calendar ↗',poster:'Download the poster ↓',ticketInfo:'Tickets and updates',ticketTitle:'See you at the show.',ticketIntro:'Leave your email to receive ticket and concert updates.',buy:'Buy on Vivaticket ↗',email:'Your email',notify:'Notify me',finePrint:'Concert updates only. To unsubscribe, reply to one of our emails with “CANCELLAMI”.',close:'Close',audioOn:'Play music',audioOff:'Mute music',audioError:'Audio is unavailable. Please try again.',pending:'Sending…',success:'You’re on the list. We’ll keep you updated by email.',error:'Could not subscribe. Please try again.'},
+    es: {info:'El concierto',language:'Idioma',tickets:'Entradas',intro:'Una noche con un icono del espectáculo italiano.',when:'Cuándo',where:'Dónde',date:'28 de diciembre de 2026',directions:'Cómo llegar ↗',calendar:'Añadir al calendario ↗',poster:'Descargar el cartel ↓',ticketInfo:'Entradas y novedades',ticketTitle:'Nos vemos en el concierto.',ticketIntro:'Deja tu email para recibir novedades sobre las entradas y el concierto.',buy:'Comprar en Vivaticket ↗',email:'Tu email',notify:'Avísame',finePrint:'Solo novedades del concierto. Para darte de baja, responde a un email con “CANCELLAMI”.',close:'Cerrar',audioOn:'Activar música',audioOff:'Silenciar música',audioError:'Audio no disponible. Inténtalo de nuevo.',pending:'Enviando…',success:'Estás en la lista. Te informaremos por email.',error:'No se pudo completar la inscripción. Inténtalo de nuevo.'},
+    pt: {info:'O concerto',language:'Idioma',tickets:'Bilhetes',intro:'Uma noite com um ícone do espetáculo italiano.',when:'Quando',where:'Onde',date:'28 de dezembro de 2026',directions:'Como chegar ↗',calendar:'Adicionar ao calendário ↗',poster:'Descarregar o cartaz ↓',ticketInfo:'Bilhetes e novidades',ticketTitle:'Até ao concerto.',ticketIntro:'Deixa o teu email para receber novidades sobre os bilhetes e o concerto.',buy:'Comprar na Vivaticket ↗',email:'O teu email',notify:'Avisar-me',finePrint:'Apenas novidades do concerto. Para cancelar, responde a um email com “CANCELLAMI”.',close:'Fechar',audioOn:'Ativar música',audioOff:'Silenciar música',audioError:'Áudio indisponível. Tenta novamente.',pending:'A enviar…',success:'Estás na lista. Enviaremos novidades por email.',error:'Não foi possível concluir a inscrição. Tenta novamente.'},
+    de: {info:'Das Konzert',language:'Sprache',tickets:'Tickets',intro:'Ein Abend mit einer Ikone der italienischen Unterhaltung.',when:'Wann',where:'Wo',date:'28. Dezember 2026',directions:'Anfahrt ↗',calendar:'Zum Kalender hinzufügen ↗',poster:'Poster herunterladen ↓',ticketInfo:'Tickets und Neuigkeiten',ticketTitle:'Wir sehen uns beim Konzert.',ticketIntro:'Hinterlasse deine E-Mail-Adresse für Neuigkeiten zu Tickets und Konzert.',buy:'Bei Vivaticket kaufen ↗',email:'Deine E-Mail-Adresse',notify:'Informieren',finePrint:'Nur Konzertneuigkeiten. Zum Abmelden antworte auf eine unserer E-Mails mit „CANCELLAMI“.',close:'Schließen',audioOn:'Musik einschalten',audioOff:'Musik ausschalten',audioError:'Audio ist nicht verfügbar. Bitte erneut versuchen.',pending:'Senden…',success:'Du bist auf der Liste. Neuigkeiten kommen per E-Mail.',error:'Anmeldung fehlgeschlagen. Bitte erneut versuchen.'},
+    fr: {info:'Le concert',language:'Langue',tickets:'Billets',intro:'Une nuit avec une icône du spectacle italien.',when:'Quand',where:'Où',date:'28 décembre 2026',directions:'Itinéraire ↗',calendar:'Ajouter au calendrier ↗',poster:'Télécharger l’affiche ↓',ticketInfo:'Billets et actualités',ticketTitle:'Rendez-vous au concert.',ticketIntro:'Laisse ton email pour recevoir les nouveautés sur les billets et le concert.',buy:'Acheter sur Vivaticket ↗',email:'Ton email',notify:'Me prévenir',finePrint:'Uniquement les actualités du concert. Pour te désinscrire, réponds à un email avec « CANCELLAMI ».',close:'Fermer',audioOn:'Activer la musique',audioOff:'Couper la musique',audioError:'Audio indisponible. Réessaie plus tard.',pending:'Envoi…',success:'Tu es sur la liste. Nous te tiendrons au courant par email.',error:'Inscription impossible. Réessaie plus tard.'}
+  };
+  let language = 'it';
+  try { const saved = localStorage.getItem('carra_language'); if (copy[saved]) language = saved; } catch {}
+  const get = id => document.getElementById(id);
+  const audioButton = get('audioButton');
+  const form = get('subscribeForm');
+  const status = get('formStatus');
+  let statusKey = '';
+  let submitting = false;
+  let audio;
+  let audioPending = false;
+  const t = key => copy[language][key];
+  function audioLabel() {
+    const label = t(audio && !audio.paused ? 'audioOff' : 'audioOn');
+    audioButton.setAttribute('aria-label', label); audioButton.title = label;
+    audioButton.setAttribute('aria-pressed', String(Boolean(audio && !audio.paused)));
   }
-};
-let audioPending = false;
-doPlay = async function () {
-  if (audioPending) return;
-  audioPending = true;
-  try {
-    initSnd();
-    snd.volume = 0;
-    await snd.play();
-    playing = true;
-    abtn.classList.add("on");
-    abtn.setAttribute("aria-pressed", "true");
-    fadeIn();
-  } catch {
-    playing = false;
-    abtn.setAttribute("aria-pressed", "false");
-  } finally {
-    audioPending = false;
+  function setLanguage(value) {
+    if (!copy[value]) return;
+    language = value; document.documentElement.lang = value; get('language').value = value;
+    document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t(el.dataset.t); });
+    document.querySelectorAll('[data-close]').forEach(el => el.setAttribute('aria-label', t('close')));
+    get('language').setAttribute('aria-label', t('language'));
+    if (statusKey) status.textContent = t(statusKey);
+    if (submitting) form.querySelector('button').textContent = t('pending');
+    audioLabel();
+    try { localStorage.setItem('carra_language',value); } catch {}
   }
-};
+  get('language').addEventListener('change',e=>setLanguage(e.target.value));
+  setLanguage(language);
 
-let modalReturnFocus = null;
-openModal = function (id) {
-  const backdrop = document.getElementById(id);
-  if (!backdrop) return;
-  modalReturnFocus = document.activeElement;
-  backdrop.classList.add("active");
-  document.body.style.overflow = "hidden";
-  document.querySelector("main").inert = true;
-  document.querySelector(".site-header").inert = true;
-  const dialog = backdrop.querySelector('[role="dialog"]');
-  dialog.setAttribute("aria-labelledby", id + "Title");
-  backdrop.querySelector(".modal-title").id = id + "Title";
-  backdrop.querySelector(".modal-close").focus();
-};
-closeModal = function (id) {
-  const backdrop = document.getElementById(id);
-  if (!backdrop || !backdrop.classList.contains("active")) return;
-  backdrop.classList.remove("active");
-  document.body.style.overflow = "";
-  document.querySelector("main").inert = false;
-  document.querySelector(".site-header").inert = false;
-  if (modalReturnFocus && modalReturnFocus.isConnected)
-    modalReturnFocus.focus({ preventScroll: true });
-};
-document.addEventListener("keydown", (event) => {
-  const active = document.querySelector(".modal-backdrop.active");
-  if (active && event.key === "Tab") {
-    const focusable = [
-      ...active.querySelectorAll('button,a[href],input,[tabindex="0"]'),
-    ].filter((el) => !el.disabled);
-    const first = focusable[0],
-      last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
+  // The native dialog provides focus containment, Escape and background inertness.
+  function openDialog(id) {
+    document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+    const dialog = get(id); if (!dialog) return; dialog.showModal();
   }
-});
-// A date-only calendar entry: no unconfirmed show time is implied.
-document.getElementById("calendarButton").addEventListener("click", () => {
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Raffaella Concert//IT",
-    "BEGIN:VEVENT",
-    "UID:carra-20261228@raffaellalivefromheaven.com",
-    "DTSTAMP:20261008T000000Z",
-    "DTSTART;VALUE=DATE:20261228",
-    "DTEND;VALUE=DATE:20261229",
-    "SUMMARY:Raffaella Carrà - The Show Must Go On",
-    "LOCATION:Atlantico - Roma",
-    "DESCRIPTION:Official Hologram Concert. Orario da confermare.",
-    "END:VEVENT",
-    "END:VCALENDAR",
-    "",
-  ].join("\r\n");
-  const url = URL.createObjectURL(
-    new Blob([ics], { type: "text/calendar;charset=utf-8" }),
-  );
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "raffaella-carra-28-dicembre-2026.ics";
-  link.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-});
-const originalLanguageSwitch = L;
-L = function (code) {
-  originalLanguageSwitch(code);
-  try {
-    localStorage.setItem("carra_language", lang);
-  } catch {}
-};
-let savedLanguage = "it";
-try {
-  savedLanguage = localStorage.getItem("carra_language") || "it";
-} catch {}
-L(T[savedLanguage] ? savedLanguage : "it");
-const header = document.querySelector(".site-header");
-window.addEventListener(
-  "scroll",
-  () => header.classList.toggle("scrolled", window.scrollY > 40),
-  { passive: true },
-);
-// Keep current section visible in navigation without competing with modal links.
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        document
-          .querySelectorAll(
-            '.nav-link[href="#stageViewport"],.nav-link[href="#concert"]',
-          )
-          .forEach((link) => {
-            const on = link.getAttribute("href") === "#" + entry.target.id;
-            link.classList.toggle("active", on);
-            if (on) link.setAttribute("aria-current", "location");
-            else link.removeAttribute("aria-current");
-          });
+  document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>openDialog(button.dataset.open)));
+  document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>button.closest('dialog').close()));
+  document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',event=>{
+    if (event.target !== dialog) return;
+    const box = dialog.getBoundingClientRect();
+    if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom) dialog.close();
+  }));
+
+  // Optional exact event URL; never substitute a general ticketing homepage.
+  const configuredUrl = window.CARRA_CONFIG?.ticketUrl;
+  if (configuredUrl) {
+    try {
+      const url = new URL(configuredUrl);
+      if(url.protocol === 'https:' && (url.hostname === 'vivaticket.com' || url.hostname.endsWith('.vivaticket.com'))) {
+        get('purchaseLink').href = url.href; get('purchaseLink').hidden = false;
       }
-    }
-  },
-  { rootMargin: "-20% 0px -60% 0px" },
-);
-["stageViewport", "concert"].forEach((id) =>
-  sectionObserver.observe(document.getElementById(id)),
-);
-window.addEventListener("resize", () => {
-  if (window.innerWidth > 960) {
-    document.getElementById("mobileDrawer").classList.remove("open");
-    document
-      .querySelector(".mobile-menu-btn")
-      .setAttribute("aria-expanded", "false");
+    } catch {}
   }
-});
+
+  audioButton.addEventListener('click',async()=>{
+    if(audioPending) return;
+    get('audioStatus').textContent = '';
+    if(!audio) { audio = new Audio('rumore.mp4'); audio.loop = true; audio.volume = .35; audio.preload = 'none'; audio.addEventListener('pause',audioLabel); audio.addEventListener('play',audioLabel); }
+    if(!audio.paused) { audio.pause(); audioLabel(); return; }
+    audioPending = true;
+    try { await audio.play(); } catch { get('audioStatus').textContent = t('audioError'); }
+    finally { audioPending = false; audioLabel(); }
+  });
+  document.addEventListener('visibilitychange',()=>{
+    document.body.classList.toggle('is-hidden', document.hidden);
+    if(document.hidden && audio) audio.pause();
+  });
+
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();
+    const email = get('email'); email.value = email.value.trim();
+    if(submitting || !form.reportValidity()) return;
+    const button = form.querySelector('button'); submitting = true; button.disabled = true; button.textContent = t('pending'); form.setAttribute('aria-busy','true'); statusKey = ''; status.textContent = '';
+    const controller = new AbortController(); const timeout = setTimeout(()=>controller.abort(),12000);
+    try {
+      const response = await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value}),signal:controller.signal});
+      if(!response.ok) throw new Error('Subscription failed');
+      const result = await response.json(); if(result.success !== true) throw new Error('Invalid response');
+      statusKey = 'success'; form.hidden = true;
+      try { localStorage.setItem('carra_subscribed','true'); } catch {}
+    } catch { statusKey = 'error'; }
+    finally { clearTimeout(timeout); submitting=false;button.disabled=false;button.textContent=t('notify');form.removeAttribute('aria-busy');status.textContent=t(statusKey); }
+  });
+  try { if(localStorage.getItem('carra_subscribed')==='true') {form.hidden=true;statusKey='success';status.textContent=t(statusKey);} } catch {}
+
+  get('calendarButton').addEventListener('click',()=>{
+    const stamp = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+    const content = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Carra Hologram//Concert//IT','BEGIN:VEVENT','UID:carra-20261228@raffaellalivefromheaven.com','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:20261228','DTEND;VALUE=DATE:20261229','SUMMARY:Raffaella Carrà - The Show Must Go On','LOCATION:Atlantico - Roma','DESCRIPTION:Official Hologram Concert. Orario da verificare sul biglietto.','END:VEVENT','END:VCALENDAR',''].join('\r\n');
+    const url = URL.createObjectURL(new Blob([content],{type:'text/calendar;charset=utf-8'})); const a=document.createElement('a');a.href=url;a.download='Raffaella_Carra_28_dicembre_2026.ics';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+})();
