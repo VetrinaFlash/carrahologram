@@ -8,13 +8,15 @@
     de: {info:'Das Konzert',language:'Sprache',tickets:'Tickets',intro:'Ein Abend mit einer Ikone der italienischen Unterhaltung.',when:'Wann',where:'Wo',date:'28. Dezember 2026',directions:'Anfahrt ↗',calendar:'Zum Kalender hinzufügen ↗',poster:'Poster herunterladen ↓',ticketInfo:'Tickets und Neuigkeiten',ticketTitle:'Wir sehen uns beim Konzert.',ticketIntro:'Hinterlasse deine E-Mail-Adresse für Neuigkeiten zu Tickets und Konzert.',buy:'Bei Vivaticket kaufen ↗',email:'Deine E-Mail-Adresse',notify:'Informieren',finePrint:'Nur Konzertneuigkeiten. Zum Abmelden antworte auf eine unserer E-Mails mit „CANCELLAMI“.',close:'Schließen',audioOn:'Musik einschalten',audioOff:'Musik ausschalten',audioError:'Audio ist nicht verfügbar. Bitte erneut versuchen.',pending:'Senden…',success:'Du bist auf der Liste. Neuigkeiten kommen per E-Mail.',error:'Anmeldung fehlgeschlagen. Bitte erneut versuchen.'},
     fr: {info:'Le concert',language:'Langue',tickets:'Billets',intro:'Une nuit avec une icône du spectacle italien.',when:'Quand',where:'Où',date:'28 décembre 2026',directions:'Itinéraire ↗',calendar:'Ajouter au calendrier ↗',poster:'Télécharger l’affiche ↓',ticketInfo:'Billets et actualités',ticketTitle:'Rendez-vous au concert.',ticketIntro:'Laisse ton email pour recevoir les nouveautés sur les billets et le concert.',buy:'Acheter sur Vivaticket ↗',email:'Ton email',notify:'Me prévenir',finePrint:'Uniquement les actualités du concert. Pour te désinscrire, réponds à un email avec « CANCELLAMI ».',close:'Fermer',audioOn:'Activer la musique',audioOff:'Couper la musique',audioError:'Audio indisponible. Réessaie plus tard.',pending:'Envoi…',success:'Tu es sur la liste. Nous te tiendrons au courant par email.',error:'Inscription impossible. Réessaie plus tard.'}
   };
+  const extraCopy = {"it": {"menu": "Menu", "home": "Home", "merch": "Merchandising", "join": "Iscriviti", "updates": "Ricevi gli aggiornamenti", "soon": "In arrivo", "merchIntro": "La collezione dedicata a “The Show Must Go On” è in arrivo. Iscriviti per ricevere le novità e scoprire il lancio dello store.", "launchNotify": "Avvisami al lancio", "updatesIntro": "Biglietti, concerto e merchandising. Le novità direttamente nella tua email."}, "en": {"menu": "Menu", "home": "Home", "merch": "Merchandise", "join": "Join the list", "updates": "Get the latest news", "soon": "Coming soon", "merchIntro": "The “The Show Must Go On” collection is coming soon. Join the list for news and the store launch.", "launchNotify": "Notify me at launch", "updatesIntro": "Tickets, concert and merchandise. Get the latest news by email."}, "es": {"menu": "Menú", "home": "Inicio", "merch": "Merchandising", "join": "Suscríbete", "updates": "Recibe las novedades", "soon": "Próximamente", "merchIntro": "La colección “The Show Must Go On” llegará pronto. Suscríbete para conocer las novedades y el lanzamiento de la tienda.", "launchNotify": "Avísame del lanzamiento", "updatesIntro": "Entradas, concierto y merchandising. Las novedades en tu email."}, "pt": {"menu": "Menu", "home": "Início", "merch": "Merchandising", "join": "Subscrever", "updates": "Recebe as novidades", "soon": "Em breve", "merchIntro": "A coleção “The Show Must Go On” chega em breve. Subscreve para receber novidades e saber do lançamento da loja.", "launchNotify": "Avisar-me no lançamento", "updatesIntro": "Bilhetes, concerto e merchandising. Novidades por email."}, "de": {"menu": "Menü", "home": "Startseite", "merch": "Merchandise", "join": "Anmelden", "updates": "Neuigkeiten per E-Mail", "soon": "Demnächst", "merchIntro": "Die Kollektion „The Show Must Go On“ erscheint bald. Melde dich für Neuigkeiten und den Start des Shops an.", "launchNotify": "Zum Start informieren", "updatesIntro": "Tickets, Konzert und Merchandise. Neuigkeiten direkt per E-Mail."}, "fr": {"menu": "Menu", "home": "Accueil", "merch": "Merchandising", "join": "M’inscrire", "updates": "Recevoir les nouveautés", "soon": "Bientôt", "merchIntro": "La collection « The Show Must Go On » arrive bientôt. Inscris-toi pour les nouveautés et le lancement de la boutique.", "launchNotify": "Me prévenir au lancement", "updatesIntro": "Billets, concert et merchandising. Les nouveautés par email."}};
+  Object.keys(copy).forEach(lang=>Object.assign(copy[lang],extraCopy[lang]));
   let language = 'it';
   try { const saved = localStorage.getItem('carra_language'); if (copy[saved]) language = saved; } catch {}
   const get = id => document.getElementById(id);
   const audioButton = get('audioButton');
-  const form = get('subscribeForm');
-  const status = get('formStatus');
-  let statusKey = '';
+  const forms = [...document.querySelectorAll('[data-subscribe]')];
+  const statusFor = form => get(form.querySelector('input').getAttribute('aria-describedby'));
+  let activeForm = null;
   let submitting = false;
   let audio;
   let audioPending = false;
@@ -28,10 +30,11 @@
     if (!copy[value]) return;
     language = value; document.documentElement.lang = value; get('language').value = value;
     document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t(el.dataset.t); });
-    document.querySelectorAll('[data-close]').forEach(el => el.setAttribute('aria-label', t('close')));
+    document.querySelectorAll('.close-button[data-close]').forEach(el => el.setAttribute('aria-label', t('close')));
     get('language').setAttribute('aria-label', t('language'));
-    if (statusKey) status.textContent = t(statusKey);
-    if (submitting) form.querySelector('button').textContent = t('pending');
+    document.querySelectorAll('[data-subscribe-status]').forEach(status=>{if(status.dataset.statusKey)status.textContent=t(status.dataset.statusKey);});
+    get('homeEmail').setAttribute('aria-label',t('email'));
+    if (submitting && activeForm) activeForm.querySelector('button').textContent = t('pending');
     audioLabel();
     try { localStorage.setItem('carra_language',value); } catch {}
   }
@@ -56,10 +59,16 @@
   motion.addEventListener('change',resetDepth);
 
   // The native dialog provides focus containment, Escape and background inertness.
+  let dialogReturnFocus = null;
   function openDialog(id) {
+    if(!document.querySelector('dialog[open]')) dialogReturnFocus=document.activeElement;
     document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
     const dialog = get(id); if (!dialog) return; dialog.showModal();
+    get('menuButton').setAttribute('aria-expanded',String(id==='menuDialog'));
+    if(id==='newsletterDialog' && !get('updatesForm').hidden) get('updatesEmail').focus();
   }
+  document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('close',()=>{if(!document.querySelector('dialog[open]') && dialogReturnFocus?.isConnected && !dialogReturnFocus.closest('dialog'))dialogReturnFocus.focus();}));
+  get('menuDialog').addEventListener('close',()=>get('menuButton').setAttribute('aria-expanded','false'));
   document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>openDialog(button.dataset.open)));
   document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>button.closest('dialog').close()));
   document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',event=>{
@@ -93,22 +102,30 @@
     if(document.hidden && audio) audio.pause();
   });
 
-  form.addEventListener('submit',async event=>{
+  function showSubscribed() {
+    forms.forEach(form=>{form.hidden=true;const status=statusFor(form);status.dataset.statusKey='success';status.textContent=t('success');});
+  }
+  forms.forEach(form=>form.addEventListener('submit',async event=>{
     event.preventDefault();
-    const email = get('email'); email.value = email.value.trim();
+    const email=form.querySelector('input'); email.value=email.value.trim();
     if(submitting || !form.reportValidity()) return;
-    const button = form.querySelector('button'); submitting = true; button.disabled = true; button.textContent = t('pending'); form.setAttribute('aria-busy','true'); statusKey = ''; status.textContent = '';
-    const controller = new AbortController(); const timeout = setTimeout(()=>controller.abort(),12000);
+    const button=form.querySelector('button'),status=statusFor(form);
+    submitting=true;activeForm=form;forms.forEach(f=>f.querySelector('button').disabled=true);
+    button.textContent=t('pending');form.setAttribute('aria-busy','true');status.dataset.statusKey='';status.textContent='';
+    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),12000);
     try {
-      const response = await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value}),signal:controller.signal});
+      const response=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value}),signal:controller.signal});
       if(!response.ok) throw new Error('Subscription failed');
-      const result = await response.json(); if(result.success !== true) throw new Error('Invalid response');
-      statusKey = 'success'; form.hidden = true;
-      try { localStorage.setItem('carra_subscribed','true'); } catch {}
-    } catch { statusKey = 'error'; }
-    finally { clearTimeout(timeout); submitting=false;button.disabled=false;button.textContent=t('notify');form.removeAttribute('aria-busy');status.textContent=t(statusKey); }
-  });
-  try { if(localStorage.getItem('carra_subscribed')==='true') {form.hidden=true;statusKey='success';status.textContent=t(statusKey);} } catch {}
+      const result=await response.json();if(result.success!==true)throw new Error('Invalid response');
+      showSubscribed();try{localStorage.setItem('carra_subscribed','true');}catch{}
+    } catch {status.dataset.statusKey='error';status.textContent=t('error');}
+    finally {
+      clearTimeout(timeout);submitting=false;activeForm=null;
+      forms.forEach(f=>{const b=f.querySelector('button');b.disabled=false;b.textContent=t(b.dataset.t);});
+      form.removeAttribute('aria-busy');
+    }
+  }));
+  try{if(localStorage.getItem('carra_subscribed')==='true')showSubscribed();}catch{}
 
   get('calendarButton').addEventListener('click',()=>{
     const stamp = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');

@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Raffaella Carrà — The Show Must Go On | Official Hologram Concert</title>
   <meta name="description" content="Raffaella Carrà. The Show Must Go On. Official Hologram Concert, 28 dicembre 2026, Atlantico Roma. Informazioni e biglietti.">
   <meta name="theme-color" content="#040511">
@@ -40,10 +40,10 @@
   </main>
 
   <header class="controls">
-    <button class="quiet-button info-button" type="button" data-open="infoDialog">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg>
-      <span data-t="info">Il concerto</span>
-    </button>
+    <div class="header-navigation">
+      <button class="quiet-button menu-button" id="menuButton" type="button" data-open="menuDialog" aria-haspopup="dialog" aria-controls="menuDialog" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span data-t="menu">Menu</span></button>
+      <nav class="desktop-navigation" aria-label="Navigazione principale"><button type="button" data-open="infoDialog" data-t="info">Il concerto</button><button type="button" data-open="merchDialog" data-t="merch">Merchandising</button><button type="button" data-open="newsletterDialog" data-t="join">Iscriviti</button></nav>
+    </div>
     <div class="tools">
       <button id="audioButton" class="icon-button" type="button" aria-label="Attiva la musica" aria-pressed="false" title="Attiva la musica">
         <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
@@ -61,9 +61,41 @@
       <img src="vivaticket.png" width="1285" height="144" alt="Vivaticket">
       <span class="ticket-label"><span data-t="tickets">Biglietti</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
     </button>
+    <div class="home-signup">
+      <form id="homeSubscribeForm" data-subscribe>
+        <label for="homeEmail" data-t="updates">Ricevi gli aggiornamenti</label>
+        <div class="email-row"><input id="homeEmail" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="homeStatus" aria-label="La tua email"><button type="submit" data-t="join">Iscriviti</button></div>
+      </form>
+      <p id="homeStatus" class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
+    </div>
     <span class="audio-status sr-only" id="audioStatus" role="status" aria-live="polite"></span>
   </footer>
 
+  <dialog id="menuDialog" class="panel menu-panel" aria-labelledby="menuTitle">
+    <button class="close-button" type="button" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <span class="eyebrow">THE SHOW MUST GO ON.</span><h2 id="menuTitle" data-t="menu">Menu</h2>
+    <nav class="menu-links" aria-label="Navigazione principale">
+      <button type="button" data-close><span data-t="home">Home</span><span aria-hidden="true">↗</span></button>
+      <button type="button" data-open="infoDialog"><span data-t="info">Il concerto</span><span aria-hidden="true">↗</span></button>
+      <button type="button" data-open="ticketDialog"><span data-t="tickets">Biglietti</span><span aria-hidden="true">↗</span></button>
+      <button type="button" data-open="merchDialog"><span data-t="merch">Merchandising</span><small data-t="soon">In arrivo</small></button>
+      <button type="button" data-open="newsletterDialog"><span data-t="updates">Ricevi gli aggiornamenti</span><span aria-hidden="true">↗</span></button>
+    </nav>
+  </dialog>
+  <dialog id="merchDialog" class="panel" aria-labelledby="merchTitle">
+    <button class="close-button" type="button" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <span class="eyebrow">OFFICIAL STORE</span><h2 id="merchTitle" data-t="merch">Merchandising</h2>
+    <div class="coming-soon" data-t="soon">In arrivo</div>
+    <p class="panel-intro" data-t="merchIntro">La collezione dedicata a “The Show Must Go On” è in arrivo. Iscriviti per ricevere le novità e scoprire il lancio dello store.</p>
+    <button class="primary-button" type="button" data-open="newsletterDialog" data-t="launchNotify">Avvisami al lancio</button>
+  </dialog>
+  <dialog id="newsletterDialog" class="panel" aria-labelledby="newsletterTitle">
+    <button class="close-button" type="button" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <span class="eyebrow">THE SHOW MUST GO ON.</span><h2 id="newsletterTitle" data-t="updates">Ricevi gli aggiornamenti</h2>
+    <p class="panel-intro" data-t="updatesIntro">Biglietti, concerto e merchandising. Le novità direttamente nella tua email.</p>
+    <form id="updatesForm" data-subscribe><label for="updatesEmail" data-t="email">La tua email</label><div class="email-row"><input id="updatesEmail" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="updatesStatus"><button type="submit" data-t="join">Iscriviti</button></div><p class="fine-print" data-t="finePrint">Solo aggiornamenti sul concerto. Per cancellarti, rispondi a una nostra email con “CANCELLAMI”.</p></form>
+    <p id="updatesStatus" class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
+  </dialog>
   <dialog id="infoDialog" class="panel" aria-labelledby="infoTitle">
     <button class="close-button" type="button" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
     <span class="eyebrow">OFFICIAL HOLOGRAM CONCERT</span>
@@ -84,12 +116,12 @@
     <h2 id="ticketTitle" data-t="ticketTitle">Ci vediamo sotto il palco.</h2>
     <p class="panel-intro" data-t="ticketIntro">Lascia la tua email per ricevere le novità sui biglietti e sul concerto.</p>
     <a id="purchaseLink" class="primary-button" hidden target="_blank" rel="noopener noreferrer" data-t="buy">Acquista su Vivaticket ↗</a>
-    <form id="subscribeForm">
+    <form id="subscribeForm" data-subscribe>
       <label for="email" data-t="email">La tua email</label>
       <div class="email-row"><input id="email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="formStatus"><button type="submit" data-t="notify">Avvisami</button></div>
       <p class="fine-print" data-t="finePrint">Solo aggiornamenti sul concerto. Per cancellarti, rispondi a una nostra email con “CANCELLAMI”.</p>
     </form>
-    <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+    <p id="formStatus" class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
   </dialog>
   <noscript><style>.ticket-button,.info-button,.tools{display:none}</style><p class="noscript-note">28 dicembre 2026 · Atlantico Roma. Attiva JavaScript per informazioni e iscrizione.</p></noscript>
 </body>
