@@ -148,3 +148,16 @@ body.is-hidden .scene-lasers i{animation-play-state:paused}
  .ticket-button{width:100%;height:34px;padding:4px 5px 4px 9px;gap:8px}.ticket-button>img{width:80px}.ticket-label{font-size:9px;padding:0 7px;gap:5px}.ticket-label svg{width:12px}
  .home-signup{width:100%}.home-signup label{font-size:8px;margin-bottom:3px}.home-signup .email-row{height:34px;padding:3px}.home-signup .email-row input{font-size:13px;padding:2px 5px}.home-signup .email-row button{min-height:26px;padding:0 9px;font-size:10px}
 }
+
+/* One continuous scene reaches every edge; the poster centre stays undistorted. */
+.poster-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.poster-frame.is-rendered .poster-art{opacity:0}
+@media(max-aspect-ratio:1/1){
+ .poster-frame{inset:env(safe-area-inset-top) 0 calc(62px + env(safe-area-inset-bottom))}
+ .action-dock{display:contents}
+ .action-dock .ticket-button{position:fixed;z-index:5;left:50%;top:var(--poster-ticket-y,63%);transform:translateX(-50%);width:min(300px,78vw);height:42px;min-width:0;animation:none}
+ .action-dock .ticket-button:hover{transform:translateX(-50%) translateY(-2px)}
+ .action-dock .home-signup{position:fixed;z-index:5;left:50%;bottom:calc(6px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(360px,92vw)}
+ .home-signup .email-row{height:40px}
+ .controls{height:46px}.quiet-button,.icon-button,.language-control select{height:36px;min-height:36px}
+}

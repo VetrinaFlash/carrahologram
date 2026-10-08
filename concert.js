@@ -132,4 +132,34 @@
     const content = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Carra Hologram//Concert//IT','BEGIN:VEVENT','UID:carra-20261228@raffaellalivefromheaven.com','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:20261228','DTEND;VALUE=DATE:20261229','SUMMARY:Raffaella Carrà - The Show Must Go On','LOCATION:Atlantico - Roma','DESCRIPTION:Official Hologram Concert. Orario da verificare sul biglietto.','END:VEVENT','END:VCALENDAR',''].join('\r\n');
     const url = URL.createObjectURL(new Blob([content],{type:'text/calendar;charset=utf-8'})); const a=document.createElement('a');a.href=url;a.download='Raffaella_Carra_28_dicembre_2026.ics';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
+
+  // Extend only the outer 20px of scenery. Figure, text and logos keep one scale.
+  const poster=document.querySelector('.poster-art');
+  const posterFrame=document.querySelector('.poster-frame');
+  const posterCanvas=document.querySelector('.poster-canvas');
+  const posterContext=posterCanvas.getContext('2d');
+  let posterRenderFrame=0;
+  function renderPoster(){
+    posterRenderFrame=0;
+    if(!poster.complete||!poster.naturalWidth||!posterContext)return;
+    const bounds=posterFrame.getBoundingClientRect(),w=bounds.width,h=bounds.height;
+    if(!w||!h)return;
+    const ratio=Math.min(devicePixelRatio||1,2),iw=poster.naturalWidth,ih=poster.naturalHeight;
+    posterCanvas.width=Math.round(w*ratio);posterCanvas.height=Math.round(h*ratio);
+    posterContext.setTransform(ratio,0,0,ratio,0,0);
+    posterContext.imageSmoothingEnabled=true;posterContext.imageSmoothingQuality='high';
+    const scale=Math.min(w/iw,h/ih),x=(w-iw*scale)/2,y=(h-ih*scale)/2,edge=20;
+    const sx=[0,edge,iw-edge,iw],sy=[0,edge,ih-edge,ih];
+    const dx=[0,x+edge*scale,x+(iw-edge)*scale,w],dy=[0,y+edge*scale,y+(ih-edge)*scale,h];
+    for(let row=0;row<3;row++)for(let col=0;col<3;col++){
+      posterContext.drawImage(poster,sx[col],sy[row],sx[col+1]-sx[col],sy[row+1]-sy[row],dx[col],dy[row],dx[col+1]-dx[col],dy[row+1]-dy[row]);
+    }
+    document.documentElement.style.setProperty('--poster-ticket-y',(bounds.top+y+ih*scale*.636)+'px');
+    posterFrame.classList.add('is-rendered');
+  }
+  function schedulePoster(){if(!posterRenderFrame)posterRenderFrame=requestAnimationFrame(renderPoster);}
+  poster.addEventListener('load',schedulePoster);
+  new ResizeObserver(schedulePoster).observe(posterFrame);
+  window.addEventListener('resize',schedulePoster);
+  schedulePoster();
 })();
