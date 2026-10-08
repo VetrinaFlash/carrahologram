@@ -67,7 +67,7 @@ body.is-hidden .scene-lasers i{animation-play-state:paused}
 .scene-background{opacity:.86}
 .scene-shade{background:linear-gradient(180deg,#03041070,transparent 34%,#03030e22 68%,#03030e99)}
 .stage-marquee{top:6%;left:calc(50% + 8px);width:min(84vw,1100px,132vh)}
-.character-layer{top:15%;left:calc(50% - 8px);height:85%;max-height:850px;aspect-ratio:374/749}
+.character-layer{top:15%;left:calc(50% - 8px);height:85%;max-height:850px;aspect-ratio:534/1107}
 .stage-signature{top:32%;right:10%;width:min(19vw,245px)}
 .show-copy{top:53%;bottom:auto;width:min(92vw,1310px);gap:8px}
 .show-copy:before{content:"";position:absolute;z-index:-1;inset:-4px -3vw;background:radial-gradient(ellipse,#06061575,transparent 72%);pointer-events:none}
