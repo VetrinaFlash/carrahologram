@@ -14,5 +14,6 @@
 // Se vuoto, il pulsante apre la finestra di iscrizione già collegata a /api/subscribe.
 window.CARRA_CONFIG = Object.freeze({
   ticketUrl: '',
-  countdownTarget: '2026-10-28T00:00:00+02:00'
+  countdownTarget: '2026-10-14T10:00:00+02:00'
 });
+

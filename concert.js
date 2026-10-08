@@ -158,7 +158,7 @@
     else playMusic(true);
   });
   function unlockAudio(event) {
-    if(!event.isTrusted || event.target.closest?.('#audioButton') || !autoplayWanted) return;
+    if(!event.isTrusted || event.target.closest?.('#audioButton') || event.target.closest?.('#countdownScreen') || !autoplayWanted) return;
     if(event.type === 'keydown' && (event.ctrlKey || event.metaKey || event.altKey)) return;
     playMusic();
   }
@@ -169,7 +169,9 @@
     if(document.hidden) { resumeAfterVisibility = !audio.paused; audio.pause(); }
     else if(resumeAfterVisibility || autoplayWanted) { resumeAfterVisibility = false; playMusic(); }
   });
-  playMusic();
+  if (document.documentElement.classList.contains('countdown-expired')) {
+    playMusic();
+  }
 
   function showSubscribed() {
     forms.forEach(form=>{form.hidden=true;const status=statusFor(form);status.dataset.statusKey='success';status.textContent=t('success');});
@@ -356,5 +358,108 @@
       }
     }
   })();
+
+  // ══ COUNTDOWN GATE (SCHERMO NERO FINO AL 14 OTTOBRE ORE 10:00) ══
+  (function initCountdownGate() {
+    const gateScreen = document.getElementById('countdownScreen');
+    if (!gateScreen) return;
+
+    const defaultTarget = '2026-10-14T10:00:00+02:00';
+    const configTarget = window.CARRA_CONFIG?.countdownTarget || defaultTarget;
+    let targetTime = new Date(configTarget).getTime();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const previewMode = urlParams.get('preview');
+
+    if (previewMode === 'test-expire') {
+      targetTime = Date.now() + 5000;
+    }
+
+    const daysEl = document.getElementById('gateDays');
+    const hoursEl = document.getElementById('gateHours');
+    const minsEl = document.getElementById('gateMins');
+    const secsEl = document.getElementById('gateSecs');
+    const gateStars = document.getElementById('gateStars');
+
+    // Stelline raffinate fluttuanti sullo sfondo nero
+    if (gateStars) {
+      const count = window.innerWidth < 768 ? 55 : 120;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'gate-star';
+        const sz = Math.random() < 0.68 ? (1.0 + Math.random() * 1.2) : (2.2 + Math.random() * 1.4);
+        const minOp = 0.08 + Math.random() * 0.18;
+        const maxOp = 0.60 + Math.random() * 0.40;
+        const dur = 2.0 + Math.random() * 3.5;
+        const delay = Math.random() * 5.0;
+        const glow = sz * 3.5;
+        star.style.cssText = `left:${(Math.random() * 100).toFixed(1)}%;top:${(Math.random() * 100).toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--tw-dur:${dur.toFixed(2)}s;--tw-delay:${delay.toFixed(2)}s;--min-op:${minOp.toFixed(2)};--max-op:${maxOp.toFixed(2)};box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,248,220,${maxOp.toFixed(2)}), 0 0 ${(glow * 2).toFixed(1)}px rgba(212,175,55,${(maxOp * 0.6).toFixed(2)});`;
+        gateStars.appendChild(star);
+      }
+    }
+
+    let isRevealed = false;
+    let timerInterval = null;
+
+    function revealSite(immediate = false) {
+      if (isRevealed) return;
+      isRevealed = true;
+      if (timerInterval) clearInterval(timerInterval);
+
+      document.body.classList.remove('gate-active');
+      document.documentElement.classList.remove('countdown-active');
+      document.documentElement.classList.add('countdown-expired');
+
+      if (immediate) {
+        gateScreen.style.display = 'none';
+        gateScreen.setAttribute('aria-hidden', 'true');
+        return;
+      }
+
+      gateScreen.classList.add('is-expired');
+      setTimeout(() => {
+        gateScreen.style.display = 'none';
+        gateScreen.setAttribute('aria-hidden', 'true');
+        playMusic();
+      }, 1450);
+    }
+
+    // Se scaduto già al caricamento o forzato via preview=site
+    if ((Date.now() >= targetTime && previewMode !== 'gate') || previewMode === 'site') {
+      revealSite(true);
+      return;
+    }
+
+    document.body.classList.add('gate-active');
+    document.documentElement.classList.add('countdown-active');
+
+    function update() {
+      const now = Date.now();
+      const diff = Math.max(0, targetTime - now);
+
+      if (diff <= 0) {
+        if (daysEl) daysEl.textContent = '00';
+        if (hoursEl) hoursEl.textContent = '00';
+        if (minsEl) minsEl.textContent = '00';
+        if (secsEl) secsEl.textContent = '00';
+        revealSite(false);
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      if (daysEl) daysEl.textContent = String(d).padStart(2, '0');
+      if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
+      if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
+      if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
+    }
+
+    update();
+    timerInterval = setInterval(update, 1000);
+  })();
 })();
+
 

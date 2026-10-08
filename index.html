@@ -14,10 +14,73 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="concert.css">
   <link rel="stylesheet" href="sparkles-elegant.css">
+  <link rel="stylesheet" href="countdown-screen.css">
+  <script>
+    (function() {
+      try {
+        var target = new Date('2026-10-14T10:00:00+02:00').getTime();
+        var now = Date.now();
+        var p = new URLSearchParams(window.location.search);
+        var preview = p.get('preview');
+        if ((now >= target && preview !== 'gate') || preview === 'site') {
+          document.documentElement.classList.add('countdown-expired');
+        } else {
+          document.documentElement.classList.add('countdown-active');
+        }
+      } catch(e) {}
+    })();
+  </script>
   <script src="site-config.js" defer></script>
   <script src="concert.js" defer></script>
 </head>
-<body>
+<body class="gate-active">
+  <!-- SCHERMO NERO CON TIMER AL CENTRO E FORM MAIL FINO AL 14 OTTOBRE ORE 10:00 -->
+  <aside id="countdownScreen" class="countdown-screen" aria-label="Countdown all'apertura del sito">
+    <div class="gate-stars" id="gateStars" aria-hidden="true"></div>
+    <div class="gate-center-stack">
+      <div class="gate-header">
+        <span class="gate-eyebrow">OFFICIAL HOLOGRAM CONCERT</span>
+        <h2 class="gate-title">RAFFAELLA CARRÀ</h2>
+        <p class="gate-subtitle">THE SHOW MUST GO ON</p>
+      </div>
+
+      <!-- Timer al centro -->
+      <div class="gate-timer" role="timer" aria-label="Tempo rimanente all'apertura del sito">
+        <div class="gate-unit">
+          <span class="gate-num" id="gateDays">00</span>
+          <span class="gate-lbl" data-t="cdDays">GIORNI</span>
+        </div>
+        <span class="gate-sep" aria-hidden="true">:</span>
+        <div class="gate-unit">
+          <span class="gate-num" id="gateHours">00</span>
+          <span class="gate-lbl" data-t="cdHours">ORE</span>
+        </div>
+        <span class="gate-sep" aria-hidden="true">:</span>
+        <div class="gate-unit">
+          <span class="gate-num" id="gateMins">00</span>
+          <span class="gate-lbl" data-t="cdMins">MINUTI</span>
+        </div>
+        <span class="gate-sep" aria-hidden="true">:</span>
+        <div class="gate-unit">
+          <span class="gate-num" id="gateSecs">00</span>
+          <span class="gate-lbl" data-t="cdSecs">SECONDI</span>
+        </div>
+      </div>
+
+      <!-- Solo il form per inserire la mail -->
+      <div class="gate-signup">
+        <form id="gateSubscribeForm" class="gate-form" data-subscribe>
+          <label for="gateEmail" class="gate-prompt" data-t="updatesPrompt">Inserisci la mail per rimanere aggiornato</label>
+          <div class="gate-form-row">
+            <input id="gateEmail" class="gate-input" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="gateStatus" aria-label="La tua email">
+            <button type="submit" class="gate-btn" data-t="join">Iscriviti</button>
+          </div>
+        </form>
+        <p id="gateStatus" class="gate-status form-status" data-subscribe-status role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </aside>
+
   <div id="stars-global" aria-hidden="true"></div>
   <main class="experience" aria-labelledby="event-title">
     <h1 id="event-title" class="sr-only">Raffaella Carrà — The Show Must Go On. Official Hologram Concert. 28 dicembre 2026, Atlantico Roma.</h1>

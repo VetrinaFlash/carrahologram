@@ -1,0 +1,412 @@
+/* ==========================================================================
+   COUNTDOWN SCREEN OVERLAY — RAFFAELLA CARRÀ
+   Schermo nero con timer al centro fino al 14 Ottobre alle 10:00 del mattino.
+   Sotto il timer: solo il form "Inserisci la mail per rimanere aggiornato".
+   Alla scadenza: dissolvenza elegante e comparsa del sito del concerto sotto.
+   ========================================================================== */
+
+/* Se il countdown è già scaduto (o preview=site), nascondi istantaneamente senza flash */
+html.countdown-expired #countdownScreen {
+  display: none !important;
+}
+
+/* Blocco scroll della pagina sottostante mentre il gate è attivo */
+body.gate-active {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+/* Schermo nero a schermo intero */
+#countdownScreen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99999;
+  background-color: #000000;
+  background-image:
+    radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.08) 0%, rgba(12, 12, 16, 0.6) 45%, #000000 80%),
+    radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.04) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 24px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #ffffff;
+  text-align: center;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Dissolvenza quando scade il timer */
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 1.4s;
+  will-change: opacity, transform;
+}
+
+/* Stato di dissolvenza/scomparsa */
+#countdownScreen.is-expired {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: scale(1.03) !important;
+}
+
+/* Cielo stellato sottile sul fondo nero */
+.gate-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.gate-star {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #ffffff;
+  animation: gateTwinkle var(--tw-dur, 3s) ease-in-out infinite var(--tw-delay, 0s);
+  opacity: 0;
+}
+
+@keyframes gateTwinkle {
+  0%, 100% {
+    opacity: var(--min-op, 0.1);
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: var(--max-op, 0.85);
+    transform: scale(1.25);
+  }
+}
+
+/* Contenitore centrale */
+.gate-center-stack {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 680px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 20px 10px;
+}
+
+/* Testata evento */
+.gate-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.gate-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.85);
+  font-weight: 600;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+}
+
+.gate-title {
+  font-family: 'Cinzel', 'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.08;
+  margin: 0;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5E6BE 45%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 20px rgba(212, 175, 55, 0.35));
+}
+
+.gate-subtitle {
+  font-size: clamp(0.78rem, 2vw, 0.95rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.68);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   IL TIMER CENTRALE
+   ========================================================================== */
+.gate-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 580px;
+}
+
+.gate-unit {
+  flex: 1;
+  min-width: 68px;
+  max-width: 115px;
+  padding: 18px 6px 14px 6px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(18, 18, 22, 0.75) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 14px;
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 0 25px rgba(212, 175, 55, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gate-unit:hover {
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 30px rgba(212, 175, 55, 0.18);
+}
+
+.gate-num {
+  font-family: 'Cinzel', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(2.1rem, 5.8vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8E8C0 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 12px rgba(212, 175, 55, 0.3));
+}
+
+.gate-lbl {
+  font-size: clamp(0.62rem, 1.4vw, 0.72rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(220, 195, 120, 0.88);
+  font-weight: 600;
+}
+
+.gate-sep {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: rgba(212, 175, 55, 0.65);
+  font-weight: 300;
+  line-height: 1;
+  margin-top: -18px;
+  animation: gateSepBlink 1.8s ease-in-out infinite;
+}
+
+@keyframes gateSepBlink {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.3; }
+}
+
+/* ==========================================================================
+   SOLO IL FORM PER INSERIRE LA MAIL
+   "Inserisci la mail per rimanere aggiornato"
+   ========================================================================== */
+.gate-signup {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gate-prompt {
+  font-size: clamp(0.96rem, 2.2vw, 1.12rem);
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.gate-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.gate-form-row {
+  display: flex;
+  width: 100%;
+  background: rgba(18, 18, 24, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.38);
+  border-radius: 999px;
+  padding: 4px 4px 4px 18px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(212, 175, 55, 0.08);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gate-form-row:focus-within {
+  border-color: #f7df8b;
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(212, 175, 55, 0.35);
+}
+
+.gate-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+  padding: 10px 6px;
+  font-family: inherit;
+}
+
+.gate-input::placeholder {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.gate-btn {
+  background: linear-gradient(135deg, #f7df8b 0%, #d4af37 50%, #aa8214 100%);
+  color: #07070a;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 26px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+  transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gate-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 22px rgba(212, 175, 55, 0.55);
+}
+
+.gate-btn:active {
+  transform: scale(0.97);
+}
+
+.gate-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.gate-status {
+  font-size: 14px;
+  min-height: 22px;
+  margin-top: 10px;
+  text-align: center;
+  color: #f5e6be;
+  transition: opacity 0.3s ease;
+}
+
+.gate-status[data-status-key="success"],
+.gate-status.is-success {
+  color: #8affaa;
+  text-shadow: 0 0 10px rgba(138, 255, 170, 0.4);
+  font-weight: 500;
+}
+
+.gate-status[data-status-key="error"],
+.gate-status.is-error {
+  color: #ff8a8a;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================================================== */
+@media (max-width: 580px) {
+  .gate-center-stack {
+    gap: 26px;
+    padding: 10px 4px;
+  }
+
+  .gate-timer {
+    gap: 6px;
+  }
+
+  .gate-unit {
+    min-width: 56px;
+    padding: 14px 4px 10px 4px;
+    border-radius: 10px;
+  }
+
+  .gate-sep {
+    font-size: 1.5rem;
+    margin-top: -12px;
+  }
+
+  .gate-lbl {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+  }
+
+  .gate-prompt {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+  }
+
+  .gate-form-row {
+    padding: 3px 3px 3px 14px;
+  }
+
+  .gate-input {
+    font-size: 14px;
+  }
+
+  .gate-btn {
+    font-size: 12.5px;
+    padding: 10px 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .gate-title {
+    font-size: 1.8rem;
+  }
+
+  .gate-timer {
+    gap: 4px;
+  }
+
+  .gate-unit {
+    min-width: 48px;
+    padding: 10px 2px 8px 2px;
+  }
+
+  .gate-num {
+    font-size: 1.7rem;
+  }
+
+  .gate-sep {
+    font-size: 1.2rem;
+  }
+
+  .gate-lbl {
+    font-size: 0.52rem;
+  }
+}
