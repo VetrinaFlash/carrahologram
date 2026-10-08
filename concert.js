@@ -297,18 +297,90 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // Subtle interactive sparkle enhancement when cursor is near the Carrà title
-  const sparklesLayer = document.querySelector('.carra-sparkles');
-  if (sparklesLayer) {
-    document.addEventListener('pointermove', event => {
-      if (document.hidden || motion.matches) return;
-      const b = sparklesLayer.getBoundingClientRect();
-      if (!b.width || !b.height) return;
-      const inMarquee = event.clientY >= b.top - 20 &&
-                        event.clientY <= b.top + b.height * 0.38 &&
-                        event.clientX >= b.left - 20 &&
-                        event.clientX <= b.right + 20;
-      sparklesLayer.classList.toggle('is-hovered', inMarquee);
-    }, { passive: true });
-  }
+  // ══ STELLINE ELEGANTI ISPIRATE A RAFFAELLACARRAOFFICIAL.COM ══
+  (function initStars() {
+    // 1. Sfondo stellato globale
+    const globalContainer = document.getElementById('stars-global');
+    if (globalContainer) {
+      const isMobile = window.innerWidth < 768;
+      const count = isMobile ? 120 : 260;
+
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 's';
+        const r = Math.random();
+        let sz = r < 0.60 ? (0.5 + Math.random() * 0.7) : (r < 0.88 ? (1.1 + Math.random() * 0.9) : (2.0 + Math.random() * 1.0));
+        let op = 0.25 + Math.random() * 0.55;
+        let glow = sz * 4;
+        let dur = 1.2 + Math.random() * 3.8;
+        let delay = Math.random() * 9;
+
+        star.style.cssText = `left:${(Math.random() * 100).toFixed(1)}%;top:${(Math.random() * 100).toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${dur.toFixed(2)}s;--dl:${delay.toFixed(2)}s;--op:${op.toFixed(2)};box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,248,210,${op.toFixed(2)}), 0 0 ${(glow * 2.5).toFixed(1)}px rgba(232,196,106,${(op * 0.5).toFixed(2)});`;
+        globalContainer.appendChild(star);
+      }
+
+      // Stelle cadenti — desktop
+      if (!isMobile) {
+        function shoot() {
+          const el = document.createElement('div');
+          const dur = 0.6 + Math.random() * 0.7;
+          el.className = 'shooting-star';
+          el.style.cssText = `left:${(Math.random() * 75).toFixed(1)}%;top:${(Math.random() * 45).toFixed(1)}%;width:${Math.round(80 + Math.random() * 140)}px;--dur:${dur.toFixed(2)}s;transform:rotate(${Math.round(18 + Math.random() * 22)}deg);`;
+          globalContainer.appendChild(el);
+          setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, dur * 1000 + 200);
+        }
+        setInterval(() => { if (Math.random() > 0.45) shoot(); }, 3200);
+        setTimeout(shoot, 1500);
+      }
+    }
+
+    // 2. Stelline e polvere d'oro raffinate concentrate attorno a RAFFAELLA CARRÀ
+    const letterStarsContainer = document.getElementById('carraLetterStars');
+    if (letterStarsContainer) {
+      const letterZones = [
+        // Sinistra attorno a R di RAFFAELLA
+        { xMin: 5,  xMax: 18, yMin: 5,  yMax: 24, count: 14 },
+        // Destra attorno a CARRÀ e accento À
+        { xMin: 82, xMax: 96, yMin: 4,  yMax: 24, count: 16 },
+        // Polvere di stelle sopra la curvatura del titolo
+        { xMin: 18, xMax: 82, yMin: 4,  yMax: 14, count: 18 }
+      ];
+
+      letterZones.forEach(zone => {
+        for (let i = 0; i < zone.count; i++) {
+          const star = document.createElement('div');
+          star.className = 's';
+          const r = Math.random();
+          let sz = r < 0.65 ? (0.8 + Math.random() * 0.8) : (1.6 + Math.random() * 0.9);
+          let op = 0.35 + Math.random() * 0.55;
+          let glow = sz * 4;
+          let x = zone.xMin + Math.random() * (zone.xMax - zone.xMin);
+          let y = zone.yMin + Math.random() * (zone.yMax - zone.yMin);
+          let dur = 1.4 + Math.random() * 3.0;
+          let delay = Math.random() * 6;
+
+          star.style.cssText = `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${dur.toFixed(2)}s;--dl:${delay.toFixed(2)}s;--op:${op.toFixed(2)};box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,248,210,${op.toFixed(2)}), 0 0 ${(glow * 2.5).toFixed(1)}px rgba(232,196,106,${(op * 0.6).toFixed(2)});`;
+          letterStarsContainer.appendChild(star);
+        }
+      });
+
+      // Risalita di scintille dorate (spk) morbide attorno alla scritta
+      for (let k = 0; k < 12; k++) {
+        const spk = document.createElement('div');
+        spk.className = 'spk';
+        const sz = 1.0 + Math.random() * 1.6;
+        const x = (k % 2 === 0) ? (6 + Math.random() * 14) : (80 + Math.random() * 15);
+        const y = 14 + Math.random() * 18;
+        const tx = (Math.random() - 0.5) * 35;
+        const ty = -(35 + Math.random() * 85);
+        const glow = sz * 4;
+        const dur = 3.2 + Math.random() * 4.2;
+        const delay = Math.random() * 8;
+
+        spk.style.cssText = `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--d:${dur.toFixed(2)}s;--dl:${delay.toFixed(2)}s;--tx:${tx.toFixed(1)}px;--ty:${ty.toFixed(1)}px;box-shadow:0 0 ${glow.toFixed(1)}px rgba(255,235,150,1), 0 0 ${(glow * 2).toFixed(1)}px rgba(200,146,42,0.6);`;
+        letterStarsContainer.appendChild(spk);
+      }
+    }
+  })();
 })();
+

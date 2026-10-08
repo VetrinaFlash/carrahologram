@@ -137,408 +137,51 @@ body.is-hidden .scene-lasers i{animation-play-state:paused}
 /* ==========================================================================
    OFFICIAL COUNTDOWN & EMAIL SUBSCRIPTION DOCK (SHARED BASE STYLES)
    ========================================================================== */
-.action-dock {
-  position: fixed;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-}
-
-.dock-card {
-  pointer-events: all;
-  background: linear-gradient(135deg, rgba(16, 19, 44, 0.94) 0%, rgba(7, 9, 23, 0.97) 100%);
-  border: 1px solid rgba(232, 196, 106, 0.38);
-  border-top-color: rgba(255, 238, 186, 0.65);
-  border-radius: 18px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85), 0 0 24px rgba(200, 146, 42, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  box-sizing: border-box;
-}
-
-.countdown-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.countdown-badge {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #eed5a3;
-  text-shadow: 0 0 12px rgba(238, 213, 163, 0.45);
-}
-
-.badge-sparkle {
-  color: #ffd269;
-  font-size: 9px;
-  filter: drop-shadow(0 0 4px #ffd269);
-  animation: badge-glint 2.2s infinite alternate ease-in-out;
-}
-
-@keyframes badge-glint {
-  0% { opacity: 0.6; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1.18); }
-}
-
-.countdown-grid {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.countdown-tile {
-  background: rgba(4, 6, 17, 0.85);
-  border: 1px solid rgba(232, 196, 106, 0.32);
-  border-top-color: rgba(255, 240, 200, 0.55);
-  border-radius: 9px;
-  padding: 6px 12px;
-  min-width: 56px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: border-color 0.3s;
-}
-
-.countdown-tile:hover {
-  border-color: rgba(232, 196, 106, 0.65);
-}
-
-.tile-val {
-  font-family: 'Bebas Neue', 'Montserrat', sans-serif;
-  font-size: 27px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  background: linear-gradient(180deg, #ffffff 0%, #fff4d2 45%, #e8c46a 80%, #c8922a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 10px rgba(232, 196, 106, 0.45));
-  font-variant-numeric: tabular-nums;
-}
-
-.tile-lbl {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 7.5px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #c9cbd8;
-  margin-top: 3px;
-}
-
-.countdown-sep {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px;
-  color: #e8c46a;
-  text-shadow: 0 0 8px rgba(232, 196, 106, 0.6);
-  opacity: 0.85;
-  margin-bottom: 12px;
-  animation: sep-blink 1s steps(1) infinite;
-}
-
-@keyframes sep-blink {
-  0%, 100% { opacity: 0.9; }
-  50% { opacity: 0.3; }
-}
-
-.dock-divider {
-  background: linear-gradient(180deg, transparent 0%, rgba(232, 196, 106, 0.45) 50%, transparent 100%);
-  flex-shrink: 0;
-}
-
-.email-section {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  flex: 1;
-  min-width: 0;
-}
-
-.email-label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #eed5a3;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.dock-email-form {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
-
-.dock-card .email-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 48px;
-  padding: 4px 5px;
-  border-radius: 11px;
-  background: rgba(4, 6, 17, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(14px);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.dock-card .email-row:focus-within {
-  border-color: #eed5a3;
-  box-shadow: 0 0 20px rgba(238, 213, 163, 0.35);
-}
-
-.dock-card .email-row input {
-  flex: 1;
-  min-width: 0;
-  background: transparent;
-  border: 0;
-  outline: none;
-  color: #ffffff;
-  font-size: 14px;
-  padding: 0 12px;
-}
-
-.dock-card .email-row input::placeholder {
-  color: #888d9f;
-  font-size: 13px;
-}
-
-.submit-btn {
-  height: 100%;
-  min-height: 38px;
-  padding: 0 22px;
-  background: linear-gradient(135deg, #ed2545 0%, #c41230 100%);
-  border: 1px solid rgba(255, 120, 140, 0.4);
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  box-shadow: 0 4px 14px rgba(237, 37, 69, 0.4);
-  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-
-.submit-btn:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(135deg, #ff3859 0%, #db1737 100%);
-  box-shadow: 0 6px 20px rgba(237, 37, 69, 0.6);
-}
-
-.submit-btn:active {
-  transform: translateY(0);
-}
-
-.email-footer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 20px;
-}
-
-.email-footer-row .form-status {
-  margin: 0;
-  font-size: 11px;
-  color: #ffd269;
-}
-
-.vivaticket-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 20px;
-  padding: 3px 10px;
-  color: #d1d3e2;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-  margin-left: auto;
-}
-
-.vivaticket-pill img {
-  width: 58px !important;
-  max-width: 68px !important;
-  height: auto !important;
-  max-height: 20px !important;
-  object-fit: contain;
-  opacity: 0.9;
-  filter: brightness(1.1);
-  flex-shrink: 0;
-}
-
-.vivaticket-pill svg {
-  width: 12px;
-  height: 12px;
-  stroke-width: 2;
-  transition: transform 0.2s;
-}
-
-.vivaticket-pill:hover {
-  background: rgba(237, 37, 69, 0.18);
-  border-color: rgba(237, 37, 69, 0.5);
-  color: #ffffff;
-}
-
-.vivaticket-pill:hover svg {
-  transform: translateX(2px);
-}
-
-/* ══ DESKTOP SPECIFIC LAYOUT ══ */
 @media(min-aspect-ratio:1001/1000){
   .poster-frame{inset:0}
   .poster-art{width:min(100vw,177.777778vh);height:auto;max-width:100%;max-height:100%}
   .scene-background{inset:0;width:100%;height:100%;filter:brightness(.72);opacity:1;object-fit:cover}
   .scene-shade{background:none}.scene-lasers{opacity:.18}
-  .action-dock {
-    top: calc(50% + min(13.6vw, 24vh));
-    bottom: auto;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: min(980px, 88vw);
-    height: auto;
-  }
-  .dock-card {
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    gap: 22px;
-    padding: 14px 24px;
-  }
-  .dock-divider {
-    width: 1px;
-    height: 64px;
-  }
+  .action-dock{top:calc(50% + min(13.8vw,24.5vh));bottom:auto;left:50%;right:auto;transform:translateX(-50%);width:min(1040px,86vw);height:auto;flex-direction:row;align-items:flex-end;gap:24px}
+  .ticket-button{width:calc((100% - 24px)/2);min-width:0;height:58px;flex-shrink:0;padding:6px 8px 6px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(20,22,45,.94),rgba(9,11,26,.98));border:1px solid rgba(255,92,116,.45);box-shadow:0 4px 30px rgba(237,37,69,.22),0 0 0 1px rgba(255,255,255,.08) inset}
+  .ticket-button>img{width:clamp(120px,11vw,150px);max-height:28px;object-fit:contain;flex-shrink:0}
+  .ticket-label{flex:1;min-width:140px;height:100%;border-radius:8px;font-size:13px;font-weight:700;letter-spacing:.08em;padding:0 22px;gap:12px;display:flex;align-items:center;justify-content:center}
+  .ticket-label svg{width:20px;height:20px}
+  .home-signup{width:calc((100% - 24px)/2)}
+  .home-signup label{margin-bottom:7px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#eed5a3;text-shadow:0 1px 4px rgba(0,0,0,.8);display:block}
+  .home-signup .email-row{height:58px;padding:5px 6px;border-radius:14px;gap:8px;background:rgba(7,10,27,.94);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(14px);display:flex;align-items:center}
+  .home-signup .email-row:focus-within{border-color:#eed5a3;box-shadow:0 0 24px rgba(238,213,163,.3)}
+  .home-signup .email-row input{font-size:14px;padding:0 14px;flex:1;min-width:0;color:#fff}
+  .home-signup .email-row button{min-height:46px;height:100%;padding:0 28px;font-size:12px;font-weight:700;letter-spacing:.08em;border-radius:8px;text-transform:uppercase;box-shadow:0 4px 18px rgba(237,37,69,.35)}
   .controls{background:linear-gradient(#0304119c,transparent)}
 }
-
 @media(min-aspect-ratio:1001/1000) and (min-width:1300px) and (min-height:680px){
-  .action-dock{width:min(1080px,88vw)}
+  .action-dock{width:min(1140px,88vw);gap:28px}
+  .ticket-button{width:calc((100% - 28px)/2);height:62px;border-radius:14px}
+  .ticket-button>img{width:155px}
+  .ticket-label{font-size:14px}
+  .home-signup{width:calc((100% - 28px)/2)}
+  .home-signup .email-row{height:62px;border-radius:14px}
+  .home-signup .email-row input{font-size:15px;padding:0 16px}
+  .home-signup .email-row button{min-height:50px;padding:0 32px;font-size:13px}
+  .home-signup label{font-size:11.5px;margin-bottom:8px}
 }
-
 @media(max-height:580px) and (min-aspect-ratio:1001/1000){
-  .action-dock{top:auto;bottom:16px;width:min(90vw,680px)}
-  .dock-card{padding:8px 16px;gap:14px}
-  .tile-val{font-size:20px}
-  .countdown-tile{min-width:44px;padding:3px 6px}
-  .dock-card .email-row{height:38px}
-  .submit-btn{min-height:30px;padding:0 14px;font-size:10px}
+  .action-dock{top:30%;left:2%;right:auto;transform:none;bottom:auto;width:24vw;max-width:220px;flex-direction:column;align-items:stretch;gap:6px}
+  .ticket-button{width:100%;height:34px;padding:4px 5px 4px 9px;gap:8px}.ticket-button>img{width:80px}.ticket-label{font-size:9px;padding:0 7px;gap:5px}.ticket-label svg{width:12px}
+  .home-signup{width:100%}.home-signup label{font-size:8px;margin-bottom:3px}.home-signup .email-row{height:34px;padding:3px}.home-signup .email-row input{font-size:13px;padding:2px 5px}.home-signup .email-row button{min-height:26px;padding:0 9px;font-size:10px}
 }
 
 /* One continuous scene reaches every edge; the poster centre stays undistorted. */
 .poster-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .poster-frame.is-rendered .poster-art{opacity:0}
-
-/* ══ MOBILE SPECIFIC LAYOUT ══ */
 @media(max-aspect-ratio:1/1){
   .poster-frame{inset:env(safe-area-inset-top) 0 calc(62px + env(safe-area-inset-bottom))}
-  .action-dock {
-    display: flex !important;
-    position: fixed;
-    z-index: 10;
-    left: 50%;
-    transform: translateX(-50%);
-    top: var(--poster-ticket-y, 61%);
-    bottom: auto;
-    width: min(370px, 92vw);
-    padding: 0;
-  }
-  .dock-card {
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 9px;
-    padding: 11px 13px;
-    border-radius: 16px;
-  }
-  .dock-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(232, 196, 106, 0.35) 50%, transparent 100%);
-  }
-  .countdown-badge {
-    font-size: 8.5px;
-    letter-spacing: 0.12em;
-  }
-  .countdown-grid {
-    gap: 4px;
-    width: 100%;
-  }
-  .countdown-tile {
-    min-width: 46px;
-    padding: 4px 6px;
-  }
-  .tile-val {
-    font-size: 21px;
-  }
-  .tile-lbl {
-    font-size: 6.5px;
-  }
-  .countdown-sep {
-    font-size: 15px;
-    margin-bottom: 6px;
-  }
-  .email-label {
-    font-size: 9px;
-    text-align: center;
-  }
-  .dock-card .email-row {
-    height: 40px;
-    padding: 3px 4px;
-  }
-  .dock-card .email-row input {
-    font-size: 13px;
-    padding: 0 8px;
-  }
-  .submit-btn {
-    min-height: 32px;
-    padding: 0 16px;
-    font-size: 11px;
-  }
-  .email-footer-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-  .vivaticket-pill {
-    margin: 0 auto;
-    font-size: 8.5px;
-    padding: 2px 8px;
-  }
-  .vivaticket-pill img {
-    width: 48px !important;
-    max-height: 16px !important;
-  }
+  .action-dock{display:contents}
+  .action-dock .ticket-button{position:fixed;z-index:5;left:50%;top:var(--poster-ticket-y,63%);transform:translateX(-50%);width:min(340px,88vw);height:44px;min-width:0;animation:none}
+  .action-dock .ticket-button:hover{transform:translateX(-50%) translateY(-2px)}
+  .action-dock .home-signup{position:fixed;z-index:5;left:50%;bottom:calc(6px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(390px,94vw)}
+  .home-signup .email-row{height:42px}
   .controls{height:46px}.quiet-button,.icon-button,.language-control select{height:36px;min-height:36px}
 }
 
@@ -551,62 +194,137 @@ body.is-hidden .scene-lasers i{animation-play-state:paused}
   .primary-button{min-height:52px;font-size:13px;border-radius:9px}
 }
 
-/* ══ SPARKLES EFFECT (RAFFAELLA CARRÀ) ══ */
-.carra-sparkles{position:absolute;left:var(--poster-x,0px);top:var(--poster-y,0px);width:var(--poster-w,100%);height:var(--poster-h,100%);pointer-events:none;z-index:6;overflow:visible}
-.star-point{position:absolute;display:block;transform:translate(-50%,-50%);transform-origin:center center;filter:drop-shadow(0 0 6px rgba(255,230,140,.95)) drop-shadow(0 0 16px rgba(255,140,50,.7));will-change:transform,opacity;pointer-events:none}
-.star-point svg{display:block;width:100%;height:100%}
-.carra-sparkles.is-hovered .star-point{filter:drop-shadow(0 0 10px rgba(255,240,160,1)) drop-shadow(0 0 24px rgba(255,160,60,.95))}
+/* ══ COUNTDOWN 28 OTTOBRE — Raffinata barra dorata fluttuante ══ */
+.countdown-bar {
+  position: fixed;
+  z-index: 6;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
-.anim-sparkle-1{animation:carra-twinkle-1 var(--spk-dur,2.6s) var(--spk-delay,0s) ease-in-out infinite alternate}
-.anim-sparkle-2{animation:carra-twinkle-2 var(--spk-dur,3.1s) var(--spk-delay,.4s) ease-in-out infinite alternate}
-.anim-sparkle-3{animation:carra-twinkle-3 var(--spk-dur,2.2s) var(--spk-delay,.8s) ease-in-out infinite alternate}
-.anim-sparkle-accent{animation:carra-twinkle-accent var(--spk-dur,2.4s) var(--spk-delay,.2s) ease-in-out infinite alternate}
-.anim-stardust{animation:carra-stardust var(--spk-dur,1.8s) var(--spk-delay,0s) ease-in-out infinite alternate}
+.countdown-bar-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(16, 18, 42, 0.94) 0%, rgba(6, 8, 22, 0.97) 100%);
+  border: 1px solid rgba(232, 196, 106, 0.42);
+  border-top-color: rgba(255, 238, 186, 0.72);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.75), 0 0 14px rgba(200, 146, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
 
-@keyframes carra-twinkle-1{0%{opacity:.15;transform:translate(-50%,-50%) scale(.35) rotate(0deg)}35%{opacity:.9;transform:translate(-50%,-50%) scale(1.1) rotate(18deg);filter:drop-shadow(0 0 10px rgba(255,245,190,1)) drop-shadow(0 0 24px rgba(255,170,60,.9))}65%{opacity:.4;transform:translate(-50%,-50%) scale(.75) rotate(32deg)}100%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(45deg);filter:drop-shadow(0 0 12px rgba(255,255,220,1)) drop-shadow(0 0 28px rgba(255,180,70,.95))}}
-@keyframes carra-twinkle-2{0%{opacity:.95;transform:translate(-50%,-50%) scale(1.2) rotate(45deg);filter:drop-shadow(0 0 11px rgba(255,240,180,1)) drop-shadow(0 0 24px rgba(255,160,50,.85))}40%{opacity:.2;transform:translate(-50%,-50%) scale(.4) rotate(20deg)}75%{opacity:.85;transform:translate(-50%,-50%) scale(1.05) rotate(-10deg)}100%{opacity:.1;transform:translate(-50%,-50%) scale(.25) rotate(-25deg)}}
-@keyframes carra-twinkle-3{0%{opacity:.2;transform:translate(-50%,-50%) scale(.45) rotate(15deg)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(35deg);filter:drop-shadow(0 0 9px rgba(255,245,200,1)) drop-shadow(0 0 20px rgba(255,150,45,.8))}100%{opacity:.25;transform:translate(-50%,-50%) scale(.5) rotate(55deg)}}
-@keyframes carra-twinkle-accent{0%{opacity:.3;transform:translate(-50%,-50%) scale(.6) rotate(0deg)}30%{opacity:1;transform:translate(-50%,-50%) scale(1.35) rotate(25deg);filter:drop-shadow(0 0 14px rgba(255,255,230,1)) drop-shadow(0 0 32px rgba(255,190,70,1)) drop-shadow(0 0 45px rgba(237,37,69,.7))}60%{opacity:.5;transform:translate(-50%,-50%) scale(.85) rotate(45deg)}100%{opacity:.95;transform:translate(-50%,-50%) scale(1.2) rotate(70deg);filter:drop-shadow(0 0 10px rgba(255,245,200,1)) drop-shadow(0 0 25px rgba(255,170,60,.85))}}
-@keyframes carra-stardust{0%{opacity:.1;transform:translate(-50%,-50%) scale(.4)}50%{opacity:.9;transform:translate(-50%,-50%) scale(1.1);filter:drop-shadow(0 0 6px #fff)}100%{opacity:.15;transform:translate(-50%,-50%) scale(.5)}}
+.countdown-bar .cd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #eed5a3;
+  text-shadow: 0 0 8px rgba(238, 213, 163, 0.5);
+  white-space: nowrap;
+}
 
-/* Desktop coordinates for horizontal poster (1536x864) */
+.countdown-bar .cd-sparkle {
+  color: #ffd269;
+  font-size: 7.5px;
+  filter: drop-shadow(0 0 3px #ffd269);
+  animation: badgeGlint 2s infinite alternate ease-in-out;
+}
+
+@keyframes badgeGlint {
+  0% { opacity: 0.5; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+.countdown-bar .cd-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.countdown-bar .cd-unit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.countdown-bar .cd-val {
+  font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: linear-gradient(180deg, #ffffff 0%, #fff2cb 45%, #e8c46a 85%, #c8922a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(232, 196, 106, 0.4));
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-bar .cd-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c9cbd8;
+}
+
+.countdown-bar .cd-colon {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: #e8c46a;
+  text-shadow: 0 0 6px rgba(232, 196, 106, 0.6);
+  opacity: 0.85;
+  margin: 0 1px;
+  line-height: 1;
+}
+
 @media(min-aspect-ratio:1001/1000){
-  .star--left-1{left:8.6%;top:5.2%;width:42px;height:42px}
-  .star--left-2{left:6.2%;top:13.8%;width:30px;height:30px}
-  .star--left-3{left:8.2%;top:22.5%;width:34px;height:34px}
-  .star--left-dust-1{left:5.4%;top:8.5%;width:14px;height:14px}
-  .star--left-dust-2{left:9.8%;top:17.2%;width:12px;height:12px}
-  .star--right-accent{left:89.6%;top:4.8%;width:44px;height:44px}
-  .star--right-1{left:93.6%;top:11.8%;width:34px;height:34px}
-  .star--right-2{left:91.8%;top:20.8%;width:32px;height:32px}
-  .star--right-3{left:95.0%;top:6.2%;width:22px;height:22px}
-  .star--right-dust-1{left:87.8%;top:14.8%;width:14px;height:14px}
-  .star--right-dust-2{left:94.2%;top:17.5%;width:12px;height:12px}
-  .star--arch-1{left:19.5%;top:8.0%;width:22px;height:22px}
-  .star--arch-2{left:31.5%;top:11.2%;width:20px;height:20px}
-  .star--arch-3{left:67.5%;top:11.8%;width:20px;height:20px}
-  .star--arch-4{left:79.5%;top:7.8%;width:22px;height:22px}
+  .countdown-bar {
+    top: 11px;
+    z-index: 100;
+  }
 }
 
-/* Mobile coordinates for vertical poster (864x1536) */
 @media(max-aspect-ratio:1/1){
-  .star--left-1{left:4.0%;top:5.2%;width:30px;height:30px}
-  .star--left-2{left:1.8%;top:11.8%;width:22px;height:22px}
-  .star--left-3{left:3.5%;top:18.2%;width:24px;height:24px}
-  .star--left-dust-1{left:1.2%;top:7.5%;width:10px;height:10px}
-  .star--left-dust-2{left:5.2%;top:14.8%;width:9px;height:9px}
-  .star--right-accent{left:94.2%;top:5.2%;width:32px;height:32px}
-  .star--right-1{left:97.2%;top:11.5%;width:24px;height:24px}
-  .star--right-2{left:95.2%;top:18.0%;width:22px;height:22px}
-  .star--right-3{left:97.8%;top:6.8%;width:16px;height:16px}
-  .star--right-dust-1{left:92.5%;top:13.8%;width:10px;height:10px}
-  .star--right-dust-2{left:96.8%;top:15.2%;width:9px;height:9px}
-  .star--arch-1{left:15.5%;top:8.0%;width:16px;height:16px}
-  .star--arch-2{left:27.0%;top:11.0%;width:15px;height:15px}
-  .star--arch-3{left:72.0%;top:11.2%;width:15px;height:15px}
-  .star--arch-4{left:83.5%;top:7.6%;width:16px;height:16px}
-}
-
-@media(prefers-reduced-motion:reduce){
-  .star-point{animation:none!important;opacity:.85!important}
+  .countdown-bar {
+    top: calc(var(--poster-ticket-y, 63%) + 46px);
+    width: auto;
+    max-width: 94vw;
+  }
+  .countdown-bar-inner {
+    padding: 3px 10px;
+    gap: 6px;
+  }
+  .countdown-bar .cd-badge {
+    font-size: 7.2px;
+    letter-spacing: 0.08em;
+    gap: 4px;
+  }
+  .countdown-bar .cd-timer {
+    gap: 3px;
+  }
+  .countdown-bar .cd-val {
+    font-size: 14px;
+  }
+  .countdown-bar .cd-tag {
+    font-size: 5.5px;
+    letter-spacing: 0.04em;
+  }
+  .countdown-bar .cd-colon {
+    font-size: 11px;
+  }
 }

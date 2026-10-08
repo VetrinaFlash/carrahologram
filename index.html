@@ -18,6 +18,7 @@
   <script src="concert.js" defer></script>
 </head>
 <body>
+  <div id="stars-global" aria-hidden="true"></div>
   <main class="experience" aria-labelledby="event-title">
     <h1 id="event-title" class="sr-only">Raffaella Carrà — The Show Must Go On. Official Hologram Concert. 28 dicembre 2026, Atlantico Roma.</h1>
     <picture aria-hidden="true"><source media="(min-aspect-ratio: 1001/1000)" srcset="stage-background.jpg"><img class="scene-background" src="poster-exact.jpg" alt=""></picture>
@@ -30,82 +31,25 @@
         <img class="poster-art" src="poster-exact.jpg" width="864" height="1536" alt="Locandina originale: Raffaella Carrà, The Show Must Go On. Official Hologram Concert. 28 dicembre 2026, Atlantico Roma." fetchpriority="high">
       </picture>
       <div class="carra-sparkles" aria-hidden="true">
-        <svg class="sparkles-defs" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
-          <defs>
-            <!-- Core scintillante a gradiente oro & bianco diamante -->
-            <radialGradient id="spk-core" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#ffffff"/>
-              <stop offset="18%" stop-color="#fffce8"/>
-              <stop offset="46%" stop-color="#ffe386"/>
-              <stop offset="76%" stop-color="#f5a31a"/>
-              <stop offset="100%" stop-color="#e25c10" stop-opacity="0"/>
-            </radialGradient>
-            <!-- Aureola luminosa champagne & laser magenta -->
-            <radialGradient id="spk-halo" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-              <stop offset="26%" stop-color="#ffe699" stop-opacity="0.8"/>
-              <stop offset="56%" stop-color="#ff9933" stop-opacity="0.35"/>
-              <stop offset="85%" stop-color="#ff2654" stop-opacity="0.15"/>
-              <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
-            </radialGradient>
-            <!-- Raggio anamorfico orizzontale da riflettore di scena -->
-            <linearGradient id="spk-beam" x1="0%" y1="50%" x2="100%" y2="50%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
-              <stop offset="25%" stop-color="#ffd57a" stop-opacity="0.35"/>
-              <stop offset="50%" stop-color="#ffffff" stop-opacity="1"/>
-              <stop offset="75%" stop-color="#ffd57a" stop-opacity="0.35"/>
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-            </linearGradient>
+        <!-- Cluster dinamico di stelline e polvere d'oro accanto alla scritta RAFFAELLA CARRÀ -->
+        <div id="carraLetterStars" style="position:absolute;inset:0;pointer-events:none;overflow:visible"></div>
 
-            <!-- 1. Grande Diamante a 8 Punte con raggio anamorfico -->
-            <g id="sparkle-diamond">
-              <circle cx="50" cy="50" r="46" fill="url(#spk-halo)"/>
-              <ellipse cx="50" cy="50" rx="49" ry="3.5" fill="url(#spk-beam)"/>
-              <path d="M50 0 C50 32 32 50 0 50 C32 50 50 68 50 100 C50 68 68 50 100 50 C68 50 50 32 50 0 Z" fill="url(#spk-core)"/>
-              <path d="M50 18 C50 39 39 50 18 50 C39 50 50 61 50 82 C50 61 61 50 82 50 C61 50 50 39 50 18 Z" fill="#ffffff" opacity="0.92" transform="rotate(45 50 50)"/>
-              <path d="M50 26 C50 42 42 50 26 50 C42 50 50 58 50 74 C50 58 58 50 74 50 C58 50 50 42 50 26 Z" fill="#ffffff"/>
-              <circle cx="50" cy="50" r="4" fill="#ffffff"/>
-            </g>
-
-            <!-- 2. Stella Cristallina a 4 Punte coniche -->
-            <g id="sparkle-star">
-              <circle cx="40" cy="40" r="36" fill="url(#spk-halo)"/>
-              <ellipse cx="40" cy="40" rx="38" ry="2.5" fill="url(#spk-beam)"/>
-              <path d="M40 2 C40 26 26 40 2 40 C26 40 40 54 40 78 C40 54 54 40 78 40 C54 40 40 26 40 2 Z" fill="url(#spk-core)"/>
-              <path d="M40 18 C40 33 33 40 18 40 C33 40 40 47 40 62 C40 47 47 40 62 40 C47 40 40 33 40 18 Z" fill="#ffffff"/>
-              <circle cx="40" cy="40" r="3.5" fill="#ffffff"/>
-            </g>
-
-            <!-- 3. Polvere di stelle / micro-scintilla -->
-            <g id="sparkle-stardust">
-              <circle cx="20" cy="20" r="18" fill="url(#spk-halo)"/>
-              <path d="M20 2 C20 14 14 20 2 20 C14 20 20 26 20 38 C20 26 26 20 38 20 C26 20 20 14 20 2 Z" fill="#ffffff"/>
-              <circle cx="20" cy="20" r="3" fill="#ffffff"/>
-            </g>
-          </defs>
-        </svg>
-
-        <!-- Grandi stelle a diamante sui punti focali del marquee -->
-        <span class="star-point star--r-top anim-flare-1" title="Stella R"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
-        <span class="star-point star--r-bottom anim-flare-2" title="Stella R"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
-        <span class="star-point star--accent anim-flare-accent" title="Stella Accento Carrà"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
-        <span class="star-point star--a-foot anim-flare-3" title="Stella À"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
-
-        <!-- Stelle a cristallo sui vertici delle lettere -->
-        <span class="star-point star--a1-top anim-flare-2"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-        <span class="star-point star--f-top anim-flare-3"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-        <span class="star-point star--e-top anim-flare-1"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-        <span class="star-point star--ll-top anim-flare-2"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-        <span class="star-point star--c-top anim-flare-1"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-        <span class="star-point star--c-swirl anim-flare-3"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-        <span class="star-point star--a2-top anim-flare-2"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-        <span class="star-point star--r-apex anim-flare-1"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
-
-        <!-- Polvere di stelle elegante lungo la curvatura -->
-        <span class="star-point star--dust-1 anim-stardust-1"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
-        <span class="star-point star--dust-2 anim-stardust-2"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
-        <span class="star-point star--dust-3 anim-stardust-1"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
-        <span class="star-point star--dust-4 anim-stardust-2"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
+        <!-- Micro-scintille a diamante delicate (10px-12px) sui vertici chiave delle lettere -->
+        <span class="micro-glint glint--r-top" title="Raffaella">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="1" x2="10" y2="19" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="1" y1="10" x2="19" y2="10" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="4.5" y1="4.5" x2="15.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><line x1="15.5" y1="4.5" x2="4.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><circle cx="10" cy="10" r="1.8" fill="#fff"/><circle cx="10" cy="10" r="3.5" fill="#ffe699" opacity="0.5"/></svg>
+        </span>
+        <span class="micro-glint glint--r-bot" title="Raffaella">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="1" x2="10" y2="19" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="1" y1="10" x2="19" y2="10" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="4.5" y1="4.5" x2="15.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><line x1="15.5" y1="4.5" x2="4.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><circle cx="10" cy="10" r="1.8" fill="#fff"/><circle cx="10" cy="10" r="3.5" fill="#ffe699" opacity="0.5"/></svg>
+        </span>
+        <span class="micro-glint glint--c-apex" title="Carrà">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="1" x2="10" y2="19" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="1" y1="10" x2="19" y2="10" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="4.5" y1="4.5" x2="15.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><line x1="15.5" y1="4.5" x2="4.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><circle cx="10" cy="10" r="1.8" fill="#fff"/><circle cx="10" cy="10" r="3.5" fill="#ffe699" opacity="0.5"/></svg>
+        </span>
+        <span class="micro-glint glint--accent" title="Accento Carrà">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="1" x2="10" y2="19" stroke="#fff" stroke-width="1" stroke-linecap="round"/><line x1="1" y1="10" x2="19" y2="10" stroke="#fff" stroke-width="1" stroke-linecap="round"/><line x1="4" y1="4" x2="16" y2="16" stroke="#fff" stroke-width="0.7" stroke-opacity="0.85"/><line x1="16" y1="4" x2="4" y2="16" stroke="#fff" stroke-width="0.7" stroke-opacity="0.85"/><circle cx="10" cy="10" r="2.2" fill="#fff"/><circle cx="10" cy="10" r="4.2" fill="#ffe699" opacity="0.6"/></svg>
+        </span>
+        <span class="micro-glint glint--a-foot" title="Carrà">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><line x1="10" y1="1" x2="10" y2="19" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="1" y1="10" x2="19" y2="10" stroke="#fff" stroke-width="0.9" stroke-linecap="round"/><line x1="4.5" y1="4.5" x2="15.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><line x1="15.5" y1="4.5" x2="4.5" y2="15.5" stroke="#fff" stroke-width="0.6" stroke-opacity="0.8"/><circle cx="10" cy="10" r="1.8" fill="#fff"/><circle cx="10" cy="10" r="3.5" fill="#ffe699" opacity="0.5"/></svg>
+        </span>
       </div>
     </div>
   </main>
@@ -127,58 +71,37 @@
     </div>
   </header>
 
-  <footer class="action-dock" id="actionDock">
-    <div class="dock-card">
-      <!-- Sezione 1: Timer Ufficiale al 28 Ottobre -->
-      <div class="countdown-section" aria-label="Countdown al 28 ottobre">
-        <div class="countdown-badge">
-          <span class="badge-sparkle" aria-hidden="true">✦</span>
-          <span class="badge-text" data-t="countdownTitle">COUNTDOWN 28 OTTOBRE</span>
-          <span class="badge-sparkle" aria-hidden="true">✦</span>
-        </div>
-        <div class="countdown-grid" role="timer" aria-live="off">
-          <div class="countdown-tile">
-            <span class="tile-val" id="cdDays">19</span>
-            <span class="tile-lbl" data-t="cdDays">GIORNI</span>
-          </div>
-          <span class="countdown-sep" aria-hidden="true">:</span>
-          <div class="countdown-tile">
-            <span class="tile-val" id="cdHours">04</span>
-            <span class="tile-lbl" data-t="cdHours">ORE</span>
-          </div>
-          <span class="countdown-sep" aria-hidden="true">:</span>
-          <div class="countdown-tile">
-            <span class="tile-val" id="cdMins">42</span>
-            <span class="tile-lbl" data-t="cdMins">MINUTI</span>
-          </div>
-          <span class="countdown-sep" aria-hidden="true">:</span>
-          <div class="countdown-tile">
-            <span class="tile-val" id="cdSecs">15</span>
-            <span class="tile-lbl" data-t="cdSecs">SECONDI</span>
-          </div>
-        </div>
+  <!-- Timer al 28 Ottobre — elegante pillola dorata sopra il dock -->
+  <div class="countdown-bar" id="countdownBar" aria-label="Countdown al 28 ottobre">
+    <div class="countdown-bar-inner">
+      <div class="cd-badge">
+        <span class="cd-sparkle" aria-hidden="true">✦</span>
+        <span class="cd-title" data-t="countdownTitle">COUNTDOWN 28 OTTOBRE</span>
+        <span class="cd-sparkle" aria-hidden="true">✦</span>
       </div>
-
-      <div class="dock-divider" aria-hidden="true"></div>
-
-      <!-- Sezione 2: Iscrizione Mail ("Inserisci la mail per rimanere aggiornato") -->
-      <div class="email-section">
-        <form id="homeSubscribeForm" data-subscribe class="dock-email-form">
-          <label for="homeEmail" class="email-label" data-t="updatesPrompt">Inserisci la mail per rimanere aggiornato</label>
-          <div class="email-row">
-            <input id="homeEmail" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="homeStatus" aria-label="La tua email">
-            <button type="submit" class="submit-btn" data-t="join">Iscriviti</button>
-          </div>
-        </form>
-        <div class="email-footer-row">
-          <p id="homeStatus" class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
-          <button class="vivaticket-pill" id="ticketButton" type="button" data-open="ticketDialog" title="Informazioni biglietti Vivaticket">
-            <img src="vivaticket.png" width="1285" height="144" alt="Vivaticket">
-            <span data-t="vivaticketCta">Biglietti Vivaticket</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-          </button>
-        </div>
+      <div class="cd-timer" role="timer" aria-live="off">
+        <div class="cd-unit"><span class="cd-val" id="cdDays">19</span><span class="cd-tag" data-t="cdDays">GIORNI</span></div>
+        <span class="cd-colon" aria-hidden="true">:</span>
+        <div class="cd-unit"><span class="cd-val" id="cdHours">04</span><span class="cd-tag" data-t="cdHours">ORE</span></div>
+        <span class="cd-colon" aria-hidden="true">:</span>
+        <div class="cd-unit"><span class="cd-val" id="cdMins">42</span><span class="cd-tag" data-t="cdMins">MIN</span></div>
+        <span class="cd-colon" aria-hidden="true">:</span>
+        <div class="cd-unit"><span class="cd-val" id="cdSecs">15</span><span class="cd-tag" data-t="cdSecs">SEC</span></div>
       </div>
+    </div>
+  </div>
+
+  <footer class="action-dock">
+    <button class="ticket-button" id="ticketButton" type="button" data-open="ticketDialog">
+      <img src="vivaticket.png" width="1285" height="144" alt="Vivaticket">
+      <span class="ticket-label"><span data-t="tickets">Biglietti</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
+    </button>
+    <div class="home-signup">
+      <form id="homeSubscribeForm" data-subscribe>
+        <label for="homeEmail" data-t="updatesPrompt">Inserisci la mail per rimanere aggiornato</label>
+        <div class="email-row"><input id="homeEmail" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="homeStatus" aria-label="La tua email"><button type="submit" data-t="join">Iscriviti</button></div>
+      </form>
+      <p id="homeStatus" class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
     </div>
     <span class="audio-status sr-only" id="audioStatus" role="status" aria-live="polite"></span>
   </footer>
