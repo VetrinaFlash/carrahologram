@@ -207,6 +207,10 @@
     }
     cleanRadioArea(posterContext,poster,rtlBackgrounds[iw>ih?'desktop':'mobile'],iw,ih,x,y,scale);
     document.documentElement.style.setProperty('--poster-ticket-y',(bounds.top+y+ih*scale*.636)+'px');
+    posterFrame.style.setProperty('--poster-x', x.toFixed(2)+'px');
+    posterFrame.style.setProperty('--poster-y', y.toFixed(2)+'px');
+    posterFrame.style.setProperty('--poster-w', (iw*scale).toFixed(2)+'px');
+    posterFrame.style.setProperty('--poster-h', (ih*scale).toFixed(2)+'px');
     posterFrame.classList.add('is-rendered');
   }
   function schedulePoster(){if(!posterRenderFrame)posterRenderFrame=requestAnimationFrame(renderPoster);}
@@ -214,4 +218,19 @@
   new ResizeObserver(schedulePoster).observe(posterFrame);
   window.addEventListener('resize',schedulePoster);
   schedulePoster();
+
+  // Subtle interactive sparkle enhancement when cursor is near the Carrà title
+  const sparklesLayer = document.querySelector('.carra-sparkles');
+  if (sparklesLayer) {
+    document.addEventListener('pointermove', event => {
+      if (document.hidden || motion.matches) return;
+      const b = sparklesLayer.getBoundingClientRect();
+      if (!b.width || !b.height) return;
+      const inMarquee = event.clientY >= b.top - 20 &&
+                        event.clientY <= b.top + b.height * 0.38 &&
+                        event.clientX >= b.left - 20 &&
+                        event.clientX <= b.right + 20;
+      sparklesLayer.classList.toggle('is-hovered', inMarquee);
+    }, { passive: true });
+  }
 })();

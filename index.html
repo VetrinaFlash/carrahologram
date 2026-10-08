@@ -22,7 +22,61 @@
     <picture aria-hidden="true"><source media="(min-aspect-ratio: 1001/1000)" srcset="stage-background.jpg"><img class="scene-background" src="poster-exact.jpg" alt=""></picture>
     <div class="scene-shade" aria-hidden="true"></div>
     <div class="scene-lasers" aria-hidden="true"><i></i><i></i><i></i></div>
-    <div class="poster-frame"><canvas class="poster-canvas" aria-hidden="true"></canvas><picture><source media="(min-aspect-ratio: 1001/1000)" srcset="poster-desktop.jpg"><img class="poster-art" src="poster-exact.jpg" width="864" height="1536" alt="Locandina originale: Raffaella Carrà, The Show Must Go On. Official Hologram Concert. 28 dicembre 2026, Atlantico Roma." fetchpriority="high"></picture></div>
+    <div class="poster-frame">
+      <canvas class="poster-canvas" aria-hidden="true"></canvas>
+      <picture>
+        <source media="(min-aspect-ratio: 1001/1000)" srcset="poster-desktop.jpg">
+        <img class="poster-art" src="poster-exact.jpg" width="864" height="1536" alt="Locandina originale: Raffaella Carrà, The Show Must Go On. Official Hologram Concert. 28 dicembre 2026, Atlantico Roma." fetchpriority="high">
+      </picture>
+      <div class="carra-sparkles" aria-hidden="true">
+        <svg class="sparkles-defs" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+          <defs>
+            <radialGradient id="spk-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="22%" stop-color="#fff5cf"/>
+              <stop offset="55%" stop-color="#f5b842"/>
+              <stop offset="100%" stop-color="#e86b24" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="spk-halo" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffd57a" stop-opacity="0.9"/>
+              <stop offset="42%" stop-color="#ff7b39" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#ff264b" stop-opacity="0"/>
+            </radialGradient>
+            <g id="sparkle-shape">
+              <circle cx="50" cy="50" r="46" fill="url(#spk-halo)"/>
+              <path d="M50 0 Q50 42 0 50 Q50 58 50 100 Q50 58 100 50 Q50 42 50 0 Z" fill="url(#spk-glow)"/>
+              <path d="M50 18 Q50 43 18 50 Q50 57 50 82 Q50 57 82 50 Q50 43 50 18 Z" fill="#ffffff" opacity="0.82" transform="rotate(45 50 50)"/>
+              <circle cx="50" cy="50" r="5" fill="#ffffff"/>
+            </g>
+            <g id="stardust-shape">
+              <circle cx="20" cy="20" r="18" fill="url(#spk-halo)"/>
+              <circle cx="20" cy="20" r="6" fill="#ffffff"/>
+            </g>
+          </defs>
+        </svg>
+
+        <!-- Sparkles left of "RAFFAELLA" -->
+        <span class="star-point star--left-1 anim-sparkle-1"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--left-2 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--left-3 anim-sparkle-3"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--left-dust-1 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
+        <span class="star-point star--left-dust-2 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
+
+        <!-- Sparkles right of "CARRÀ" & accent mark -->
+        <span class="star-point star--right-accent anim-sparkle-accent"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--right-1 anim-sparkle-1"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--right-2 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--right-3 anim-sparkle-3"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--right-dust-1 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
+        <span class="star-point star--right-dust-2 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
+
+        <!-- Sparkles along marquee letter arch -->
+        <span class="star-point star--arch-1 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--arch-2 anim-sparkle-3"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--arch-3 anim-sparkle-1"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <span class="star-point star--arch-4 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+      </div>
+    </div>
   </main>
 
   <header class="controls">
