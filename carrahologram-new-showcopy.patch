@@ -1,0 +1,68 @@
+diff --git a/sparkles-elegant.css b/sparkles-elegant.css
+--- a/sparkles-elegant.css
++++ b/sparkles-elegant.css
+@@
+ @media (prefers-reduced-motion: reduce) {
+   .s, .spk, .micro-glint, .shooting-star {
+     animation: none !important;
+     opacity: 0.85 !important;
+   }
+ }
++
++/* ==========================================================================
++   ENHANCED SHOW COPY — BRANCH new
++   Usa gli asset separati già presenti nel repository:
++   scene-title.png = THE SHOW MUST GO ON.
++   scene-subtitle.png = OFFICIAL HOLOGRAM CONCERT
++   La scritta RAFFAELLA CARRÀ resta quella originale della locandina.
++   ========================================================================== */
++
++.poster-frame::before,
++.poster-frame::after {
++  content: "";
++  position: absolute;
++  left: 50%;
++  z-index: 5;
++  pointer-events: none;
++  background-position: center;
++  background-repeat: no-repeat;
++  transform: translateX(-50%);
++  transform-origin: center center;
++}
++
++.poster-frame::before {
++  top: 53%;
++  width: min(96vw, 1430px);
++  aspect-ratio: 1350 / 94;
++  background-image:
++    url("scene-title.png"),
++    radial-gradient(ellipse at center, rgba(3,4,15,.93) 0 55%, rgba(3,4,15,.72) 72%, rgba(3,4,15,0) 100%);
++  background-size: contain, 100% 100%;
++  filter: drop-shadow(0 0 7px rgba(255,38,46,.42));
++}
++
++.poster-frame::after {
++  top: 65.2%;
++  width: min(76vw, 1160px);
++  aspect-ratio: 884 / 37;
++  background-image:
++    url("scene-subtitle.png"),
++    radial-gradient(ellipse at center, rgba(3,4,15,.90) 0 56%, rgba(3,4,15,.68) 74%, rgba(3,4,15,0) 100%);
++  background-size: contain, 100% 100%;
++  filter: drop-shadow(0 0 7px rgba(35,89,255,.48));
++}
++
++@media (max-aspect-ratio: 1/1) {
++  .poster-frame::before { top: 54%; width: 103vw; }
++  .poster-frame::after  { top: 58.4%; width: 96vw; }
++}
++
++@media (max-height: 650px) and (max-aspect-ratio: 1/1) {
++  .poster-frame::before { top: 54%; width: 101vw; }
++  .poster-frame::after  { top: 58.1%; width: 94vw; }
++}
++
++@media (max-height: 580px) and (min-aspect-ratio: 1/1) {
++  .poster-frame::before { top: 53%; width: min(78vw, 151vh); }
++  .poster-frame::after  { top: 66.1%; width: min(61vw, 118vh); }
++}
