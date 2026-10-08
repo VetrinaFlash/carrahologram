@@ -1106,3 +1106,64 @@ h2 {
     display: none;
   }
 }
+
+/* Lettering from the poster is image artwork, never substituted by a web font.
+   Clip transparent export margins in CSS; the PNG itself is unmodified. */
+.poster-lettering {
+  position: relative;
+  width: min(100%, 1280px);
+  aspect-ratio: 2172 / 410;
+  overflow: hidden;
+  margin: 0;
+  font-size: 0;
+}
+.poster-lettering img {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  left: 0;
+  top: -35.85%;
+  max-width: none;
+}
+@media (max-width: 600px) {
+  .stage-action-overlay {
+    top: 58%;
+    padding: 0 10px;
+  }
+  .poster-lettering {
+    width: 100%;
+    aspect-ratio: 2172 / 410;
+  }
+  .venue-line {
+    margin-top: 12px;
+  }
+}
+
+.poster-date-mobile {
+  display: none;
+}
+@media (max-width: 600px) {
+  /* Enlarge the date on phones, retaining the same lettering artwork. */
+  .poster-lettering {
+    aspect-ratio: 2172 / 280;
+  }
+  .poster-lettering img {
+    top: -52.5%;
+  }
+  .poster-date-mobile {
+    display: block;
+    position: relative;
+    width: min(82%, 320px);
+    aspect-ratio: 1310 / 115;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .poster-date-mobile img {
+    position: absolute;
+    width: 165.802%;
+    max-width: none;
+    height: auto;
+    left: -32.824%;
+    top: -369.565%;
+  }
+}
