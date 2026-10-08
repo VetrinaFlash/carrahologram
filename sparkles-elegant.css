@@ -1,0 +1,203 @@
+/*
+ * Raffaella Carrà — elegant sparkle override
+ * Load AFTER concert.css.
+ * Keeps the existing sparkle markup/JS but makes the effect quieter,
+ * slower and more premium: champagne/ivory glow, fewer points,
+ * softer motion and a very subtle hover enhancement.
+ */
+
+.carra-sparkles {
+  opacity: .82;
+  transition: opacity .55s ease;
+}
+
+.star-point {
+  opacity: .16;
+  mix-blend-mode: screen;
+  filter:
+    drop-shadow(0 0 1.5px rgba(255, 253, 238, .78))
+    drop-shadow(0 0 6px rgba(226, 196, 132, .22));
+  transition: filter .5s ease, opacity .5s ease;
+}
+
+.star-point svg {
+  opacity: .78;
+  filter: saturate(.46) brightness(1.08) sepia(.08);
+}
+
+/* Hover remains alive, but never turns into a flashy glitter burst. */
+.carra-sparkles.is-hovered {
+  opacity: .94;
+}
+
+.carra-sparkles.is-hovered .star-point {
+  filter:
+    drop-shadow(0 0 2px rgba(255, 254, 244, .88))
+    drop-shadow(0 0 8px rgba(226, 196, 132, .28));
+}
+
+/* Reduce density for a cleaner, more luxurious composition. */
+.star--left-3,
+.star--right-3,
+.star--left-dust-2,
+.star--right-dust-2,
+.star--arch-2,
+.star--arch-3 {
+  display: none;
+}
+
+/* Slow, restrained breathing instead of fast rotating twinkles. */
+.anim-sparkle-1 {
+  animation: carra-elegant-twinkle 5.2s -1.1s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+
+.anim-sparkle-2 {
+  animation: carra-elegant-twinkle 6.1s -3.7s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+
+.anim-sparkle-3 {
+  animation: carra-elegant-twinkle 5.7s -2.4s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+
+.anim-sparkle-accent {
+  animation: carra-elegant-accent 6.4s -2.9s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+
+.anim-stardust {
+  animation: carra-elegant-dust 7.2s -4.3s ease-in-out infinite alternate;
+}
+
+@keyframes carra-elegant-twinkle {
+  0%, 18% {
+    opacity: .10;
+    transform: translate(-50%, -50%) scale(.68) rotate(-1deg);
+  }
+  50% {
+    opacity: .46;
+    transform: translate(-50%, -50%) scale(.88) rotate(.5deg);
+  }
+  70% {
+    opacity: .72;
+    transform: translate(-50%, -50%) scale(1) rotate(1deg);
+  }
+  100% {
+    opacity: .18;
+    transform: translate(-50%, -50%) scale(.74) rotate(0deg);
+  }
+}
+
+/* The accent on CARRÀ is the only slightly brighter highlight. */
+@keyframes carra-elegant-accent {
+  0%, 16% {
+    opacity: .16;
+    transform: translate(-50%, -50%) scale(.72) rotate(-1deg);
+  }
+  54% {
+    opacity: .62;
+    transform: translate(-50%, -50%) scale(.98) rotate(.5deg);
+  }
+  72% {
+    opacity: .84;
+    transform: translate(-50%, -50%) scale(1.06) rotate(1deg);
+  }
+  100% {
+    opacity: .22;
+    transform: translate(-50%, -50%) scale(.78) rotate(0deg);
+  }
+}
+
+@keyframes carra-elegant-dust {
+  0%, 26% {
+    opacity: .035;
+    transform: translate(-50%, -50%) scale(.72);
+  }
+  62% {
+    opacity: .24;
+    transform: translate(-50%, -50%) scale(.90);
+  }
+  100% {
+    opacity: .065;
+    transform: translate(-50%, -50%) scale(.78);
+  }
+}
+
+/* Desktop: smaller than the current version, still visible on the marquee. */
+@media (min-aspect-ratio: 1001/1000) {
+  .star--left-1,
+  .star--right-1 {
+    width: 24px;
+    height: 24px;
+  }
+
+  .star--left-2,
+  .star--right-2 {
+    width: 17px;
+    height: 17px;
+  }
+
+  .star--right-accent {
+    width: 27px;
+    height: 27px;
+  }
+
+  .star--arch-1,
+  .star--arch-4 {
+    width: 13px;
+    height: 13px;
+  }
+
+  .star--left-dust-1,
+  .star--right-dust-1 {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* Mobile: preserve the effect without covering the lettering. */
+@media (max-aspect-ratio: 1/1) {
+  .carra-sparkles {
+    opacity: .76;
+  }
+
+  .star--left-1,
+  .star--right-1 {
+    width: 18px;
+    height: 18px;
+  }
+
+  .star--left-2,
+  .star--right-2 {
+    width: 13px;
+    height: 13px;
+  }
+
+  .star--right-accent {
+    width: 20px;
+    height: 20px;
+  }
+
+  .star--arch-1,
+  .star--arch-4 {
+    width: 10px;
+    height: 10px;
+  }
+
+  .star--left-dust-1,
+  .star--right-dust-1 {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-point {
+    animation: none !important;
+    opacity: .24 !important;
+    transform: translate(-50%, -50%) scale(.82) !important;
+  }
+
+  .star--left-dust-1,
+  .star--right-dust-1 {
+    opacity: .10 !important;
+  }
+}
