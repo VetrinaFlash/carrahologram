@@ -5,18 +5,15 @@
    Alla scadenza: dissolvenza elegante e comparsa del sito del concerto sotto.
    ========================================================================== */
 
-/* Se il countdown è già scaduto (o preview=site), nascondi istantaneamente senza flash */
 html.countdown-expired #countdownScreen {
   display: none !important;
 }
 
-/* Blocco scroll della pagina sottostante mentre il gate è attivo */
 body.gate-active {
   overflow: hidden !important;
   touch-action: none;
 }
 
-/* Schermo nero a schermo intero */
 #countdownScreen {
   position: fixed;
   inset: 0;
@@ -41,8 +38,6 @@ body.gate-active {
   user-select: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* Dissolvenza quando scade il timer */
   opacity: 1;
   visibility: visible;
   transition:
@@ -52,7 +47,6 @@ body.gate-active {
   will-change: opacity, transform;
 }
 
-/* Stato di dissolvenza/scomparsa */
 #countdownScreen.is-expired {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -60,7 +54,6 @@ body.gate-active {
   transform: scale(1.03) !important;
 }
 
-/* Cielo stellato sottile sul fondo nero */
 .gate-stars {
   position: absolute;
   inset: 0;
@@ -88,62 +81,126 @@ body.gate-active {
   }
 }
 
-/* Contenitore centrale */
 .gate-center-stack {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 680px;
+  max-width: 760px;
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 32px;
+  gap: 28px;
   padding: 20px 10px;
 }
 
-/* Testata evento */
+/* ========================================================================== 
+   TESTATA EVENTO
+   Sostituisce VISIVAMENTE la vecchia testata HTML con l'immagine allegata.
+   Il testo HTML rimane nel DOM per accessibilità e SEO, ma non viene mostrato.
+   ========================================================================== */
 .gate-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  position: relative;
+  width: min(100%, 720px);
+  aspect-ratio: 16 / 9;
+  flex: 0 0 auto;
+  background-image: url("countdown-lettering.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.78));
+  isolation: isolate;
+  overflow: visible;
 }
 
-.gate-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(212, 175, 55, 0.85);
-  font-weight: 600;
-  text-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+.gate-header > .gate-eyebrow,
+.gate-header > .gate-title,
+.gate-header > .gate-subtitle {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
-.gate-title {
-  font-family: 'Cinzel', 'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: clamp(2rem, 6vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  line-height: 1.08;
-  margin: 0;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F5E6BE 45%, #D4AF37 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 20px rgba(212, 175, 55, 0.35));
+/* Bagliore pulse sui tre punti luminosi principali dell'immagine */
+.gate-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 6.3% 27.1%, rgba(255,255,255,1) 0 1px, rgba(255,225,150,.98) 2px, rgba(255,155,30,.66) 5px, rgba(255,105,0,.18) 13px, transparent 27px),
+    radial-gradient(circle at 67.1% 30.1%, rgba(255,255,255,.98) 0 1px, rgba(255,229,160,.95) 2px, rgba(255,156,33,.58) 5px, rgba(255,110,0,.14) 12px, transparent 24px),
+    radial-gradient(circle at 93.5% 27.4%, rgba(255,255,255,1) 0 1px, rgba(255,226,145,.98) 2px, rgba(255,153,25,.66) 5px, rgba(255,100,0,.18) 13px, transparent 27px);
+  mix-blend-mode: screen;
+  opacity: .46;
+  transform: scale(.995);
+  animation: gateLogoGlowPulse 2.35s ease-in-out infinite;
+  will-change: opacity, filter, transform;
 }
 
-.gate-subtitle {
-  font-size: clamp(0.78rem, 2vw, 0.95rem);
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.68);
-  margin: 0;
-  font-weight: 400;
+/* Raggi sottili tipo stella: il pulse sembra partire dai punti già accesi */
+.gate-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255,223,145,.15) 22%, #fff 50%, rgba(255,181,55,.22) 78%, transparent 100%) 6.3% 27.1% / 52px 2px no-repeat,
+    linear-gradient(0deg, transparent 0%, rgba(255,223,145,.15) 22%, #fff 50%, rgba(255,181,55,.22) 78%, transparent 100%) 6.3% 27.1% / 2px 52px no-repeat,
+    linear-gradient(90deg, transparent 0%, rgba(255,223,145,.12) 24%, #fff 50%, rgba(255,181,55,.18) 76%, transparent 100%) 67.1% 30.1% / 38px 1.5px no-repeat,
+    linear-gradient(0deg, transparent 0%, rgba(255,223,145,.12) 24%, #fff 50%, rgba(255,181,55,.18) 76%, transparent 100%) 67.1% 30.1% / 1.5px 38px no-repeat,
+    linear-gradient(90deg, transparent 0%, rgba(255,223,145,.15) 22%, #fff 50%, rgba(255,181,55,.22) 78%, transparent 100%) 93.5% 27.4% / 48px 2px no-repeat,
+    linear-gradient(0deg, transparent 0%, rgba(255,223,145,.15) 22%, #fff 50%, rgba(255,181,55,.22) 78%, transparent 100%) 93.5% 27.4% / 2px 48px no-repeat;
+  mix-blend-mode: screen;
+  opacity: .34;
+  animation: gateLogoStarPulse 2.35s cubic-bezier(.4, 0, .2, 1) infinite .2s;
+  will-change: opacity, filter;
 }
 
-/* ==========================================================================
+@keyframes gateLogoGlowPulse {
+  0%, 100% {
+    opacity: .38;
+    filter: brightness(.9) blur(.15px);
+    transform: scale(.994);
+  }
+  45% {
+    opacity: .88;
+    filter: brightness(1.24) blur(0);
+    transform: scale(1.003);
+  }
+  58% {
+    opacity: .60;
+    filter: brightness(1.05) blur(.08px);
+    transform: scale(1);
+  }
+}
+
+@keyframes gateLogoStarPulse {
+  0%, 100% {
+    opacity: .20;
+    filter: brightness(.9) drop-shadow(0 0 3px rgba(255,178,55,.25));
+  }
+  44% {
+    opacity: .98;
+    filter: brightness(1.65) drop-shadow(0 0 9px rgba(255,177,40,.9));
+  }
+  54% {
+    opacity: .50;
+    filter: brightness(1.15) drop-shadow(0 0 5px rgba(255,177,40,.45));
+  }
+}
+
+/* ========================================================================== 
    IL TIMER CENTRALE
    ========================================================================== */
 .gate-timer {
@@ -219,9 +276,8 @@ body.gate-active {
   50% { opacity: 0.3; }
 }
 
-/* ==========================================================================
+/* ========================================================================== 
    SOLO IL FORM PER INSERIRE LA MAIL
-   "Inserisci la mail per rimanere aggiornato"
    ========================================================================== */
 .gate-signup {
   width: 100%;
@@ -336,13 +392,22 @@ body.gate-active {
   color: #ff8a8a;
 }
 
-/* ==========================================================================
+/* ========================================================================== 
    RESPONSIVE DESIGN (MOBILE & TABLET)
    ========================================================================== */
 @media (max-width: 580px) {
+  #countdownScreen {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   .gate-center-stack {
-    gap: 26px;
-    padding: 10px 4px;
+    gap: 22px;
+    padding: 8px 2px;
+  }
+
+  .gate-header {
+    width: min(100%, 520px);
   }
 
   .gate-timer {
@@ -385,8 +450,8 @@ body.gate-active {
 }
 
 @media (max-width: 380px) {
-  .gate-title {
-    font-size: 1.8rem;
+  .gate-center-stack {
+    gap: 18px;
   }
 
   .gate-timer {
@@ -409,4 +474,14 @@ body.gate-active {
   .gate-lbl {
     font-size: 0.52rem;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate-header::before,
+  .gate-header::after {
+    animation: none !important;
+  }
+
+  .gate-header::before { opacity: .58; }
+  .gate-header::after { opacity: .42; }
 }
