@@ -106,3 +106,45 @@ body.is-hidden .scene-lasers i{animation-play-state:paused}
  .scene-partners{bottom:5px;height:26px}.radio-partner img{width:23px;height:23px}
  .production-mark{width:90px;height:28px}.venue-mark{width:90px}
 }
+
+/* Exact supplied poster: no crop, retouch, distortion or foreground animation. */
+.scene-background{inset:-4%;width:108%;height:108%;object-fit:cover;filter:blur(35px) brightness(.38);opacity:1;transform:none}
+.scene-shade{background:linear-gradient(90deg,#030410bb,transparent 40%,transparent 60%,#030410bb)}
+.poster-frame{position:absolute;inset:12px 0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.poster-art{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;filter:none;opacity:1;flex-shrink:0}
+.action-dock{top:auto;bottom:max(34px,env(safe-area-inset-bottom));left:auto;right:3vw;width:min(25vw,330px);height:auto;padding:0;gap:14px;align-items:stretch;flex-direction:column}
+.ticket-button{width:100%;min-width:0;height:54px;gap:12px;padding-left:15px}
+.ticket-button>img{width:110px}.ticket-label{min-width:0;flex:1;padding:0 12px;gap:10px}
+.home-signup{width:100%}.home-signup label{text-align:left}.home-signup .email-row{height:44px}
+@media(max-aspect-ratio:1/1){
+ .poster-frame{inset:calc(54px + env(safe-area-inset-top)) 0 calc(120px + env(safe-area-inset-bottom))}
+ .action-dock{top:auto;left:50%;right:auto;transform:translateX(-50%);bottom:calc(9px + env(safe-area-inset-bottom));width:min(92vw,360px);height:auto;gap:7px}
+ .ticket-button{height:45px;min-width:0}.ticket-button>img{width:112px}
+ .home-signup label{font-size:9px;text-align:center;margin-bottom:4px}.home-signup .email-row{height:40px}.home-signup .email-row button{min-height:30px}
+ .scene-background{filter:blur(28px) brightness(.3)}
+}
+@media(max-height:650px) and (max-aspect-ratio:1/1){
+ .poster-frame{top:50px;bottom:110px}.action-dock{bottom:7px;gap:5px}.ticket-button{height:40px}.home-signup label{font-size:8px}.home-signup .email-row{height:37px}
+}
+@media(max-height:580px) and (min-aspect-ratio:1/1){
+ .poster-frame{inset:5px 0}.action-dock{top:auto;bottom:22px;right:14px;left:auto;transform:none;width:250px;gap:10px;flex-direction:column;height:auto;align-items:stretch}
+ .ticket-button{min-width:0;height:42px}.home-signup{width:100%}.home-signup .email-row{height:39px}
+ .desktop-navigation{display:none}
+}
+
+.poster-frame>picture{display:contents}
+@media(min-aspect-ratio:1001/1000){
+ .poster-frame{inset:0}
+ .poster-art{width:min(100vw,177.777778vh);height:auto;max-width:100%;max-height:100%}
+ .scene-background{inset:0;width:100%;height:100%;filter:brightness(.72);opacity:1;object-fit:cover}
+ .scene-shade{background:none}.scene-lasers{opacity:.18}
+ .action-dock{top:calc(50% + min(14.0625vw,25vh));bottom:auto;left:50%;right:auto;transform:translateX(-50%);width:min(710px,76vw);height:auto;flex-direction:row;align-items:flex-end;gap:18px}
+ .ticket-button{width:340px;min-width:0;height:48px;flex-shrink:0}
+ .home-signup{width:330px}.home-signup .email-row{height:43px}.home-signup label{margin-bottom:4px;font-size:9px}
+ .controls{background:linear-gradient(#0304119c,transparent)}
+}
+@media(max-height:580px) and (min-aspect-ratio:1001/1000){
+ .action-dock{top:30%;left:2%;right:auto;transform:none;bottom:auto;width:24vw;max-width:220px;flex-direction:column;align-items:stretch;gap:6px}
+ .ticket-button{width:100%;height:34px;padding:4px 5px 4px 9px;gap:8px}.ticket-button>img{width:80px}.ticket-label{font-size:9px;padding:0 7px;gap:5px}.ticket-label svg{width:12px}
+ .home-signup{width:100%}.home-signup label{font-size:8px;margin-bottom:3px}.home-signup .email-row{height:34px;padding:3px}.home-signup .email-row input{font-size:13px;padding:2px 5px}.home-signup .email-row button{min-height:26px;padding:0 9px;font-size:10px}
+}
