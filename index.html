@@ -13,6 +13,7 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="concert.css">
+  <link rel="stylesheet" href="sparkles-elegant.css">
   <script src="site-config.js" defer></script>
   <script src="concert.js" defer></script>
 </head>
@@ -31,50 +32,80 @@
       <div class="carra-sparkles" aria-hidden="true">
         <svg class="sparkles-defs" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
           <defs>
-            <radialGradient id="spk-glow" cx="50%" cy="50%" r="50%">
+            <!-- Core scintillante a gradiente oro & bianco diamante -->
+            <radialGradient id="spk-core" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="#ffffff"/>
-              <stop offset="22%" stop-color="#fff5cf"/>
-              <stop offset="55%" stop-color="#f5b842"/>
-              <stop offset="100%" stop-color="#e86b24" stop-opacity="0"/>
+              <stop offset="18%" stop-color="#fffce8"/>
+              <stop offset="46%" stop-color="#ffe386"/>
+              <stop offset="76%" stop-color="#f5a31a"/>
+              <stop offset="100%" stop-color="#e25c10" stop-opacity="0"/>
             </radialGradient>
+            <!-- Aureola luminosa champagne & laser magenta -->
             <radialGradient id="spk-halo" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#ffd57a" stop-opacity="0.9"/>
-              <stop offset="42%" stop-color="#ff7b39" stop-opacity="0.4"/>
-              <stop offset="100%" stop-color="#ff264b" stop-opacity="0"/>
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+              <stop offset="26%" stop-color="#ffe699" stop-opacity="0.8"/>
+              <stop offset="56%" stop-color="#ff9933" stop-opacity="0.35"/>
+              <stop offset="85%" stop-color="#ff2654" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
             </radialGradient>
-            <g id="sparkle-shape">
+            <!-- Raggio anamorfico orizzontale da riflettore di scena -->
+            <linearGradient id="spk-beam" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="25%" stop-color="#ffd57a" stop-opacity="0.35"/>
+              <stop offset="50%" stop-color="#ffffff" stop-opacity="1"/>
+              <stop offset="75%" stop-color="#ffd57a" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+
+            <!-- 1. Grande Diamante a 8 Punte con raggio anamorfico -->
+            <g id="sparkle-diamond">
               <circle cx="50" cy="50" r="46" fill="url(#spk-halo)"/>
-              <path d="M50 0 Q50 42 0 50 Q50 58 50 100 Q50 58 100 50 Q50 42 50 0 Z" fill="url(#spk-glow)"/>
-              <path d="M50 18 Q50 43 18 50 Q50 57 50 82 Q50 57 82 50 Q50 43 50 18 Z" fill="#ffffff" opacity="0.82" transform="rotate(45 50 50)"/>
-              <circle cx="50" cy="50" r="5" fill="#ffffff"/>
+              <ellipse cx="50" cy="50" rx="49" ry="3.5" fill="url(#spk-beam)"/>
+              <path d="M50 0 C50 32 32 50 0 50 C32 50 50 68 50 100 C50 68 68 50 100 50 C68 50 50 32 50 0 Z" fill="url(#spk-core)"/>
+              <path d="M50 18 C50 39 39 50 18 50 C39 50 50 61 50 82 C50 61 61 50 82 50 C61 50 50 39 50 18 Z" fill="#ffffff" opacity="0.92" transform="rotate(45 50 50)"/>
+              <path d="M50 26 C50 42 42 50 26 50 C42 50 50 58 50 74 C50 58 58 50 74 50 C58 50 50 42 50 26 Z" fill="#ffffff"/>
+              <circle cx="50" cy="50" r="4" fill="#ffffff"/>
             </g>
-            <g id="stardust-shape">
+
+            <!-- 2. Stella Cristallina a 4 Punte coniche -->
+            <g id="sparkle-star">
+              <circle cx="40" cy="40" r="36" fill="url(#spk-halo)"/>
+              <ellipse cx="40" cy="40" rx="38" ry="2.5" fill="url(#spk-beam)"/>
+              <path d="M40 2 C40 26 26 40 2 40 C26 40 40 54 40 78 C40 54 54 40 78 40 C54 40 40 26 40 2 Z" fill="url(#spk-core)"/>
+              <path d="M40 18 C40 33 33 40 18 40 C33 40 40 47 40 62 C40 47 47 40 62 40 C47 40 40 33 40 18 Z" fill="#ffffff"/>
+              <circle cx="40" cy="40" r="3.5" fill="#ffffff"/>
+            </g>
+
+            <!-- 3. Polvere di stelle / micro-scintilla -->
+            <g id="sparkle-stardust">
               <circle cx="20" cy="20" r="18" fill="url(#spk-halo)"/>
-              <circle cx="20" cy="20" r="6" fill="#ffffff"/>
+              <path d="M20 2 C20 14 14 20 2 20 C14 20 20 26 20 38 C20 26 26 20 38 20 C26 20 20 14 20 2 Z" fill="#ffffff"/>
+              <circle cx="20" cy="20" r="3" fill="#ffffff"/>
             </g>
           </defs>
         </svg>
 
-        <!-- Sparkles left of "RAFFAELLA" -->
-        <span class="star-point star--left-1 anim-sparkle-1"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--left-2 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--left-3 anim-sparkle-3"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--left-dust-1 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
-        <span class="star-point star--left-dust-2 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
+        <!-- Grandi stelle a diamante sui punti focali del marquee -->
+        <span class="star-point star--r-top anim-flare-1" title="Stella R"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
+        <span class="star-point star--r-bottom anim-flare-2" title="Stella R"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
+        <span class="star-point star--accent anim-flare-accent" title="Stella Accento Carrà"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
+        <span class="star-point star--a-foot anim-flare-3" title="Stella À"><svg viewBox="0 0 100 100"><use href="#sparkle-diamond"/></svg></span>
 
-        <!-- Sparkles right of "CARRÀ" & accent mark -->
-        <span class="star-point star--right-accent anim-sparkle-accent"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--right-1 anim-sparkle-1"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--right-2 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--right-3 anim-sparkle-3"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--right-dust-1 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
-        <span class="star-point star--right-dust-2 anim-stardust"><svg viewBox="0 0 40 40"><use href="#stardust-shape"/></svg></span>
+        <!-- Stelle a cristallo sui vertici delle lettere -->
+        <span class="star-point star--a1-top anim-flare-2"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
+        <span class="star-point star--f-top anim-flare-3"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
+        <span class="star-point star--e-top anim-flare-1"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
+        <span class="star-point star--ll-top anim-flare-2"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
+        <span class="star-point star--c-top anim-flare-1"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
+        <span class="star-point star--c-swirl anim-flare-3"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
+        <span class="star-point star--a2-top anim-flare-2"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
+        <span class="star-point star--r-apex anim-flare-1"><svg viewBox="0 0 80 80"><use href="#sparkle-star"/></svg></span>
 
-        <!-- Sparkles along marquee letter arch -->
-        <span class="star-point star--arch-1 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--arch-2 anim-sparkle-3"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--arch-3 anim-sparkle-1"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
-        <span class="star-point star--arch-4 anim-sparkle-2"><svg viewBox="0 0 100 100"><use href="#sparkle-shape"/></svg></span>
+        <!-- Polvere di stelle elegante lungo la curvatura -->
+        <span class="star-point star--dust-1 anim-stardust-1"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
+        <span class="star-point star--dust-2 anim-stardust-2"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
+        <span class="star-point star--dust-3 anim-stardust-1"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
+        <span class="star-point star--dust-4 anim-stardust-2"><svg viewBox="0 0 40 40"><use href="#sparkle-stardust"/></svg></span>
       </div>
     </div>
   </main>
@@ -96,17 +127,58 @@
     </div>
   </header>
 
-  <footer class="action-dock">
-    <button class="ticket-button" id="ticketButton" type="button" data-open="ticketDialog">
-      <img src="vivaticket.png" width="1285" height="144" alt="Vivaticket">
-      <span class="ticket-label"><span data-t="tickets">Biglietti</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
-    </button>
-    <div class="home-signup">
-      <form id="homeSubscribeForm" data-subscribe>
-        <label for="homeEmail" data-t="updates">Ricevi gli aggiornamenti</label>
-        <div class="email-row"><input id="homeEmail" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="homeStatus" aria-label="La tua email"><button type="submit" data-t="join">Iscriviti</button></div>
-      </form>
-      <p id="homeStatus" class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
+  <footer class="action-dock" id="actionDock">
+    <div class="dock-card">
+      <!-- Sezione 1: Timer Ufficiale al 28 Ottobre -->
+      <div class="countdown-section" aria-label="Countdown al 28 ottobre">
+        <div class="countdown-badge">
+          <span class="badge-sparkle" aria-hidden="true">✦</span>
+          <span class="badge-text" data-t="countdownTitle">COUNTDOWN 28 OTTOBRE</span>
+          <span class="badge-sparkle" aria-hidden="true">✦</span>
+        </div>
+        <div class="countdown-grid" role="timer" aria-live="off">
+          <div class="countdown-tile">
+            <span class="tile-val" id="cdDays">19</span>
+            <span class="tile-lbl" data-t="cdDays">GIORNI</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-tile">
+            <span class="tile-val" id="cdHours">04</span>
+            <span class="tile-lbl" data-t="cdHours">ORE</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-tile">
+            <span class="tile-val" id="cdMins">42</span>
+            <span class="tile-lbl" data-t="cdMins">MINUTI</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-tile">
+            <span class="tile-val" id="cdSecs">15</span>
+            <span class="tile-lbl" data-t="cdSecs">SECONDI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dock-divider" aria-hidden="true"></div>
+
+      <!-- Sezione 2: Iscrizione Mail ("Inserisci la mail per rimanere aggiornato") -->
+      <div class="email-section">
+        <form id="homeSubscribeForm" data-subscribe class="dock-email-form">
+          <label for="homeEmail" class="email-label" data-t="updatesPrompt">Inserisci la mail per rimanere aggiornato</label>
+          <div class="email-row">
+            <input id="homeEmail" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@email.it" aria-describedby="homeStatus" aria-label="La tua email">
+            <button type="submit" class="submit-btn" data-t="join">Iscriviti</button>
+          </div>
+        </form>
+        <div class="email-footer-row">
+          <p id="homeStatus" class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
+          <button class="vivaticket-pill" id="ticketButton" type="button" data-open="ticketDialog" title="Informazioni biglietti Vivaticket">
+            <img src="vivaticket.png" width="1285" height="144" alt="Vivaticket">
+            <span data-t="vivaticketCta">Biglietti Vivaticket</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
     <span class="audio-status sr-only" id="audioStatus" role="status" aria-live="polite"></span>
   </footer>

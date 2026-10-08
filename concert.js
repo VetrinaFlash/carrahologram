@@ -5,10 +5,58 @@
     en: {info:'The concert',language:'Language',tickets:'Tickets',intro:'A night with an icon of Italian entertainment.',when:'When',where:'Where',date:'28 December 2026',directions:'Get directions ↗',calendar:'Add to calendar ↗',poster:'Download the poster ↓',ticketInfo:'Tickets and updates',ticketTitle:'See you at the show.',ticketIntro:'Leave your email to receive ticket and concert updates.',buy:'Buy on Vivaticket ↗',email:'Your email',notify:'Notify me',finePrint:'Concert updates only. To unsubscribe, reply to one of our emails with “CANCELLAMI”.',close:'Close',audioOn:'Play music',audioOff:'Mute music',audioError:'Audio is unavailable. Please try again.',pending:'Sending…',success:'You’re on the list. We’ll keep you updated by email.',error:'Could not subscribe. Please try again.'},
     es: {info:'El concierto',language:'Idioma',tickets:'Entradas',intro:'Una noche con un icono del espectáculo italiano.',when:'Cuándo',where:'Dónde',date:'28 de diciembre de 2026',directions:'Cómo llegar ↗',calendar:'Añadir al calendario ↗',poster:'Descargar el cartel ↓',ticketInfo:'Entradas y novedades',ticketTitle:'Nos vemos en el concierto.',ticketIntro:'Deja tu email para recibir novedades sobre las entradas y el concierto.',buy:'Comprar en Vivaticket ↗',email:'Tu email',notify:'Avísame',finePrint:'Solo novedades del concierto. Para darte de baja, responde a un email con “CANCELLAMI”.',close:'Cerrar',audioOn:'Activar música',audioOff:'Silenciar música',audioError:'Audio no disponible. Inténtalo de nuevo.',pending:'Enviando…',success:'Estás en la lista. Te informaremos por email.',error:'No se pudo completar la inscripción. Inténtalo de nuevo.'},
     pt: {info:'O concerto',language:'Idioma',tickets:'Bilhetes',intro:'Uma noite com um ícone do espetáculo italiano.',when:'Quando',where:'Onde',date:'28 de dezembro de 2026',directions:'Como chegar ↗',calendar:'Adicionar ao calendário ↗',poster:'Descarregar o cartaz ↓',ticketInfo:'Bilhetes e novidades',ticketTitle:'Até ao concerto.',ticketIntro:'Deixa o teu email para receber novidades sobre os bilhetes e o concerto.',buy:'Comprar na Vivaticket ↗',email:'O teu email',notify:'Avisar-me',finePrint:'Apenas novidades do concerto. Para cancelar, responde a um email com “CANCELLAMI”.',close:'Fechar',audioOn:'Ativar música',audioOff:'Silenciar música',audioError:'Áudio indisponível. Tenta novamente.',pending:'A enviar…',success:'Estás na lista. Enviaremos novidades por email.',error:'Não foi possível concluir a inscrição. Tenta novamente.'},
-    de: {info:'Das Konzert',language:'Sprache',tickets:'Tickets',intro:'Ein Abend mit einer Ikone der italienischen Unterhaltung.',when:'Wann',where:'Wo',date:'28. Dezember 2026',directions:'Anfahrt ↗',calendar:'Zum Kalender hinzufügen ↗',poster:'Poster herunterladen ↓',ticketInfo:'Tickets und Neuigkeiten',ticketTitle:'Wir sehen uns beim Konzert.',ticketIntro:'Hinterlasse deine E-Mail-Adresse für Neuigkeiten zu Tickets und Konzert.',buy:'Bei Vivaticket kaufen ↗',email:'Deine E-Mail-Adresse',notify:'Informieren',finePrint:'Nur Konzertneuigkeiten. Zum Abmelden antworte auf eine unserer E-Mails mit „CANCELLAMI“.',close:'Schließen',audioOn:'Musik einschalten',audioOff:'Musik ausschalten',audioError:'Audio ist nicht verfügbar. Bitte erneut versuchen.',pending:'Senden…',success:'Du bist auf der Liste. Neuigkeiten kommen per E-Mail.',error:'Anmeldung fehlgeschlagen. Bitte erneut versuchen.'},
     fr: {info:'Le concert',language:'Langue',tickets:'Billets',intro:'Une nuit avec une icône du spectacle italien.',when:'Quand',where:'Où',date:'28 décembre 2026',directions:'Itinéraire ↗',calendar:'Ajouter au calendrier ↗',poster:'Télécharger l’affiche ↓',ticketInfo:'Billets et actualités',ticketTitle:'Rendez-vous au concert.',ticketIntro:'Laisse ton email pour recevoir les nouveautés sur les billets et le concert.',buy:'Acheter sur Vivaticket ↗',email:'Ton email',notify:'Me prévenir',finePrint:'Uniquement les actualités du concert. Pour te désinscrire, réponds à un email avec « CANCELLAMI ».',close:'Fermer',audioOn:'Activer la musique',audioOff:'Couper la musique',audioError:'Audio indisponible. Réessaie plus tard.',pending:'Envoi…',success:'Tu es sur la liste. Nous te tiendrons au courant par email.',error:'Inscription impossible. Réessaie plus tard.'}
   };
-  const extraCopy = {"it": {"menu": "Menu", "home": "Home", "merch": "Merchandising", "join": "Iscriviti", "updates": "Ricevi gli aggiornamenti", "soon": "In arrivo", "merchIntro": "La collezione dedicata a “The Show Must Go On” è in arrivo. Iscriviti per ricevere le novità e scoprire il lancio dello store.", "launchNotify": "Avvisami al lancio", "updatesIntro": "Biglietti, concerto e merchandising. Le novità direttamente nella tua email."}, "en": {"menu": "Menu", "home": "Home", "merch": "Merchandise", "join": "Join the list", "updates": "Get the latest news", "soon": "Coming soon", "merchIntro": "The “The Show Must Go On” collection is coming soon. Join the list for news and the store launch.", "launchNotify": "Notify me at launch", "updatesIntro": "Tickets, concert and merchandise. Get the latest news by email."}, "es": {"menu": "Menú", "home": "Inicio", "merch": "Merchandising", "join": "Suscríbete", "updates": "Recibe las novedades", "soon": "Próximamente", "merchIntro": "La colección “The Show Must Go On” llegará pronto. Suscríbete para conocer las novedades y el lanzamiento de la tienda.", "launchNotify": "Avísame del lanzamiento", "updatesIntro": "Entradas, concierto y merchandising. Las novedades en tu email."}, "pt": {"menu": "Menu", "home": "Início", "merch": "Merchandising", "join": "Subscrever", "updates": "Recebe as novidades", "soon": "Em breve", "merchIntro": "A coleção “The Show Must Go On” chega em breve. Subscreve para receber novidades e saber do lançamento da loja.", "launchNotify": "Avisar-me no lançamento", "updatesIntro": "Bilhetes, concerto e merchandising. Novidades por email."}, "de": {"menu": "Menü", "home": "Startseite", "merch": "Merchandise", "join": "Anmelden", "updates": "Neuigkeiten per E-Mail", "soon": "Demnächst", "merchIntro": "Die Kollektion „The Show Must Go On“ erscheint bald. Melde dich für Neuigkeiten und den Start des Shops an.", "launchNotify": "Zum Start informieren", "updatesIntro": "Tickets, Konzert und Merchandise. Neuigkeiten direkt per E-Mail."}, "fr": {"menu": "Menu", "home": "Accueil", "merch": "Merchandising", "join": "M’inscrire", "updates": "Recevoir les nouveautés", "soon": "Bientôt", "merchIntro": "La collection « The Show Must Go On » arrive bientôt. Inscris-toi pour les nouveautés et le lancement de la boutique.", "launchNotify": "Me prévenir au lancement", "updatesIntro": "Billets, concert et merchandising. Les nouveautés par email."}};
+  const extraCopy = {
+    "it": {
+      "menu": "Menu", "home": "Home", "merch": "Merchandising", "join": "Iscriviti", "updates": "Ricevi gli aggiornamenti", "soon": "In arrivo",
+      "merchIntro": "La collezione dedicata a “The Show Must Go On” è in arrivo. Iscriviti per ricevere le novità e scoprire il lancio dello store.",
+      "launchNotify": "Avvisami al lancio", "updatesIntro": "Biglietti, concerto e merchandising. Le novità direttamente nella tua email.",
+      "countdownTitle": "COUNTDOWN 28 OTTOBRE", "countdownSubtitle": "Apertura Prevendite Ufficiali",
+      "cdDays": "GIORNI", "cdHours": "ORE", "cdMins": "MINUTI", "cdSecs": "SECONDI",
+      "updatesPrompt": "Inserisci la mail per rimanere aggiornato", "vivaticketCta": "Biglietti Vivaticket"
+    },
+    "en": {
+      "menu": "Menu", "home": "Home", "merch": "Merchandise", "join": "Join", "updates": "Get the latest news", "soon": "Coming soon",
+      "merchIntro": "The “The Show Must Go On” collection is coming soon. Join the list for news and the store launch.",
+      "launchNotify": "Notify me at launch", "updatesIntro": "Tickets, concert and merchandise. Get the latest news by email.",
+      "countdownTitle": "COUNTDOWN OCTOBER 28", "countdownSubtitle": "Official Ticket Presale",
+      "cdDays": "DAYS", "cdHours": "HOURS", "cdMins": "MINS", "cdSecs": "SECS",
+      "updatesPrompt": "Enter your email to stay updated", "vivaticketCta": "Vivaticket Tickets"
+    },
+    "es": {
+      "menu": "Menú", "home": "Inicio", "merch": "Merchandising", "join": "Suscríbete", "updates": "Recibe las novedades", "soon": "Próximamente",
+      "merchIntro": "La colección “The Show Must Go On” llegará pronto. Suscríbete para conocer las novedades y el lanzamiento de la tienda.",
+      "launchNotify": "Avísame del lanzamiento", "updatesIntro": "Entradas, concierto y merchandising. Las novedades en tu email.",
+      "countdownTitle": "COUNTDOWN 28 OCTUBRE", "countdownSubtitle": "Venta Oficial de Entradas",
+      "cdDays": "DÍAS", "cdHours": "HORAS", "cdMins": "MINS", "cdSecs": "SEGS",
+      "updatesPrompt": "Introduce tu email para estar al día", "vivaticketCta": "Entradas Vivaticket"
+    },
+    "pt": {
+      "menu": "Menu", "home": "Início", "merch": "Merchandising", "join": "Subscrever", "updates": "Recebe as novidades", "soon": "Em breve",
+      "merchIntro": "A coleção “The Show Must Go On” chega em breve. Subscreve para receber novidades e saber do lançamento da loja.",
+      "launchNotify": "Avisar-me no lançamento", "updatesIntro": "Bilhetes, concerto e merchandising. Novidades por email.",
+      "countdownTitle": "COUNTDOWN 28 OUTUBRO", "countdownSubtitle": "Venda Oficial de Bilhetes",
+      "cdDays": "DIAS", "cdHours": "HORAS", "cdMins": "MINS", "cdSecs": "SEGS",
+      "updatesPrompt": "Insere o teu email para ficar a par", "vivaticketCta": "Bilhetes Vivaticket"
+    },
+    "de": {
+      "menu": "Menü", "home": "Startseite", "merch": "Merchandise", "join": "Anmelden", "updates": "Neuigkeiten per E-Mail", "soon": "Demnächst",
+      "merchIntro": "Die Kollektion „The Show Must Go On“ erscheint bald. Melde dich für Neuigkeiten und den Start des Shops an.",
+      "launchNotify": "Zum Start informieren", "updatesIntro": "Tickets, Konzert und Merchandise. Neuigkeiten direkt per E-Mail.",
+      "countdownTitle": "COUNTDOWN 28. OKTOBER", "countdownSubtitle": "Offizieller Vorverkaufsstart",
+      "cdDays": "TAGE", "cdHours": "STD", "cdMins": "MIN", "cdSecs": "SEK",
+      "updatesPrompt": "E-Mail eingeben, um auf dem Laufenden zu bleiben", "vivaticketCta": "Vivaticket Tickets"
+    },
+    "fr": {
+      "menu": "Menu", "home": "Accueil", "merch": "Merchandising", "join": "M’inscrire", "updates": "Recevoir les nouveautés", "soon": "Bientôt",
+      "merchIntro": "La collection « The Show Must Go On » arrive bientôt. Inscris-toi pour les nouveautés et le lancement de la boutique.",
+      "launchNotify": "Me prévenir au lancement", "updatesIntro": "Billets, concert et merchandising. Les nouveautés par email.",
+      "countdownTitle": "COUNTDOWN 28 OCTOBRE", "countdownSubtitle": "Ouverture Billetterie Officielle",
+      "cdDays": "JOURS", "cdHours": "HEURES", "cdMins": "MINS", "cdSecs": "SECS",
+      "updatesPrompt": "Entrez votre email pour rester informé", "vivaticketCta": "Billets Vivaticket"
+    }
+  };
   Object.keys(copy).forEach(lang=>Object.assign(copy[lang],extraCopy[lang]));
   let language = 'it';
   try { const saved = localStorage.getItem('carra_language'); if (copy[saved]) language = saved; } catch {}
@@ -218,6 +266,36 @@
   new ResizeObserver(schedulePoster).observe(posterFrame);
   window.addEventListener('resize',schedulePoster);
   schedulePoster();
+
+  // Live countdown to 28 Ottobre
+  function updateCountdown() {
+    const targetConfig = window.CARRA_CONFIG?.countdownTarget || '2026-10-28T00:00:00+02:00';
+    let target = new Date(targetConfig);
+    const now = new Date();
+    if (isNaN(target.getTime())) {
+      target = new Date('2026-10-28T00:00:00+02:00');
+    }
+    let diff = Math.max(0, Math.floor((target.getTime() - now.getTime()) / 1000));
+    const d = Math.floor(diff / 86400);
+    diff %= 86400;
+    const h = Math.floor(diff / 3600);
+    diff %= 3600;
+    const m = Math.floor(diff / 60);
+    const s = diff % 60;
+
+    const pad = n => String(n).padStart(2, '0');
+    const elD = get('cdDays');
+    const elH = get('cdHours');
+    const elM = get('cdMins');
+    const elS = get('cdSecs');
+
+    if (elD && elD.textContent !== String(d)) elD.textContent = String(d);
+    if (elH && elH.textContent !== pad(h)) elH.textContent = pad(h);
+    if (elM && elM.textContent !== pad(m)) elM.textContent = pad(m);
+    if (elS && elS.textContent !== pad(s)) elS.textContent = pad(s);
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 
   // Subtle interactive sparkle enhancement when cursor is near the Carrà title
   const sparklesLayer = document.querySelector('.carra-sparkles');
