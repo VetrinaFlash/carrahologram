@@ -63,44 +63,46 @@ body.is-hidden .scene-lasers i{animation-play-state:paused}
 @media(max-height:650px) and (max-aspect-ratio:1/1){.action-dock{height:103px;gap:6px;bottom:calc(9.5% + env(safe-area-inset-bottom))}.show-copy{bottom:30.5%}.home-signup{width:274px}.home-signup label{font-size:8px;margin-bottom:4px}.home-signup .email-row{height:39px;padding:3px}.home-signup .email-row button{min-height:31px}.home-signup .email-row input{padding:3px 8px}}
 @media(max-height:580px) and (min-aspect-ratio:1/1){.action-dock{flex-direction:row;align-items:flex-end;gap:18px;height:62px;bottom:calc(10% + env(safe-area-inset-bottom))}.home-signup{width:270px}.home-signup .email-row{height:40px;padding:3px}.home-signup .email-row button{min-height:32px}.home-signup label{font-size:8px;margin-bottom:4px}.show-copy{bottom:29%}}
 
-/* Reference composition: marquee behind the original head, title at the hips. */
-.scene-background{opacity:.85}
-.scene-shade{background:linear-gradient(180deg,#03041060,transparent 35%,#03030e25 65%,#03030eaa),radial-gradient(ellipse at 50% 42%,transparent 30%,#02020c55)}
-.stage-marquee{top:8%;width:min(89vw,1230px,145vh)}
-.character-layer{top:18%;height:80%;max-height:1098px;aspect-ratio:518/1098}
-.stage-signature{top:36%;right:12%;width:min(18vw,235px)}
-.show-copy{top:53%;bottom:auto;width:min(90vw,1200px);gap:8px}
-.show-copy:before{content:"";position:absolute;z-index:-1;inset:-12px -3vw;background:radial-gradient(ellipse,#070719d9,transparent 72%);pointer-events:none}
-.show-date{margin-top:7px}
-.action-dock{top:74%;bottom:auto;height:auto;flex-direction:column;align-items:center;gap:12px}
-.ticket-button{height:56px;min-width:360px}
+/* Landscape reference: original proportions and independent artwork layers. */
+.scene-background{opacity:.86}
+.scene-shade{background:linear-gradient(180deg,#03041070,transparent 34%,#03030e22 68%,#03030e99)}
+.stage-marquee{top:6%;left:calc(50% + 8px);width:min(84vw,1100px,132vh)}
+.character-layer{top:15%;left:calc(50% - 8px);height:85%;max-height:850px;aspect-ratio:374/749}
+.stage-signature{top:32%;right:10%;width:min(19vw,245px)}
+.show-copy{top:53%;bottom:auto;width:min(92vw,1310px);gap:8px}
+.show-copy:before{content:"";position:absolute;z-index:-1;inset:-4px -3vw;background:radial-gradient(ellipse,#06061575,transparent 72%);pointer-events:none}
+.show-subtitle{width:77%}.show-date{margin-top:7px}
+.action-dock{top:76%;bottom:auto;height:auto;flex-direction:column;align-items:center;gap:12px}
+.ticket-button{height:55px;min-width:360px}
 .home-signup{width:320px}.home-signup label{text-align:center}
-.scene-partners{bottom:3%;height:68px}
-.radio-partner img{width:46px;height:46px}
+.scene-partners{bottom:3%;height:76px}.production-mark{width:230px;height:85px}.venue-mark{width:215px}
+.radio-partner img{width:54px;height:54px}
 @media(max-aspect-ratio:1/1){
- .stage-marquee{top:10%;width:98vw}
- .character-layer{top:19%;height:79%}
- .stage-signature{display:block;top:36%;right:3%;width:21vw;opacity:.8}
+ .stage-marquee{top:9%;left:50%;width:98vw}
+ .character-layer{top:18%;left:50%;height:79%}
+ .stage-signature{display:block;top:33%;right:2%;width:22vw;opacity:.85}
  .show-copy{top:54%;bottom:auto;width:98vw;gap:8px}
  .show-subtitle{width:93%}.show-date{width:90%;margin-top:6px}.show-date img{width:62vw;max-width:340px}
- .action-dock{top:67%;bottom:auto;gap:12px;height:auto}
- .ticket-button{min-width:300px;height:52px}
+ .action-dock{top:68%;bottom:auto;gap:13px;height:auto}
+ .ticket-button{min-width:300px;height:50px}
  .home-signup{width:290px}.home-signup .email-row{height:42px}
- .scene-partners{bottom:3%;height:55px}.radio-partner{bottom:12px}.radio-partner img{width:39px;height:39px}
+ .scene-partners{bottom:3%;height:55px}.radio-partner{bottom:3px}.radio-partner img{width:42px;height:42px}
+ .production-mark{width:104px;height:42px}.venue-mark{width:103px}
 }
 @media(max-height:650px) and (max-aspect-ratio:1/1){
- .stage-marquee{top:11%;width:97vw}.character-layer{top:21%;height:77%}
+ .stage-marquee{top:12%;width:98vw}.character-layer{top:21%;height:75%}
  .show-copy{top:54%;gap:5px}.show-date{margin-top:3px}
- .action-dock{top:69%;gap:7px}.ticket-button{height:43px;min-width:280px}
- .home-signup{width:274px}.home-signup .email-row{height:37px}
- .scene-partners{bottom:2%;height:35px}.radio-partner{bottom:0}.radio-partner img{width:27px;height:27px}
+ .action-dock{top:70%;gap:7px}.ticket-button{height:41px;min-width:280px}
+ .home-signup{width:274px}.home-signup .email-row{height:36px}
+ .scene-partners{bottom:2%;height:35px}.radio-partner{bottom:0}.radio-partner img{width:29px;height:29px}
+ .production-mark{width:88px;height:35px}.venue-mark{width:87px}
 }
 @media(max-height:580px) and (min-aspect-ratio:1/1){
- .stage-marquee{top:10%;width:110vh}.character-layer{top:20%;height:80%}
- .show-copy{top:51%;width:min(75vw,145vh);gap:4px}.show-date{margin-top:2px}
- .stage-signature{top:34%;right:16%;width:14vw}
- .action-dock{top:78%;height:42px;flex-direction:row;align-items:flex-end;gap:15px}
- .ticket-button{min-width:265px;height:40px}.home-signup{width:255px}.home-signup .email-row{height:37px}
- .scene-partners{bottom:5px;height:28px}.radio-partner img{width:23px;height:23px}.radio-partner span{font-size:4px}
+ .stage-marquee{top:10%;width:135vh}.character-layer{top:21%;height:85%}
+ .show-copy{top:53%;width:min(75vw,145vh);gap:4px}.show-date{margin-top:2px}
+ .stage-signature{top:32%;right:12%;width:14vw}
+ .action-dock{top:80%;height:40px;flex-direction:row;align-items:flex-end;gap:15px}
+ .ticket-button{min-width:265px;height:39px}.home-signup{width:255px}.home-signup .email-row{height:37px}
+ .scene-partners{bottom:5px;height:26px}.radio-partner img{width:23px;height:23px}
  .production-mark{width:90px;height:28px}.venue-mark{width:90px}
 }

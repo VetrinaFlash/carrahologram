@@ -30,8 +30,10 @@ Browser Chromium: 1440×900, 390×844, 320×568, 768×1024, 844×390, 2560×1080
 
 Per l'anteprima locale: `python3 -m http.server 8000`, poi apri `http://localhost:8000`. Le funzioni Cloudflare non vengono eseguite da questo server statico.
 
-## Revisione del riferimento dell’8 ottobre
+## Revisione annotazioni dell’8 ottobre
 
-Disposizione aggiornata: insegna dietro la testa, figura intera, titolo sui fianchi, sottotitolo e data, pulsante Vivaticket, iscrizione e partner. Il volto e i capelli provengono dal JPG originale, con maschera corretta per conservare il contorno. Le gambe sono ritagliate dalla stessa locandina; la fascia coperta dalle scritte originali viene sfumata sotto i livelli del titolo. Nessuna ricostruzione generativa del volto. La figura è `scene-raffaella-full.png` (518×1098).
+La disposizione segue il riferimento fornito: insegna dietro la figura, titolo sui fianchi, sottotitolo e data, Vivaticket sotto la data e RTL più in basso. Rimangono menu, merchandising e iscrizione email visibile. Eliminata la scritta “Official radio partner”.
 
-Il master ricevuto è di 864×1536 pixel: il nuovo ritaglio evita l’ingrandimento precedente del primo piano, ma non aggiunge dettagli reali assenti dal JPG. Per una resa superiore su schermi ad alta densità serve il master originale a maggiore risoluzione.
+La figura del sito è ritagliata dalla locandina orizzontale originale; i pixel del volto non sono stati modificati. Nuova maschera dei capelli e dei bordi di costume e stivali, senza lo sfondo residuo del precedente ritaglio. Il file è `scene-raffaella-full.png` (374×749). Le porzioni del corpo coperte da testo nel master sono trasparenti sotto i livelli di titolo e data: per ricostruire fedelmente anche quelle parti occorre il livello originale della figura privo di scritte. Il ritaglio non genera nuovo dettaglio ad alta risoluzione.
+
+Nei banner resta il volto della locandina verticale con il contorno corretto. Il 120×600 ha Raffaella/Carrà su due righe; il 160×600 conserva il titolo approvato. I master 2× sono file di composizione, non una nuova fotografia a maggiore dettaglio.
