@@ -1,0 +1,772 @@
+/* ==========================================================================
+   NEWCOUNT — FULL BLEED / HQ ORIGINAL ASSETS / V4
+   Requested composition preserved on both desktop and mobile:
+   1) Raffaella Carrà / The Show Must Go On / Official Hologram Concert
+   2) Pronto a fare rumore
+   3) Countdown
+   4) Email form
+   5) Lascia la tua email / Early Access Tickets
+   No overlap between blocks.
+   ========================================================================== */
+
+html.countdown-expired #countdownScreen{display:none!important}
+body.gate-active{overflow:hidden!important;touch-action:manipulation}
+
+#countdownScreen{
+  position:fixed;inset:0;z-index:99999;
+  width:100vw;height:100vh;height:100dvh;
+  overflow:hidden;
+  color:#fff;text-align:center;user-select:none;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  background:#020008 url("gate-bg-desktop-hq.png") center center/cover no-repeat;
+  opacity:1;visibility:visible;
+  transition:opacity 1.05s cubic-bezier(.16,1,.3,1),transform 1.05s cubic-bezier(.16,1,.3,1),visibility 1.05s;
+}
+#countdownScreen::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.04) 28%,rgba(0,0,0,.10) 60%,rgba(0,0,0,.22) 100%),
+    radial-gradient(ellipse at 50% 48%,transparent 0 36%,rgba(0,0,0,.10) 82%,rgba(0,0,0,.24) 100%);
+}
+#countdownScreen.is-expired{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:scale(1.012)!important}
+
+.gate-stars{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;opacity:.52}
+.gate-star{position:absolute;border-radius:50%;background:#fff;opacity:0;animation:gateTwinkle var(--tw-dur,3s) ease-in-out infinite var(--tw-delay,0s)}
+.gate-star:nth-child(3n){box-shadow:0 0 7px #ff2a78,0 0 18px #ff2a785e!important}
+.gate-star:nth-child(3n+1){box-shadow:0 0 7px #51a7ff,0 0 18px #3f7cff55!important}
+.gate-star:nth-child(3n+2){box-shadow:0 0 6px #fff,0 0 14px #ffffff44!important}
+@keyframes gateTwinkle{0%,100%{opacity:var(--min-op,.08);transform:scale(.72)}50%{opacity:var(--max-op,.8);transform:scale(1.25)}}
+
+.gate-center-stack{
+  position:absolute;inset:0;z-index:2;
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(10px,1.5dvh,16px);
+  padding:
+    max(18px, env(safe-area-inset-top))
+    clamp(10px,1.8vw,24px)
+    max(18px, env(safe-area-inset-bottom))
+    clamp(10px,1.8vw,24px);
+}
+
+/* Corner / top logos */
+#countdownScreen::after,
+.gate-center-stack::before,
+.gate-center-stack::after,
+.gate-signup::before{
+  content:"";
+  position:absolute;
+  z-index:7;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:drop-shadow(0 4px 14px rgba(0,0,0,.35));
+}
+
+/* Desktop default logos */
+#countdownScreen::after{
+  left:clamp(24px,3.6vw,62px);
+  top:clamp(18px,2.6vh,28px);
+  width:clamp(98px,9.3vw,148px);
+  height:clamp(24px,2.15vw,36px);
+  background-image:url("logo-vivaticket.png");
+}
+.gate-center-stack::before{
+  left:auto;
+  right:clamp(24px,3.6vw,62px);
+  top:clamp(18px,2.5vh,28px);
+  transform:none;
+  width:clamp(50px,5vw,74px);
+  height:clamp(50px,5vw,74px);
+  background-image:url("logo-rtl.png");
+}
+.gate-center-stack::after{
+  right:clamp(24px,3.6vw,62px);
+  top:auto;
+  bottom:max(20px, env(safe-area-inset-bottom));
+  width:clamp(112px,9.6vw,168px);
+  height:clamp(28px,2.8vw,42px);
+  background-image:url("logo-atlantico-roma.png");
+}
+.gate-signup::before{
+  display:block;
+  position:fixed;
+  left:clamp(24px,3.6vw,62px);
+  top:auto;
+  bottom:max(5px, env(safe-area-inset-bottom));
+  width:clamp(170px,16vw,270px);
+  height:clamp(44px,5vw,76px);
+  min-height:unset;
+  max-height:none;
+  background-image:url("logo-laserman-andrea-prince.png");
+}
+
+
+/* Title block only. */
+.gate-header{
+  position:relative;z-index:2;flex:0 0 auto;
+  width:min(60vw,780px);
+  aspect-ratio:1536/515;
+  background:url("gate-title-hq.png") center/100% 100% no-repeat;
+  filter:drop-shadow(0 0 12px rgba(255,33,112,.24)) drop-shadow(0 8px 24px rgba(0,0,0,.56));
+  animation:gateLogoBreath 4.6s ease-in-out infinite;
+}
+.gate-header>.gate-eyebrow,.gate-header>.gate-title,.gate-header>.gate-subtitle{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;
+}
+@keyframes gateLogoBreath{
+  0%,100%{filter:drop-shadow(0 0 9px rgba(255,35,105,.20)) drop-shadow(0 8px 22px rgba(0,0,0,.56))}
+  50%{filter:drop-shadow(0 0 16px rgba(255,38,110,.34)) drop-shadow(0 8px 26px rgba(0,0,0,.64))}
+}
+
+/* Timer block contains the Rumore artwork as its own first row. */
+.gate-timer{
+  position:relative;z-index:5;flex:0 0 auto;
+  width:min(86vw,1040px);
+  display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;
+  gap:clamp(6px,.9vw,12px);
+}
+.gate-timer::before{
+  content:"";
+  flex:0 0 100%;
+  width:min(74vw,900px);
+  aspect-ratio:1536/297;
+  margin:0 auto clamp(2px,.5dvh,6px);
+  background:url("gate-rumore-desktop-hq.png") center/100% 100% no-repeat;
+  filter:drop-shadow(0 0 12px rgba(255,20,105,.34)) drop-shadow(0 0 7px rgba(67,131,255,.20));
+}
+.gate-unit{
+  flex:1 1 0;min-width:0;
+  padding:clamp(9px,1.15dvh,14px) 5px clamp(8px,.95dvh,11px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  background:linear-gradient(180deg,rgba(11,8,31,.82),rgba(3,1,14,.94));
+  border:1px solid rgba(255,49,121,.83);border-radius:15px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 1px rgba(49,106,255,.10),0 0 23px rgba(255,25,104,.16),0 12px 30px rgba(0,0,0,.42);
+  backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
+}
+.gate-unit:nth-of-type(even){border-color:rgba(70,130,255,.86);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 23px rgba(49,107,255,.19),0 12px 30px rgba(0,0,0,.42)}
+.gate-num{font-family:Arial,Helvetica,sans-serif;font-size:clamp(1.9rem,4vw,3.35rem);font-weight:800;line-height:.94;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 11px rgba(255,255,255,.18),0 0 23px rgba(255,35,112,.18)}
+.gate-lbl{font:700 clamp(.5rem,.88vw,.68rem)/1 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.86)}
+.gate-sep{display:none}
+
+.gate-signup{
+  position:relative;z-index:6;flex:0 0 auto;
+  width:min(86vw,1040px);
+  display:flex;flex-direction:column;align-items:center;
+}
+.gate-prompt{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
+.gate-form{width:100%;display:flex;flex-direction:column;align-items:center;gap:0}
+.gate-form-row{
+  width:100%;display:flex;align-items:center;gap:8px;
+  padding:5px 5px 5px clamp(15px,2vw,24px);
+  border:1px solid rgba(255,53,122,.72);border-radius:999px;
+  background:linear-gradient(180deg,rgba(6,4,20,.91),rgba(2,1,12,.96));
+  box-shadow:0 0 0 1px rgba(53,111,255,.10),0 0 23px rgba(255,29,107,.13),0 12px 30px rgba(0,0,0,.36);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:.22s ease;
+}
+.gate-form-row:focus-within{border-color:#ff5196;box-shadow:0 0 0 1px rgba(78,136,255,.31),0 0 28px rgba(255,33,110,.31),0 12px 31px rgba(0,0,0,.46)}
+.gate-input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:500 clamp(14px,1.2vw,17px)/1.2 Arial,Helvetica,sans-serif;padding:11px 4px}
+.gate-input::placeholder{color:rgba(255,255,255,.72)}
+.gate-btn{flex:0 0 auto;border:0;border-radius:999px;padding:13px clamp(20px,2.4vw,34px);min-width:132px;cursor:pointer;background:linear-gradient(135deg,#ff438f 0%,#ff246c 58%,#f20d55 100%);color:#fff;font:800 clamp(11px,.96vw,13px)/1 Arial,Helvetica,sans-serif;letter-spacing:.07em;text-transform:uppercase;box-shadow:0 0 20px rgba(255,37,110,.50),inset 0 1px 0 rgba(255,255,255,.27);transition:transform .15s ease,filter .2s ease,box-shadow .2s ease}
+.gate-btn:hover{filter:brightness(1.10);box-shadow:0 0 27px rgba(255,37,110,.66),inset 0 1px 0 rgba(255,255,255,.30)}
+.gate-btn:active{transform:scale(.975)}.gate-btn:disabled{opacity:.65;cursor:wait}
+.gate-status{min-height:18px;margin:4px 0 0;font:600 12px/1.35 Arial,Helvetica,sans-serif;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.25)}
+.gate-status:empty{min-height:0;margin:0}.gate-status[data-status-key="success"],.gate-status.is-success{color:#91ffba}.gate-status[data-status-key="error"],.gate-status.is-error{color:#ff9aab}
+.gate-signup::after{
+  content:"";
+  display:block;
+  width:min(52vw,680px);
+  margin:clamp(18px,2.2dvh,28px) auto 0;
+  aspect-ratio:1494/320;
+  background:url("gate-cta-hq.png") center/100% 100% no-repeat;
+  filter:drop-shadow(0 0 13px rgba(255,35,112,.30));
+}
+
+/* Portrait / mobile */
+@media (orientation:portrait){
+  #countdownScreen{background-image:url("gate-bg-mobile-hq.png");background-position:center center;background-size:cover}
+  #countdownScreen::before{background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,.04) 34%,rgba(0,0,0,.10) 66%,rgba(0,0,0,.20) 100%),radial-gradient(ellipse at 50% 43%,transparent 0 34%,rgba(0,0,0,.08) 80%,rgba(0,0,0,.18) 100%)}
+
+  .gate-center-stack{
+    gap:12px;
+    padding:
+      max(22px, env(safe-area-inset-top))
+      8px
+      max(26px, env(safe-area-inset-bottom))
+      8px;
+    transform:translateY(-1dvh);
+  }
+
+  .gate-header{width:96vw;aspect-ratio:1536/515}
+
+  .gate-timer{width:96vw;gap:5px}
+  .gate-timer::before{
+    width:95vw;
+    aspect-ratio:1520/530;
+    background-image:url("gate-rumore-mobile-hq.png");
+    margin-bottom:4px;
+  }
+  .gate-unit{padding:12px 2px 10px;border-radius:13px}
+  .gate-num{font-size:clamp(1.65rem,8.6vw,2.65rem)}
+  .gate-lbl{font-size:clamp(.44rem,2.05vw,.60rem);letter-spacing:.075em}
+
+  .gate-signup{width:96vw}
+  .gate-form-row{padding:4px 4px 4px 14px}
+  .gate-input{font-size:14px;padding:11px 3px}
+  .gate-btn{min-width:96px;padding:12px 16px;font-size:10.5px}
+  .gate-signup::after{width:96vw;margin-top:12px;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png");background-color:rgba(0,0,0,.34);border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.20)}
+
+
+  /* Mobile logos: RTL top-center, Vivaticket / Laserman / Atlantico at bottom */
+  #countdownScreen::after{
+    left:12px;
+    top:auto;
+    bottom:max(30px, calc(env(safe-area-inset-bottom) + 8px));
+    width:23vw;
+    height:6vw;
+    min-height:22px;
+    max-height:26px;
+    background-image:url("logo-vivaticket.png");
+  }
+  .gate-center-stack::before{
+    left:50%;
+    right:auto;
+    top:max(20px, calc(env(safe-area-inset-top) + 6px));
+    transform:translateX(-50%);
+    width:10.5vw;
+    height:10.5vw;
+    min-width:38px;
+    min-height:38px;
+    max-width:44px;
+    max-height:44px;
+    background-image:url("logo-rtl.png");
+  }
+  .gate-center-stack::after{
+    right:12px;
+    top:auto;
+    bottom:max(22px, env(safe-area-inset-bottom));
+    width:24vw;
+    height:6.4vw;
+    min-height:22px;
+    max-height:26px;
+    background-image:url("logo-atlantico-roma.png");
+  }
+  .gate-signup::before{
+    display:block;
+    position:fixed;
+    left:50%;
+    top:auto;
+    bottom:max(17px, env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    width:29vw;
+    height:7.6vw;
+    min-height:26px;
+    max-height:30px;
+    background-image:url("logo-laserman-andrea-prince.png");
+  }
+}
+
+@media (orientation:portrait) and (max-width:390px){
+  .gate-timer,.gate-signup{width:98vw}
+  .gate-timer::before{width:98vw}
+  .gate-timer{gap:4px}
+  .gate-unit{padding:10px 1px 8px;border-radius:11px}
+  .gate-num{font-size:1.55rem}.gate-lbl{font-size:.43rem;letter-spacing:.055em}
+  .gate-form-row{padding-left:11px}.gate-input{font-size:13px}.gate-btn{min-width:86px;padding:11px 11px;font-size:9.8px}
+  .gate-signup::after{width:98vw;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png");background-color:rgba(0,0,0,.34);border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.20)}
+  #countdownScreen::after{top:auto;bottom:max(30px, calc(env(safe-area-inset-bottom) + 8px));width:24vw;height:5.8vw}
+  .gate-center-stack::before{top:max(20px, calc(env(safe-area-inset-top) + 6px));width:11vw;height:11vw}
+  .gate-center-stack::after{width:25vw;height:6.4vw}
+  .gate-signup::before{width:30vw;height:8vw}
+}
+
+
+/* Tablet: same logo layout as desktop */
+@media (pointer:coarse) and (min-width:700px) and (max-width:1180px){
+  #countdownScreen::after{
+    left:18px;
+    top:max(24px, calc(env(safe-area-inset-top) + 10px));
+    bottom:auto;
+    width:150px;
+    height:34px;
+    background-image:url("logo-vivaticket.png");
+  }
+  .gate-center-stack::before{
+    left:auto;
+    right:18px;
+    top:max(18px, calc(env(safe-area-inset-top) + 6px));
+    transform:none;
+    width:68px;
+    height:68px;
+    background-image:url("logo-rtl.png");
+  }
+  .gate-center-stack::after{
+    right:18px;
+    top:auto;
+    bottom:max(22px, env(safe-area-inset-bottom));
+    width:170px;
+    height:40px;
+    background-image:url("logo-atlantico-roma.png");
+  }
+  .gate-signup::before{
+    display:block;
+    position:fixed;
+    left:18px;
+    top:auto;
+    bottom:max(14px, env(safe-area-inset-bottom));
+    transform:none;
+    width:190px;
+    height:58px;
+    min-height:unset;
+    max-height:none;
+    background-image:url("logo-laserman-andrea-prince.png");
+  }
+}
+
+/* Desktop / laptop tuning */
+@media (orientation:landscape) and (max-height:900px){
+  .gate-header{width:min(58vw,760px)}
+  #countdownScreen::after{width:min(9.2vw,145px);height:min(2.5vw,32px);top:18px;bottom:auto}
+  .gate-center-stack::before{width:min(5vw,72px);height:min(5vw,72px);top:10px;right:20px;left:auto;transform:none}
+  .gate-center-stack::after{width:min(8.2vw,126px);height:min(2.4vw,30px);top:auto;bottom:28px}
+  .gate-center-stack{gap:10px;padding-top:max(10px, env(safe-area-inset-top));padding-bottom:max(10px, env(safe-area-inset-bottom))}
+  .gate-header{width:min(62vw,800px)}
+  .gate-timer,.gate-signup{width:min(82vw,980px)}
+  .gate-timer::before{width:min(68vw,860px)}
+  .gate-unit{padding:8px 4px 7px}
+  .gate-num{font-size:clamp(1.7rem,3.4vw,2.85rem)}
+  .gate-lbl{font-size:clamp(.46rem,.78vw,.62rem)}
+  .gate-signup::after{width:min(48vw,620px);margin-top:16px}
+}
+
+@media (orientation:landscape) and (max-height:620px){
+  .gate-header{width:min(56vw,680px)}
+  #countdownScreen::after{width:min(7.8vw,126px);height:min(2.6vw,28px);top:14px;bottom:auto}
+  .gate-center-stack::before{width:min(4.8vw,66px);height:min(4.8vw,66px);top:8px;right:18px;left:auto;transform:none}
+  .gate-center-stack::after{width:min(7.2vw,106px);height:min(2.5vw,26px);top:auto;bottom:24px}
+  .gate-center-stack{gap:8px;padding-top:max(8px, env(safe-area-inset-top));padding-bottom:max(8px, env(safe-area-inset-bottom))}
+  .gate-header{width:min(58vw,700px)}
+  .gate-timer,.gate-signup{width:min(78vw,860px)}
+  .gate-timer::before{width:min(64vw,760px)}
+  .gate-unit{padding:7px 3px 6px;border-radius:11px}.gate-num{font-size:1.6rem}.gate-lbl{font-size:.46rem}
+  .gate-input{padding:8px 3px}.gate-btn{padding:10px 18px}
+  .gate-signup::after{width:min(42vw,540px);margin-top:14px}
+}
+
+@media (prefers-reduced-motion:reduce){.gate-header{animation:none!important}.gate-star{animation:none!important;opacity:.34!important}}
+
+
+/* ========================================================================== */
+/* V22 — OPTICAL LOGO RAILS
+   The logos are pre-composed on transparent rails using their REAL visible
+   artwork bounds, so paired logos share the same visual center line.
+   ========================================================================== */
+
+/* Desktop + tablet: one top rail and one bottom rail. */
+#countdownScreen::after{
+  left:0 !important;
+  right:auto !important;
+  top:4px !important;
+  bottom:auto !important;
+  width:100vw !important;
+  height:7.2916667vw !important; /* 1920 x 140 */
+  min-height:68px !important;
+  max-height:140px !important;
+  background-image:url("logo-rail-desktop-top.png") !important;
+  background-size:100% 100% !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+}
+.gate-center-stack::before{display:none !important}
+.gate-center-stack::after{
+  display:block !important;
+  left:0 !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:2px !important;
+  width:100vw !important;
+  height:6.7708333vw !important; /* 1920 x 130 */
+  min-height:62px !important;
+  max-height:130px !important;
+  background-image:url("logo-rail-desktop-bottom.png") !important;
+  background-size:100% 100% !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+}
+.gate-signup::before{display:none !important}
+
+/* Phone layout: RTL top-centre; Vivaticket / Laserman / Atlantico share
+   one single optically-aligned bottom rail. */
+@media (max-width:699px){
+  #countdownScreen::after{
+    left:0 !important;
+    right:auto !important;
+    top:8px !important;
+    bottom:auto !important;
+    width:100vw !important;
+    height:9.375vw !important; /* 1600 x 150 */
+    min-height:58px !important;
+    max-height:76px !important;
+    background-image:url("logo-rail-mobile-top.png") !important;
+    background-size:100% 100% !important;
+  }
+  .gate-center-stack::after{
+    left:0 !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:8px !important;
+    width:100vw !important;
+    height:9.375vw !important; /* 1600 x 150 */
+    min-height:58px !important;
+    max-height:76px !important;
+    background-image:url("logo-rail-mobile-bottom.png") !important;
+    background-size:100% 100% !important;
+  }
+
+  /* Dark reading band only behind the CTA artwork on phone, with strongest
+     contrast around the “IL 14 OTTOBRE ENTRI PER PRIMO” line. */
+  .gate-signup::after{
+    background-image:
+      linear-gradient(180deg,
+        rgba(0,0,0,0) 0 22%,
+        rgba(0,0,0,.48) 22% 69%,
+        rgba(0,0,0,.08) 69% 100%),
+      url("gate-cta-mobile-hq.png") !important;
+    background-color:transparent !important;
+    border-radius:18px !important;
+  }
+}
+
+/* ========================================================================== */
+/* V23 — restore individual logo positioning, smaller on mobile, optical align */
+/* ========================================================================== */
+
+/* Desktop + tablet: use single logos again, aligned by visible content center */
+@media (min-width:700px){
+  #countdownScreen::after{
+    left:24px !important;
+    right:auto !important;
+    top:28px !important;
+    bottom:auto !important;
+    width:124px !important;
+    height:18px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-vivaticket.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::before{
+    display:block !important;
+    left:auto !important;
+    right:24px !important;
+    top:10px !important;
+    bottom:auto !important;
+    transform:none !important;
+    width:56px !important;
+    height:56px !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    max-height:none !important;
+    background-image:url("logo-rtl.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::after{
+    display:block !important;
+    left:auto !important;
+    right:24px !important;
+    top:auto !important;
+    bottom:28px !important;
+    width:136px !important;
+    height:26px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-atlantico-roma.png") !important;
+    background-size:contain !important;
+    background-position:right center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-signup::before{
+    display:block !important;
+    position:fixed !important;
+    left:24px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:21px !important;
+    transform:none !important;
+    width:180px !important;
+    height:40px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-laserman-andrea-prince.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+    background-repeat:no-repeat !important;
+  }
+}
+
+/* Phone: small RTL above title; three bottom logos optically aligned */
+@media (max-width:699px){
+  .gate-center-stack{
+    transform:translateY(-1.8dvh) !important;
+  }
+
+  .gate-signup::after{
+    background-image:
+      linear-gradient(180deg,
+        rgba(0,0,0,0) 0 31%,
+        rgba(0,0,0,.42) 31% 58%,
+        rgba(0,0,0,.08) 58% 72%,
+        rgba(0,0,0,0) 72% 100%),
+      url("gate-cta-mobile-hq.png") !important;
+    background-color:transparent !important;
+    border-radius:18px !important;
+  }
+
+  #countdownScreen::after{
+    left:22px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:44px !important;
+    width:100px !important;
+    height:15px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-vivaticket.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::before{
+    display:block !important;
+    left:50% !important;
+    right:auto !important;
+    top:14px !important;
+    bottom:auto !important;
+    transform:translateX(-50%) !important;
+    width:42px !important;
+    height:42px !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    max-height:none !important;
+    background-image:url("logo-rtl.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::after{
+    display:block !important;
+    left:auto !important;
+    right:22px !important;
+    top:auto !important;
+    bottom:31px !important;
+    width:100px !important;
+    height:19px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-atlantico-roma.png") !important;
+    background-size:contain !important;
+    background-position:right center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-signup::before{
+    display:block !important;
+    position:fixed !important;
+    left:50% !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:24px !important;
+    transform:translateX(-50%) !important;
+    width:112px !important;
+    height:24px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-laserman-andrea-prince.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+  }
+}
+
+/* ========================================================================== */
+/* V24 — desktop/tablet logos smaller and optically balanced */
+/* ========================================================================== */
+@media (min-width:700px){
+  #countdownScreen::after{
+    left:28px !important;
+    top:28px !important;
+    width:114px !important;
+    height:18px !important;
+  }
+  .gate-center-stack::before{
+    right:28px !important;
+    top:12px !important;
+    width:52px !important;
+    height:52px !important;
+  }
+  .gate-signup::before{
+    left:28px !important;
+    bottom:19px !important;
+    width:158px !important;
+    height:36px !important;
+  }
+  .gate-center-stack::after{
+    right:28px !important;
+    bottom:22px !important;
+    width:122px !important;
+    height:24px !important;
+  }
+}
+
+/* Slightly smaller again on compact landscape laptops/tablets */
+@media (min-width:700px) and (max-height:760px){
+  #countdownScreen::after{width:104px !important;height:17px !important;top:24px !important}
+  .gate-center-stack::before{width:46px !important;height:46px !important;top:11px !important}
+  .gate-signup::before{width:144px !important;height:33px !important;bottom:15px !important}
+  .gate-center-stack::after{width:112px !important;height:23px !important;bottom:18px !important}
+}
+
+/* ========================================================================== */
+/* V27 — final optical alignment pass                                         */
+/* ========================================================================== */
+
+/* Desktop + tablet: slightly larger than V26 and aligned on true visual axes */
+@media (min-width:700px){
+  #countdownScreen::after{
+    left:32px !important;
+    right:auto !important;
+    top:32px !important;
+    bottom:auto !important;
+    width:122px !important;
+    height:20px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-vivaticket.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+  }
+  .gate-center-stack::before{
+    display:block !important;
+    left:auto !important;
+    right:32px !important;
+    top:13px !important;
+    bottom:auto !important;
+    transform:none !important;
+    width:58px !important;
+    height:58px !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    max-height:none !important;
+    background-image:url("logo-rtl.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+  }
+  .gate-signup::before{
+    display:block !important;
+    position:fixed !important;
+    left:32px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:23px !important;
+    transform:none !important;
+    width:168px !important;
+    height:38px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-laserman-andrea-prince.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+  }
+  .gate-center-stack::after{
+    display:block !important;
+    left:auto !important;
+    right:32px !important;
+    top:auto !important;
+    bottom:29px !important;
+    width:130px !important;
+    height:26px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-atlantico-roma.png") !important;
+    background-size:contain !important;
+    background-position:right center !important;
+  }
+}
+
+/* Phone: preserve sizes, align all three lower marks on same optical center */
+@media (max-width:699px){
+  #countdownScreen::after{
+    left:22px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:36px !important;
+    width:100px !important;
+    height:15px !important;
+  }
+  .gate-signup::before{
+    left:50% !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:31px !important;
+    width:112px !important;
+    height:24px !important;
+    transform:translateX(-50%) !important;
+  }
+  .gate-center-stack::after{
+    left:auto !important;
+    right:22px !important;
+    top:auto !important;
+    bottom:34px !important;
+    width:100px !important;
+    height:19px !important;
+  }
+  .gate-center-stack::before{
+    left:50% !important;
+    right:auto !important;
+    top:14px !important;
+    bottom:auto !important;
+    width:42px !important;
+    height:42px !important;
+    transform:translateX(-50%) !important;
+  }
+}
+
+/* ========================================================================== */
+/* V29 — MOBILE ONLY: RTL slightly lower + Raffaella/title slightly higher */
+/* ========================================================================== */
+@media (max-width:699px){
+  /* RTL: abbassato leggermente */
+  .gate-center-stack::before{
+    top:19px !important;
+  }
+
+  /* Solo il blocco Raffaella Carrà / The Show Must Go On sale di poco */
+  .gate-header{
+    transform:translateY(-6px) !important;
+  }
+}
+
+/* ========================================================================== */
+/* V30 — MOBILE CTA: '14 OTTOBRE' brighter/whiter + darker support band       */
+/* ========================================================================== */
+@media (max-width:699px){
+  .gate-signup::after{
+    background-image:
+      linear-gradient(180deg,
+        rgba(0,0,0,0) 0 30%,
+        rgba(0,0,0,.62) 30% 60%,
+        rgba(0,0,0,.18) 60% 73%,
+        rgba(0,0,0,0) 73% 100%),
+      url("gate-cta-mobile-hq.png") !important;
+    background-color:transparent !important;
+    filter:brightness(1.16) contrast(1.12) !important;
+  }
+}
