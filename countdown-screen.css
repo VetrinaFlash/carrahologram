@@ -1,4 +1,8 @@
-/* ==========================================================================\n   NEWCOUNT — FULL BLEED / HQ ORIGINAL ASSETS\n   Static artwork is taken from the original PNGs supplied in chat.\n   No JPEG/WebP recompression is used for the visible campaign lettering.\n   ========================================================================== */
+/* ==========================================================================
+   NEWCOUNT — FULL BLEED / HQ ORIGINAL ASSETS / TRANSPARENT LETTERING
+   Updated so the lettering PNGs no longer carry visible black rectangles and
+   the whole composition sits more centrally in the viewport.
+   ========================================================================== */
 
 html.countdown-expired #countdownScreen{display:none!important}
 body.gate-active{overflow:hidden!important;touch-action:manipulation}
@@ -16,12 +20,11 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 #countdownScreen::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(0,0,0,.07) 0%,rgba(0,0,0,.05) 34%,rgba(0,0,0,.13) 64%,rgba(0,0,0,.30) 100%),
-    radial-gradient(ellipse at 50% 50%,transparent 0 33%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.36) 100%);
+    linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.04) 28%,rgba(0,0,0,.10) 58%,rgba(0,0,0,.22) 100%),
+    radial-gradient(ellipse at 50% 50%,transparent 0 33%,rgba(0,0,0,.11) 78%,rgba(0,0,0,.28) 100%);
 }
 #countdownScreen.is-expired{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:scale(1.012)!important}
 
-/* Soft star field stays behind all supplied artwork. */
 .gate-stars{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;opacity:.52}
 .gate-star{position:absolute;border-radius:50%;background:#fff;opacity:0;animation:gateTwinkle var(--tw-dur,3s) ease-in-out infinite var(--tw-delay,0s)}
 .gate-star:nth-child(3n){box-shadow:0 0 7px #ff2a78,0 0 18px #ff2a785e!important}
@@ -29,7 +32,6 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-star:nth-child(3n+2){box-shadow:0 0 6px #fff,0 0 14px #ffffff44!important}
 @keyframes gateTwinkle{0%,100%{opacity:var(--min-op,.08);transform:scale(.72)}50%{opacity:var(--max-op,.8);transform:scale(1.25)}}
 
-/* Full viewport artboard: all placements are relative to the actual device. */
 .gate-center-stack{
   position:absolute;inset:0;z-index:2;
   width:100%;height:100%;min-height:0;margin:0;padding:0;
@@ -37,18 +39,16 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 }
 
 /* --------------------------------------------------------------------------
-   HERO — original full-resolution supplied artwork, lossless cropped only.
-   Black in the original is blended away with SCREEN, preserving the neon.
+   HERO — transparent PNG assets, centered better in the viewport.
    -------------------------------------------------------------------------- */
 .gate-header{
   position:absolute;z-index:2;
-  left:50%;top:-4.5dvh;transform:translateX(-50%);
-  width:94vw;max-width:none;
+  left:50%;top:1.8dvh;transform:translateX(-50%);
+  width:92vw;max-width:none;
   aspect-ratio:1536/515;
   margin:0;
   background:url("gate-title-hq.png") center/100% 100% no-repeat;
-  mix-blend-mode:screen;
-  filter:drop-shadow(0 0 12px rgba(255,33,112,.30)) drop-shadow(0 8px 26px rgba(0,0,0,.64));
+  filter:drop-shadow(0 0 12px rgba(255,33,112,.28)) drop-shadow(0 8px 26px rgba(0,0,0,.60));
   isolation:isolate;overflow:visible;
   animation:gateLogoBreath 4.6s ease-in-out infinite;
 }
@@ -58,24 +58,20 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 }
 .gate-header::after{
   content:"";position:absolute;z-index:3;pointer-events:none;
-  left:50%;top:65%;transform:translateX(-50%);
-  width:88vw;aspect-ratio:1536/297;
+  left:50%;top:71%;transform:translateX(-50%);
+  width:84vw;aspect-ratio:1536/515;
   background:url("gate-rumore-desktop-hq.png") center/100% 100% no-repeat;
-  mix-blend-mode:screen;
-  filter:drop-shadow(0 0 13px rgba(255,20,105,.40)) drop-shadow(0 0 8px rgba(67,131,255,.28));
+  filter:drop-shadow(0 0 13px rgba(255,20,105,.38)) drop-shadow(0 0 8px rgba(67,131,255,.24));
 }
 @keyframes gateLogoBreath{
-  0%,100%{filter:drop-shadow(0 0 9px rgba(255,35,105,.24)) drop-shadow(0 8px 24px rgba(0,0,0,.65))}
-  50%{filter:drop-shadow(0 0 19px rgba(255,38,110,.44)) drop-shadow(0 8px 28px rgba(0,0,0,.72))}
+  0%,100%{filter:drop-shadow(0 0 9px rgba(255,35,105,.22)) drop-shadow(0 8px 24px rgba(0,0,0,.62))}
+  50%{filter:drop-shadow(0 0 18px rgba(255,38,110,.38)) drop-shadow(0 8px 28px rgba(0,0,0,.70))}
 }
 
-/* --------------------------------------------------------------------------
-   COUNTDOWN — placed in the free middle area of the full-screen composition.
-   -------------------------------------------------------------------------- */
 .gate-timer{
   position:absolute;z-index:5;
-  left:50%;top:60.5dvh;transform:translateX(-50%);
-  width:min(92vw,1080px);
+  left:50%;top:63dvh;transform:translateX(-50%);
+  width:min(90vw,1080px);
   display:flex;align-items:stretch;justify-content:center;gap:clamp(6px,1vw,13px);
 }
 .gate-unit{
@@ -92,13 +88,10 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-lbl{font:700 clamp(.52rem,.95vw,.72rem)/1 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.86)}
 .gate-sep{display:none}
 
-/* --------------------------------------------------------------------------
-   EMAIL FORM — wide on desktop and mobile, no narrow central column.
-   -------------------------------------------------------------------------- */
 .gate-signup{
   position:absolute;z-index:6;
-  left:50%;top:72.5dvh;transform:translateX(-50%);
-  width:min(92vw,1080px);
+  left:50%;top:75dvh;transform:translateX(-50%);
+  width:min(90vw,1080px);
   display:flex;flex-direction:column;align-items:center;
 }
 .gate-prompt{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
@@ -120,45 +113,37 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-status{min-height:18px;margin:4px 0 0;font:600 12px/1.35 Arial,Helvetica,sans-serif;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.25)}
 .gate-status:empty{min-height:0;margin:0}.gate-status[data-status-key="success"],.gate-status.is-success{color:#91ffba}.gate-status[data-status-key="error"],.gate-status.is-error{color:#ff9aab}
 
-/* Bottom campaign line, from the original supplied PNG. */
 .gate-center-stack::after{
   content:"";position:absolute;z-index:4;pointer-events:none;
-  left:50%;top:78.5dvh;transform:translateX(-50%);
-  width:68vw;aspect-ratio:1494/320;
+  left:50%;top:82dvh;transform:translateX(-50%);
+  width:62vw;aspect-ratio:1494/320;
   background:url("gate-cta-hq.png") center/100% 100% no-repeat;
-  mix-blend-mode:screen;
   filter:drop-shadow(0 0 13px rgba(255,35,112,.34));
 }
 
-/* ==========================================================================
-   PORTRAIT / MOBILE — uses the native portrait stage supplied by the user.
-   Static campaign art is deliberately much wider here because vertical space
-   is plentiful; everything remains in one viewport without black side bars.
-   ========================================================================== */
 @media (orientation:portrait){
   #countdownScreen{background-image:url("gate-bg-mobile-hq.png");background-position:center center;background-size:cover}
-  #countdownScreen::before{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.05) 34%,rgba(0,0,0,.15) 66%,rgba(0,0,0,.28) 100%),radial-gradient(ellipse at 50% 43%,transparent 0 34%,rgba(0,0,0,.12) 80%,rgba(0,0,0,.25) 100%)}
+  #countdownScreen::before{background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.04) 34%,rgba(0,0,0,.11) 66%,rgba(0,0,0,.22) 100%),radial-gradient(ellipse at 50% 43%,transparent 0 34%,rgba(0,0,0,.09) 80%,rgba(0,0,0,.20) 100%)}
 
-  .gate-header{top:1.2dvh;width:100vw;aspect-ratio:1536/515}
+  .gate-header{top:4.5dvh;width:100vw;aspect-ratio:1536/515}
   .gate-header::after{
-    top:88%;width:100vw;aspect-ratio:1520/530;
+    top:86%;width:100vw;aspect-ratio:1520/530;
     background-image:url("gate-rumore-mobile-hq.png");
   }
 
-  .gate-timer{top:39.5dvh;width:96vw;gap:5px}
+  .gate-timer{top:45dvh;width:96vw;gap:5px}
   .gate-unit{padding:12px 2px 10px;border-radius:13px}
   .gate-num{font-size:clamp(1.65rem,9.1vw,2.75rem)}
   .gate-lbl{font-size:clamp(.44rem,2.15vw,.62rem);letter-spacing:.075em}
 
-  .gate-signup{top:53.5dvh;width:96vw}
+  .gate-signup{top:59.5dvh;width:96vw}
   .gate-form-row{padding:4px 4px 4px 14px}
   .gate-input{font-size:14px;padding:11px 3px}
   .gate-btn{min-width:96px;padding:12px 16px;font-size:10.5px}
 
-  .gate-center-stack::after{top:61.5dvh;width:100vw;aspect-ratio:1494/320}
+  .gate-center-stack::after{top:69dvh;width:100vw;aspect-ratio:1494/320}
 }
 
-/* Very narrow phones: keep all four countdown boxes usable without wrapping. */
 @media (orientation:portrait) and (max-width:390px){
   .gate-timer,.gate-signup{width:98vw}
   .gate-timer{gap:4px}
@@ -167,14 +152,13 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-form-row{padding-left:11px}.gate-input{font-size:13px}.gate-btn{min-width:86px;padding:11px 11px;font-size:9.8px}
 }
 
-/* Short landscape phones / small notebook windows. */
 @media (orientation:landscape) and (max-height:620px){
-  .gate-header{top:-8dvh;width:83vw}
-  .gate-header::after{width:78vw;top:62%}
-  .gate-timer{top:58dvh;width:86vw;gap:6px}
+  .gate-header{top:-1.2dvh;width:84vw}
+  .gate-header::after{width:79vw;top:68%}
+  .gate-timer{top:61.5dvh;width:86vw;gap:6px}
   .gate-unit{padding:7px 3px 6px;border-radius:11px}.gate-num{font-size:1.75rem}.gate-lbl{font-size:.48rem}
-  .gate-signup{top:72dvh;width:86vw}.gate-input{padding:8px 3px}.gate-btn{padding:10px 18px}
-  .gate-center-stack::after{top:79dvh;width:57vw}
+  .gate-signup{top:75.5dvh;width:86vw}.gate-input{padding:8px 3px}.gate-btn{padding:10px 18px}
+  .gate-center-stack::after{top:82dvh;width:57vw}
 }
 
 @media (prefers-reduced-motion:reduce){.gate-header{animation:none!important}.gate-star{animation:none!important;opacity:.34!important}}
