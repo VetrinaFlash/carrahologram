@@ -816,3 +816,15 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     filter:brightness(1.55) contrast(1.23) saturate(1.03) !important;
   }
 }
+
+
+/* ==========================================================================
+   V33 — MOBILE ONLY: black band baked into CTA asset, subtitle true white
+   ========================================================================== */
+@media (max-width:699px){
+  .gate-signup::after{
+    background-image:url("gate-cta-mobile-hq-v33.png") !important;
+    background-color:transparent !important;
+    filter:drop-shadow(0 0 13px rgba(255,35,112,.30)) !important;
+  }
+}
