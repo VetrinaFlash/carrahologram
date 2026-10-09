@@ -17,3 +17,31 @@ window.CARRA_CONFIG = Object.freeze({
   countdownTarget: '2026-10-14T10:00:00+02:00'
 });
 
+// Audio bootstrap for the NEWCOUNT gate.
+// The main app owns the audio instance. We simply trigger its existing audio
+// button immediately where autoplay is allowed, then again on the first real
+// user gesture (including taps on the countdown overlay) where browsers require it.
+(() => {
+  const attemptMainAudio = () => {
+    const button = document.getElementById('audioButton');
+    if (!button || button.getAttribute('aria-pressed') === 'true') return;
+    button.click();
+  };
+
+  const onGesture = event => {
+    if (!event.isTrusted) return;
+    if (event.type === 'keydown' && (event.ctrlKey || event.metaKey || event.altKey)) return;
+    attemptMainAudio();
+  };
+
+  document.addEventListener('pointerdown', onGesture, { passive: true });
+  document.addEventListener('touchstart', onGesture, { passive: true });
+  document.addEventListener('click', onGesture, { passive: true });
+  document.addEventListener('keydown', onGesture);
+
+  window.addEventListener('DOMContentLoaded', () => {
+    // Audible autoplay is intentionally attempted: browsers that disallow it
+    // will simply wait for the first trusted gesture handled above.
+    setTimeout(attemptMainAudio, 0);
+  }, { once: true });
+})();
