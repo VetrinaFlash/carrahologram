@@ -1,7 +1,7 @@
 BRANCH: newcount
 REPOSITORY: VetrinaFlash/carrahologram
 
-VERSIONE HQ FULL-SCREEN V7
+VERSIONE HQ FULL-SCREEN V8
 
 Sostituisci nella ROOT di newcount:
 - countdown-screen.css
@@ -19,11 +19,10 @@ Aggiungi/sostituisci nella ROOT di newcount:
 - logo-atlantico-roma.png
 - logo-laserman-andrea-prince.png
 
-Correzioni di questa V7:
-- corretto il logo Vivaticket, eliminando il blocco errato;
-- desktop: loghi piu piccoli e messi sopra la scritta Raffaella Carrà;
-- desktop: titolo leggermente rimpicciolito per lasciare aria alla fascia loghi;
-- mobile: corretti i 4 loghi negli angoli seguendo lo screen inviato;
-- mobile: Laserman e Atlantico spostati in basso negli angoli, senza sovrapporsi alla CTA.
+Correzioni di questa V8:
+- mobile: Vivaticket e RTL allineati meglio in altezza nella parte alta;
+- desktop: i tre loghi in alto sono allineati meglio tra loro e restano sopra la scritta Raffaella Carrà;
+- rimossa la banda blu sotto i loghi Laserman e Atlantico;
+- usate versioni piu pulite dei loghi Laserman e Atlantico, senza bande aggiuntive.
 
 Non serve modificare index.html o concert.js.
