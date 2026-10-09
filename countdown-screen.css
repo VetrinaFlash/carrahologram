@@ -438,3 +438,158 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     border-radius:18px !important;
   }
 }
+
+/* ========================================================================== */
+/* V23 — restore individual logo positioning, smaller on mobile, optical align */
+/* ========================================================================== */
+
+/* Desktop + tablet: use single logos again, aligned by visible content center */
+@media (min-width:700px){
+  #countdownScreen::after{
+    left:24px !important;
+    right:auto !important;
+    top:28px !important;
+    bottom:auto !important;
+    width:124px !important;
+    height:18px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-vivaticket.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::before{
+    display:block !important;
+    left:auto !important;
+    right:24px !important;
+    top:10px !important;
+    bottom:auto !important;
+    transform:none !important;
+    width:56px !important;
+    height:56px !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    max-height:none !important;
+    background-image:url("logo-rtl.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::after{
+    display:block !important;
+    left:auto !important;
+    right:24px !important;
+    top:auto !important;
+    bottom:28px !important;
+    width:136px !important;
+    height:26px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-atlantico-roma.png") !important;
+    background-size:contain !important;
+    background-position:right center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-signup::before{
+    display:block !important;
+    position:fixed !important;
+    left:24px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:21px !important;
+    transform:none !important;
+    width:180px !important;
+    height:40px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-laserman-andrea-prince.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+    background-repeat:no-repeat !important;
+  }
+}
+
+/* Phone: small RTL above title; three bottom logos optically aligned */
+@media (max-width:699px){
+  .gate-center-stack{
+    transform:translateY(-1.8dvh) !important;
+  }
+
+  .gate-signup::after{
+    background-image:
+      linear-gradient(180deg,
+        rgba(0,0,0,0) 0 20%,
+        rgba(0,0,0,.56) 20% 72%,
+        rgba(0,0,0,.12) 72% 100%),
+      url("gate-cta-mobile-hq.png") !important;
+    background-color:transparent !important;
+    border-radius:18px !important;
+  }
+
+  #countdownScreen::after{
+    left:16px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:28px !important;
+    width:118px !important;
+    height:18px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-vivaticket.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::before{
+    display:block !important;
+    left:50% !important;
+    right:auto !important;
+    top:12px !important;
+    bottom:auto !important;
+    transform:translateX(-50%) !important;
+    width:40px !important;
+    height:40px !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    max-height:none !important;
+    background-image:url("logo-rtl.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-center-stack::after{
+    display:block !important;
+    left:auto !important;
+    right:16px !important;
+    top:auto !important;
+    bottom:26px !important;
+    width:118px !important;
+    height:22px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-atlantico-roma.png") !important;
+    background-size:contain !important;
+    background-position:right center !important;
+    background-repeat:no-repeat !important;
+  }
+  .gate-signup::before{
+    display:block !important;
+    position:fixed !important;
+    left:50% !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:22px !important;
+    transform:translateX(-50%) !important;
+    width:132px !important;
+    height:28px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-laserman-andrea-prince.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+  }
+}
