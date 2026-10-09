@@ -793,3 +793,26 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     filter:brightness(1.28) contrast(1.18) !important;
   }
 }
+
+/* ========================================================================== */
+/* V32 — MOBILE ONLY: Vivaticket higher + CTA subtitle brighter / whiter      */
+/* ========================================================================== */
+@media (max-width:699px){
+  /* Alza ancora un po' il logo Vivaticket in basso a sinistra */
+  #countdownScreen::after{
+    bottom:54px !important;
+  }
+
+  /* Mantieni la banda nera ma rendi molto piu leggibile e bianca la riga */
+  .gate-signup::after{
+    background-image:
+      linear-gradient(180deg,
+        rgba(0,0,0,0) 0 29%,
+        rgba(0,0,0,.18) 29% 56%,
+        rgba(0,0,0,.06) 56% 72%,
+        rgba(0,0,0,0) 72% 100%),
+      url("gate-cta-mobile-hq.png") !important;
+    background-color:transparent !important;
+    filter:brightness(1.55) contrast(1.23) saturate(1.03) !important;
+  }
+}
