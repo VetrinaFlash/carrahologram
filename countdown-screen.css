@@ -593,3 +593,41 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     background-repeat:no-repeat !important;
   }
 }
+
+/* ========================================================================== */
+/* V24 — desktop/tablet logos smaller and optically balanced */
+/* ========================================================================== */
+@media (min-width:700px){
+  #countdownScreen::after{
+    left:28px !important;
+    top:30px !important;
+    width:96px !important;
+    height:15px !important;
+  }
+  .gate-center-stack::before{
+    right:28px !important;
+    top:17px !important;
+    width:42px !important;
+    height:42px !important;
+  }
+  .gate-signup::before{
+    left:28px !important;
+    bottom:20px !important;
+    width:138px !important;
+    height:31px !important;
+  }
+  .gate-center-stack::after{
+    right:28px !important;
+    bottom:24px !important;
+    width:106px !important;
+    height:21px !important;
+  }
+}
+
+/* Slightly smaller again on compact landscape laptops/tablets */
+@media (min-width:700px) and (max-height:760px){
+  #countdownScreen::after{width:88px !important;height:14px !important;top:24px !important}
+  .gate-center-stack::before{width:38px !important;height:38px !important;top:12px !important}
+  .gate-signup::before{width:126px !important;height:29px !important;bottom:14px !important}
+  .gate-center-stack::after{width:96px !important;height:20px !important;bottom:18px !important}
+}
