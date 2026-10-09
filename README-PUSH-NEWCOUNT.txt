@@ -1,7 +1,7 @@
 BRANCH: newcount
 REPOSITORY: VetrinaFlash/carrahologram
 
-VERSIONE HQ FULL-SCREEN V13
+VERSIONE HQ FULL-SCREEN V14
 
 Sostituisci nella ROOT di newcount:
 - countdown-screen.css
@@ -20,9 +20,10 @@ Aggiungi/sostituisci nella ROOT di newcount:
 - logo-atlantico-roma.png
 - logo-laserman-andrea-prince.png
 
-Correzioni di questa V13:
-- solo su mobile e' stata abbassata leggermente la grafica CTA finale;
-- questo serve a far leggere meglio la riga "IL 14 OTTOBRE ENTRI PER PRIMO";
-- desktop lasciato invariato, perche' li andava bene.
+V14:
+- impostato il link BIGLIETTI / Vivaticket su:
+  https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642
+- countdown invariato: 14 ottobre 2026 ore 10:00 (+02:00)
+- allo scadere il gate/countdown si chiude e viene mostrata la pagina principale sottostante.
 
 Non serve modificare index.html o concert.js.

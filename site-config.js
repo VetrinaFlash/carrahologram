@@ -13,7 +13,7 @@
 // Inserire qui il link esatto della pagina evento Vivaticket quando disponibile.
 // Se vuoto, il pulsante apre la finestra di iscrizione già collegata a /api/subscribe.
 window.CARRA_CONFIG = Object.freeze({
-  ticketUrl: '',
+  ticketUrl: 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642',
   countdownTarget: '2026-10-14T10:00:00+02:00'
 });
 
