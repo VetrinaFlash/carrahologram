@@ -1,28 +1,30 @@
-BRANCH: newcount  (repo VetrinaFlash/carrahologram)
+BRANCH: newcount
+REPOSITORY: VetrinaFlash/carrahologram
 
-Sostituisci nella ROOT del branch:
+VERSIONE HQ FULL-SCREEN
+
+Sostituisci nella ROOT di newcount:
 - countdown-screen.css
 - site-config.js
 
-Aggiungi nella ROOT del branch:
-- gate-title.webp
-- gate-rumore-desktop.webp
-- gate-rumore-mobile.webp
-- gate-cta.webp
-- gate-bg-desktop.webp
-- gate-bg-mobile.webp
+Aggiungi nella ROOT di newcount:
+- gate-bg-desktop-hq.png
+- gate-bg-mobile-hq.png
+- gate-title-hq.png
+- gate-rumore-desktop-hq.png
+- gate-rumore-mobile-hq.png
+- gate-cta-hq.png
 
-NON serve modificare index.html o concert.js.
+Le PNG statiche derivano DIRETTAMENTE dagli elementi originali allegati in chat:
+nessuna ricostruzione AI e nessuna compressione JPEG/WebP. Per titolo/claim/CTA e' stato fatto solo un crop lossless dei margini neri, senza ridimensionare i pixel originali. I due fondali sono copiati alla risoluzione originale completa.
 
-Il layout finale è:
-1. RAFFAELLA CARRÀ / THE SHOW MUST GO ON / OFFICIAL HOLOGRAM CONCERT
-2. PRONTO A FARE RUMORE?
-3. Countdown live (giorni / ore / minuti / secondi)
-4. Form email
-5. LASCIA LA TUA EMAIL: IL 14 OTTOBRE ENTRI PER PRIMO. / EARLY ACCESS TICKETS
+Layout:
+- fondale full-bleed 100vw x 100dvh, cover, senza bande laterali;
+- desktop usa il fondale orizzontale originale;
+- mobile usa il fondale verticale originale;
+- titolo e lettering occupano quasi tutta la larghezza disponibile;
+- countdown e form sono piu larghi e sfruttano la viewport;
+- composizione in una singola schermata, con adattamento per telefoni stretti e landscape bassi;
+- musica: tentativo subito; se il browser blocca autoplay, parte al primo pointer/touch/click/tasto anche sul gate.
 
-Musica:
-- site-config.js prova ad avviare subito rumore.mp3 dove il browser lo permette;
-- se l'autoplay con audio viene bloccato, parte al PRIMO tocco/click/tasto, anche sullo schermo countdown.
-
-Il countdown resta collegato al target già usato dal sito: 14 ottobre 2026 ore 10:00 (+02:00).
+Non serve modificare index.html o concert.js.
