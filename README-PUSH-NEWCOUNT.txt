@@ -1,7 +1,7 @@
 BRANCH: newcount
 REPOSITORY: VetrinaFlash/carrahologram
 
-VERSIONE HQ FULL-SCREEN V3
+VERSIONE HQ FULL-SCREEN V4
 
 Sostituisci nella ROOT di newcount:
 - countdown-screen.css
@@ -15,19 +15,19 @@ Aggiungi nella ROOT di newcount:
 - gate-rumore-mobile-hq.png
 - gate-cta-hq.png
 
-Aggiornamenti di questa V3:
-- mantenuta esplicitamente la composizione richiesta:
-  Raffaella Carrà / The Show Must Go On / Official Hologram Concert
-  -> Pronto a fare rumore
-  -> countdown
-  -> form email
-  -> CTA finale "Lascia la tua email... / Early Access Tickets";
-- sistemato il desktop, evitando l'effetto sformattato del full-screen precedente;
-- mobile reso piu centrale verticalmente;
-- uso della massima area disponibile senza rompere la composizione;
-- PNG lettering con trasparenza reale, quindi niente riquadri neri visibili.
+Correzioni di questa V4:
+- rimossa la sovrapposizione tra titolo e "Pronto a fare rumore";
+- composizione rispettata sia su desktop sia su mobile:
+  1) Raffaella Carrà / The Show Must Go On / Official Hologram Concert
+  2) Pronto a fare rumore
+  3) Countdown
+  4) Form email
+  5) Lascia la tua email / Early Access Tickets
+- mobile reso un po' piu centrale verso il basso;
+- desktop riempie bene lo schermo ma senza sformattare i blocchi;
+- corrette anche le possibili sbaffature/alonature dei PNG lettering creando una trasparenza piu pulita.
 
 Le PNG statiche derivano DIRETTAMENTE dagli elementi originali allegati in chat:
-nessuna ricostruzione AI e nessuna compressione JPEG/WebP. Per titolo/claim/CTA e' stato fatto solo un crop/lavorazione lossless per rimuovere il nero di sfondo mantenendo la massima qualita'. I due fondali sono copiati alla risoluzione originale completa.
+nessuna ricostruzione AI e nessuna compressione JPEG/WebP. E' stata fatta solo una lavorazione tecnica per rimuovere il nero di fondo e rendere piu puliti i bordi, mantenendo la massima qualita'.
 
 Non serve modificare index.html o concert.js.

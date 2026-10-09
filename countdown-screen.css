@@ -1,8 +1,12 @@
 /* ==========================================================================
-   NEWCOUNT — FULL BLEED / HQ ORIGINAL ASSETS / V3
-   Keeps the requested composition on desktop and mobile:
-   TITLE -> RUMORE -> COUNTDOWN -> EMAIL FORM -> CTA
-   while still using the full available screen area.
+   NEWCOUNT — FULL BLEED / HQ ORIGINAL ASSETS / V4
+   Requested composition preserved on both desktop and mobile:
+   1) Raffaella Carrà / The Show Must Go On / Official Hologram Concert
+   2) Pronto a fare rumore
+   3) Countdown
+   4) Email form
+   5) Lascia la tua email / Early Access Tickets
+   No overlap between blocks.
    ========================================================================== */
 
 html.countdown-expired #countdownScreen{display:none!important}
@@ -21,8 +25,8 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 #countdownScreen::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.04) 30%,rgba(0,0,0,.10) 62%,rgba(0,0,0,.24) 100%),
-    radial-gradient(ellipse at 50% 50%,transparent 0 34%,rgba(0,0,0,.11) 80%,rgba(0,0,0,.28) 100%);
+    linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.04) 28%,rgba(0,0,0,.10) 60%,rgba(0,0,0,.22) 100%),
+    radial-gradient(ellipse at 50% 48%,transparent 0 36%,rgba(0,0,0,.10) 82%,rgba(0,0,0,.24) 100%);
 }
 #countdownScreen.is-expired{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:scale(1.012)!important}
 
@@ -33,61 +37,55 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-star:nth-child(3n+2){box-shadow:0 0 6px #fff,0 0 14px #ffffff44!important}
 @keyframes gateTwinkle{0%,100%{opacity:var(--min-op,.08);transform:scale(.72)}50%{opacity:var(--max-op,.8);transform:scale(1.25)}}
 
-/* One centered vertical composition, matching the requested order. */
 .gate-center-stack{
   position:absolute;inset:0;z-index:2;
   width:100%;height:100%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:clamp(10px,1.8dvh,18px);
+  gap:clamp(10px,1.5dvh,16px);
   padding:
     max(18px, env(safe-area-inset-top))
-    clamp(10px,2vw,28px)
+    clamp(10px,1.8vw,24px)
     max(18px, env(safe-area-inset-bottom))
-    clamp(10px,2vw,28px);
+    clamp(10px,1.8vw,24px);
 }
 
-/* --------------------------------------------------------------------------
-   HERO block: title artwork first, then Pronto a fare rumore underneath.
-   -------------------------------------------------------------------------- */
+/* Title block only. */
 .gate-header{
-  position:relative;z-index:2;
-  width:min(84vw,1080px);
-  flex:0 0 auto;
+  position:relative;z-index:2;flex:0 0 auto;
+  width:min(66vw,860px);
   aspect-ratio:1536/515;
   background:url("gate-title-hq.png") center/100% 100% no-repeat;
-  filter:drop-shadow(0 0 12px rgba(255,33,112,.26)) drop-shadow(0 8px 26px rgba(0,0,0,.60));
+  filter:drop-shadow(0 0 12px rgba(255,33,112,.24)) drop-shadow(0 8px 24px rgba(0,0,0,.56));
   animation:gateLogoBreath 4.6s ease-in-out infinite;
 }
 .gate-header>.gate-eyebrow,.gate-header>.gate-title,.gate-header>.gate-subtitle{
   position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
   overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;
 }
-.gate-header::after{
-  content:"";
-  display:block;
-  width:88%;
-  margin:clamp(10px,1.8dvh,18px) auto 0;
-  aspect-ratio:1536/297;
-  background:url("gate-rumore-desktop-hq.png") center/100% 100% no-repeat;
-  filter:drop-shadow(0 0 13px rgba(255,20,105,.36)) drop-shadow(0 0 8px rgba(67,131,255,.22));
-}
 @keyframes gateLogoBreath{
-  0%,100%{filter:drop-shadow(0 0 9px rgba(255,35,105,.22)) drop-shadow(0 8px 24px rgba(0,0,0,.62))}
-  50%{filter:drop-shadow(0 0 18px rgba(255,38,110,.38)) drop-shadow(0 8px 28px rgba(0,0,0,.70))}
+  0%,100%{filter:drop-shadow(0 0 9px rgba(255,35,105,.20)) drop-shadow(0 8px 22px rgba(0,0,0,.56))}
+  50%{filter:drop-shadow(0 0 16px rgba(255,38,110,.34)) drop-shadow(0 8px 26px rgba(0,0,0,.64))}
 }
 
-/* --------------------------------------------------------------------------
-   Countdown row
-   -------------------------------------------------------------------------- */
+/* Timer block contains the Rumore artwork as its own first row. */
 .gate-timer{
-  position:relative;z-index:5;
-  width:min(90vw,1080px);
-  flex:0 0 auto;
-  display:flex;align-items:stretch;justify-content:center;gap:clamp(6px,1vw,13px);
+  position:relative;z-index:5;flex:0 0 auto;
+  width:min(86vw,1040px);
+  display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;
+  gap:clamp(6px,.9vw,12px);
+}
+.gate-timer::before{
+  content:"";
+  flex:0 0 100%;
+  width:min(74vw,900px);
+  aspect-ratio:1536/297;
+  margin:0 auto clamp(2px,.5dvh,6px);
+  background:url("gate-rumore-desktop-hq.png") center/100% 100% no-repeat;
+  filter:drop-shadow(0 0 12px rgba(255,20,105,.34)) drop-shadow(0 0 7px rgba(67,131,255,.20));
 }
 .gate-unit{
   flex:1 1 0;min-width:0;
-  padding:clamp(9px,1.25dvh,15px) 5px clamp(8px,1dvh,12px);
+  padding:clamp(9px,1.15dvh,14px) 5px clamp(8px,.95dvh,11px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
   background:linear-gradient(180deg,rgba(11,8,31,.82),rgba(3,1,14,.94));
   border:1px solid rgba(255,49,121,.83);border-radius:15px;
@@ -95,17 +93,13 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
 }
 .gate-unit:nth-of-type(even){border-color:rgba(70,130,255,.86);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 23px rgba(49,107,255,.19),0 12px 30px rgba(0,0,0,.42)}
-.gate-num{font-family:Arial,Helvetica,sans-serif;font-size:clamp(2rem,4.3vw,3.7rem);font-weight:800;line-height:.94;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 11px rgba(255,255,255,.18),0 0 23px rgba(255,35,112,.18)}
-.gate-lbl{font:700 clamp(.52rem,.95vw,.72rem)/1 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.86)}
+.gate-num{font-family:Arial,Helvetica,sans-serif;font-size:clamp(1.9rem,4vw,3.35rem);font-weight:800;line-height:.94;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 11px rgba(255,255,255,.18),0 0 23px rgba(255,35,112,.18)}
+.gate-lbl{font:700 clamp(.5rem,.88vw,.68rem)/1 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.86)}
 .gate-sep{display:none}
 
-/* --------------------------------------------------------------------------
-   Form row, then CTA artwork directly below it.
-   -------------------------------------------------------------------------- */
 .gate-signup{
-  position:relative;z-index:6;
-  width:min(90vw,1080px);
-  flex:0 0 auto;
+  position:relative;z-index:6;flex:0 0 auto;
+  width:min(86vw,1040px);
   display:flex;flex-direction:column;align-items:center;
 }
 .gate-prompt{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
@@ -119,9 +113,9 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:.22s ease;
 }
 .gate-form-row:focus-within{border-color:#ff5196;box-shadow:0 0 0 1px rgba(78,136,255,.31),0 0 28px rgba(255,33,110,.31),0 12px 31px rgba(0,0,0,.46)}
-.gate-input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:500 clamp(14px,1.25vw,17px)/1.2 Arial,Helvetica,sans-serif;padding:11px 4px}
+.gate-input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:500 clamp(14px,1.2vw,17px)/1.2 Arial,Helvetica,sans-serif;padding:11px 4px}
 .gate-input::placeholder{color:rgba(255,255,255,.72)}
-.gate-btn{flex:0 0 auto;border:0;border-radius:999px;padding:13px clamp(20px,2.6vw,34px);min-width:132px;cursor:pointer;background:linear-gradient(135deg,#ff438f 0%,#ff246c 58%,#f20d55 100%);color:#fff;font:800 clamp(11px,1vw,13px)/1 Arial,Helvetica,sans-serif;letter-spacing:.07em;text-transform:uppercase;box-shadow:0 0 20px rgba(255,37,110,.50),inset 0 1px 0 rgba(255,255,255,.27);transition:transform .15s ease,filter .2s ease,box-shadow .2s ease}
+.gate-btn{flex:0 0 auto;border:0;border-radius:999px;padding:13px clamp(20px,2.4vw,34px);min-width:132px;cursor:pointer;background:linear-gradient(135deg,#ff438f 0%,#ff246c 58%,#f20d55 100%);color:#fff;font:800 clamp(11px,.96vw,13px)/1 Arial,Helvetica,sans-serif;letter-spacing:.07em;text-transform:uppercase;box-shadow:0 0 20px rgba(255,37,110,.50),inset 0 1px 0 rgba(255,255,255,.27);transition:transform .15s ease,filter .2s ease,box-shadow .2s ease}
 .gate-btn:hover{filter:brightness(1.10);box-shadow:0 0 27px rgba(255,37,110,.66),inset 0 1px 0 rgba(255,255,255,.30)}
 .gate-btn:active{transform:scale(.975)}.gate-btn:disabled{opacity:.65;cursor:wait}
 .gate-status{min-height:18px;margin:4px 0 0;font:600 12px/1.35 Arial,Helvetica,sans-serif;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.25)}
@@ -129,41 +123,40 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-signup::after{
   content:"";
   display:block;
-  width:min(60vw,800px);
-  margin:clamp(10px,1.8dvh,18px) auto 0;
+  width:min(52vw,680px);
+  margin:clamp(10px,1.2dvh,14px) auto 0;
   aspect-ratio:1494/320;
   background:url("gate-cta-hq.png") center/100% 100% no-repeat;
-  filter:drop-shadow(0 0 13px rgba(255,35,112,.34));
+  filter:drop-shadow(0 0 13px rgba(255,35,112,.30));
 }
 
-/* ==========================================================================
-   PORTRAIT / MOBILE
-   ========================================================================== */
+/* Portrait / mobile */
 @media (orientation:portrait){
   #countdownScreen{background-image:url("gate-bg-mobile-hq.png");background-position:center center;background-size:cover}
-  #countdownScreen::before{background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.04) 34%,rgba(0,0,0,.11) 66%,rgba(0,0,0,.22) 100%),radial-gradient(ellipse at 50% 43%,transparent 0 34%,rgba(0,0,0,.09) 80%,rgba(0,0,0,.20) 100%)}
+  #countdownScreen::before{background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,.04) 34%,rgba(0,0,0,.10) 66%,rgba(0,0,0,.20) 100%),radial-gradient(ellipse at 50% 43%,transparent 0 34%,rgba(0,0,0,.08) 80%,rgba(0,0,0,.18) 100%)}
 
   .gate-center-stack{
     gap:12px;
     padding:
-      max(24px, env(safe-area-inset-top))
+      max(28px, env(safe-area-inset-top))
       8px
-      max(22px, env(safe-area-inset-bottom))
+      max(26px, env(safe-area-inset-bottom))
       8px;
+    transform:translateY(2dvh);
   }
 
   .gate-header{width:96vw;aspect-ratio:1536/515}
-  .gate-header::after{
-    width:95%;
-    margin-top:10px;
-    aspect-ratio:1520/530;
-    background-image:url("gate-rumore-mobile-hq.png");
-  }
 
   .gate-timer{width:96vw;gap:5px}
+  .gate-timer::before{
+    width:95vw;
+    aspect-ratio:1520/530;
+    background-image:url("gate-rumore-mobile-hq.png");
+    margin-bottom:4px;
+  }
   .gate-unit{padding:12px 2px 10px;border-radius:13px}
-  .gate-num{font-size:clamp(1.65rem,9.1vw,2.75rem)}
-  .gate-lbl{font-size:clamp(.44rem,2.15vw,.62rem);letter-spacing:.075em}
+  .gate-num{font-size:clamp(1.65rem,8.6vw,2.65rem)}
+  .gate-lbl{font-size:clamp(.44rem,2.05vw,.60rem);letter-spacing:.075em}
 
   .gate-signup{width:96vw}
   .gate-form-row{padding:4px 4px 4px 14px}
@@ -174,6 +167,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 
 @media (orientation:portrait) and (max-width:390px){
   .gate-timer,.gate-signup{width:98vw}
+  .gate-timer::before{width:98vw}
   .gate-timer{gap:4px}
   .gate-unit{padding:10px 1px 8px;border-radius:11px}
   .gate-num{font-size:1.55rem}.gate-lbl{font-size:.43rem;letter-spacing:.055em}
@@ -181,26 +175,26 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-signup::after{width:98vw}
 }
 
-/* Short desktop / laptop windows */
+/* Desktop / laptop tuning */
 @media (orientation:landscape) and (max-height:900px){
   .gate-center-stack{gap:10px;padding-top:max(10px, env(safe-area-inset-top));padding-bottom:max(10px, env(safe-area-inset-bottom))}
-  .gate-header{width:min(78vw,980px)}
-  .gate-header::after{width:86%;margin-top:10px}
-  .gate-timer,.gate-signup{width:min(86vw,980px)}
+  .gate-header{width:min(62vw,800px)}
+  .gate-timer,.gate-signup{width:min(82vw,980px)}
+  .gate-timer::before{width:min(68vw,860px)}
   .gate-unit{padding:8px 4px 7px}
-  .gate-num{font-size:clamp(1.7rem,3.6vw,3rem)}
-  .gate-lbl{font-size:clamp(.46rem,.8vw,.62rem)}
-  .gate-signup::after{width:min(52vw,690px);margin-top:10px}
+  .gate-num{font-size:clamp(1.7rem,3.4vw,2.85rem)}
+  .gate-lbl{font-size:clamp(.46rem,.78vw,.62rem)}
+  .gate-signup::after{width:min(48vw,620px);margin-top:10px}
 }
 
 @media (orientation:landscape) and (max-height:620px){
   .gate-center-stack{gap:8px;padding-top:max(8px, env(safe-area-inset-top));padding-bottom:max(8px, env(safe-area-inset-bottom))}
-  .gate-header{width:min(72vw,860px)}
-  .gate-header::after{width:84%;margin-top:8px}
-  .gate-timer,.gate-signup{width:min(82vw,860px);gap:6px}
-  .gate-unit{padding:7px 3px 6px;border-radius:11px}.gate-num{font-size:1.65rem}.gate-lbl{font-size:.46rem}
+  .gate-header{width:min(58vw,700px)}
+  .gate-timer,.gate-signup{width:min(78vw,860px)}
+  .gate-timer::before{width:min(64vw,760px)}
+  .gate-unit{padding:7px 3px 6px;border-radius:11px}.gate-num{font-size:1.6rem}.gate-lbl{font-size:.46rem}
   .gate-input{padding:8px 3px}.gate-btn{padding:10px 18px}
-  .gate-signup::after{width:min(48vw,620px);margin-top:8px}
+  .gate-signup::after{width:min(42vw,540px);margin-top:8px}
 }
 
 @media (prefers-reduced-motion:reduce){.gate-header{animation:none!important}.gate-star{animation:none!important;opacity:.34!important}}
