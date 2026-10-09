@@ -49,6 +49,47 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     clamp(10px,1.8vw,24px);
 }
 
+/* Corner / top logos */
+#countdownScreen::after,
+.gate-center-stack::before,
+.gate-center-stack::after,
+.gate-signup::before{
+  content:"";
+  position:absolute;
+  z-index:7;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:drop-shadow(0 4px 14px rgba(0,0,0,.35));
+}
+
+/* Desktop: top row logos above the title */
+#countdownScreen::after{
+  left:clamp(28px,8vw,140px);
+  top:clamp(18px,3.4vh,34px);
+  width:min(16vw,240px);
+  aspect-ratio:2387/632;
+  background-image:url("logo-vivaticket.png");
+}
+.gate-center-stack::before{
+  left:50%;
+  top:clamp(16px,3.1vh,30px);
+  transform:translateX(-50%);
+  width:min(9.5vw,140px);
+  aspect-ratio:1/1;
+  background-image:url("logo-rtl.png");
+}
+.gate-center-stack::after{
+  right:clamp(28px,8vw,140px);
+  top:clamp(20px,3.6vh,36px);
+  width:min(13vw,190px);
+  aspect-ratio:870/214;
+  background-image:url("logo-atlantico-roma.png");
+}
+.gate-signup::before{display:none}
+
+
 /* Title block only. */
 .gate-header{
   position:relative;z-index:2;flex:0 0 auto;
@@ -124,7 +165,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   content:"";
   display:block;
   width:min(52vw,680px);
-  margin:clamp(10px,1.2dvh,14px) auto 0;
+  margin:clamp(18px,2.2dvh,28px) auto 0;
   aspect-ratio:1494/320;
   background:url("gate-cta-hq.png") center/100% 100% no-repeat;
   filter:drop-shadow(0 0 13px rgba(255,35,112,.30));
@@ -163,6 +204,36 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-input{font-size:14px;padding:11px 3px}
   .gate-btn{min-width:96px;padding:12px 16px;font-size:10.5px}
   .gate-signup::after{width:96vw;margin-top:12px}
+
+
+  /* Mobile corner logos */
+  #countdownScreen::after{
+    left:10px;
+    top:max(10px, env(safe-area-inset-top));
+    width:28vw;
+  }
+  .gate-center-stack::before{
+    left:auto;
+    right:10px;
+    top:max(10px, env(safe-area-inset-top));
+    transform:none;
+    width:17vw;
+  }
+  .gate-center-stack::after{
+    right:10px;
+    top:auto;
+    bottom:max(12px, env(safe-area-inset-bottom));
+    width:28vw;
+  }
+  .gate-signup::before{
+    display:block;
+    left:10px;
+    top:auto;
+    bottom:max(12px, env(safe-area-inset-bottom));
+    width:31vw;
+    aspect-ratio:590/263;
+    background-image:url("logo-laserman-andrea-prince.png");
+  }
 }
 
 @media (orientation:portrait) and (max-width:390px){
@@ -173,10 +244,17 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-num{font-size:1.55rem}.gate-lbl{font-size:.43rem;letter-spacing:.055em}
   .gate-form-row{padding-left:11px}.gate-input{font-size:13px}.gate-btn{min-width:86px;padding:11px 11px;font-size:9.8px}
   .gate-signup::after{width:98vw}
+  #countdownScreen::after{width:29vw}
+  .gate-center-stack::before{width:18vw}
+  .gate-center-stack::after{width:29vw}
+  .gate-signup::before{width:33vw}
 }
 
 /* Desktop / laptop tuning */
 @media (orientation:landscape) and (max-height:900px){
+  #countdownScreen::after{width:min(14vw,210px)}
+  .gate-center-stack::before{width:min(8.5vw,120px)}
+  .gate-center-stack::after{width:min(11vw,170px)}
   .gate-center-stack{gap:10px;padding-top:max(10px, env(safe-area-inset-top));padding-bottom:max(10px, env(safe-area-inset-bottom))}
   .gate-header{width:min(62vw,800px)}
   .gate-timer,.gate-signup{width:min(82vw,980px)}
@@ -184,17 +262,20 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-unit{padding:8px 4px 7px}
   .gate-num{font-size:clamp(1.7rem,3.4vw,2.85rem)}
   .gate-lbl{font-size:clamp(.46rem,.78vw,.62rem)}
-  .gate-signup::after{width:min(48vw,620px);margin-top:10px}
+  .gate-signup::after{width:min(48vw,620px);margin-top:16px}
 }
 
 @media (orientation:landscape) and (max-height:620px){
+  #countdownScreen::after{width:min(12vw,180px);top:10px}
+  .gate-center-stack::before{width:min(7.5vw,96px);top:10px}
+  .gate-center-stack::after{width:min(10vw,145px);top:12px}
   .gate-center-stack{gap:8px;padding-top:max(8px, env(safe-area-inset-top));padding-bottom:max(8px, env(safe-area-inset-bottom))}
   .gate-header{width:min(58vw,700px)}
   .gate-timer,.gate-signup{width:min(78vw,860px)}
   .gate-timer::before{width:min(64vw,760px)}
   .gate-unit{padding:7px 3px 6px;border-radius:11px}.gate-num{font-size:1.6rem}.gate-lbl{font-size:.46rem}
   .gate-input{padding:8px 3px}.gate-btn{padding:10px 18px}
-  .gate-signup::after{width:min(42vw,540px);margin-top:8px}
+  .gate-signup::after{width:min(42vw,540px);margin-top:14px}
 }
 
 @media (prefers-reduced-motion:reduce){.gate-header{animation:none!important}.gate-star{animation:none!important;opacity:.34!important}}

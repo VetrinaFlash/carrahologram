@@ -1,7 +1,7 @@
 BRANCH: newcount
 REPOSITORY: VetrinaFlash/carrahologram
 
-VERSIONE HQ FULL-SCREEN V5
+VERSIONE HQ FULL-SCREEN V6
 
 Sostituisci nella ROOT di newcount:
 - countdown-screen.css
@@ -14,15 +14,20 @@ Aggiungi/sostituisci nella ROOT di newcount:
 - gate-rumore-desktop-hq.png
 - gate-rumore-mobile-hq.png
 - gate-cta-hq.png
+- logo-vivaticket.png
+- logo-rtl.png
+- logo-atlantico-roma.png
+- logo-laserman-andrea-prince.png
 
-Correzioni di questa V5:
-- ripristinati i colori pieni e vivi del rosa di "RUMORE";
-- ripristinati i colori pieni della scritta "Raffaella Carrà / The Show Must Go On";
-- mantenuta la trasparenza del fondo;
-- bordi ripuliti per evitare sbaffature / aloni neri;
-- mantenuta la composizione della V4 senza sovrapposizioni.
+Correzioni di questa V6:
+- desktop: lasciato un po' piu spazio sopra la CTA finale, cosi la riga "Il 14 ottobre entri per primo" si legge meglio;
+- desktop: aggiunti i loghi in alto sopra "Raffaella Carrà": Vivaticket a sinistra, RTL al centro, Atlantico Roma a destra;
+- mobile: aggiunti i loghi negli angoli richiesti: Vivaticket in alto a sinistra, RTL in alto a destra, Laserman Industries / Andrea Prince in basso a sinistra, Atlantico Roma in basso a destra;
+- mantenute le proporzioni e il layout attuale, aggiungendo solo i loghi negli spazi vuoti;
+- mantenuti colori ripristinati e bordi puliti senza sbaffature.
 
-Le PNG statiche derivano DIRETTAMENTE dagli elementi originali allegati in chat:
-nessuna ricostruzione AI e nessuna compressione JPEG/WebP. E' stata fatta solo una lavorazione tecnica per rimuovere il nero di fondo, ripristinare i colori originali e pulire meglio i contorni.
+Note:
+- per Vivaticket e RTL sono incluse le risorse pronte all'uso;
+- per Atlantico Roma e Laserman / Andrea Prince sono incluse versioni grafiche pronte per occupare gli spazi richiesti, nel caso tu voglia usarle direttamente.
 
 Non serve modificare index.html o concert.js.
