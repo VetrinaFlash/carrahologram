@@ -1,7 +1,7 @@
 BRANCH: newcount
 REPOSITORY: VetrinaFlash/carrahologram
 
-VERSIONE HQ FULL-SCREEN V6
+VERSIONE HQ FULL-SCREEN V7
 
 Sostituisci nella ROOT di newcount:
 - countdown-screen.css
@@ -19,15 +19,11 @@ Aggiungi/sostituisci nella ROOT di newcount:
 - logo-atlantico-roma.png
 - logo-laserman-andrea-prince.png
 
-Correzioni di questa V6:
-- desktop: lasciato un po' piu spazio sopra la CTA finale, cosi la riga "Il 14 ottobre entri per primo" si legge meglio;
-- desktop: aggiunti i loghi in alto sopra "Raffaella Carrà": Vivaticket a sinistra, RTL al centro, Atlantico Roma a destra;
-- mobile: aggiunti i loghi negli angoli richiesti: Vivaticket in alto a sinistra, RTL in alto a destra, Laserman Industries / Andrea Prince in basso a sinistra, Atlantico Roma in basso a destra;
-- mantenute le proporzioni e il layout attuale, aggiungendo solo i loghi negli spazi vuoti;
-- mantenuti colori ripristinati e bordi puliti senza sbaffature.
-
-Note:
-- per Vivaticket e RTL sono incluse le risorse pronte all'uso;
-- per Atlantico Roma e Laserman / Andrea Prince sono incluse versioni grafiche pronte per occupare gli spazi richiesti, nel caso tu voglia usarle direttamente.
+Correzioni di questa V7:
+- corretto il logo Vivaticket, eliminando il blocco errato;
+- desktop: loghi piu piccoli e messi sopra la scritta Raffaella Carrà;
+- desktop: titolo leggermente rimpicciolito per lasciare aria alla fascia loghi;
+- mobile: corretti i 4 loghi negli angoli seguendo lo screen inviato;
+- mobile: Laserman e Atlantico spostati in basso negli angoli, senza sovrapporsi alla CTA.
 
 Non serve modificare index.html o concert.js.

@@ -66,24 +66,24 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 
 /* Desktop: top row logos above the title */
 #countdownScreen::after{
-  left:clamp(28px,8vw,140px);
-  top:clamp(18px,3.4vh,34px);
-  width:min(16vw,240px);
+  left:clamp(20px,4vw,70px);
+  top:clamp(14px,2.6vh,24px);
+  width:min(10.5vw,165px);
   aspect-ratio:2387/632;
   background-image:url("logo-vivaticket.png");
 }
 .gate-center-stack::before{
   left:50%;
-  top:clamp(16px,3.1vh,30px);
+  top:clamp(12px,2.2vh,22px);
   transform:translateX(-50%);
-  width:min(9.5vw,140px);
+  width:min(5.8vw,88px);
   aspect-ratio:1/1;
   background-image:url("logo-rtl.png");
 }
 .gate-center-stack::after{
-  right:clamp(28px,8vw,140px);
-  top:clamp(20px,3.6vh,36px);
-  width:min(13vw,190px);
+  right:clamp(20px,4vw,70px);
+  top:clamp(16px,2.8vh,26px);
+  width:min(9.2vw,145px);
   aspect-ratio:870/214;
   background-image:url("logo-atlantico-roma.png");
 }
@@ -93,7 +93,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 /* Title block only. */
 .gate-header{
   position:relative;z-index:2;flex:0 0 auto;
-  width:min(66vw,860px);
+  width:min(60vw,780px);
   aspect-ratio:1536/515;
   background:url("gate-title-hq.png") center/100% 100% no-repeat;
   filter:drop-shadow(0 0 12px rgba(255,33,112,.24)) drop-shadow(0 8px 24px rgba(0,0,0,.56));
@@ -210,27 +210,28 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   #countdownScreen::after{
     left:10px;
     top:max(10px, env(safe-area-inset-top));
-    width:28vw;
+    width:22vw;
   }
   .gate-center-stack::before{
     left:auto;
     right:10px;
     top:max(10px, env(safe-area-inset-top));
     transform:none;
-    width:17vw;
+    width:14vw;
   }
   .gate-center-stack::after{
     right:10px;
     top:auto;
-    bottom:max(12px, env(safe-area-inset-bottom));
-    width:28vw;
+    bottom:max(18px, env(safe-area-inset-bottom));
+    width:24vw;
   }
   .gate-signup::before{
     display:block;
+    position:fixed;
     left:10px;
     top:auto;
-    bottom:max(12px, env(safe-area-inset-bottom));
-    width:31vw;
+    bottom:max(18px, env(safe-area-inset-bottom));
+    width:26vw;
     aspect-ratio:590/263;
     background-image:url("logo-laserman-andrea-prince.png");
   }
@@ -244,17 +245,18 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-num{font-size:1.55rem}.gate-lbl{font-size:.43rem;letter-spacing:.055em}
   .gate-form-row{padding-left:11px}.gate-input{font-size:13px}.gate-btn{min-width:86px;padding:11px 11px;font-size:9.8px}
   .gate-signup::after{width:98vw}
-  #countdownScreen::after{width:29vw}
-  .gate-center-stack::before{width:18vw}
-  .gate-center-stack::after{width:29vw}
-  .gate-signup::before{width:33vw}
+  #countdownScreen::after{width:24vw}
+  .gate-center-stack::before{width:15vw}
+  .gate-center-stack::after{width:25vw}
+  .gate-signup::before{width:28vw}
 }
 
 /* Desktop / laptop tuning */
 @media (orientation:landscape) and (max-height:900px){
-  #countdownScreen::after{width:min(14vw,210px)}
-  .gate-center-stack::before{width:min(8.5vw,120px)}
-  .gate-center-stack::after{width:min(11vw,170px)}
+  .gate-header{width:min(58vw,760px)}
+  #countdownScreen::after{width:min(9.5vw,150px)}
+  .gate-center-stack::before{width:min(5.5vw,80px)}
+  .gate-center-stack::after{width:min(8.5vw,130px)}
   .gate-center-stack{gap:10px;padding-top:max(10px, env(safe-area-inset-top));padding-bottom:max(10px, env(safe-area-inset-bottom))}
   .gate-header{width:min(62vw,800px)}
   .gate-timer,.gate-signup{width:min(82vw,980px)}
@@ -266,9 +268,10 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 }
 
 @media (orientation:landscape) and (max-height:620px){
-  #countdownScreen::after{width:min(12vw,180px);top:10px}
-  .gate-center-stack::before{width:min(7.5vw,96px);top:10px}
-  .gate-center-stack::after{width:min(10vw,145px);top:12px}
+  .gate-header{width:min(56vw,680px)}
+  #countdownScreen::after{width:min(8vw,132px);top:8px}
+  .gate-center-stack::before{width:min(5vw,74px);top:8px}
+  .gate-center-stack::after{width:min(7.5vw,112px);top:10px}
   .gate-center-stack{gap:8px;padding-top:max(8px, env(safe-area-inset-top));padding-bottom:max(8px, env(safe-area-inset-bottom))}
   .gate-header{width:min(58vw,700px)}
   .gate-timer,.gate-signup{width:min(78vw,860px)}
