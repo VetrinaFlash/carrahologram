@@ -203,7 +203,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-form-row{padding:4px 4px 4px 14px}
   .gate-input{font-size:14px;padding:11px 3px}
   .gate-btn{min-width:96px;padding:12px 16px;font-size:10.5px}
-  .gate-signup::after{width:96vw;margin-top:12px}
+  .gate-signup::after{width:96vw;margin-top:12px;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png")}
 
 
   /* Mobile corner logos */
@@ -257,7 +257,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-unit{padding:10px 1px 8px;border-radius:11px}
   .gate-num{font-size:1.55rem}.gate-lbl{font-size:.43rem;letter-spacing:.055em}
   .gate-form-row{padding-left:11px}.gate-input{font-size:13px}.gate-btn{min-width:86px;padding:11px 11px;font-size:9.8px}
-  .gate-signup::after{width:98vw}
+  .gate-signup::after{width:98vw;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png")}
   #countdownScreen::after{top:max(26px, calc(env(safe-area-inset-top) + 16px));width:24vw;height:5.8vw}
   .gate-center-stack::before{top:max(12px, env(safe-area-inset-top));width:15vw;height:15vw}
   .gate-center-stack::after{width:25vw;height:6.4vw}
