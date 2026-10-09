@@ -1,4 +1,4 @@
-BRANCH: newcount (quello che stai chiamando "New Countdown")
+BRANCH: newcount (quello che stai chiamando "New Countdown carra hologram")
 
 File da mettere nella ROOT del branch:
 1) countdown-screen.css  -> sostituisce quello esistente
