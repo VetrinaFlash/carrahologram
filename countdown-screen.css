@@ -770,3 +770,26 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     filter:brightness(1.16) contrast(1.12) !important;
   }
 }
+
+/* ========================================================================== */
+/* V31 — MOBILE ONLY: Vivaticket slightly higher + CTA subtitle more legible  */
+/* ========================================================================== */
+@media (max-width:699px){
+  /* Alza un po' il logo Vivaticket in basso a sinistra */
+  #countdownScreen::after{
+    bottom:42px !important;
+  }
+
+  /* Mantieni la banda nera ma rendi piu leggibile la riga 'IL 14 OTTOBRE...' */
+  .gate-signup::after{
+    background-image:
+      linear-gradient(180deg,
+        rgba(0,0,0,0) 0 31%,
+        rgba(0,0,0,.46) 31% 58%,
+        rgba(0,0,0,.12) 58% 73%,
+        rgba(0,0,0,0) 73% 100%),
+      url("gate-cta-mobile-hq.png") !important;
+    background-color:transparent !important;
+    filter:brightness(1.28) contrast(1.18) !important;
+  }
+}
