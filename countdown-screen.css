@@ -632,3 +632,109 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-signup::before{width:144px !important;height:33px !important;bottom:15px !important}
   .gate-center-stack::after{width:112px !important;height:23px !important;bottom:18px !important}
 }
+
+/* ========================================================================== */
+/* V27 — final optical alignment pass                                         */
+/* ========================================================================== */
+
+/* Desktop + tablet: slightly larger than V26 and aligned on true visual axes */
+@media (min-width:700px){
+  #countdownScreen::after{
+    left:32px !important;
+    right:auto !important;
+    top:32px !important;
+    bottom:auto !important;
+    width:122px !important;
+    height:20px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-vivaticket.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+  }
+  .gate-center-stack::before{
+    display:block !important;
+    left:auto !important;
+    right:32px !important;
+    top:13px !important;
+    bottom:auto !important;
+    transform:none !important;
+    width:58px !important;
+    height:58px !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    max-height:none !important;
+    background-image:url("logo-rtl.png") !important;
+    background-size:contain !important;
+    background-position:center !important;
+  }
+  .gate-signup::before{
+    display:block !important;
+    position:fixed !important;
+    left:32px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:23px !important;
+    transform:none !important;
+    width:168px !important;
+    height:38px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-laserman-andrea-prince.png") !important;
+    background-size:contain !important;
+    background-position:left center !important;
+  }
+  .gate-center-stack::after{
+    display:block !important;
+    left:auto !important;
+    right:32px !important;
+    top:auto !important;
+    bottom:29px !important;
+    width:130px !important;
+    height:26px !important;
+    min-height:0 !important;
+    max-height:none !important;
+    background-image:url("logo-atlantico-roma.png") !important;
+    background-size:contain !important;
+    background-position:right center !important;
+  }
+}
+
+/* Phone: preserve sizes, align all three lower marks on same optical center */
+@media (max-width:699px){
+  #countdownScreen::after{
+    left:22px !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:36px !important;
+    width:100px !important;
+    height:15px !important;
+  }
+  .gate-signup::before{
+    left:50% !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:31px !important;
+    width:112px !important;
+    height:24px !important;
+    transform:translateX(-50%) !important;
+  }
+  .gate-center-stack::after{
+    left:auto !important;
+    right:22px !important;
+    top:auto !important;
+    bottom:34px !important;
+    width:100px !important;
+    height:19px !important;
+  }
+  .gate-center-stack::before{
+    left:50% !important;
+    right:auto !important;
+    top:14px !important;
+    bottom:auto !important;
+    width:42px !important;
+    height:42px !important;
+    transform:translateX(-50%) !important;
+  }
+}
