@@ -1,7 +1,8 @@
 /* ==========================================================================
-   NEWCOUNT — FULL BLEED / HQ ORIGINAL ASSETS / TRANSPARENT LETTERING
-   Updated so the lettering PNGs no longer carry visible black rectangles and
-   the whole composition sits more centrally in the viewport.
+   NEWCOUNT — FULL BLEED / HQ ORIGINAL ASSETS / V3
+   Keeps the requested composition on desktop and mobile:
+   TITLE -> RUMORE -> COUNTDOWN -> EMAIL FORM -> CTA
+   while still using the full available screen area.
    ========================================================================== */
 
 html.countdown-expired #countdownScreen{display:none!important}
@@ -20,8 +21,8 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 #countdownScreen::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.04) 28%,rgba(0,0,0,.10) 58%,rgba(0,0,0,.22) 100%),
-    radial-gradient(ellipse at 50% 50%,transparent 0 33%,rgba(0,0,0,.11) 78%,rgba(0,0,0,.28) 100%);
+    linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.04) 30%,rgba(0,0,0,.10) 62%,rgba(0,0,0,.24) 100%),
+    radial-gradient(ellipse at 50% 50%,transparent 0 34%,rgba(0,0,0,.11) 80%,rgba(0,0,0,.28) 100%);
 }
 #countdownScreen.is-expired{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:scale(1.012)!important}
 
@@ -32,24 +33,29 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-star:nth-child(3n+2){box-shadow:0 0 6px #fff,0 0 14px #ffffff44!important}
 @keyframes gateTwinkle{0%,100%{opacity:var(--min-op,.08);transform:scale(.72)}50%{opacity:var(--max-op,.8);transform:scale(1.25)}}
 
+/* One centered vertical composition, matching the requested order. */
 .gate-center-stack{
   position:absolute;inset:0;z-index:2;
-  width:100%;height:100%;min-height:0;margin:0;padding:0;
-  display:block;
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(10px,1.8dvh,18px);
+  padding:
+    max(18px, env(safe-area-inset-top))
+    clamp(10px,2vw,28px)
+    max(18px, env(safe-area-inset-bottom))
+    clamp(10px,2vw,28px);
 }
 
 /* --------------------------------------------------------------------------
-   HERO — transparent PNG assets, centered better in the viewport.
+   HERO block: title artwork first, then Pronto a fare rumore underneath.
    -------------------------------------------------------------------------- */
 .gate-header{
-  position:absolute;z-index:2;
-  left:50%;top:1.8dvh;transform:translateX(-50%);
-  width:92vw;max-width:none;
+  position:relative;z-index:2;
+  width:min(84vw,1080px);
+  flex:0 0 auto;
   aspect-ratio:1536/515;
-  margin:0;
   background:url("gate-title-hq.png") center/100% 100% no-repeat;
-  filter:drop-shadow(0 0 12px rgba(255,33,112,.28)) drop-shadow(0 8px 26px rgba(0,0,0,.60));
-  isolation:isolate;overflow:visible;
+  filter:drop-shadow(0 0 12px rgba(255,33,112,.26)) drop-shadow(0 8px 26px rgba(0,0,0,.60));
   animation:gateLogoBreath 4.6s ease-in-out infinite;
 }
 .gate-header>.gate-eyebrow,.gate-header>.gate-title,.gate-header>.gate-subtitle{
@@ -57,21 +63,26 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;
 }
 .gate-header::after{
-  content:"";position:absolute;z-index:3;pointer-events:none;
-  left:50%;top:71%;transform:translateX(-50%);
-  width:84vw;aspect-ratio:1536/515;
+  content:"";
+  display:block;
+  width:88%;
+  margin:clamp(10px,1.8dvh,18px) auto 0;
+  aspect-ratio:1536/297;
   background:url("gate-rumore-desktop-hq.png") center/100% 100% no-repeat;
-  filter:drop-shadow(0 0 13px rgba(255,20,105,.38)) drop-shadow(0 0 8px rgba(67,131,255,.24));
+  filter:drop-shadow(0 0 13px rgba(255,20,105,.36)) drop-shadow(0 0 8px rgba(67,131,255,.22));
 }
 @keyframes gateLogoBreath{
   0%,100%{filter:drop-shadow(0 0 9px rgba(255,35,105,.22)) drop-shadow(0 8px 24px rgba(0,0,0,.62))}
   50%{filter:drop-shadow(0 0 18px rgba(255,38,110,.38)) drop-shadow(0 8px 28px rgba(0,0,0,.70))}
 }
 
+/* --------------------------------------------------------------------------
+   Countdown row
+   -------------------------------------------------------------------------- */
 .gate-timer{
-  position:absolute;z-index:5;
-  left:50%;top:63dvh;transform:translateX(-50%);
+  position:relative;z-index:5;
   width:min(90vw,1080px);
+  flex:0 0 auto;
   display:flex;align-items:stretch;justify-content:center;gap:clamp(6px,1vw,13px);
 }
 .gate-unit{
@@ -88,10 +99,13 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-lbl{font:700 clamp(.52rem,.95vw,.72rem)/1 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.86)}
 .gate-sep{display:none}
 
+/* --------------------------------------------------------------------------
+   Form row, then CTA artwork directly below it.
+   -------------------------------------------------------------------------- */
 .gate-signup{
-  position:absolute;z-index:6;
-  left:50%;top:75dvh;transform:translateX(-50%);
+  position:relative;z-index:6;
   width:min(90vw,1080px);
+  flex:0 0 auto;
   display:flex;flex-direction:column;align-items:center;
 }
 .gate-prompt{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
@@ -112,36 +126,50 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-btn:active{transform:scale(.975)}.gate-btn:disabled{opacity:.65;cursor:wait}
 .gate-status{min-height:18px;margin:4px 0 0;font:600 12px/1.35 Arial,Helvetica,sans-serif;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.25)}
 .gate-status:empty{min-height:0;margin:0}.gate-status[data-status-key="success"],.gate-status.is-success{color:#91ffba}.gate-status[data-status-key="error"],.gate-status.is-error{color:#ff9aab}
-
-.gate-center-stack::after{
-  content:"";position:absolute;z-index:4;pointer-events:none;
-  left:50%;top:82dvh;transform:translateX(-50%);
-  width:62vw;aspect-ratio:1494/320;
+.gate-signup::after{
+  content:"";
+  display:block;
+  width:min(60vw,800px);
+  margin:clamp(10px,1.8dvh,18px) auto 0;
+  aspect-ratio:1494/320;
   background:url("gate-cta-hq.png") center/100% 100% no-repeat;
   filter:drop-shadow(0 0 13px rgba(255,35,112,.34));
 }
 
+/* ==========================================================================
+   PORTRAIT / MOBILE
+   ========================================================================== */
 @media (orientation:portrait){
   #countdownScreen{background-image:url("gate-bg-mobile-hq.png");background-position:center center;background-size:cover}
   #countdownScreen::before{background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.04) 34%,rgba(0,0,0,.11) 66%,rgba(0,0,0,.22) 100%),radial-gradient(ellipse at 50% 43%,transparent 0 34%,rgba(0,0,0,.09) 80%,rgba(0,0,0,.20) 100%)}
 
-  .gate-header{top:4.5dvh;width:100vw;aspect-ratio:1536/515}
+  .gate-center-stack{
+    gap:12px;
+    padding:
+      max(24px, env(safe-area-inset-top))
+      8px
+      max(22px, env(safe-area-inset-bottom))
+      8px;
+  }
+
+  .gate-header{width:96vw;aspect-ratio:1536/515}
   .gate-header::after{
-    top:86%;width:100vw;aspect-ratio:1520/530;
+    width:95%;
+    margin-top:10px;
+    aspect-ratio:1520/530;
     background-image:url("gate-rumore-mobile-hq.png");
   }
 
-  .gate-timer{top:45dvh;width:96vw;gap:5px}
+  .gate-timer{width:96vw;gap:5px}
   .gate-unit{padding:12px 2px 10px;border-radius:13px}
   .gate-num{font-size:clamp(1.65rem,9.1vw,2.75rem)}
   .gate-lbl{font-size:clamp(.44rem,2.15vw,.62rem);letter-spacing:.075em}
 
-  .gate-signup{top:59.5dvh;width:96vw}
+  .gate-signup{width:96vw}
   .gate-form-row{padding:4px 4px 4px 14px}
   .gate-input{font-size:14px;padding:11px 3px}
   .gate-btn{min-width:96px;padding:12px 16px;font-size:10.5px}
-
-  .gate-center-stack::after{top:69dvh;width:100vw;aspect-ratio:1494/320}
+  .gate-signup::after{width:96vw;margin-top:12px}
 }
 
 @media (orientation:portrait) and (max-width:390px){
@@ -150,15 +178,29 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-unit{padding:10px 1px 8px;border-radius:11px}
   .gate-num{font-size:1.55rem}.gate-lbl{font-size:.43rem;letter-spacing:.055em}
   .gate-form-row{padding-left:11px}.gate-input{font-size:13px}.gate-btn{min-width:86px;padding:11px 11px;font-size:9.8px}
+  .gate-signup::after{width:98vw}
+}
+
+/* Short desktop / laptop windows */
+@media (orientation:landscape) and (max-height:900px){
+  .gate-center-stack{gap:10px;padding-top:max(10px, env(safe-area-inset-top));padding-bottom:max(10px, env(safe-area-inset-bottom))}
+  .gate-header{width:min(78vw,980px)}
+  .gate-header::after{width:86%;margin-top:10px}
+  .gate-timer,.gate-signup{width:min(86vw,980px)}
+  .gate-unit{padding:8px 4px 7px}
+  .gate-num{font-size:clamp(1.7rem,3.6vw,3rem)}
+  .gate-lbl{font-size:clamp(.46rem,.8vw,.62rem)}
+  .gate-signup::after{width:min(52vw,690px);margin-top:10px}
 }
 
 @media (orientation:landscape) and (max-height:620px){
-  .gate-header{top:-1.2dvh;width:84vw}
-  .gate-header::after{width:79vw;top:68%}
-  .gate-timer{top:61.5dvh;width:86vw;gap:6px}
-  .gate-unit{padding:7px 3px 6px;border-radius:11px}.gate-num{font-size:1.75rem}.gate-lbl{font-size:.48rem}
-  .gate-signup{top:75.5dvh;width:86vw}.gate-input{padding:8px 3px}.gate-btn{padding:10px 18px}
-  .gate-center-stack::after{top:82dvh;width:57vw}
+  .gate-center-stack{gap:8px;padding-top:max(8px, env(safe-area-inset-top));padding-bottom:max(8px, env(safe-area-inset-bottom))}
+  .gate-header{width:min(72vw,860px)}
+  .gate-header::after{width:84%;margin-top:8px}
+  .gate-timer,.gate-signup{width:min(82vw,860px);gap:6px}
+  .gate-unit{padding:7px 3px 6px;border-radius:11px}.gate-num{font-size:1.65rem}.gate-lbl{font-size:.46rem}
+  .gate-input{padding:8px 3px}.gate-btn{padding:10px 18px}
+  .gate-signup::after{width:min(48vw,620px);margin-top:8px}
 }
 
 @media (prefers-reduced-motion:reduce){.gate-header{animation:none!important}.gate-star{animation:none!important;opacity:.34!important}}
