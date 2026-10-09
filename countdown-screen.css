@@ -66,25 +66,25 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 
 /* Desktop default logos */
 #countdownScreen::after{
-  left:clamp(20px,4vw,70px);
-  top:clamp(28px,4.2vh,38px);
-  width:clamp(96px,9.5vw,150px);
-  height:clamp(24px,2.2vw,38px);
+  left:clamp(24px,3.6vw,62px);
+  top:clamp(34px,4.8vh,46px);
+  width:clamp(98px,9.3vw,148px);
+  height:clamp(24px,2.15vw,36px);
   background-image:url("logo-vivaticket.png");
 }
 .gate-center-stack::before{
   left:auto;
-  right:clamp(20px,4vw,70px);
-  top:clamp(14px,2vh,22px);
+  right:clamp(24px,3.6vw,62px);
+  top:clamp(18px,2.5vh,28px);
   transform:none;
   width:clamp(50px,5vw,74px);
   height:clamp(50px,5vw,74px);
   background-image:url("logo-rtl.png");
 }
 .gate-center-stack::after{
-  right:clamp(20px,4vw,70px);
+  right:clamp(24px,3.6vw,62px);
   top:auto;
-  bottom:max(30px, env(safe-area-inset-bottom));
+  bottom:max(20px, env(safe-area-inset-bottom));
   width:clamp(112px,9.6vw,168px);
   height:clamp(28px,2.8vw,42px);
   background-image:url("logo-atlantico-roma.png");
@@ -92,9 +92,9 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 .gate-signup::before{
   display:block;
   position:fixed;
-  left:clamp(20px,4vw,70px);
+  left:clamp(24px,3.6vw,62px);
   top:auto;
-  bottom:max(18px, env(safe-area-inset-bottom));
+  bottom:max(5px, env(safe-area-inset-bottom));
   width:clamp(170px,16vw,270px);
   height:clamp(44px,5vw,76px);
   min-height:unset;
@@ -216,14 +216,14 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-form-row{padding:4px 4px 4px 14px}
   .gate-input{font-size:14px;padding:11px 3px}
   .gate-btn{min-width:96px;padding:12px 16px;font-size:10.5px}
-  .gate-signup::after{width:96vw;margin-top:12px;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png")}
+  .gate-signup::after{width:96vw;margin-top:12px;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png");background-color:rgba(0,0,0,.34);border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.20)}
 
 
   /* Mobile logos: RTL top-center, Vivaticket / Laserman / Atlantico at bottom */
   #countdownScreen::after{
     left:12px;
     top:auto;
-    bottom:max(18px, env(safe-area-inset-bottom));
+    bottom:max(22px, env(safe-area-inset-bottom));
     width:23vw;
     height:6vw;
     min-height:22px;
@@ -233,7 +233,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-center-stack::before{
     left:50%;
     right:auto;
-    top:max(14px, calc(env(safe-area-inset-top) + 2px));
+    top:max(20px, calc(env(safe-area-inset-top) + 6px));
     transform:translateX(-50%);
     width:10.5vw;
     height:10.5vw;
@@ -246,7 +246,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-center-stack::after{
     right:12px;
     top:auto;
-    bottom:max(17px, env(safe-area-inset-bottom));
+    bottom:max(22px, env(safe-area-inset-bottom));
     width:24vw;
     height:6.4vw;
     min-height:22px;
@@ -258,7 +258,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     position:fixed;
     left:50%;
     top:auto;
-    bottom:max(13px, env(safe-area-inset-bottom));
+    bottom:max(17px, env(safe-area-inset-bottom));
     transform:translateX(-50%);
     width:29vw;
     height:7.6vw;
@@ -275,9 +275,9 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-unit{padding:10px 1px 8px;border-radius:11px}
   .gate-num{font-size:1.55rem}.gate-lbl{font-size:.43rem;letter-spacing:.055em}
   .gate-form-row{padding-left:11px}.gate-input{font-size:13px}.gate-btn{min-width:86px;padding:11px 11px;font-size:9.8px}
-  .gate-signup::after{width:98vw;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png")}
-  #countdownScreen::after{top:auto;bottom:max(18px, env(safe-area-inset-bottom));width:24vw;height:5.8vw}
-  .gate-center-stack::before{top:max(14px, calc(env(safe-area-inset-top) + 2px));width:11vw;height:11vw}
+  .gate-signup::after{width:98vw;aspect-ratio:1494/356;background-image:url("gate-cta-mobile-hq.png");background-color:rgba(0,0,0,.34);border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.20)}
+  #countdownScreen::after{top:auto;bottom:max(22px, env(safe-area-inset-bottom));width:24vw;height:5.8vw}
+  .gate-center-stack::before{top:max(20px, calc(env(safe-area-inset-top) + 6px));width:11vw;height:11vw}
   .gate-center-stack::after{width:25vw;height:6.4vw}
   .gate-signup::before{width:30vw;height:8vw}
 }
@@ -287,7 +287,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
 @media (pointer:coarse) and (min-width:700px) and (max-width:1180px){
   #countdownScreen::after{
     left:18px;
-    top:max(20px, calc(env(safe-area-inset-top) + 8px));
+    top:max(24px, calc(env(safe-area-inset-top) + 10px));
     bottom:auto;
     width:150px;
     height:34px;
@@ -296,7 +296,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-center-stack::before{
     left:auto;
     right:18px;
-    top:max(12px, calc(env(safe-area-inset-top) + 2px));
+    top:max(18px, calc(env(safe-area-inset-top) + 6px));
     transform:none;
     width:68px;
     height:68px;
@@ -305,7 +305,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
   .gate-center-stack::after{
     right:18px;
     top:auto;
-    bottom:max(28px, env(safe-area-inset-bottom));
+    bottom:max(22px, env(safe-area-inset-bottom));
     width:170px;
     height:40px;
     background-image:url("logo-atlantico-roma.png");
@@ -315,7 +315,7 @@ body.gate-active{overflow:hidden!important;touch-action:manipulation}
     position:fixed;
     left:18px;
     top:auto;
-    bottom:max(18px, env(safe-area-inset-bottom));
+    bottom:max(14px, env(safe-area-inset-bottom));
     transform:none;
     width:190px;
     height:58px;
