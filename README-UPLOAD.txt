@@ -1,29 +1,31 @@
-NEWCOUNT — CONSENSO EMAIL COMPLETO (V34)
+NEWCOUNT — FIX CONSENSO V35
 
-Carica questi file nel branch newcount mantenendo gli stessi percorsi:
+QUESTO PACCHETTO CORREGGE IL BLOCCO/ERRORE DELLA V34.
 
-ROOT:
-- site-config.js                -> SOSTITUISCE quello esistente
-- countdown-screen.css         -> mantiene la versione grafica V33 attuale
-- gate-cta-mobile-hq-v33.png   -> mantiene la CTA mobile attuale
-- privacy.html                 -> NUOVO
+CAUSA:
+La V34 osservava tutto il body con MutationObserver e, nello stesso callback,
+riscriveva textContent. Quella riscrittura generava nuove mutazioni e poteva
+creare un ciclo continuo, bloccando il caricamento della pagina.
 
-FUNCTIONS:
-- functions/api/_middleware.js -> NUOVO
+CARICA/SOSTITUISCI NEL BRANCH newcount:
+1) site-config.js
+2) functions/api/_middleware.js
+3) functions/api/consent.js
+4) privacy.html
+5) countdown-screen.css
+6) gate-cta-mobile-hq-v33.png
 
-NON serve modificare functions/api/subscribe.js.
-Il middleware intercetta /api/subscribe e rifiuta lato server ogni iscrizione senza consenso.
+NON TOCCARE functions/api/subscribe.js:
+rimane il tuo endpoint originale che salva la mail e invia la conferma con Resend.
 
-COSA FA:
-- checkbox obbligatorio e non preselezionato su tutti i form data-subscribe
-- countdown: checkbox integrato dentro il pill del form per non spostare il layout
-- sito dopo countdown: checkbox aggiunto in modo discreto ai form email
-- link Privacy accanto al consenso
-- consenso verificato anche lato server
-- prova del consenso salvata nel KV VISITOR_COUNT con chiave subscriber_consent_<email>
-- nessun nuovo secret/binding Cloudflare richiesto
-- Resend continua a funzionare tramite subscribe.js come prima
+FLUSSO:
+- il checkbox è obbligatorio su tutti i form email;
+- prima di /api/subscribe viene chiamato /api/consent;
+- /api/consent salva nel KV VISITOR_COUNT la prova del consenso;
+- solo se la prova è stata salvata parte l'iscrizione originale;
+- nessun MutationObserver sul body;
+- il middleware V34 viene neutralizzato con un semplice context.next().
 
-IMPORTANTE LEGALE:
-privacy.html usa come identificazione pubblica il gestore del sito/evento e l'indirizzo newsletter@raffaellacarraofficial.com.
-Se il titolare legale è una società/persona specifica, sostituisci quella riga con la denominazione legale completa prima della pubblicazione definitiva.
+NOTA PRIVACY:
+prima della pubblicazione definitiva inserisci nell'informativa la ragione sociale
+esatta del titolare del trattamento se diversa dalla denominazione del progetto.
