@@ -196,15 +196,108 @@ function looksLikeExistingSegmentMembership(result) {
   );
 }
 
+
+function isValidEmailSyntax(email) {
+  const value = String(email || '').trim().toLowerCase();
+
+  if (!value || value.length > 254) return false;
+  if (value.includes(' ')) return false;
+
+  const parts = value.split('@');
+  if (parts.length !== 2) return false;
+
+  const [local, domain] = parts;
+
+  if (!local || !domain) return false;
+  if (local.length > 64) return false;
+  if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) return false;
+  if (!/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+$/i.test(local)) return false;
+
+  if (domain.length > 253) return false;
+  if (!domain.includes('.')) return false;
+  if (domain.startsWith('.') || domain.endsWith('.') || domain.includes('..')) return false;
+
+  const labels = domain.split('.');
+  if (labels.some(label =>
+    !label ||
+    label.length > 63 ||
+    label.startsWith('-') ||
+    label.endsWith('-') ||
+    !/^[a-z0-9-]+$/i.test(label)
+  )) return false;
+
+  const tld = labels[labels.length - 1];
+  if (!/^[a-z]{2,63}$/i.test(tld)) return false;
+
+  return true;
+}
+
+function isReservedTestAddress(email) {
+  const value = String(email || '').trim().toLowerCase();
+  const domain = value.split('@')[1] || '';
+
+  // Domini riservati ufficialmente per esempi/documentazione o placeholder
+  // usati nel progetto. Questi non devono entrare nella mailing reale.
+  return (
+    domain === 'example.com' ||
+    domain === 'example.org' ||
+    domain === 'example.net' ||
+    value === 'prova@prova.com'
+  );
+}
+
+function looksLikeInvalidEmailResponse(result) {
+  if (!result || result.ok) return false;
+
+  const status = Number(result.status || 0);
+  const message = String(
+    result.data?.message ||
+    result.data?.error ||
+    result.data?.name ||
+    result.data?.raw ||
+    ''
+  ).toLowerCase();
+
+  return (
+    status === 422 ||
+    (
+      (status === 400 || status === 404) &&
+      (
+        message.includes('invalid email') ||
+        message.includes('email is invalid') ||
+        message.includes('invalid recipient') ||
+        message.includes('invalid address') ||
+        message.includes('malformed email') ||
+        message.includes('validation') ||
+        message.includes('not a valid email')
+      )
+    )
+  );
+}
+
 async function syncContact(key, segmentId, email) {
+  if (!isValidEmailSyntax(email) || isReservedTestAddress(email)) {
+    return {
+      skipped: true,
+      reason: 'invalid_or_placeholder_email'
+    };
+  }
+
   const create = await resendRequest(key, '/contacts', {
     method: 'POST',
     body: { email }
   });
 
+  // Se Resend stesso considera l'indirizzo non valido, lo saltiamo.
+  // Non trasformiamo un singolo indirizzo errato in un errore dell'intera sync.
   if (!create.ok && !looksLikeExistingContact(create)) {
-    // We still try to add it to the Segment: if the contact already exists but
-    // Resend used a different duplicate error code, the segment call can succeed.
+    if (looksLikeInvalidEmailResponse(create)) {
+      return {
+        skipped: true,
+        reason: 'resend_rejected_email',
+        detail: resendError(create, 'Email rifiutata da Resend')
+      };
+    }
   }
 
   const add = await resendRequest(
@@ -214,6 +307,15 @@ async function syncContact(key, segmentId, email) {
   );
 
   if (!add.ok && !looksLikeExistingSegmentMembership(add)) {
+    // Se il contatto è stato rifiutato come indirizzo non valido, salta e continua.
+    if (looksLikeInvalidEmailResponse(add)) {
+      return {
+        skipped: true,
+        reason: 'resend_rejected_email',
+        detail: resendError(add, 'Email rifiutata da Resend')
+      };
+    }
+
     const createMessage = create.ok ? null : resendError(create, 'create contact failed');
     const addMessage = resendError(add, 'add to segment failed');
 
@@ -225,6 +327,7 @@ async function syncContact(key, segmentId, email) {
   }
 
   return {
+    skipped: false,
     created: create.ok,
     segmentAdded: add.ok
   };
@@ -494,10 +597,19 @@ async function syncPage(context, key, cursor) {
 
   const consented = [];
   let migratedLegacy = 0;
+  let skippedInvalid = 0;
+  const skippedEmails = [];
 
   for (const item of realSubscriberKeys) {
     const email = item.name.replace(/^subscriber_/, '').trim().toLowerCase();
-    if (!email || !email.includes('@')) continue;
+
+    // V43: scarta prima della migrazione consenso gli indirizzi chiaramente
+    // non validi / placeholder. Così non consumano chiamate Resend.
+    if (!isValidEmailSyntax(email) || isReservedTestAddress(email)) {
+      skippedInvalid++;
+      skippedEmails.push(email || item.name);
+      continue;
+    }
 
     const consentKey = `subscriber_consent_${email}`;
     let consent = parseConsent(await kv.get(consentKey));
@@ -540,12 +652,20 @@ async function syncPage(context, key, cursor) {
   );
 
   let synced = 0;
+  let skippedResend = 0;
   const errors = [];
 
   results.forEach((result, index) => {
     if (result?.ok) {
-      synced++;
+      if (result.value?.skipped) {
+        skippedResend++;
+        skippedEmails.push(unique[index]);
+      } else {
+        synced++;
+      }
     } else {
+      // Errori veri (es. permessi, segment non valido, rate limit) vengono
+      // registrati ma NON fermano gli scaglioni successivi.
       errors.push({
         email: unique[index],
         error: result?.error || 'Errore sincronizzazione'
@@ -554,13 +674,19 @@ async function syncPage(context, key, cursor) {
   });
 
   return {
-    success: errors.length === 0,
+    // Importante: la pagina HTTP resta "success" anche se un singolo contatto
+    // fallisce. Il frontend continua con il cursor successivo.
+    success: true,
     segment,
     processed: realSubscriberKeys.length,
     batchSize: 5,
     consented: unique.length,
     synced,
     migratedLegacy,
+    skippedInvalid,
+    skippedResend,
+    skippedTotal: skippedInvalid + skippedResend,
+    skippedEmails,
     skippedNoConsent: 0,
     errors,
     nextCursor: page.list_complete ? null : (page.cursor || null),

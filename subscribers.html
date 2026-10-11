@@ -642,6 +642,7 @@
     let totalSynced = 0;
     let totalConsented = 0;
     let totalMigratedLegacy = 0;
+    let totalSkipped = 0;
     let totalErrors = 0;
     let batchNumber = 0;
 
@@ -661,6 +662,7 @@
         totalSynced += data.synced || 0;
         totalConsented += data.consented || 0;
         totalMigratedLegacy += data.migratedLegacy || 0;
+        totalSkipped += data.skippedTotal || 0;
         totalErrors += Array.isArray(data.errors) ? data.errors.length : 0;
         cursor = data.nextCursor || null;
 
@@ -673,7 +675,7 @@
         $('syncBar').style.width = percent + '%';
         $('syncPercent').textContent = percent + '%';
         $('syncText').textContent =
-          `Scaglione ${batchNumber} · processati ${totalProcessed}/${consentedTotal} · sincronizzati ${totalSynced} · legacy migrati ${totalMigratedLegacy} · errori ${totalErrors}`;
+          `Scaglione ${batchNumber} · processati ${totalProcessed}/${consentedTotal} · sincronizzati ${totalSynced} · saltati ${totalSkipped} · legacy migrati ${totalMigratedLegacy} · errori reali ${totalErrors}`;
 
         // V41: ogni scaglione è una nuova invocazione Worker.
         // La pausa evita raffiche di richieste a Cloudflare/Resend.
@@ -683,7 +685,7 @@
       $('syncBar').style.width = '100%';
       $('syncPercent').textContent = '100%';
       $('syncText').textContent =
-        `Sincronizzazione completata in ${batchNumber} scaglioni: ${totalSynced} contatti Resend · legacy migrati ${totalMigratedLegacy} · ${totalErrors} errori`;
+        `Sincronizzazione completata in ${batchNumber} scaglioni: ${totalSynced} contatti Resend · ${totalSkipped} email saltate · legacy migrati ${totalMigratedLegacy} · ${totalErrors} errori reali`;
 
       if (totalErrors > 0) {
         throw new Error(
@@ -706,6 +708,7 @@
         totalSynced,
         totalConsented,
         totalMigratedLegacy,
+        totalSkipped,
         totalErrors
       };
     } finally {
