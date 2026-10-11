@@ -1,150 +1,131 @@
-export async function onRequest(context) {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-admin-password'
-  };
+function json(payload, status = 200) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'no-store'
+    }
+  });
+}
 
-  if (context.request.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+function isAuthorized(context) {
+  const expected = String(context.env?.ADMIN_PASSWORD || '');
+  const provided = String(context.request.headers.get('x-admin-password') || '');
+  return expected.length >= 16 && provided.length > 0 && provided === expected;
+}
+
+async function listSubscriberKeys(kv) {
+  let cursor = undefined;
+  const keys = [];
+
+  do {
+    const page = await kv.list({
+      prefix: 'subscriber_',
+      cursor,
+      limit: 1000
+    });
+
+    for (const key of page.keys || []) {
+      if (!key.name.startsWith('subscriber_consent_')) {
+        keys.push(key);
+      }
+    }
+
+    cursor = page.list_complete ? undefined : page.cursor;
+  } while (cursor);
+
+  return keys;
+}
+
+function parseConsent(raw) {
+  if (!raw) return null;
+  try {
+    const data = JSON.parse(raw);
+    return data && data.consent === true ? data : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+async function readSubscribers(kv, keys) {
+  const rows = [];
+  const chunkSize = 25;
+
+  for (let i = 0; i < keys.length; i += chunkSize) {
+    const chunk = keys.slice(i, i + chunkSize);
+
+    const batch = await Promise.all(chunk.map(async key => {
+      const email = key.name.replace(/^subscriber_/, '').trim().toLowerCase();
+
+      const [date, consentRaw] = await Promise.all([
+        kv.get(key.name),
+        kv.get(`subscriber_consent_${email}`)
+      ]);
+
+      const consent = parseConsent(consentRaw);
+
+      return {
+        email,
+        date: date || null,
+        consentVerified: Boolean(consent),
+        consentAt: consent?.serverConsentAt || consent?.clientConsentAt || null,
+        consentSource: consent?.source || null,
+        consentVersion: consent?.consentVersion || null,
+        privacyVersion: consent?.privacyVersion || null
+      };
+    }));
+
+    rows.push(...batch);
   }
 
-  const REQUIRED_PASSWORD = 'Andrea12@';
+  rows.sort((a, b) => {
+    const ta = a.date ? new Date(a.date).getTime() : 0;
+    const tb = b.date ? new Date(b.date).getTime() : 0;
+    return tb - ta;
+  });
+
+  return rows;
+}
+
+export async function onRequest(context) {
+  if (context.request.method !== 'GET') {
+    return json({ success: false, error: 'Metodo non consentito.' }, 405);
+  }
+
+  if (!context.env?.ADMIN_PASSWORD) {
+    return json({
+      success: false,
+      error: 'ADMIN_PASSWORD non configurata su Cloudflare.'
+    }, 503);
+  }
+
+  if (!isAuthorized(context)) {
+    return json({ success: false, error: 'Non autorizzato.' }, 401);
+  }
+
+  if (!context.env?.VISITOR_COUNT) {
+    return json({
+      success: false,
+      error: "Binding KV 'VISITOR_COUNT' non configurato."
+    }, 500);
+  }
 
   try {
-    let password = null;
+    const keys = await listSubscriberKeys(context.env.VISITOR_COUNT);
+    const subscribers = await readSubscribers(context.env.VISITOR_COUNT, keys);
+    const consentedCount = subscribers.filter(item => item.consentVerified).length;
 
-    // Lettura password da header
-    password = context.request.headers.get('x-admin-password');
-
-    // Lettura password da URL query (?pwd=...)
-    if (!password) {
-      try {
-        const url = new URL(context.request.url);
-        password = url.searchParams.get('pwd');
-      } catch (_) {}
-    }
-
-    // Lettura password da body se POST
-    if (!password && context.request.method === 'POST') {
-      try {
-        const body = await context.request.json();
-        if (body && body.password) password = body.password;
-      } catch (_) {}
-    }
-
-    // Verifica password
-    if (password !== REQUIRED_PASSWORD) {
-      return new Response(JSON.stringify({
-        success: false,
-        error: 'Password non valida o mancante'
-      }), {
-        status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    if (!context.env || !context.env.VISITOR_COUNT) {
-      return new Response(JSON.stringify({
-        success: false,
-        error: "Il binding KV 'VISITOR_COUNT' non è configurato o non è accessibile in questo ambiente."
-      }), {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Paginazione completa per recuperare TUTTE le chiavi subscriber_
-    let allKeys = [];
-    let cursor = undefined;
-    let listComplete = false;
-
-    while (!listComplete) {
-      const listRes = await context.env.VISITOR_COUNT.list({
-        prefix: 'subscriber_',
-        cursor: cursor,
-        limit: 1000
-      });
-
-      if (listRes.keys && listRes.keys.length > 0) {
-        allKeys = allKeys.concat(listRes.keys);
-      }
-
-      listComplete = listRes.list_complete;
-      cursor = listRes.cursor;
-      if (!cursor) break;
-    }
-
-    // Estrazione email e date (in chunk da 25 per non sovraccaricare KV)
-    const subscribers = [];
-    const chunkSize = 25;
-
-    for (let i = 0; i < allKeys.length; i += chunkSize) {
-      const chunk = allKeys.slice(i, i + chunkSize);
-      const dates = await Promise.all(
-        chunk.map(async (k) => {
-          try {
-            return await context.env.VISITOR_COUNT.get(k.name);
-          } catch (_) {
-            return null;
-          }
-        })
-      );
-
-      for (let j = 0; j < chunk.length; j++) {
-        const email = chunk[j].name.replace(/^subscriber_/, '');
-        subscribers.push({
-          email: email,
-          date: dates[j] || null
-        });
-      }
-    }
-
-    // Ordinamento: dal più recente al più vecchio (se la data è presente)
-    subscribers.sort((a, b) => {
-      if (!a.date) return 1;
-      if (!b.date) return -1;
-      return new Date(b.date) - new Date(a.date);
-    });
-
-    // Controllo se è stato richiesto il download CSV diretto
-    const url = new URL(context.request.url);
-    const format = url.searchParams.get('format');
-
-    if (format === 'csv') {
-      let csv = 'Email,Data Iscrizione\n';
-      subscribers.forEach(sub => {
-        const d = sub.date ? new Date(sub.date).toISOString() : '';
-        csv += `"${sub.email}","${d}"\n`;
-      });
-
-      return new Response(csv, {
-        status: 200,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'text/csv; charset=utf-8',
-          'Content-Disposition': 'attachment; filename="iscritti_raffaella_carra.csv"'
-        }
-      });
-    }
-
-    // Risposta JSON di default
-    return new Response(JSON.stringify({
+    return json({
       success: true,
       count: subscribers.length,
-      subscribers: subscribers
-    }), {
-      status: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      consentedCount,
+      legacyCount: subscribers.length - consentedCount,
+      subscribers
     });
-
-  } catch (err) {
-    return new Response(JSON.stringify({
+  } catch (error) {
+    return json({
       success: false,
-      error: err.message
-    }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-    });
+      error: error?.message || 'Errore caricamento iscritti.'
+    }, 500);
   }
 }
