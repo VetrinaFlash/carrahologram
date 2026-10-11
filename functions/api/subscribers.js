@@ -80,7 +80,10 @@ async function readSubscribers(kv, keys) {
         consentAt: consent?.serverConsentAt || consent?.clientConsentAt || null,
         consentSource: consent?.source || null,
         consentVersion: consent?.consentVersion || null,
-        privacyVersion: consent?.privacyVersion || null
+        privacyVersion: consent?.privacyVersion || null,
+        legacyMigrated: Boolean(consent?.legacyMigrated),
+        originalSubscriberAt: consent?.originalSubscriberAt || null,
+        adminAttestedAt: consent?.adminAttestedAt || null
       };
     }));
 

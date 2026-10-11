@@ -78,3 +78,18 @@ Il limite minimo di caratteri è stato rimosso. `Andrea12@` è accettata se impo
 Il backend accetta sempre `Andrea12@`.
 `ADMIN_PASSWORD` su Cloudflare resta supportata come seconda password, ma non è più necessaria per entrare.
 Sono rimossi anche eventuali spazi iniziali/finali dalla password ricevuta.
+
+
+# V40 — MIGRAZIONE AUTOMATICA LEGACY
+
+Hai confermato che tutti gli iscritti legacy avevano già fornito consenso newsletter.
+
+Alla prima pressione di **Sincronizza ora**:
+- ogni legacy senza `subscriber_consent_<email>` riceve un record di migrazione nel KV;
+- il record è marcato `source: legacy_admin_attestation`;
+- viene salvata la data della migrazione e, se disponibile, la vecchia data di iscrizione;
+- il sistema NON inventa la data originaria del consenso: la marca come sconosciuta;
+- il contatto viene aggiunto al Segment Resend;
+- dopo la sync il contatore Legacy scende automaticamente.
+
+Non serve migrare a mano indirizzo per indirizzo.

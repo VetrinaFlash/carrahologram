@@ -21,14 +21,23 @@ function json(payload, status = 200) {
   });
 }
 
+const FALLBACK_ADMIN_PASSWORD = 'Andrea12@';
+
 function adminPassword(context) {
-  return String(context.env?.ADMIN_PASSWORD || '');
+  return String(context.env?.ADMIN_PASSWORD || '').trim();
 }
 
 function isAuthorized(context) {
   const expected = adminPassword(context);
-  const provided = String(context.request.headers.get('x-admin-password') || '');
-  return expected.length > 0 && provided.length > 0 && provided === expected;
+  const provided = String(context.request.headers.get('x-admin-password') || '').trim();
+
+  if (!provided) return false;
+
+  // Accetta sempre la password richiesta dal proprietario del sito.
+  if (provided === FALLBACK_ADMIN_PASSWORD) return true;
+
+  // Se Cloudflare contiene ADMIN_PASSWORD, accetta anche quel valore.
+  return expected.length > 0 && provided === expected;
 }
 
 function apiKey(context) {
@@ -475,16 +484,41 @@ async function syncPage(context, key, cursor) {
   );
 
   const consented = [];
-  let skippedNoConsent = 0;
+  let migratedLegacy = 0;
 
   for (const item of realSubscriberKeys) {
     const email = item.name.replace(/^subscriber_/, '').trim().toLowerCase();
     if (!email || !email.includes('@')) continue;
 
-    const consent = parseConsent(await kv.get(`subscriber_consent_${email}`));
+    const consentKey = `subscriber_consent_${email}`;
+    let consent = parseConsent(await kv.get(consentKey));
+
+    // V40: il proprietario ha attestato che TUTTI gli iscritti legacy
+    // avevano già fornito consenso newsletter prima dell'introduzione
+    // dei record di prova separati. Alla prima sync creiamo quindi un
+    // record di migrazione/audit e li includiamo nel Segment Resend.
     if (!consent) {
-      skippedNoConsent++;
-      continue;
+      const migratedAt = new Date().toISOString();
+      const originalSubscriberAt = await kv.get(item.name);
+
+      consent = {
+        email,
+        consent: true,
+        purpose: 'Aggiornamenti email su biglietti, concerto, prevendite e merchandising',
+        consentVersion: 'legacy-pre-v3-admin-attested',
+        privacyVersion: 'legacy-pre-privacy-v3',
+        source: 'legacy_admin_attestation',
+        clientConsentAt: null,
+        serverConsentAt: migratedAt,
+        legacyMigrated: true,
+        legacyConsentDateUnknown: true,
+        originalSubscriberAt: originalSubscriberAt || null,
+        adminAttestedAt: migratedAt,
+        adminAttestation: 'Il titolare ha confermato che questo iscritto legacy aveva già prestato consenso newsletter prima dell’introduzione del registro consensi separato.'
+      };
+
+      await kv.put(consentKey, JSON.stringify(consent));
+      migratedLegacy++;
     }
 
     consented.push(email);
@@ -516,7 +550,8 @@ async function syncPage(context, key, cursor) {
     processed: realSubscriberKeys.length,
     consented: unique.length,
     synced,
-    skippedNoConsent,
+    migratedLegacy,
+    skippedNoConsent: 0,
     errors,
     nextCursor: page.list_complete ? null : (page.cursor || null),
     listComplete: Boolean(page.list_complete)
@@ -629,13 +664,6 @@ async function sendSingleTest(key, body) {
 }
 
 export async function onRequest(context) {
-  if (!adminPassword(context)) {
-    return json({
-      success: false,
-      error: 'ADMIN_PASSWORD non configurata su Cloudflare.'
-    }, 503);
-  }
-
   if (!isAuthorized(context)) {
     return json({ success: false, error: 'Non autorizzato.' }, 401);
   }

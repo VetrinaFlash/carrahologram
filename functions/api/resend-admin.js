@@ -484,16 +484,41 @@ async function syncPage(context, key, cursor) {
   );
 
   const consented = [];
-  let skippedNoConsent = 0;
+  let migratedLegacy = 0;
 
   for (const item of realSubscriberKeys) {
     const email = item.name.replace(/^subscriber_/, '').trim().toLowerCase();
     if (!email || !email.includes('@')) continue;
 
-    const consent = parseConsent(await kv.get(`subscriber_consent_${email}`));
+    const consentKey = `subscriber_consent_${email}`;
+    let consent = parseConsent(await kv.get(consentKey));
+
+    // V40: il proprietario ha attestato che TUTTI gli iscritti legacy
+    // avevano già fornito consenso newsletter prima dell'introduzione
+    // dei record di prova separati. Alla prima sync creiamo quindi un
+    // record di migrazione/audit e li includiamo nel Segment Resend.
     if (!consent) {
-      skippedNoConsent++;
-      continue;
+      const migratedAt = new Date().toISOString();
+      const originalSubscriberAt = await kv.get(item.name);
+
+      consent = {
+        email,
+        consent: true,
+        purpose: 'Aggiornamenti email su biglietti, concerto, prevendite e merchandising',
+        consentVersion: 'legacy-pre-v3-admin-attested',
+        privacyVersion: 'legacy-pre-privacy-v3',
+        source: 'legacy_admin_attestation',
+        clientConsentAt: null,
+        serverConsentAt: migratedAt,
+        legacyMigrated: true,
+        legacyConsentDateUnknown: true,
+        originalSubscriberAt: originalSubscriberAt || null,
+        adminAttestedAt: migratedAt,
+        adminAttestation: 'Il titolare ha confermato che questo iscritto legacy aveva già prestato consenso newsletter prima dell’introduzione del registro consensi separato.'
+      };
+
+      await kv.put(consentKey, JSON.stringify(consent));
+      migratedLegacy++;
     }
 
     consented.push(email);
@@ -525,7 +550,8 @@ async function syncPage(context, key, cursor) {
     processed: realSubscriberKeys.length,
     consented: unique.length,
     synced,
-    skippedNoConsent,
+    migratedLegacy,
+    skippedNoConsent: 0,
     errors,
     nextCursor: page.list_complete ? null : (page.cursor || null),
     listComplete: Boolean(page.list_complete)

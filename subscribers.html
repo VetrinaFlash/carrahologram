@@ -105,7 +105,7 @@
     <div class="grid">
       <div class="stat"><b id="totalCount">–</b><span class="muted">Iscritti KV</span></div>
       <div class="stat"><b id="consentedCount" class="ok">–</b><span class="muted">Consenso verificato</span></div>
-      <div class="stat"><b id="legacyCount" class="warn">–</b><span class="muted">Legacy / non inviabili</span></div>
+      <div class="stat"><b id="legacyCount" class="warn">–</b><span class="muted">Legacy da migrare</span></div>
       <div class="stat"><b id="segmentState" class="blue">–</b><span class="muted">Segment Resend</span></div>
     </div>
 
@@ -113,7 +113,7 @@
       <div class="row between">
         <div>
           <h2>1. Collegamento Resend</h2>
-          <p class="muted">Crea o recupera automaticamente il Segment <b>Raffa Live — Consensi verificati</b>.</p>
+          <p class="muted">Crea o recupera automaticamente il Segment <b>Raffa Live — Consensi verificati</b>. Alla prima sincronizzazione i legacy vengono migrati automaticamente perché hai confermato che avevano già dato il consenso.</p>
         </div>
         <div class="row">
           <button id="setupBtn" class="secondary">Inizializza Resend</button>
@@ -134,7 +134,7 @@
       <div class="row between">
         <div>
           <h2>2. Iscritti</h2>
-          <p class="muted">Il Broadcast usa solo il Segment alimentato dagli indirizzi con consenso verificato.</p>
+          <p class="muted">I nuovi iscritti usano il consenso registrato; i legacy vengono marcati come migrazione amministrativa e aggiunti al Segment alla prima sincronizzazione.</p>
         </div>
         <input id="search" type="search" placeholder="Cerca email…" style="max-width:320px">
       </div>
@@ -437,7 +437,9 @@
       const consentTd = document.createElement('td');
       const badge = document.createElement('span');
       badge.className = 'badge ' + (item.consentVerified ? 'ok' : 'warn');
-      badge.textContent = item.consentVerified ? 'VERIFICATO' : 'LEGACY';
+      badge.textContent = item.legacyMigrated
+        ? 'LEGACY MIGRATO'
+        : (item.consentVerified ? 'VERIFICATO' : 'LEGACY');
       consentTd.appendChild(badge);
 
       const regTd = document.createElement('td');
@@ -633,6 +635,7 @@
     let totalProcessed = 0;
     let totalSynced = 0;
     let totalConsented = 0;
+    let totalMigratedLegacy = 0;
     let totalErrors = 0;
 
     try {
@@ -649,10 +652,11 @@
         totalProcessed += data.processed || 0;
         totalSynced += data.synced || 0;
         totalConsented += data.consented || 0;
+        totalMigratedLegacy += data.migratedLegacy || 0;
         totalErrors += Array.isArray(data.errors) ? data.errors.length : 0;
         cursor = data.nextCursor || null;
 
-        const consentedTotal = subscribers.filter(x => x.consentVerified).length || 1;
+        const consentedTotal = subscribers.length || 1;
         const percent = Math.min(
           98,
           Math.max(4, Math.round((totalSynced / consentedTotal) * 100))
@@ -661,7 +665,7 @@
         $('syncBar').style.width = percent + '%';
         $('syncPercent').textContent = percent + '%';
         $('syncText').textContent =
-          `Sincronizzati ${totalSynced}/${consentedTotal} contatti con consenso · errori ${totalErrors}`;
+          `Sincronizzati ${totalSynced}/${consentedTotal} · legacy migrati ${totalMigratedLegacy} · errori ${totalErrors}`;
 
         if (cursor) await new Promise(resolve => setTimeout(resolve, 150));
       } while (cursor);
@@ -669,7 +673,7 @@
       $('syncBar').style.width = '100%';
       $('syncPercent').textContent = '100%';
       $('syncText').textContent =
-        `Sincronizzazione completata: ${totalSynced} contatti Resend · ${totalErrors} errori`;
+        `Sincronizzazione completata: ${totalSynced} contatti Resend · legacy migrati ${totalMigratedLegacy} · ${totalErrors} errori`;
 
       if (totalErrors > 0) {
         throw new Error(
@@ -681,14 +685,17 @@
         showMessage(
           $('resendState'),
           'success',
-          `Segment sincronizzato. ${totalSynced} contatti con consenso pronti per i Broadcast.`
+          `Segment sincronizzato. ${totalSynced} contatti pronti per i Broadcast${totalMigratedLegacy ? ` · ${totalMigratedLegacy} legacy migrati` : ''}.`
         );
       }
+
+      await loadSubscribers();
 
       return {
         totalProcessed,
         totalSynced,
         totalConsented,
+        totalMigratedLegacy,
         totalErrors
       };
     } finally {
