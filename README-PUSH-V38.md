@@ -37,7 +37,7 @@ Aggiungi:
 Obbligatori:
 - `VISITOR_COUNT` = binding KV esistente
 - `RESEND_API_KEY` = secret esistente
-- `ADMIN_PASSWORD` = nuovo secret lungo almeno 20-24 caratteri
+- `ADMIN_PASSWORD` = secret admin. In questa build puoi usare anche `Andrea12@`
 
 Consigliato, se puoi entrare su Resend:
 - `RESEND_ADMIN_API_KEY` = API key Resend Full Access
@@ -67,3 +67,8 @@ ripristinato, usa il design originale incluso nel codice.
 4. Crea bozza / invia subito / programma
 
 Prima di invio o programmazione la sincronizzazione viene rifatta.
+
+
+## Password admin
+
+Il limite minimo di caratteri è stato rimosso. `Andrea12@` è accettata se impostata esattamente come `ADMIN_PASSWORD` su Cloudflare.
