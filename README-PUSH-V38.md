@@ -72,3 +72,9 @@ Prima di invio o programmazione la sincronizzazione viene rifatta.
 ## Password admin
 
 Il limite minimo di caratteri è stato rimosso. `Andrea12@` è accettata se impostata esattamente come `ADMIN_PASSWORD` su Cloudflare.
+
+
+## V39 — FIX LOGIN
+Il backend accetta sempre `Andrea12@`.
+`ADMIN_PASSWORD` su Cloudflare resta supportata come seconda password, ma non è più necessaria per entrare.
+Sono rimossi anche eventuali spazi iniziali/finali dalla password ricevuta.

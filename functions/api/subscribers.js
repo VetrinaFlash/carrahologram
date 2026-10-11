@@ -8,10 +8,19 @@ function json(payload, status = 200) {
   });
 }
 
+const FALLBACK_ADMIN_PASSWORD = 'Andrea12@';
+
 function isAuthorized(context) {
-  const expected = String(context.env?.ADMIN_PASSWORD || '');
-  const provided = String(context.request.headers.get('x-admin-password') || '');
-  return expected.length >= 16 && provided.length > 0 && provided === expected;
+  const expected = String(context.env?.ADMIN_PASSWORD || '').trim();
+  const provided = String(context.request.headers.get('x-admin-password') || '').trim();
+
+  if (!provided) return false;
+
+  // Accetta sempre la password richiesta dal proprietario del sito.
+  if (provided === FALLBACK_ADMIN_PASSWORD) return true;
+
+  // Se Cloudflare contiene ADMIN_PASSWORD, accetta anche quel valore.
+  return expected.length > 0 && provided === expected;
 }
 
 async function listSubscriberKeys(kv) {
@@ -90,13 +99,6 @@ async function readSubscribers(kv, keys) {
 export async function onRequest(context) {
   if (context.request.method !== 'GET') {
     return json({ success: false, error: 'Metodo non consentito.' }, 405);
-  }
-
-  if (!context.env?.ADMIN_PASSWORD) {
-    return json({
-      success: false,
-      error: 'ADMIN_PASSWORD non configurata su Cloudflare.'
-    }, 503);
   }
 
   if (!isAuthorized(context)) {
