@@ -97,6 +97,15 @@ async function ensureSegment(context, key) {
 
   const storedId = await context.env.VISITOR_COUNT.get(SEGMENT_KEY);
 
+  // V41: durante le sync a scaglioni riutilizziamo l'ID già salvato nel KV.
+  // Evita una chiamata Resend /segments per ogni singolo scaglione.
+  if (storedId) {
+    return {
+      id: storedId,
+      name: SEGMENT_NAME
+    };
+  }
+
   const listed = await resendRequest(key, '/segments', { method: 'GET' });
   if (!listed.ok) {
     const message = resendError(listed, 'Impossibile leggere i Segment Resend.');
@@ -476,7 +485,7 @@ async function syncPage(context, key, cursor) {
   const page = await kv.list({
     prefix: 'subscriber_',
     cursor: cursor || undefined,
-    limit: 80
+    limit: 5
   });
 
   const realSubscriberKeys = (page.keys || []).filter(
@@ -526,7 +535,7 @@ async function syncPage(context, key, cursor) {
 
   const unique = [...new Set(consented)];
 
-  const results = await mapLimit(unique, 5, email =>
+  const results = await mapLimit(unique, 2, email =>
     syncContact(key, segment.id, email)
   );
 
@@ -548,6 +557,7 @@ async function syncPage(context, key, cursor) {
     success: errors.length === 0,
     segment,
     processed: realSubscriberKeys.length,
+    batchSize: 5,
     consented: unique.length,
     synced,
     migratedLegacy,

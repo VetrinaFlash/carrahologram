@@ -637,6 +637,7 @@
     let totalConsented = 0;
     let totalMigratedLegacy = 0;
     let totalErrors = 0;
+    let batchNumber = 0;
 
     try {
       do {
@@ -649,6 +650,7 @@
         });
 
         pages++;
+        batchNumber++;
         totalProcessed += data.processed || 0;
         totalSynced += data.synced || 0;
         totalConsented += data.consented || 0;
@@ -659,21 +661,23 @@
         const consentedTotal = subscribers.length || 1;
         const percent = Math.min(
           98,
-          Math.max(4, Math.round((totalSynced / consentedTotal) * 100))
+          Math.max(4, Math.round((totalProcessed / consentedTotal) * 100))
         );
 
         $('syncBar').style.width = percent + '%';
         $('syncPercent').textContent = percent + '%';
         $('syncText').textContent =
-          `Sincronizzati ${totalSynced}/${consentedTotal} · legacy migrati ${totalMigratedLegacy} · errori ${totalErrors}`;
+          `Scaglione ${batchNumber} · processati ${totalProcessed}/${consentedTotal} · sincronizzati ${totalSynced} · legacy migrati ${totalMigratedLegacy} · errori ${totalErrors}`;
 
-        if (cursor) await new Promise(resolve => setTimeout(resolve, 150));
+        // V41: ogni scaglione è una nuova invocazione Worker.
+        // La pausa evita raffiche di richieste a Cloudflare/Resend.
+        if (cursor) await new Promise(resolve => setTimeout(resolve, 800));
       } while (cursor);
 
       $('syncBar').style.width = '100%';
       $('syncPercent').textContent = '100%';
       $('syncText').textContent =
-        `Sincronizzazione completata: ${totalSynced} contatti Resend · legacy migrati ${totalMigratedLegacy} · ${totalErrors} errori`;
+        `Sincronizzazione completata in ${batchNumber} scaglioni: ${totalSynced} contatti Resend · legacy migrati ${totalMigratedLegacy} · ${totalErrors} errori`;
 
       if (totalErrors > 0) {
         throw new Error(
