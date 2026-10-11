@@ -236,12 +236,18 @@
       <textarea id="textEditor" style="min-height:90px" placeholder="Se vuoto, Resend genera il testo dall'HTML."></textarea>
 
       <div class="panel" style="margin-top:14px;background:#0c0c12">
-        <h3>Test singolo</h3>
+        <h3>Test prima dell'invio reale</h3>
         <div class="row">
           <input id="testEmail" type="email" placeholder="tuamail@gmail.com" style="flex:1;min-width:220px">
-          <button id="testBtn" class="secondary" type="button">Invia test</button>
+          <button id="testBtn" class="secondary" type="button">Test singolo</button>
+          <button id="realBroadcastTestBtn" class="pink" type="button">TEST BROADCAST REALE +3 MIN</button>
         </div>
+        <p class="tiny" style="margin-top:9px">
+          Il test singolo usa <code>/emails</code>. Il TEST BROADCAST REALE crea invece un Segment dedicato solo a questa email,
+          crea un vero Broadcast Resend e lo programma automaticamente a +3 minuti.
+        </p>
         <div id="testStatus" class="hidden"></div>
+        <div id="realBroadcastTestStatus" class="hidden"></div>
       </div>
 
       <div class="split" style="margin-top:14px">
@@ -747,6 +753,68 @@
     }
   }
 
+
+  async function sendRealBroadcastTest() {
+    const to = $('testEmail').value.trim();
+    const subject = $('subject').value.trim();
+    const html = $('htmlEditor').value.trim();
+
+    if (!to || !to.includes('@')) {
+      alert('Inserisci una email di test valida.');
+      return;
+    }
+
+    if (!subject || !html) {
+      alert('Oggetto e HTML sono obbligatori.');
+      return;
+    }
+
+    const ok = confirm(
+      `Creare un vero Broadcast Resend destinato SOLO a ${to} e programmarlo tra circa 3 minuti?\n\n` +
+      `Questo serve a testare davvero Segment → Broadcast → Scheduling → Invio.`
+    );
+    if (!ok) return;
+
+    $('realBroadcastTestBtn').disabled = true;
+    $('testBtn').disabled = true;
+
+    showMessage(
+      $('realBroadcastTestStatus'),
+      'notice',
+      'Creo Segment TEST dedicato, aggiungo il contatto e programmo il vero Broadcast a +3 minuti…'
+    );
+
+    try {
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({
+          action:'test_broadcast',
+          to,
+          subject,
+          preheader:$('preheader').value.trim(),
+          html,
+          text:$('textEditor').value
+        })
+      });
+
+      const id = data.broadcast?.id || data.resend?.id || '';
+      const when = data.scheduledAt ? fmt(data.scheduledAt) : 'tra circa 3 minuti';
+
+      showMessage(
+        $('realBroadcastTestStatus'),
+        'success',
+        `TEST BROADCAST REALE programmato SOLO per ${to} · ${when}${id ? ' · ID ' + id : ''}. Aspetta l'arrivo della mail: se arriva, hai verificato l'intero flusso Broadcast.`
+      );
+
+      await loadState();
+    } catch (error) {
+      showMessage($('realBroadcastTestStatus'), 'error', error.message);
+    } finally {
+      $('realBroadcastTestBtn').disabled = false;
+      $('testBtn').disabled = false;
+    }
+  }
+
   async function createBroadcast() {
     const mode = $('sendMode').value;
     const subject = $('subject').value.trim();
@@ -879,6 +947,7 @@
   });
   $('search').addEventListener('input', renderSubscribers);
   $('testBtn').addEventListener('click', sendTest);
+  $('realBroadcastTestBtn').addEventListener('click', sendRealBroadcastTest);
   $('broadcastBtn').addEventListener('click', createBroadcast);
 
   $('signupSaveBtn').addEventListener('click', saveSignupTemplate);

@@ -568,6 +568,139 @@ async function syncPage(context, key, cursor) {
   };
 }
 
+
+async function shortHash(value) {
+  const data = new TextEncoder().encode(String(value || '').trim().toLowerCase());
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return [...new Uint8Array(digest)]
+    .slice(0, 6)
+    .map(byte => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+async function ensureTestSegment(context, key, email) {
+  if (!context.env?.VISITOR_COUNT) {
+    throw new Error("Binding KV 'VISITOR_COUNT' non configurato.");
+  }
+
+  const hash = await shortHash(email);
+  const kvKey = `config_resend_test_segment_${hash}`;
+  const segmentName = `Raffa Live — TEST ${hash}`;
+
+  const storedId = await context.env.VISITOR_COUNT.get(kvKey);
+  if (storedId) {
+    return {
+      id: storedId,
+      name: segmentName,
+      hash
+    };
+  }
+
+  const listed = await resendRequest(key, '/segments', { method: 'GET' });
+  if (!listed.ok) {
+    throw new Error(
+      resendError(listed, 'Impossibile leggere i Segment Resend per il test Broadcast.')
+    );
+  }
+
+  const segments = Array.isArray(listed.data?.data) ? listed.data.data : [];
+  let segment = segments.find(item => item.name === segmentName) || null;
+
+  if (!segment) {
+    const created = await resendRequest(key, '/segments', {
+      method: 'POST',
+      body: { name: segmentName }
+    });
+
+    if (!created.ok) {
+      throw new Error(
+        resendError(created, 'Impossibile creare il Segment di test.')
+      );
+    }
+
+    segment = created.data;
+  }
+
+  if (!segment?.id) {
+    throw new Error('Resend non ha restituito un ID Segment valido per il test.');
+  }
+
+  await context.env.VISITOR_COUNT.put(kvKey, segment.id);
+
+  return {
+    id: segment.id,
+    name: segment.name || segmentName,
+    hash
+  };
+}
+
+async function createRealBroadcastTest(context, key, body) {
+  const to = String(body.to || '').trim().toLowerCase();
+  const subject = String(body.subject || '').trim();
+  const originalHtml = String(body.html || '').trim();
+  const text = String(body.text || '').trim();
+  const preheader = String(body.preheader || '').trim();
+
+  if (!to || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
+    throw new Error('Email test non valida.');
+  }
+  if (!subject) throw new Error("L'oggetto è obbligatorio.");
+  if (!originalHtml) throw new Error("L'HTML è obbligatorio.");
+
+  const segment = await ensureTestSegment(context, key, to);
+
+  // Il Segment TEST è dedicato all'hash di questa specifica email.
+  // Quindi la prova Broadcast coinvolge solo quel contatto.
+  await syncContact(key, segment.id, to);
+
+  let html = addPreheader(originalHtml, preheader);
+  html = ensureUnsubscribe(html);
+
+  // +3 minuti: abbastanza vicino per un test end-to-end,
+  // ma nel futuro per consentire a Resend di programmarlo.
+  const scheduledAt = new Date(Date.now() + 3 * 60 * 1000).toISOString();
+
+  const payload = {
+    segment_id: segment.id,
+    from: FROM_ADDRESS,
+    subject: `[TEST BROADCAST] ${subject}`,
+    html,
+    name: `TEST Broadcast ${new Date().toISOString()}`.slice(0, 70),
+    send: true,
+    scheduled_at: scheduledAt
+  };
+
+  if (text) payload.text = text;
+
+  const result = await resendRequest(key, '/broadcasts', {
+    method: 'POST',
+    body: payload
+  });
+
+  if (!result.ok) {
+    throw new Error(
+      resendError(result, 'Creazione del Broadcast reale di test fallita.')
+    );
+  }
+
+  return {
+    success: true,
+    testBroadcast: true,
+    to,
+    segment: {
+      id: segment.id,
+      name: segment.name
+    },
+    scheduledAt,
+    broadcast: {
+      id: result.data?.id || null,
+      status: result.data?.status || 'scheduled',
+      subject: payload.subject
+    },
+    resend: result.data
+  };
+}
+
 async function createBroadcast(context, key, body) {
   const segment = await ensureSegment(context, key);
 
@@ -713,6 +846,10 @@ export async function onRequest(context) {
 
     if (action === 'test') {
       return json(await sendSingleTest(key, body));
+    }
+
+    if (action === 'test_broadcast') {
+      return json(await createRealBroadcastTest(context, key, body));
     }
 
     if (action === 'save_signup_template') {
