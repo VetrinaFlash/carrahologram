@@ -1,0 +1,1 @@
+V23 mobile fix: newsletter spostata sopra i loghi, partner resi come fascia pulita e allineata in una sola riga sotto la mail. Sostituire site-config.js nel branch new.

@@ -3310,3 +3310,145 @@ window.CARRA_CONFIG = Object.freeze({
   `;
   document.head.appendChild(style);
 })();
+
+
+// V23 — mobile: newsletter sopra i loghi, partner allineati in una riga pulita.
+(() => {
+  if (document.getElementById('launch-page-v23-mobile-order-fix')) return;
+  const style = document.createElement('style');
+  style.id = 'launch-page-v23-mobile-order-fix';
+  style.textContent = `
+    .mobile-partners-restored-v23{display:none}
+
+    @media (max-aspect-ratio:1/1){
+      .poster-frame::after{
+        content:"";
+        position:absolute;
+        left:0;
+        right:0;
+        bottom:0;
+        height:118px;
+        background:linear-gradient(
+          180deg,
+          rgba(5,7,18,0) 0%,
+          rgba(5,7,18,.26) 20%,
+          rgba(5,7,18,.72) 56%,
+          rgba(5,7,18,.96) 100%
+        );
+        z-index:5;
+        pointer-events:none;
+      }
+
+      .action-dock .home-signup{
+        z-index:10!important;
+        bottom:calc(56px + env(safe-area-inset-bottom))!important;
+        width:min(92vw,390px)!important;
+      }
+
+      .mobile-partners-restored-v23{
+        position:fixed;
+        z-index:9;
+        left:50%;
+        transform:translateX(-50%);
+        bottom:calc(10px + env(safe-area-inset-bottom));
+        width:min(92vw,390px);
+        height:34px;
+        padding:0 12px;
+        display:grid;
+        grid-template-columns:1fr auto 1fr;
+        align-items:end;
+        gap:10px;
+        pointer-events:none;
+        isolation:isolate;
+      }
+
+      .mobile-partners-restored-v23::before{
+        content:"";
+        position:absolute;
+        inset:-5px 0 -4px;
+        z-index:-1;
+        border-radius:12px;
+        background:linear-gradient(180deg, rgba(6,8,22,.28), rgba(6,8,22,.62));
+        box-shadow:0 10px 24px rgba(0,0,0,.22), 0 0 0 1px rgba(255,255,255,.035) inset;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner{
+        display:block;
+        max-width:100%;
+        height:auto;
+        object-fit:contain;
+        filter:drop-shadow(0 2px 6px rgba(0,0,0,.35));
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--laserman{
+        justify-self:start;
+        width:min(30vw,118px);
+        max-height:29px;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--rtl{
+        justify-self:center;
+        width:min(13vw,46px);
+        max-height:31px;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--atlantico{
+        justify-self:end;
+        width:min(29vw,112px);
+        max-height:28px;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .action-dock .home-signup{
+        width:94vw!important;
+        bottom:calc(56px + env(safe-area-inset-bottom))!important;
+      }
+
+      .mobile-partners-restored-v23{
+        width:94vw;
+        padding:0 10px;
+        gap:8px;
+        height:32px;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--laserman{
+        width:min(29vw,106px);
+        max-height:27px;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--rtl{
+        width:min(12vw,42px);
+        max-height:29px;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--atlantico{
+        width:min(28vw,104px);
+        max-height:26px;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  function ensureMobilePartnerStripV23(){
+    const frame = document.querySelector('.poster-frame');
+    if (!frame) return;
+    document.querySelectorAll('.mobile-partners-restored').forEach(el => el.remove());
+    if (document.querySelector('.mobile-partners-restored-v23')) return;
+    const strip = document.createElement('div');
+    strip.className = 'mobile-partners-restored-v23';
+    strip.setAttribute('aria-hidden', 'true');
+    strip.innerHTML = `
+      <img class="mobile-partner mobile-partner--laserman" src="logo-laserman-clean.png" alt="">
+      <img class="mobile-partner mobile-partner--rtl" src="logo-rtl-clean.png" alt="">
+      <img class="mobile-partner mobile-partner--atlantico" src="logo-atlantico-clean.png" alt="">
+    `;
+    document.body.appendChild(strip);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureMobilePartnerStripV23, { once:true });
+  } else {
+    ensureMobilePartnerStripV23();
+  }
+})();
