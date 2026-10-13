@@ -1,3 +1,29 @@
+// V6 PREPAINT FIX
+// Il poster sorgente contiene ancora la dicitura "Official Radio Partner".
+// Il canvas la rimuove quando carica il background pulito; per evitare che
+// compaia anche solo per un frame, nascondiamo poster/canvas finché la patch
+// RTL pulita non è pronta.
+(() => {
+  const style = document.createElement('style');
+  style.id = 'carra-prepaint-radio-fix';
+  style.textContent = `
+    .poster-frame .poster-art{
+      opacity:0!important;
+    }
+    .poster-frame .poster-canvas{
+      opacity:0!important;
+      transition:opacity .12s ease-out;
+    }
+    .poster-frame.rtl-clean-ready .poster-canvas{
+      opacity:1!important;
+    }
+    .radio-partner span{
+      display:none!important;
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
 // Elegant sparkle override: loaded after concert.css so it can refine the
 // existing Carrà sparkle effect without changing the main stylesheet.
 (() => {
@@ -305,10 +331,10 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V5 — mobile mail separata in basso + menu uniformato.
+// Launch page V6 — elimina completamente il flash 'Official Radio Partner'.
 (() => {
-  const STYLE_HREF = 'launch-page-v5.css?v=20261013-1';
-  if (!document.querySelector(`link[href^="launch-page-v5.css"]`)) {
+  const STYLE_HREF = 'launch-page-v6.css?v=20261013-1';
+  if (!document.querySelector(`link[href^="launch-page-v6.css"]`)) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = STYLE_HREF;
@@ -340,8 +366,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV5 === '1') return;
-    panel.dataset.launchV5 = '1';
+    if (!panel || panel.dataset.launchV6 === '1') return;
+    panel.dataset.launchV6 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -555,6 +581,9 @@ window.CARRA_CONFIG = Object.freeze({
       );
 
       ctx.restore();
+
+      // Solo adesso il canvas non contiene più la scritta "Official Radio Partner".
+      frame.classList.add('rtl-clean-ready');
     }
 
     Object.values(backgrounds).forEach(image => image.addEventListener('load', schedule));
@@ -568,15 +597,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV5() {
+  function initLaunchV6() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV5, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV6, { once:true });
   } else {
-    initLaunchV5();
+    initLaunchV6();
   }
 })();
