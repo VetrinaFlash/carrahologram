@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v11-style')) return;
+  if (document.getElementById('launch-page-v12-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v11-style';
+  style.id = 'launch-page-v12-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1709,6 +1709,92 @@
     min-height:8px!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V12 — MOBILE PRIVACY NON COPERTA DAL BOTTONE                               */
+/* ========================================================================== */
+
+@media(max-aspect-ratio:1/1){
+  /* Su mobile il consenso occupa tutta la seconda riga del box.
+     Il bottone resta solo sulla prima riga: così "Privacy" non viene più mangiato. */
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 82px!important;
+    grid-template-rows:30px 17px!important;
+    height:53px!important;
+    min-height:53px!important;
+    row-gap:0!important;
+    column-gap:5px!important;
+    padding:3px 4px!important;
+  }
+
+  .home-signup .email-row > input[type="email"]{
+    grid-column:1!important;
+    grid-row:1!important;
+    align-self:center!important;
+    padding:0 9px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    grid-column:2!important;
+    grid-row:1!important;
+    align-self:stretch!important;
+    min-width:82px!important;
+    height:auto!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0 10px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+    position:static!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:1px 4px 0 7px!important;
+    padding:0!important;
+    gap:4px!important;
+    font-size:6.15px!important;
+    line-height:1.05!important;
+    white-space:nowrap!important;
+    overflow:visible!important;
+    align-items:center!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row > span{
+    display:block!important;
+    min-width:0!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    white-space:nowrap!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row a{
+    position:relative!important;
+    z-index:1!important;
+  }
+}
+
+@media(max-width:390px) and (max-aspect-ratio:1/1){
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 76px!important;
+    grid-template-rows:29px 18px!important;
+    height:53px!important;
+    min-height:53px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:76px!important;
+    padding:0 7px!important;
+    font-size:8.4px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    font-size:5.85px!important;
+    margin-left:6px!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -2057,7 +2143,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V11 — checkbox privacy ultra-sottile e più elegante.
+// Launch page V12 — privacy mobile leggibile dentro il box email.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2084,8 +2170,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV11 === '1') return;
-    panel.dataset.launchV11 = '1';
+    if (!panel || panel.dataset.launchV12 === '1') return;
+    panel.dataset.launchV12 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2335,15 +2421,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV11() {
+  function initLaunchV12() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV11, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV12, { once:true });
   } else {
-    initLaunchV11();
+    initLaunchV12();
   }
 })();
