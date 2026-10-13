@@ -1,0 +1,4 @@
+JS syntax: OK
+CSS braces: OK
+V9 style inline: OK
+privacy integrated: OK

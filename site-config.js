@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v8-style')) return;
+  if (document.getElementById('launch-page-v9-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v8-style';
+  style.id = 'launch-page-v9-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1226,6 +1226,262 @@
     font-size:5.45px!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V9 — POLISH DESKTOP / NOTEBOOK / CHECKBOX PRIVACY                          */
+/* ========================================================================== */
+
+/* Dock più importante e leggibile, ma ancora sotto la data. */
+@media (min-aspect-ratio:1001/1000){
+  .action-dock{
+    width:min(1120px,72vw)!important;
+    gap:14px!important;
+    align-items:center!important;
+  }
+
+  .ticket-button,
+  .home-signup{
+    width:calc((100% - 14px)/2)!important;
+    flex:0 0 calc((100% - 14px)/2)!important;
+  }
+
+  .ticket-button,
+  .home-signup,
+  .home-signup form,
+  .home-signup .email-row{
+    height:54px!important;
+    min-height:54px!important;
+  }
+
+  .ticket-button{
+    padding:5px 6px 5px 18px!important;
+    border-radius:13px!important;
+    border:1px solid rgba(255,255,255,.20)!important;
+    background:linear-gradient(145deg,rgba(13,12,31,.94),rgba(8,8,22,.98))!important;
+    box-shadow:0 10px 30px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.025) inset!important;
+  }
+
+  .ticket-button>img{
+    width:128px!important;
+    max-height:26px!important;
+  }
+
+  .ticket-label{
+    min-width:0!important;
+    height:100%!important;
+    padding:0 22px!important;
+    border-radius:8px!important;
+    font-size:11px!important;
+    letter-spacing:.08em!important;
+  }
+
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 102px!important;
+    grid-template-rows:31px 15px!important;
+    padding:4px 5px!important;
+    column-gap:5px!important;
+    row-gap:0!important;
+    border-radius:13px!important;
+    border:1px solid rgba(255,255,255,.20)!important;
+    background:linear-gradient(145deg,rgba(10,11,29,.96),rgba(5,6,18,.99))!important;
+    box-shadow:0 10px 30px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.025) inset!important;
+  }
+
+  .home-signup .email-row > input[type="email"]{
+    padding:2px 11px 0!important;
+    font-size:13px!important;
+    line-height:1!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:102px!important;
+    padding:0 16px!important;
+    margin:0!important;
+    border-radius:8px!important;
+    font-size:9.8px!important;
+    letter-spacing:.075em!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    margin:0 0 1px 10px!important;
+    gap:5px!important;
+    font-size:7.15px!important;
+    line-height:1!important;
+    overflow:visible!important;
+    white-space:nowrap!important;
+    color:rgba(255,255,255,.82)!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row > span{
+    overflow:visible!important;
+    text-overflow:clip!important;
+    white-space:nowrap!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row a{
+    color:#f0d596!important;
+    text-decoration-color:rgba(240,213,150,.72)!important;
+    font-weight:800!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
+    flex:0 0 11px!important;
+    width:11px!important;
+    height:11px!important;
+    margin-top:0!important;
+    border-radius:3px!important;
+    border:1px solid rgba(255,255,255,.74)!important;
+    background:rgba(7,7,22,.98)!important;
+    box-shadow:0 0 0 1px rgba(239,40,72,.10),0 1px 4px rgba(0,0,0,.35)!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]:hover{
+    border-color:#f0d596!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked{
+    border-color:#ff5576!important;
+    background:linear-gradient(135deg,#ef2848,#ff4c72)!important;
+    box-shadow:0 0 0 2px rgba(239,40,72,.14)!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked::after{
+    inset:-1px 0 0!important;
+    font-size:7.8px!important;
+    line-height:11px!important;
+  }
+}
+
+/* MacBook / notebook: proporzioni più compatte ma ancora leggibili. */
+@media (min-width:1100px) and (max-height:900px) and (min-aspect-ratio:1001/1000){
+  .action-dock{
+    width:min(1040px,70vw)!important;
+    gap:12px!important;
+  }
+
+  .ticket-button,
+  .home-signup{
+    width:calc((100% - 12px)/2)!important;
+    flex-basis:calc((100% - 12px)/2)!important;
+  }
+
+  .ticket-button,
+  .home-signup,
+  .home-signup form,
+  .home-signup .email-row{
+    height:50px!important;
+    min-height:50px!important;
+  }
+
+  .ticket-button>img{width:118px!important}
+  .ticket-label{font-size:10.2px!important;padding:0 18px!important}
+
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 94px!important;
+    grid-template-rows:29px 13px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:94px!important;
+    font-size:9.2px!important;
+    padding:0 13px!important;
+  }
+
+  .home-signup .email-row > input[type="email"]{
+    font-size:12.5px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    font-size:6.55px!important;
+    margin-left:9px!important;
+  }
+}
+
+/* Mobile: mail resta in basso, privacy integrata ma leggibile. */
+@media(max-aspect-ratio:1/1){
+  .action-dock .home-signup{
+    width:min(93vw,400px)!important;
+  }
+
+  .home-signup,
+  .home-signup form,
+  .home-signup .email-row{
+    height:48px!important;
+    min-height:48px!important;
+  }
+
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 88px!important;
+    grid-template-rows:28px 14px!important;
+    padding:3px 4px!important;
+    border-radius:12px!important;
+    border:1px solid rgba(255,255,255,.19)!important;
+    box-shadow:0 9px 28px rgba(0,0,0,.30),0 0 0 1px rgba(255,255,255,.025) inset!important;
+  }
+
+  .home-signup .email-row > input[type="email"]{
+    padding:2px 9px 0!important;
+    font-size:13px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:88px!important;
+    padding:0 11px!important;
+    border-radius:8px!important;
+    font-size:9px!important;
+    margin:0!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    margin:0 0 1px 8px!important;
+    gap:4px!important;
+    font-size:6.25px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+    color:rgba(255,255,255,.82)!important;
+    overflow:visible!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row > span{
+    overflow:visible!important;
+    white-space:nowrap!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row a{
+    color:#f0d596!important;
+    font-weight:800!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
+    flex:0 0 11px!important;
+    width:11px!important;
+    height:11px!important;
+    border-radius:3px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked::after{
+    font-size:7.8px!important;
+    line-height:11px!important;
+  }
+}
+
+@media(max-width:390px) and (max-aspect-ratio:1/1){
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 80px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:80px!important;
+    font-size:8.6px!important;
+    padding:0 8px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    font-size:5.85px!important;
+    margin-left:7px!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -1574,7 +1830,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V8 — CSS inline, consenso home integrato e canvas senza swap visibile.
+// Launch page V9 — dock più leggibile, checkbox privacy rifinita, stesso fast-load.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -1601,8 +1857,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV8 === '1') return;
-    panel.dataset.launchV8 = '1';
+    if (!panel || panel.dataset.launchV9 === '1') return;
+    panel.dataset.launchV9 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -1852,15 +2108,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV8() {
+  function initLaunchV9() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV8, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV9, { once:true });
   } else {
-    initLaunchV8();
+    initLaunchV9();
   }
 })();
