@@ -3407,3 +3407,68 @@ window.CARRA_CONFIG = Object.freeze({
     cleanupExperimentalFooter();
   }
 })();
+
+
+// V29 — mobile: lower the whole artwork instead of faking the bottom with gradients.
+(() => {
+  if (document.getElementById('launch-page-v29-image-lowered')) return;
+
+  const style = document.createElement('style');
+  style.id = 'launch-page-v29-image-lowered';
+  style.textContent = `
+    @media (max-aspect-ratio:1/1){
+      /*
+        The V27 poster ended ~54px before the bottom.
+        V29 moves the ENTIRE poster down by exactly that amount.
+        No synthetic footer, no fake gradient, no duplicate logos.
+      */
+      .poster-frame{
+        transform:translateY(54px)!important;
+      }
+
+      /* Keep Vivaticket attached to the same visual point of the poster. */
+      .action-dock .ticket-button{
+        top:calc(var(--poster-ticket-y,63%) + 54px)!important;
+      }
+
+      /* Keep the mail immediately below Vivaticket after the artwork shift. */
+      .action-dock .home-signup{
+        top:calc(var(--poster-ticket-y,63%) + 104px)!important;
+      }
+
+      /* Explicitly remove any experimental footer overlays if cached markup exists. */
+      .mobile-partners-restored,
+      .mobile-partners-restored-v23,
+      .mobile-footer-backdrop-v24{
+        display:none!important;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .poster-frame{
+        transform:translateY(50px)!important;
+      }
+
+      .action-dock .ticket-button{
+        top:calc(var(--poster-ticket-y,63%) + 50px)!important;
+      }
+
+      .action-dock .home-signup{
+        top:calc(var(--poster-ticket-y,63%) + 99px)!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  function cleanupOldFooterExperiments(){
+    document.querySelectorAll(
+      '.mobile-partners-restored, .mobile-partners-restored-v23, .mobile-footer-backdrop-v24'
+    ).forEach(el => el.remove());
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', cleanupOldFooterExperiments, { once:true });
+  } else {
+    cleanupOldFooterExperiments();
+  }
+})();

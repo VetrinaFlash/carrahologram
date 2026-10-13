@@ -1,0 +1,5 @@
+JS syntax: OK
+Poster lowered: OK
+Ticket follows poster: OK
+Mail follows poster: OK
+No synthetic footer: OK
