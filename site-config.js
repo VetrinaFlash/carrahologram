@@ -305,9 +305,9 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V2 — descrizione concerto, ticket diretto, layout desktop e RTL alignment.
+// Launch page V3 — descrizione concerto, ticket diretto, dock compatto e RTL responsive.
 (() => {
-  const STYLE_HREF = 'launch-page-v2.css?v=20261013-1';
+  const STYLE_HREF = 'launch-page-v3.css?v=20261013-1';
   if (!document.querySelector(`link[href^="launch-page-v2.css"]`)) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -340,8 +340,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV2 === '1') return;
-    panel.dataset.launchV2 = '1';
+    if (!panel || panel.dataset.launchV3 === '1') return;
+    panel.dataset.launchV3 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -408,106 +408,175 @@ window.CARRA_CONFIG = Object.freeze({
     const scale = Math.min(bounds.width / poster.naturalWidth, bounds.height / poster.naturalHeight);
     const renderedHeight = poster.naturalHeight * scale;
     const y = (bounds.height - renderedHeight) / 2;
-    let ratio = 0.746;
-    if (window.innerHeight <= 780) ratio = 0.738;
+    // V3: il dock resta subito sotto la data e non scende sulla fascia sponsor.
+    let ratio = 0.725;
+    if (window.innerHeight <= 820) ratio = 0.719;
+    if (window.innerHeight <= 700) ratio = 0.713;
     const dockY = bounds.top + y + renderedHeight * ratio;
     document.documentElement.style.setProperty('--launch-dock-y', `${dockY.toFixed(1)}px`);
   }
 
-  // Corregge il solo logo RTL nel canvas desktop: stessa riga ottica di Laserman/Atlantico.
+  // V3: riposiziona RTL in modo ottico sia desktop sia mobile.
+  // Il canvas originale lo spostava verso il basso sul desktop e lo lasciava
+  // troppo alto sul mobile rispetto alla fascia Laserman / Atlantico.
   function initRtlAlignment() {
     const frame = document.querySelector('.poster-frame');
     const poster = document.querySelector('.poster-art');
     const canvas = document.querySelector('.poster-canvas');
     if (!frame || !poster || !canvas) return;
 
-    const background = new Image();
-    background.src = 'rtl-background-desktop.png';
+    const backgrounds = {
+      desktop: new Image(),
+      mobile: new Image()
+    };
+    backgrounds.desktop.src = 'rtl-background-desktop.png';
+    backgrounds.mobile.src = 'rtl-background-mobile.png';
 
     let raf = 0;
+
     function schedule() {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => setTimeout(patch, 28));
+      raf = requestAnimationFrame(() => setTimeout(patch, 34));
+    }
+
+    function featherBackground(ctx, background, iw, ih, x, y, scale, box, ratio) {
+      const { left, top, width, height, pad = 14 } = box;
+      const patchCanvas = document.createElement('canvas');
+      patchCanvas.width = width + pad * 2;
+      patchCanvas.height = height + pad * 2;
+      const patchCtx = patchCanvas.getContext('2d');
+      if (!patchCtx) return;
+
+      patchCtx.drawImage(
+        background,
+        (left - pad) * background.naturalWidth / iw,
+        (top - pad) * background.naturalHeight / ih,
+        (width + pad * 2) * background.naturalWidth / iw,
+        (height + pad * 2) * background.naturalHeight / ih,
+        0, 0, patchCanvas.width, patchCanvas.height
+      );
+
+      patchCtx.globalCompositeOperation = 'destination-in';
+      for (const horizontal of [true, false]) {
+        const length = horizontal ? patchCanvas.width : patchCanvas.height;
+        const gradient = patchCtx.createLinearGradient(
+          0, 0,
+          horizontal ? length : 0,
+          horizontal ? 0 : length
+        );
+        gradient.addColorStop(0, 'transparent');
+        gradient.addColorStop(pad / length, 'black');
+        gradient.addColorStop(1 - pad / length, 'black');
+        gradient.addColorStop(1, 'transparent');
+        patchCtx.fillStyle = gradient;
+        patchCtx.fillRect(0, 0, patchCanvas.width, patchCanvas.height);
+      }
+
+      ctx.drawImage(
+        patchCanvas,
+        x + (left - pad) * scale,
+        y + (top - pad) * scale,
+        patchCanvas.width * scale,
+        patchCanvas.height * scale
+      );
     }
 
     function patch() {
       updateDockPosition();
-      if (!background.complete || !background.naturalWidth || !poster.complete || !poster.naturalWidth) return;
-      if (poster.naturalWidth <= poster.naturalHeight) return;
+
+      if (!poster.complete || !poster.naturalWidth || !canvas.width || !canvas.height) return;
+
+      const desktop = poster.naturalWidth > poster.naturalHeight;
+      const background = backgrounds[desktop ? 'desktop' : 'mobile'];
+      if (!background.complete || !background.naturalWidth) return;
+
       const ctx = canvas.getContext('2d');
-      if (!ctx || !canvas.width || !canvas.height) return;
+      if (!ctx) return;
 
       const bounds = frame.getBoundingClientRect();
-      const w = bounds.width, h = bounds.height;
-      const iw = poster.naturalWidth, ih = poster.naturalHeight;
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const w = bounds.width;
+      const h = bounds.height;
+      const iw = poster.naturalWidth;
+      const ih = poster.naturalHeight;
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       const scale = Math.min(w / iw, h / ih);
       const x = (w - iw * scale) / 2;
       const y = (h - ih * scale) / 2;
 
       ctx.save();
-      ctx.setTransform(ratio,0,0,ratio,0,0);
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
-      // Ripulisce con bordo feather l'area usata dal vecchio RTL spostato verso il basso.
-      const left = 707, top = 730, width = 102, height = 101, pad = 12;
-      const patchCanvas = document.createElement('canvas');
-      patchCanvas.width = width + pad * 2;
-      patchCanvas.height = height + pad * 2;
-      const patchCtx = patchCanvas.getContext('2d');
-      patchCtx.drawImage(
-        background,
-        (left-pad) * background.naturalWidth / iw,
-        (top-pad) * background.naturalHeight / ih,
-        (width+pad*2) * background.naturalWidth / iw,
-        (height+pad*2) * background.naturalHeight / ih,
-        0,0,patchCanvas.width,patchCanvas.height
-      );
-      patchCtx.globalCompositeOperation = 'destination-in';
-      for (const horizontal of [true,false]) {
-        const length = horizontal ? patchCanvas.width : patchCanvas.height;
-        const gradient = patchCtx.createLinearGradient(0,0,horizontal?length:0,horizontal?0:length);
-        gradient.addColorStop(0,'transparent');
-        gradient.addColorStop(pad/length,'black');
-        gradient.addColorStop(1-pad/length,'black');
-        gradient.addColorStop(1,'transparent');
-        patchCtx.fillStyle = gradient;
-        patchCtx.fillRect(0,0,patchCanvas.width,patchCanvas.height);
+      let sourceCx, sourceCy, radius, targetCx, targetCy, eraseBox;
+
+      if (desktop) {
+        // Desktop: RTL sulla stessa fascia ottica di Laserman e Atlantico.
+        sourceCx = 758;
+        sourceCy = 780;
+        radius = 46;
+        targetCx = 758;
+        targetCy = 754;
+        eraseBox = { left: 696, top: 718, width: 126, height: 126, pad: 16 };
+      } else {
+        // Mobile: il logo sale/scende insieme alla locandina, ma resta tra i
+        // due partner in basso invece di galleggiare troppo in alto tra le gambe.
+        sourceCx = 431;
+        sourceCy = 1177;
+        radius = 49;
+        targetCx = 431;
+        targetCy = 1325;
+        eraseBox = { left: 365, top: 1110, width: 132, height: 138, pad: 16 };
       }
+
+      // Cancella la vecchia posizione del logo usando il background pulito.
+      featherBackground(ctx, background, iw, ih, x, y, scale, eraseBox, pixelRatio);
+
+      // Ridisegna il logo originale nella nuova posizione, senza rigenerarlo.
+      ctx.beginPath();
+      ctx.arc(
+        x + targetCx * scale,
+        y + targetCy * scale,
+        radius * scale,
+        0,
+        Math.PI * 2
+      );
+      ctx.clip();
       ctx.drawImage(
-        patchCanvas,
-        x + (left-pad) * scale,
-        y + (top-pad) * scale,
-        patchCanvas.width * scale,
-        patchCanvas.height * scale
+        poster,
+        sourceCx - radius,
+        sourceCy - radius,
+        radius * 2,
+        radius * 2,
+        x + (targetCx - radius) * scale,
+        y + (targetCy - radius) * scale,
+        radius * 2 * scale,
+        radius * 2 * scale
       );
 
-      // Logo originale, senza il vecchio shift +14px: viene rialzato e allineato alla fila inferiore.
-      const cx = 758, cy = 780, r = 46, shift = 0;
-      ctx.beginPath();
-      ctx.arc(x + cx * scale, y + (cy + shift) * scale, r * scale, 0, Math.PI * 2);
-      ctx.clip();
-      ctx.drawImage(poster, cx-r, cy-r, r*2, r*2, x + (cx-r)*scale, y + (cy-r+shift)*scale, r*2*scale, r*2*scale);
       ctx.restore();
     }
 
-    background.addEventListener('load', schedule);
+    Object.values(backgrounds).forEach(image => image.addEventListener('load', schedule));
     poster.addEventListener('load', schedule);
-    window.addEventListener('resize', schedule, { passive:true });
-    new MutationObserver(schedule).observe(canvas, { attributes:true, attributeFilter:['width','height'] });
+    window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('orientationchange', schedule, { passive: true });
+    new MutationObserver(schedule).observe(canvas, {
+      attributes: true,
+      attributeFilter: ['width', 'height']
+    });
     schedule();
   }
 
-  function initLaunchV2() {
+  function initLaunchV3() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV2, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV3, { once:true });
   } else {
-    initLaunchV2();
+    initLaunchV3();
   }
 })();
