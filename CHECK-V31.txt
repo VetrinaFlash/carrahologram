@@ -1,0 +1,6 @@
+JS syntax: OK
+Atlantico lift: OK
+Vivaticket main up: OK
+Vivaticket narrow up: OK
+Mail unchanged main: OK
+Mail unchanged narrow: OK

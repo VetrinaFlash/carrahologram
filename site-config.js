@@ -3108,14 +3108,14 @@ window.CARRA_CONFIG = Object.freeze({
         // Core della locandina: scala uniforme, nessuna deformazione.
         ctx.drawImage(poster, x, y, iw * scale, ih * scale);
 
-        // V30 — SOLO MOBILE: alza Atlantico di pochissimo (~4 px a schermo).
+        // V31 — SOLO MOBILE: alza Atlantico ancora un po' (~7–8 px a schermo).
         // Spostiamo insieme al logo anche il suo piccolo intorno grafico,
         // così non viene deformato né duplicato visivamente.
         const atlX = 590;
         const atlY = 1375;
         const atlW = 274;
         const atlH = 145;
-        const atlLift = 5;
+        const atlLift = 9;
         ctx.save();
         ctx.beginPath();
         ctx.rect(
@@ -3354,7 +3354,7 @@ window.CARRA_CONFIG = Object.freeze({
         z-index:9!important;
         left:50%!important;
         right:auto!important;
-        top:calc(var(--poster-ticket-y,63%) + 50px)!important;
+        top:calc(var(--poster-ticket-y,63%) + 44px)!important;
         bottom:auto!important;
         transform:translateX(-50%)!important;
         width:min(90vw,380px)!important;
@@ -3455,7 +3455,7 @@ window.CARRA_CONFIG = Object.freeze({
 
       /* Keep Vivaticket attached to the same visual point of the poster. */
       .action-dock .ticket-button{
-        top:calc(var(--poster-ticket-y,63%) + 54px)!important;
+        top:calc(var(--poster-ticket-y,63%) + 48px)!important;
       }
 
       /* Keep the mail immediately below Vivaticket after the artwork shift. */
