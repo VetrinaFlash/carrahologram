@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v12-style')) return;
+  if (document.getElementById('launch-page-v13-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v12-style';
+  style.id = 'launch-page-v13-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -2143,7 +2143,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V12 — privacy mobile leggibile dentro il box email.
+// Launch page V13 — rimossa voce 'Scarica la locandina'.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2170,8 +2170,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV12 === '1') return;
-    panel.dataset.launchV12 = '1';
+    if (!panel || panel.dataset.launchV13 === '1') return;
+    panel.dataset.launchV13 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2222,6 +2222,9 @@ window.CARRA_CONFIG = Object.freeze({
 
     if (details) panel.insertBefore(story, details);
     else panel.appendChild(story);
+
+    // V13: rimuove definitivamente "Scarica la locandina" dalla sezione concerto.
+    panel.querySelectorAll('.detail-links a[download], .detail-links a[href*="poster-mobile"], .detail-links a[data-t="poster"]').forEach(link => link.remove());
 
     const ticketCta = panel.querySelector('[data-open="ticketDialog"]');
     if (ticketCta) {
@@ -2421,15 +2424,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV12() {
+  function initLaunchV13() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV12, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV13, { once:true });
   } else {
-    initLaunchV12();
+    initLaunchV13();
   }
 })();
