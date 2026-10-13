@@ -3118,7 +3118,7 @@ window.CARRA_CONFIG = Object.freeze({
         const atlY = 1315;
         const atlW = 299;
         const atlH = 221;
-        const atlLift = 16;
+        const atlLift = 30;
         ctx.save();
         ctx.beginPath();
         ctx.rect(
