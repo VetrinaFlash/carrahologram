@@ -1,0 +1,7 @@
+JS syntax: OK
+Countdown target presente: OK
+Logica gate/newcount presente: OK
+V35 layout mail presente: OK
+V36 Atlantico mobile presente: OK
+Vivaticket corretto: OK
+SHA256: 9f0b079d64c94b8b69e0aee7bf4240afdf4316a33627fc81ab8df9aec54ad45d
