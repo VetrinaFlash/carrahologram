@@ -3108,6 +3108,33 @@ window.CARRA_CONFIG = Object.freeze({
         // Core della locandina: scala uniforme, nessuna deformazione.
         ctx.drawImage(poster, x, y, iw * scale, ih * scale);
 
+        // V30 — SOLO MOBILE: alza Atlantico di pochissimo (~4 px a schermo).
+        // Spostiamo insieme al logo anche il suo piccolo intorno grafico,
+        // così non viene deformato né duplicato visivamente.
+        const atlX = 590;
+        const atlY = 1375;
+        const atlW = 274;
+        const atlH = 145;
+        const atlLift = 5;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(
+          x + atlX * scale,
+          y + (atlY - atlLift) * scale,
+          atlW * scale,
+          atlH * scale
+        );
+        ctx.clip();
+        ctx.drawImage(
+          poster,
+          atlX, atlY, atlW, atlH,
+          x + atlX * scale,
+          y + (atlY - atlLift) * scale,
+          atlW * scale,
+          atlH * scale
+        );
+        ctx.restore();
+
         // Il pulsante biglietti segue la stessa geometria del poster.
         document.documentElement.style.setProperty(
           '--poster-ticket-y',
