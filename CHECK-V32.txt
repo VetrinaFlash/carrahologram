@@ -1,0 +1,7 @@
+JS syntax: OK
+Atlantico higher: OK
+Desktop dock centered/narrow: OK
+Mobile poster flush top: OK
+Mobile poster extended bottom: OK
+Mobile menu transparent: OK
+Vivaticket higher: OK

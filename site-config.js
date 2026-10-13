@@ -3108,14 +3108,14 @@ window.CARRA_CONFIG = Object.freeze({
         // Core della locandina: scala uniforme, nessuna deformazione.
         ctx.drawImage(poster, x, y, iw * scale, ih * scale);
 
-        // V31 — SOLO MOBILE: alza Atlantico ancora un po' (~7–8 px a schermo).
+        // V32 — SOLO MOBILE: Atlantico più su, allineato meglio alla fascia RTL.
         // Spostiamo insieme al logo anche il suo piccolo intorno grafico,
         // così non viene deformato né duplicato visivamente.
         const atlX = 590;
         const atlY = 1375;
         const atlW = 274;
         const atlH = 145;
-        const atlLift = 15;
+        const atlLift = 18;
         ctx.save();
         ctx.beginPath();
         ctx.rect(
@@ -3501,104 +3501,88 @@ window.CARRA_CONFIG = Object.freeze({
 })();
 
 
-// V32 — desktop/mail narrower + mobile poster/menu cleanup.
+// V32 — desktop centered dock + mobile poster flush top/bottom + higher Atlantico.
 (() => {
-  if (document.getElementById('launch-page-v32-desktop-mobile-align')) return;
+  if (document.getElementById('launch-page-v32-final-layout')) return;
 
   const style = document.createElement('style');
-  style.id = 'launch-page-v32-desktop-mobile-align';
+  style.id = 'launch-page-v32-final-layout';
   style.textContent = `
-    /* ---------------- DESKTOP / MACBOOK ---------------- */
+    /* ---------------- DESKTOP ---------------- */
     @media (min-aspect-ratio:1001/1000){
+      /* Stringi e centra i moduli così Vivaticket non invade Laserman. */
       .action-dock{
-        width:min(1040px,73vw)!important;
-        gap:14px!important;
-      }
-
-      .ticket-button{
-        flex:0 0 calc(44% - 7px)!important;
-        width:calc(44% - 7px)!important;
-      }
-
-      .home-signup{
-        flex:0 0 calc(56% - 7px)!important;
-        width:calc(56% - 7px)!important;
-      }
-
-      .home-signup .email-row{
-        grid-template-columns:minmax(0,1fr) 96px!important;
-        column-gap:5px!important;
-      }
-
-      .home-signup .email-row > button[type="submit"]{
-        min-width:96px!important;
-        width:96px!important;
-      }
-    }
-
-    @media (min-width:1100px) and (max-height:900px) and (min-aspect-ratio:1001/1000){
-      .action-dock{
-        width:min(980px,70vw)!important;
+        width:min(860px,64vw)!important;
         gap:12px!important;
+        left:50%!important;
+        right:auto!important;
+        transform:translateX(-50%)!important;
+        align-items:center!important;
       }
 
-      .ticket-button{
-        flex:0 0 calc(43% - 6px)!important;
-        width:calc(43% - 6px)!important;
+      .action-dock .ticket-button{
+        flex:0 0 calc(42% - 6px)!important;
+        width:calc(42% - 6px)!important;
+        max-width:none!important;
       }
 
-      .home-signup{
-        flex:0 0 calc(57% - 6px)!important;
-        width:calc(57% - 6px)!important;
-      }
-
-      .home-signup .email-row{
-        grid-template-columns:minmax(0,1fr) 92px!important;
-      }
-
-      .home-signup .email-row > button[type="submit"]{
-        min-width:92px!important;
-        width:92px!important;
+      .action-dock .home-signup{
+        flex:0 0 calc(58% - 6px)!important;
+        width:calc(58% - 6px)!important;
+        max-width:none!important;
       }
     }
 
     /* ---------------- MOBILE ---------------- */
     @media (max-aspect-ratio:1/1){
-      /* Menu and controls directly over the poster, no black band behind them. */
+      /*
+        Niente banda nera sopra: il poster parte da 0 e il menu galleggia sopra.
+        Niente banda nera sotto: il poster viene esteso oltre il viewport,
+        così viene ritagliata la parte vuota inferiore anziché mostrare il fondo.
+      */
       .poster-frame{
-        transform:translateY(8px)!important;
+        top:0!important;
+        bottom:-96px!important;
+        transform:none!important;
       }
 
-      /* Ticket a little higher. */
+      .controls{
+        background:transparent!important;
+        box-shadow:none!important;
+        border:0!important;
+        backdrop-filter:none!important;
+        -webkit-backdrop-filter:none!important;
+        z-index:20!important;
+      }
+
+      .scene-shade{
+        top:0!important;
+      }
+
+      /* Vivaticket ancora un po' più su. */
       .action-dock .ticket-button{
-        top:calc(var(--poster-ticket-y,63%) + 18px)!important;
-        width:min(92vw,392px)!important;
-        max-width:92vw!important;
+        top:calc(var(--poster-ticket-y,63%) - 8px)!important;
       }
 
-      /* Mail stays between ticket and logos, slightly higher too. */
+      /* Mail subito sotto Vivaticket, senza aumentare il buco. */
       .action-dock .home-signup{
-        top:calc(var(--poster-ticket-y,63%) + 67px)!important;
-        width:min(92vw,392px)!important;
-        max-width:92vw!important;
+        top:calc(var(--poster-ticket-y,63%) + 38px)!important;
       }
     }
 
     @media (max-width:390px) and (max-aspect-ratio:1/1){
       .poster-frame{
-        transform:translateY(6px)!important;
+        top:0!important;
+        bottom:-88px!important;
+        transform:none!important;
       }
 
       .action-dock .ticket-button{
-        top:calc(var(--poster-ticket-y,63%) + 20px)!important;
-        width:92vw!important;
-        max-width:92vw!important;
+        top:calc(var(--poster-ticket-y,63%) - 7px)!important;
       }
 
       .action-dock .home-signup{
-        top:calc(var(--poster-ticket-y,63%) + 69px)!important;
-        width:92vw!important;
-        max-width:92vw!important;
+        top:calc(var(--poster-ticket-y,63%) + 38px)!important;
       }
     }
   `;

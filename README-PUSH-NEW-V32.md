@@ -1,12 +1,17 @@
-# BRANCH new — V32 DESKTOP + MOBILE ALIGN
+# BRANCH new — V32 DESKTOP CENTER + MOBILE CLEAN
 
 Da pushare:
 - `site-config.js`
 
-Modifiche:
-- DESKTOP / MacBook: dock centrale più stretto; box mail più contenuto; niente invasione su Laserman.
-- MOBILE: Atlantico alzato ancora un po' per allinearlo meglio a RTL.
-- MOBILE: Vivaticket alzato ancora.
-- MOBILE: form mail alzato e tenuto tra Vivaticket e i loghi.
-- MOBILE: rimossa la banda nera sopra il menu facendo tornare la locandina sotto i controlli.
-- Desktop non toccato oltre al restringimento/allineamento del dock.
+## Desktop
+- Vivaticket + mail più stretti e centrali;
+- Vivaticket non invade più la zona Laserman;
+- desktop resta sulla stessa fascia sotto la data.
+
+## Mobile
+- Atlantico ancora più su, più vicino all'allineamento ottico di RTL;
+- eliminata la banda nera sopra: il poster parte dietro al menu;
+- menu resta sopra la locandina, senza fascia nera dedicata;
+- eliminata la banda nera sotto estendendo la locandina oltre il viewport;
+- Vivaticket ancora un po' più su;
+- mail resta subito sotto Vivaticket.
