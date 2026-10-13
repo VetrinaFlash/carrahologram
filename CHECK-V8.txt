@@ -1,0 +1,5 @@
+JS syntax: OK
+CSS braces: OK
+No launch css href: OK
+Home integrated consent branch: OK
+Poster stays visible: OK
