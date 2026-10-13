@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v14-style')) return;
+  if (document.getElementById('launch-page-v15-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v14-style';
+  style.id = 'launch-page-v15-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1857,6 +1857,97 @@
     }
   }
 }
+
+
+/* ========================================================================== */
+/* V15 — MOBILE FULLSCREEN + 3 LOGHI PARTNER SEMPRE VISIBILI                  */
+/* ========================================================================== */
+
+/*
+  Il canvas originale del sito usa già un render 9-slice:
+  mantiene integra la locandina centrale e allunga solo i 20px esterni
+  della scenografia fino ai bordi.
+
+  V14 aveva esteso poster-frame fino al fondo del viewport: su iPhone la fascia
+  Laserman / RTL / Atlantico finiva troppo in basso, sotto la newsletter o sotto
+  la UI del browser.
+
+  V15 ripristina la fascia riservata in basso per la newsletter, mantenendo però
+  il canvas finale full-width/full-scene e senza tornare alla resa "contain".
+*/
+@media(max-aspect-ratio:1/1){
+  .poster-frame{
+    position:absolute!important;
+    top:env(safe-area-inset-top)!important;
+    right:0!important;
+    bottom:calc(62px + env(safe-area-inset-bottom))!important;
+    left:0!important;
+    width:auto!important;
+    height:auto!important;
+    min-height:0!important;
+    max-width:none!important;
+    max-height:none!important;
+    margin:0!important;
+    overflow:hidden!important;
+  }
+
+  /* Poster immediato durante il primo paint. */
+  .poster-frame .poster-art{
+    opacity:1!important;
+  }
+
+  /* Appena il canvas definitivo è pronto, resta SOLO lui:
+     così la scena continua a riempire i bordi senza deformare il centro. */
+  .poster-frame.rtl-clean-ready .poster-art,
+  .poster-frame.is-rendered.rtl-clean-ready .poster-art{
+    opacity:0!important;
+    pointer-events:none!important;
+  }
+
+  .poster-frame .poster-canvas{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    opacity:0!important;
+  }
+
+  .poster-frame.rtl-clean-ready .poster-canvas{
+    opacity:1!important;
+  }
+
+  /* Newsletter nel suo spazio sotto la locandina, non sopra i partner. */
+  .action-dock .home-signup{
+    bottom:calc(5px + env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* iPhone / Safari: altezza dinamica solo sul contenitore globale.
+   NON forziamo più poster-frame a 100dvh, perché quello spingeva i partner in basso. */
+@supports(height:100dvh){
+  @media(max-aspect-ratio:1/1){
+    html,
+    body,
+    .experience{
+      height:100dvh!important;
+      min-height:100dvh!important;
+    }
+
+    .poster-frame{
+      height:auto!important;
+      min-height:0!important;
+    }
+  }
+}
+
+/* Schermi iPhone più bassi: alziamo leggermente la fine del poster
+   per garantire che Laserman, RTL e Atlantico restino tutti sopra la mail. */
+@media(max-height:760px) and (max-aspect-ratio:1/1){
+  .poster-frame{
+    bottom:calc(66px + env(safe-area-inset-bottom))!important;
+  }
+}
+
 `;
   document.head.appendChild(style);
 })();
@@ -2205,7 +2296,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V14 — ripristino fullscreen mobile/iPhone.
+// Launch page V15 — fullscreen mobile con fascia partner sempre visibile.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2232,8 +2323,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV14 === '1') return;
-    panel.dataset.launchV14 = '1';
+    if (!panel || panel.dataset.launchV15 === '1') return;
+    panel.dataset.launchV15 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2486,15 +2577,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV14() {
+  function initLaunchV15() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV14, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV15, { once:true });
   } else {
-    initLaunchV14();
+    initLaunchV15();
   }
 })();
