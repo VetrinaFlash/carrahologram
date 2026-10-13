@@ -1,0 +1,5 @@
+JS syntax: OK
+RTL little lower: OK
+Atlantico real patch shift: OK
+Subscribe width constrained: OK
+Desktop untouched by V34 CSS: OK

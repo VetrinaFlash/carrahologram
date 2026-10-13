@@ -3111,11 +3111,14 @@ window.CARRA_CONFIG = Object.freeze({
         // V32 — SOLO MOBILE: Atlantico più su, allineato meglio alla fascia RTL.
         // Spostiamo insieme al logo anche il suo piccolo intorno grafico,
         // così non viene deformato né duplicato visivamente.
-        const atlX = 590;
-        const atlY = 1375;
-        const atlW = 274;
-        const atlH = 145;
-        const atlLift = 18;
+        // V34 — MOBILE: sposta davvero Atlantico più in alto.
+        // La patch comprende anche lo sfondo attorno al logo: così la vecchia
+        // posizione viene sovrascritta e non resta un "secondo" Atlantico sotto.
+        const atlX = 565;
+        const atlY = 1315;
+        const atlW = 299;
+        const atlH = 221;
+        const atlLift = 16;
         ctx.save();
         ctx.beginPath();
         ctx.rect(
@@ -3159,7 +3162,7 @@ window.CARRA_CONFIG = Object.freeze({
         sourceCy = 1177;
         radius = 49;
         targetCx = 431;
-        targetCy = 1416;
+        targetCy = 1424;
         // V20: area più ampia per cancellare completamente la vecchia
         // dicitura "Official Radio Partner" che col cover poteva lasciare
         // frammenti tipo "OF ... ER" tra le gambe.
@@ -3616,6 +3619,54 @@ window.CARRA_CONFIG = Object.freeze({
         top:0!important;
         bottom:0!important;
         transform:none!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+
+// V34 — mobile micro-polish: subscribe inside + partner optical alignment.
+(() => {
+  if (document.getElementById('launch-page-v34-mobile-polish')) return;
+
+  const style = document.createElement('style');
+  style.id = 'launch-page-v34-mobile-polish';
+  style.textContent = `
+    @media (max-aspect-ratio:1/1){
+      /* Iscriviti must stay completely inside the newsletter frame. */
+      .home-signup .email-row{
+        grid-template-columns:minmax(0,1fr) 96px!important;
+        overflow:hidden!important;
+        box-sizing:border-box!important;
+        padding-right:4px!important;
+      }
+
+      .home-signup .email-row > button[type="submit"]{
+        min-width:0!important;
+        width:96px!important;
+        max-width:96px!important;
+        box-sizing:border-box!important;
+        justify-self:end!important;
+        margin:1px 0!important;
+        padding:0 9px!important;
+        border-radius:8px!important;
+      }
+
+      .home-signup .email-row > input[type="email"]{
+        min-width:0!important;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .home-signup .email-row{
+        grid-template-columns:minmax(0,1fr) 90px!important;
+      }
+
+      .home-signup .email-row > button[type="submit"]{
+        width:90px!important;
+        max-width:90px!important;
+        padding:0 7px!important;
       }
     }
   `;
