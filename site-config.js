@@ -3115,7 +3115,7 @@ window.CARRA_CONFIG = Object.freeze({
         const atlY = 1375;
         const atlW = 274;
         const atlH = 145;
-        const atlLift = 9;
+        const atlLift = 15;
         ctx.save();
         ctx.beginPath();
         ctx.rect(
@@ -3498,4 +3498,109 @@ window.CARRA_CONFIG = Object.freeze({
   } else {
     cleanupOldFooterExperiments();
   }
+})();
+
+
+// V32 — desktop/mail narrower + mobile poster/menu cleanup.
+(() => {
+  if (document.getElementById('launch-page-v32-desktop-mobile-align')) return;
+
+  const style = document.createElement('style');
+  style.id = 'launch-page-v32-desktop-mobile-align';
+  style.textContent = `
+    /* ---------------- DESKTOP / MACBOOK ---------------- */
+    @media (min-aspect-ratio:1001/1000){
+      .action-dock{
+        width:min(1040px,73vw)!important;
+        gap:14px!important;
+      }
+
+      .ticket-button{
+        flex:0 0 calc(44% - 7px)!important;
+        width:calc(44% - 7px)!important;
+      }
+
+      .home-signup{
+        flex:0 0 calc(56% - 7px)!important;
+        width:calc(56% - 7px)!important;
+      }
+
+      .home-signup .email-row{
+        grid-template-columns:minmax(0,1fr) 96px!important;
+        column-gap:5px!important;
+      }
+
+      .home-signup .email-row > button[type="submit"]{
+        min-width:96px!important;
+        width:96px!important;
+      }
+    }
+
+    @media (min-width:1100px) and (max-height:900px) and (min-aspect-ratio:1001/1000){
+      .action-dock{
+        width:min(980px,70vw)!important;
+        gap:12px!important;
+      }
+
+      .ticket-button{
+        flex:0 0 calc(43% - 6px)!important;
+        width:calc(43% - 6px)!important;
+      }
+
+      .home-signup{
+        flex:0 0 calc(57% - 6px)!important;
+        width:calc(57% - 6px)!important;
+      }
+
+      .home-signup .email-row{
+        grid-template-columns:minmax(0,1fr) 92px!important;
+      }
+
+      .home-signup .email-row > button[type="submit"]{
+        min-width:92px!important;
+        width:92px!important;
+      }
+    }
+
+    /* ---------------- MOBILE ---------------- */
+    @media (max-aspect-ratio:1/1){
+      /* Menu and controls directly over the poster, no black band behind them. */
+      .poster-frame{
+        transform:translateY(8px)!important;
+      }
+
+      /* Ticket a little higher. */
+      .action-dock .ticket-button{
+        top:calc(var(--poster-ticket-y,63%) + 18px)!important;
+        width:min(92vw,392px)!important;
+        max-width:92vw!important;
+      }
+
+      /* Mail stays between ticket and logos, slightly higher too. */
+      .action-dock .home-signup{
+        top:calc(var(--poster-ticket-y,63%) + 67px)!important;
+        width:min(92vw,392px)!important;
+        max-width:92vw!important;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .poster-frame{
+        transform:translateY(6px)!important;
+      }
+
+      .action-dock .ticket-button{
+        top:calc(var(--poster-ticket-y,63%) + 20px)!important;
+        width:92vw!important;
+        max-width:92vw!important;
+      }
+
+      .action-dock .home-signup{
+        top:calc(var(--poster-ticket-y,63%) + 69px)!important;
+        width:92vw!important;
+        max-width:92vw!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
 })();
