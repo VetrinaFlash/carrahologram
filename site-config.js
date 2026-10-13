@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v19-style')) return;
+  if (document.getElementById('launch-page-v20-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v19-style';
+  style.id = 'launch-page-v20-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -2160,6 +2160,139 @@
   .mobile-partner--rtl{width:min(10vw,36px)}
   .mobile-partner--atlantico{width:min(26vw,88px)}
 }
+
+
+/* ========================================================================== */
+/* V20 — MOBILE CLEAN                                                         */
+/* ========================================================================== */
+
+/* Mai più loghi duplicati: resta soltanto la fascia partner della locandina. */
+.mobile-partners-restored{
+  display:none!important;
+}
+
+/* Cover mobile pieno, senza allargamenti artificiali V16/V17. */
+@media(max-aspect-ratio:1/1){
+  .poster-frame{
+    left:0!important;
+    right:0!important;
+    width:auto!important;
+    overflow:hidden!important;
+  }
+
+  .poster-frame .poster-art{
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+    object-fit:cover!important;
+    object-position:50% 32%!important;
+  }
+
+  /* Ticket sempre dentro lo schermo e leggermente meno invasivo. */
+  .action-dock .ticket-button{
+    width:min(91vw,380px)!important;
+    height:43px!important;
+    max-width:91vw!important;
+  }
+
+  /* Newsletter compatta e con respiro dal bordo inferiore del browser. */
+  .action-dock .home-signup{
+    width:min(94vw,400px)!important;
+    max-width:94vw!important;
+    bottom:calc(14px + env(safe-area-inset-bottom))!important;
+  }
+
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 84px!important;
+    grid-template-rows:31px 15px!important;
+    height:52px!important;
+    min-height:52px!important;
+    padding:3px 4px!important;
+    border-radius:11px!important;
+    column-gap:5px!important;
+  }
+
+  .home-signup .email-row > input[type="email"]{
+    grid-column:1!important;
+    grid-row:1!important;
+    height:31px!important;
+    padding:0 9px!important;
+    font-size:13px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    grid-column:2!important;
+    grid-row:1!important;
+    min-width:84px!important;
+    height:31px!important;
+    min-height:31px!important;
+    padding:0 9px!important;
+    font-size:9.4px!important;
+    border-radius:7px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+    position:static!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:0 5px!important;
+    padding:0!important;
+    gap:4px!important;
+    align-items:center!important;
+    white-space:nowrap!important;
+    overflow:visible!important;
+    font-size:6.05px!important;
+    line-height:1!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row > span{
+    overflow:visible!important;
+    text-overflow:clip!important;
+    white-space:nowrap!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
+    flex:0 0 8px!important;
+    width:8px!important;
+    height:8px!important;
+    min-width:8px!important;
+    min-height:8px!important;
+    margin:0!important;
+    border-width:1px!important;
+    box-shadow:none!important;
+  }
+}
+
+/* iPhone / Android stretti: ancora più compatto ma senza tagliare Privacy. */
+@media(max-width:390px) and (max-aspect-ratio:1/1){
+  .action-dock .ticket-button{
+    width:92vw!important;
+  }
+
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 78px!important;
+    grid-template-rows:30px 15px!important;
+    height:51px!important;
+    min-height:51px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:78px!important;
+    height:30px!important;
+    min-height:30px!important;
+    font-size:8.8px!important;
+    padding:0 7px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    font-size:5.75px!important;
+    margin-left:4px!important;
+    margin-right:2px!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -2508,7 +2641,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V19 — true-cover mobile + fascia partner dedicata sempre visibile.
+// Launch page V20 — mobile pulito: true-cover, partner originali, dock compatto.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2535,8 +2668,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV19 === '1') return;
-    panel.dataset.launchV19 = '1';
+    if (!panel || panel.dataset.launchV20 === '1') return;
+    panel.dataset.launchV20 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2722,7 +2855,14 @@ window.CARRA_CONFIG = Object.freeze({
         ? Math.min(w / iw, h / ih)
         : Math.max(w / iw, h / ih);
       const x = (w - iw * scale) / 2;
-      const y = (h - ih * scale) / 2;
+
+      // V20 mobile: manteniamo il vero cover, ma lo biasiamo leggermente
+      // verso il basso della locandina. In questo modo la fascia partner
+      // originale (Laserman / RTL / Atlantico) resta visibile senza duplicati.
+      const coverOverflowY = Math.max(0, ih * scale - h);
+      const y = desktop
+        ? (h - ih * scale) / 2
+        : -coverOverflowY * 0.68;
 
       ctx.save();
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -2730,10 +2870,16 @@ window.CARRA_CONFIG = Object.freeze({
       ctx.imageSmoothingQuality = 'high';
 
       if (!desktop) {
-        // Rimpiazza il render mobile precedente con il poster in cover.
-        // Nessuno stretch: scala uniforme e crop simmetrico solo dove serve.
+        // V20: cover uniforme, nessuno stretch. Il crop è più forte in alto
+        // che in basso per conservare la riga dei partner originali.
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(poster, x, y, iw * scale, ih * scale);
+
+        // Anche il pulsante biglietti segue la stessa geometria del canvas.
+        document.documentElement.style.setProperty(
+          '--poster-ticket-y',
+          `${(bounds.top + y + ih * scale * 0.636).toFixed(1)}px`
+        );
       }
 
       let sourceCx, sourceCy, radius, targetCx, targetCy, eraseBox;
@@ -2754,7 +2900,10 @@ window.CARRA_CONFIG = Object.freeze({
         radius = 49;
         targetCx = 431;
         targetCy = 1416;
-        eraseBox = { left: 360, top: 1102, width: 142, height: 154, pad: 18 };
+        // V20: area più ampia per cancellare completamente la vecchia
+        // dicitura "Official Radio Partner" che col cover poteva lasciare
+        // frammenti tipo "OF ... ER" tra le gambe.
+        eraseBox = { left: 296, top: 1068, width: 272, height: 194, pad: 24 };
       }
 
       // Cancella la vecchia posizione del logo usando il background pulito.
@@ -2803,31 +2952,22 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function ensureMobilePartnerStrip() {
-    const frame = document.querySelector('.poster-frame');
-    if (!frame || frame.querySelector('.mobile-partners-restored')) return;
-
-    const strip = document.createElement('div');
-    strip.className = 'mobile-partners-restored';
-    strip.setAttribute('aria-hidden', 'true');
-    strip.innerHTML = `
-      <img class="mobile-partner mobile-partner--laserman" src="logo-laserman-clean.png" alt="">
-      <img class="mobile-partner mobile-partner--rtl" src="logo-rtl-clean.png" alt="">
-      <img class="mobile-partner mobile-partner--atlantico" src="logo-atlantico-clean.png" alt="">
-    `;
-    frame.appendChild(strip);
+  function cleanupMobilePartnerStrip() {
+    // V20: i partner devono comparire UNA sola volta, quelli originali
+    // della locandina. Rimuove l'overlay introdotto nella V19.
+    document.querySelectorAll('.mobile-partners-restored').forEach(el => el.remove());
   }
 
-  function initLaunchV19() {
+  function initLaunchV20() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
-    ensureMobilePartnerStrip();
+    cleanupMobilePartnerStrip();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV19, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV20, { once:true });
   } else {
-    initLaunchV19();
+    initLaunchV20();
   }
 })();

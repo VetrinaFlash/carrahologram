@@ -1,0 +1,7 @@
+JS syntax: OK
+V19 overlay removed: OK
+True cover kept: OK
+Bottom partner bias: OK
+Ticket follows cover: OK
+Radio text cleanup enlarged: OK
+Compact mobile signup: OK
