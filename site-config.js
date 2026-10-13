@@ -305,10 +305,10 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V4 — dock riallineato, home signup compatto e RTL allineato ai partner.
+// Launch page V5 — mobile mail separata in basso + menu uniformato.
 (() => {
-  const STYLE_HREF = 'launch-page-v4.css?v=20261013-1';
-  if (!document.querySelector(`link[href^="launch-page-v4.css"]`)) {
+  const STYLE_HREF = 'launch-page-v5.css?v=20261013-1';
+  if (!document.querySelector(`link[href^="launch-page-v5.css"]`)) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = STYLE_HREF;
@@ -340,8 +340,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV4 === '1') return;
-    panel.dataset.launchV4 = '1';
+    if (!panel || panel.dataset.launchV5 === '1') return;
+    panel.dataset.launchV5 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -568,15 +568,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV4() {
+  function initLaunchV5() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV4, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV5, { once:true });
   } else {
-    initLaunchV4();
+    initLaunchV5();
   }
 })();
