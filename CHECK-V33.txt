@@ -1,0 +1,3 @@
+JS syntax: OK
+Mobile bottom restored: OK
+No negative footer extension in V33: OK

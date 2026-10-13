@@ -3588,3 +3588,36 @@ window.CARRA_CONFIG = Object.freeze({
   `;
   document.head.appendChild(style);
 })();
+
+
+// V33 — mobile: restore full partner row while keeping no black gaps.
+(() => {
+  if (document.getElementById('launch-page-v33-mobile-logos-visible')) return;
+
+  const style = document.createElement('style');
+  style.id = 'launch-page-v33-mobile-logos-visible';
+  style.textContent = `
+    @media (max-aspect-ratio:1/1){
+      /*
+        V32 estendeva il frame sotto il viewport (-96px) e quindi
+        spingeva la fascia partner fuori schermo.
+        Ora il poster arriva ESATTAMENTE al fondo del viewport:
+        niente banda nera e loghi di nuovo visibili.
+      */
+      .poster-frame{
+        top:0!important;
+        bottom:0!important;
+        transform:none!important;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .poster-frame{
+        top:0!important;
+        bottom:0!important;
+        transform:none!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+})();
