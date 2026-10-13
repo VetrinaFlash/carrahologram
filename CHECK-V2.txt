@@ -1,0 +1,11 @@
+VERIFICA V2
+launch-page-v2.css braces: OK
+
+site-config.js: OK
+functions/api/_middleware.js: OK
+functions/api/consent.js: OK
+functions/api/resend-admin.js: OK
+functions/api/resend-info.js: OK
+functions/api/send-broadcast.js: OK
+functions/api/subscribe.js: OK
+functions/api/subscribers.js: OK

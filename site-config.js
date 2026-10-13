@@ -304,3 +304,210 @@ window.CARRA_CONFIG = Object.freeze({
     setTimeout(attemptMainAudio, 0);
   }, { once: true });
 })();
+
+// Launch page V2 — descrizione concerto, ticket diretto, layout desktop e RTL alignment.
+(() => {
+  const STYLE_HREF = 'launch-page-v2.css?v=20261013-1';
+  if (!document.querySelector(`link[href^="launch-page-v2.css"]`)) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = STYLE_HREF;
+    document.head.appendChild(link);
+  }
+
+  const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
+
+  function openTickets() {
+    const link = document.createElement('a');
+    link.href = TICKET_URL;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  // Tutti i CTA biglietti portano direttamente alla pagina evento ufficiale.
+  document.addEventListener('click', event => {
+    const target = event.target.closest && event.target.closest('#ticketButton,[data-open="ticketDialog"],#purchaseLink');
+    if (!target) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const openDialog = target.closest('dialog[open]');
+    if (openDialog) openDialog.close();
+    openTickets();
+  }, true);
+
+  function enhanceConcertPanel() {
+    const panel = document.getElementById('infoDialog');
+    if (!panel || panel.dataset.launchV2 === '1') return;
+    panel.dataset.launchV2 = '1';
+    panel.classList.add('concert-info-panel');
+
+    const eyebrow = panel.querySelector('.eyebrow');
+    const title = panel.querySelector('h2');
+    const intro = panel.querySelector('.panel-intro');
+    const details = panel.querySelector('.event-details');
+
+    if (eyebrow) {
+      eyebrow.removeAttribute('data-t');
+      eyebrow.textContent = 'IL CONCERTO';
+    }
+    if (title) {
+      title.removeAttribute('data-t');
+      title.textContent = 'RAFFA È TORNATA.';
+    }
+    if (intro) {
+      intro.removeAttribute('data-t');
+      intro.classList.add('concert-lead');
+      intro.textContent = 'Non un tributo. Non un musical. Un vero concerto dal vivo, dove passato e futuro si incontrano.';
+    }
+
+    const story = document.createElement('div');
+    story.className = 'concert-story';
+    story.lang = 'it';
+
+    const paragraphs = [
+      'Per la prima volta in Italia, Raffaella Carrà torna sul palco attraverso un ologramma iperrealistico, così realistico da regalare la sensazione di averla nuovamente davanti ai nostri occhi, mentre canta, balla e sorride con quell\'energia inconfondibile che ha conquistato milioni di persone.',
+      '“RAFFAELLA CARRÀ – THE SHOW MUST GO ON” è un\'esperienza straordinaria di 100 minuti, un viaggio attraverso i suoi più grandi successi, i momenti indimenticabili della sua carriera e i racconti più emozionanti della sua vita.',
+      'Sul palco, Raffaella sarà protagonista di uno spettacolo ricco di musica, danza e tecnologia, accompagnata da ballerini dal vivo, coreografie spettacolari, laser 3D, effetti luminosi, fiamme, geyser ed effetti speciali di ultima generazione.',
+      'Un concerto pensato per far cantare, ballare, sorridere ed emozionare, rivivendo insieme quelle canzoni e quei momenti che hanno unito intere generazioni.',
+      'Non è soltanto uno spettacolo. È l\'occasione di ritrovare, attraverso la magia della tecnologia, quella gioia, quella libertà e quella straordinaria voglia di vivere che hanno reso Raffaella un\'icona senza tempo.',
+      'Un progetto ufficiale, realizzato con l\'autorizzazione degli aventi diritto, prodotto da Laserman Industries sotto la direzione artistica e creativa di Andrea Prince.',
+      'Il 28 dicembre 2026, all\'Atlantico di Roma, preparati a vivere qualcosa di mai visto prima.',
+      'La musica riparte. L\'energia si accende. Raffa è tornata.'
+    ];
+
+    paragraphs.forEach((text, index) => {
+      const p = document.createElement('p');
+      p.textContent = text;
+      if (index === paragraphs.length - 1) p.className = 'concert-story-finale';
+      story.appendChild(p);
+    });
+
+    const dateLine = document.createElement('p');
+    dateLine.className = 'concert-story-date';
+    dateLine.innerHTML = '<strong>28 DICEMBRE 2026 · ATLANTICO ROMA.</strong>';
+    story.appendChild(dateLine);
+
+    if (details) panel.insertBefore(story, details);
+    else panel.appendChild(story);
+
+    const ticketCta = panel.querySelector('[data-open="ticketDialog"]');
+    if (ticketCta) {
+      ticketCta.removeAttribute('data-t');
+      ticketCta.textContent = 'Acquista biglietti su Vivaticket ↗';
+    }
+  }
+
+  function updateDockPosition() {
+    const frame = document.querySelector('.poster-frame');
+    const poster = document.querySelector('.poster-art');
+    if (!frame || !poster || !poster.complete || !poster.naturalWidth || poster.naturalWidth <= poster.naturalHeight) return;
+    const bounds = frame.getBoundingClientRect();
+    const scale = Math.min(bounds.width / poster.naturalWidth, bounds.height / poster.naturalHeight);
+    const renderedHeight = poster.naturalHeight * scale;
+    const y = (bounds.height - renderedHeight) / 2;
+    let ratio = 0.746;
+    if (window.innerHeight <= 780) ratio = 0.738;
+    const dockY = bounds.top + y + renderedHeight * ratio;
+    document.documentElement.style.setProperty('--launch-dock-y', `${dockY.toFixed(1)}px`);
+  }
+
+  // Corregge il solo logo RTL nel canvas desktop: stessa riga ottica di Laserman/Atlantico.
+  function initRtlAlignment() {
+    const frame = document.querySelector('.poster-frame');
+    const poster = document.querySelector('.poster-art');
+    const canvas = document.querySelector('.poster-canvas');
+    if (!frame || !poster || !canvas) return;
+
+    const background = new Image();
+    background.src = 'rtl-background-desktop.png';
+
+    let raf = 0;
+    function schedule() {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setTimeout(patch, 28));
+    }
+
+    function patch() {
+      updateDockPosition();
+      if (!background.complete || !background.naturalWidth || !poster.complete || !poster.naturalWidth) return;
+      if (poster.naturalWidth <= poster.naturalHeight) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx || !canvas.width || !canvas.height) return;
+
+      const bounds = frame.getBoundingClientRect();
+      const w = bounds.width, h = bounds.height;
+      const iw = poster.naturalWidth, ih = poster.naturalHeight;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const scale = Math.min(w / iw, h / ih);
+      const x = (w - iw * scale) / 2;
+      const y = (h - ih * scale) / 2;
+
+      ctx.save();
+      ctx.setTransform(ratio,0,0,ratio,0,0);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+
+      // Ripulisce con bordo feather l'area usata dal vecchio RTL spostato verso il basso.
+      const left = 707, top = 730, width = 102, height = 101, pad = 12;
+      const patchCanvas = document.createElement('canvas');
+      patchCanvas.width = width + pad * 2;
+      patchCanvas.height = height + pad * 2;
+      const patchCtx = patchCanvas.getContext('2d');
+      patchCtx.drawImage(
+        background,
+        (left-pad) * background.naturalWidth / iw,
+        (top-pad) * background.naturalHeight / ih,
+        (width+pad*2) * background.naturalWidth / iw,
+        (height+pad*2) * background.naturalHeight / ih,
+        0,0,patchCanvas.width,patchCanvas.height
+      );
+      patchCtx.globalCompositeOperation = 'destination-in';
+      for (const horizontal of [true,false]) {
+        const length = horizontal ? patchCanvas.width : patchCanvas.height;
+        const gradient = patchCtx.createLinearGradient(0,0,horizontal?length:0,horizontal?0:length);
+        gradient.addColorStop(0,'transparent');
+        gradient.addColorStop(pad/length,'black');
+        gradient.addColorStop(1-pad/length,'black');
+        gradient.addColorStop(1,'transparent');
+        patchCtx.fillStyle = gradient;
+        patchCtx.fillRect(0,0,patchCanvas.width,patchCanvas.height);
+      }
+      ctx.drawImage(
+        patchCanvas,
+        x + (left-pad) * scale,
+        y + (top-pad) * scale,
+        patchCanvas.width * scale,
+        patchCanvas.height * scale
+      );
+
+      // Logo originale, senza il vecchio shift +14px: viene rialzato e allineato alla fila inferiore.
+      const cx = 758, cy = 780, r = 46, shift = 0;
+      ctx.beginPath();
+      ctx.arc(x + cx * scale, y + (cy + shift) * scale, r * scale, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(poster, cx-r, cy-r, r*2, r*2, x + (cx-r)*scale, y + (cy-r+shift)*scale, r*2*scale, r*2*scale);
+      ctx.restore();
+    }
+
+    background.addEventListener('load', schedule);
+    poster.addEventListener('load', schedule);
+    window.addEventListener('resize', schedule, { passive:true });
+    new MutationObserver(schedule).observe(canvas, { attributes:true, attributeFilter:['width','height'] });
+    schedule();
+  }
+
+  function initLaunchV2() {
+    enhanceConcertPanel();
+    updateDockPosition();
+    initRtlAlignment();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLaunchV2, { once:true });
+  } else {
+    initLaunchV2();
+  }
+})();
