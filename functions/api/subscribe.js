@@ -1,139 +1,108 @@
+const SIGNUP_TEMPLATE_KEY = 'config_signup_email_template_v1';
+const FROM_ADDRESS = 'Raffaella Carrà Official <newsletter@raffaellacarraofficial.com>';
+
+const DEFAULT_SIGNUP_TEMPLATE = {
+  "subject": "Sei in lista. Preparati a fare rumore ✨",
+  "html": "<!doctype html>\n<html>\n<body style=\"margin:0;padding:0;background:#050505;font-family:Arial,Helvetica,sans-serif;color:#fff\">\n  <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background:#050505;padding:40px 10px\">\n    <tr><td align=\"center\">\n      <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"max-width:600px;background:#0a0a0a;border:1px solid #1a1a1a;border-top:4px solid #d4af37;border-radius:8px;overflow:hidden\">\n        <tr>\n          <td align=\"center\" style=\"padding:50px 30px 30px;border-bottom:1px solid #1a1a1a\">\n            <div style=\"color:#fff;font-size:42px;letter-spacing:6px;font-weight:900\">RAFFAELLA</div>\n            <div style=\"color:#d4af37;font-size:15px;margin-top:15px;letter-spacing:3px;font-style:italic\">The Show Must Go On</div>\n          </td>\n        </tr>\n        <tr>\n          <td align=\"center\" style=\"padding:40px 30px\">\n            <div style=\"color:#fff;font-size:24px;font-family:Georgia,serif;font-style:italic;margin-bottom:25px\">Sei nella lista esclusiva.</div>\n            <p style=\"color:#ccc;font-size:15px;line-height:1.8;margin:0 0 40px\">\n              Benvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo\n              <strong style=\"color:#d4af37;font-weight:normal\">Official Raffaella Carrà Hologram Concert</strong>.\n            </p>\n            <div style=\"border-top:1px solid #222;border-bottom:1px solid #222;padding:20px 0;color:#d4af37;font-size:20px;letter-spacing:3px\">\n              SEI PRONTO A FARE RUMORE?\n            </div>\n            <div style=\"margin-top:40px;background:#111;border-left:2px solid #d4af37;padding:20px;text-align:left\">\n              <p style=\"color:#999;font-size:13px;margin:0 0 8px\">✓ Zero spam, te lo promettiamo.</p>\n              <p style=\"color:#999;font-size:13px;margin:0 0 8px\">✓ Solo comunicazioni e date ufficiali.</p>\n              <p style=\"color:#999;font-size:13px;margin:0\">✓ Accesso prioritario ai biglietti.</p>\n            </div>\n            <p style=\"color:#888;font-size:16px;text-align:right;font-family:Georgia,serif;font-style:italic;margin:35px 0 0\">\n              A presto,<br><span style=\"color:#d4af37;font-size:20px\">Raffa Holo Team</span>\n            </p>\n          </td>\n        </tr>\n        <tr>\n          <td align=\"center\" style=\"padding:30px;background:#080808;border-top:1px solid #151515\">\n            <p style=\"color:#666;font-size:11px;line-height:1.6;margin:0 0 10px\">\n              Hai ricevuto questa email perché ti sei iscritto dal sito ufficiale\n              <a href=\"https://raffaellacarraofficial.com\" style=\"color:#d4af37;text-decoration:none\">raffaellacarraofficial.com</a>.\n            </p>\n            <p style=\"color:#555;font-size:11px;margin:0 0 15px\">\n              Se hai cambiato idea e non vuoi più ricevere aggiornamenti, rispondi a questa email scrivendo \"CANCELLAMI\".\n            </p>\n            <p style=\"color:#444;font-size:11px;margin:0;letter-spacing:1px\">\n              © 2026 Raffaella Carrà Official Hologram Concert\n            </p>\n          </td>\n        </tr>\n      </table>\n    </td></tr>\n  </table>\n</body>\n</html>",
+  "text": "Raffaella Carrà - The Show Must Go On\n\nSei nella lista esclusiva.\n\nBenvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo Official Raffaella Carrà Hologram Concert.\n\nSEI PRONTO A FARE RUMORE?\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\nA presto,\nRaffa Holo Team\n\n---\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti e non ricevere più aggiornamenti, rispondi a questa email scrivendo \"CANCELLAMI\"."
+};
+
+function replaceVars(value, email) {
+  return String(value || '').replace(/\{\{email\}\}/g, email);
+}
+
+async function getSignupTemplate(context) {
+  const kv = context.env?.VISITOR_COUNT;
+  if (!kv) return DEFAULT_SIGNUP_TEMPLATE;
+
+  try {
+    const raw = await kv.get(SIGNUP_TEMPLATE_KEY);
+    if (!raw) return DEFAULT_SIGNUP_TEMPLATE;
+
+    const data = JSON.parse(raw);
+    if (!data || !String(data.subject || '').trim() || !String(data.html || '').trim()) {
+      return DEFAULT_SIGNUP_TEMPLATE;
+    }
+
+    return {
+      subject: String(data.subject).trim(),
+      html: String(data.html),
+      text: String(data.text || '')
+    };
+  } catch (_) {
+    return DEFAULT_SIGNUP_TEMPLATE;
+  }
+}
+
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
-    const userEmail = body.email;
+    const userEmail = String(body.email || '').trim().toLowerCase();
 
-    if (!userEmail || !userEmail.includes('@')) {
-      return new Response("Email non valida", { status: 400 });
+    if (!userEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+      return new Response(JSON.stringify({ success: false, error: 'Email non valida' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' }
+      });
     }
 
-    // Salva l'email nel database KV
-    await context.env.VISITOR_COUNT.put(`subscriber_${userEmail}`, new Date().toISOString());
+    if (!context.env?.VISITOR_COUNT) {
+      return new Response(JSON.stringify({ success: false, error: 'Archivio iscritti non configurato' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' }
+      });
+    }
 
-    // 1. VERSIONE TESTO SEMPLICE (Fondamentale contro lo SPAM)
-    const plainText = `Raffaella Carrà - The Show Must Go On\n\nSei nella lista esclusiva.\n\nBenvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo Official Raffaella Carrà Hologram Concert.\n\nSEI PRONTO A FARE RUMORE?\n\n✓ Zero spam, te lo promettiamo.\n✓ Solo comunicazioni e date ufficiali.\n✓ Accesso prioritario ai biglietti.\n\nA presto,\nRaffa Holo Team\n\n---\n© 2026 Raffaella Carrà Official Hologram Concert\nHai ricevuto questa email perché ti sei iscritto su raffaellacarraofficial.com.\nSe vuoi cancellarti e non ricevere più aggiornamenti, rispondi a questa email scrivendo "CANCELLAMI".`;
+    await context.env.VISITOR_COUNT.put(
+      `subscriber_${userEmail}`,
+      new Date().toISOString()
+    );
 
-    // 2. VERSIONE HTML (Design Sicuro per tutti i Client Email)
-    const emailHtml = `
-      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-      <html xmlns="http://www.w3.org/1999/xhtml">
-      <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Raffaella Carrà - The Show Must Go On</title>
-      </head>
-      <body style="margin: 0; padding: 0; background-color: #050505; font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
-        
-        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #050505; padding: 40px 10px;">
-          <tr>
-            <td align="center">
-              
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #0a0a0a; border: 1px solid #1a1a1a; border-top: 4px solid #d4af37; border-radius: 8px; overflow: hidden;">
-                
-                <tr>
-                  <td align="center" style="padding: 50px 30px 30px 30px; border-bottom: 1px solid #1a1a1a;">
-                    
-                    <h1 style="color: #ffffff; font-size: 42px; margin: 0; font-family: 'Arial Black', Impact, Arial, sans-serif; text-transform: uppercase; letter-spacing: 6px; font-weight: 900;">
-                      RAFFAELLA
-                    </h1>
+    const template = await getSignupTemplate(context);
 
-                    <h2 style="color: #d4af37; font-size: 15px; margin: 15px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 3px; font-weight: normal;">
-                      The Show Must Go On
-                    </h2>
-                  </td>
-                </tr>
+    const subject = replaceVars(template.subject, userEmail);
+    const html = replaceVars(template.html, userEmail);
+    const text = replaceVars(template.text, userEmail);
 
-                <tr>
-                  <td align="center" style="padding: 40px 30px;">
-                    <h3 style="color: #ffffff; font-size: 24px; margin: 0 0 25px 0; font-weight: normal; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; font-style: italic;">
-                      Sei nella lista esclusiva.
-                    </h3>
-                    
-                    <p style="color: #cccccc; font-size: 15px; line-height: 1.8; margin: 0 0 40px 0; font-family: Arial, sans-serif;">
-                      Benvenuto. Sarai tra i primi a scoprire le date ufficiali e ad accedere alle prevendite del primo <strong style="color: #d4af37; font-weight: normal;">Official Raffaella Carrà Hologram Concert</strong>.
-                    </p>
-                    
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 auto 40px auto;">
-                      <tr>
-                        <td align="center" style="border-top: 1px solid #222222; border-bottom: 1px solid #222222; padding: 20px 0;">
-                          <h2 style="color: #d4af37; font-size: 20px; margin: 0; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 3px; font-weight: normal;">
-                            Sei pronto a fare rumore?
-                          </h2>
-                        </td>
-                      </tr>
-                    </table>
-                    
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #111111; border-left: 2px solid #d4af37; padding: 20px;">
-                      <tr>
-                        <td align="left">
-                          <p style="color: #999999; font-size: 13px; margin: 0 0 8px 0; font-family: Arial, sans-serif;">✓ Zero spam, te lo promettiamo.</p>
-                          <p style="color: #999999; font-size: 13px; margin: 0 0 8px 0; font-family: Arial, sans-serif;">✓ Solo comunicazioni e date ufficiali.</p>
-                          <p style="color: #999999; font-size: 13px; margin: 0; font-family: Arial, sans-serif;">✓ Accesso prioritario ai biglietti.</p>
-                        </td>
-                      </tr>
-                    </table>
+    const key = String(context.env?.RESEND_API_KEY || '').trim();
 
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 35px;">
-                      <tr>
-                        <td align="right">
-                          <p style="color: #888888; font-size: 16px; margin: 0; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; font-style: italic;">
-                            A presto,<br>
-                            <span style="color: #d4af37; font-size: 20px;">Raffa Holo Team</span>
-                          </p>
-                        </td>
-                      </tr>
-                    </table>
+    if (!key) {
+      console.error('RESEND_API_KEY non configurata: iscrizione salvata, email automatica non inviata.');
+    } else {
+      const resendResponse = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${key}`,
+          'Content-Type': 'application/json',
+          'User-Agent': 'RaffaLiveSignup/4.0'
+        },
+        body: JSON.stringify({
+          from: FROM_ADDRESS,
+          to: [userEmail],
+          subject,
+          html,
+          ...(text ? { text } : {})
+        })
+      });
 
-                  </td>
-                </tr>
-
-                <tr>
-                  <td align="center" style="padding: 30px; background-color: #080808; border-top: 1px solid #151515;">
-                    <p style="color: #666666; font-size: 11px; line-height: 1.6; margin: 0 0 10px 0; font-family: Arial, sans-serif;">
-                      Hai ricevuto questa email perché hai richiesto di iscriverti alla nostra newsletter dal sito ufficiale <a href="https://raffaellacarraofficial.com" style="color: #d4af37; text-decoration: none;">raffaellacarraofficial.com</a>.
-                    </p>
-                    <p style="color: #555555; font-size: 11px; margin: 0 0 15px 0; font-family: Arial, sans-serif;">
-                      Se hai cambiato idea e non vuoi più ricevere notizie sull'evento, rispondi a questa email scrivendo "CANCELLAMI".
-                    </p>
-                    <p style="color: #444444; font-size: 11px; margin: 0; text-transform: uppercase; letter-spacing: 1px; font-family: Arial, sans-serif;">
-                      © 2026 Raffaella Carrà Official Hologram Concert
-                    </p>
-                  </td>
-                </tr>
-
-              </table>
-            </td>
-          </tr>
-        </table>
-      </body>
-      </html>
-    `;
-
-    // 4. Invia l'email tramite Resend
-    const resendResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${context.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: 'Raffaella Carrà Official <newsletter@raffaellacarraofficial.com>',
-        to: [userEmail],
-        subject: 'Sei in lista. Preparati a fare rumore ✨',
-        html: emailHtml,
-        text: plainText
-      })
-    });
-
-    if (!resendResponse.ok) {
-      console.error("Errore invio email:", await resendResponse.text());
+      if (!resendResponse.ok) {
+        console.error('Errore invio email automatica:', await resendResponse.text());
+      }
     }
 
     return new Response(JSON.stringify({ success: true }), {
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store'
+      }
     });
-
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return new Response(JSON.stringify({
+      success: false,
+      error: error?.message || 'Errore iscrizione'
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' }
+    });
   }
 }

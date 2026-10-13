@@ -1,1152 +1,994 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lista Iscritti & Invio Newsletter – Raffaella Carrà Hologram</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Raffa Live — Subscribers & Broadcasts</title>
   <style>
-    :root {
-      --bg: #0a0a0c;
-      --card-bg: #131318;
-      --border: #23232c;
-      --gold: #d4af37;
-      --gold-light: #f5d77f;
-      --gold-dark: #8c6d1f;
-      --text: #f1f2f4;
-      --text-muted: #8b8ea2;
-      --accent: #22c55e;
-      --error: #ef4444;
+    :root{
+      color-scheme:dark;
+      --bg:#07070c;--panel:#111119;--panel2:#0b0b11;--line:#292936;
+      --text:#f7f7fb;--muted:#9b9bac;--gold:#d6b45a;--gold2:#f2d789;
+      --pink:#ff3f86;--ok:#55db91;--warn:#ffb75e;--bad:#ff687d;--blue:#78a9ff;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh;
-      padding: 30px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    *{box-sizing:border-box}
+    html{background:var(--bg)}
+    body{margin:0;background:
+      radial-gradient(circle at 20% 0,rgba(255,45,120,.10),transparent 30%),
+      radial-gradient(circle at 85% 15%,rgba(214,180,90,.08),transparent 28%),
+      var(--bg);
+      color:var(--text);font:14px/1.5 Arial,Helvetica,sans-serif;min-height:100vh}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .wrap{max-width:1160px;margin:auto;padding:28px 18px 70px}
+    .hidden{display:none!important}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(27px,4vw,42px);line-height:1.05;margin-bottom:8px}
+    h2{font-size:19px;margin-bottom:5px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:11px;color:var(--muted)}
+    .panel{background:rgba(17,17,25,.93);border:1px solid var(--line);
+      border-radius:17px;padding:20px;margin-top:18px;box-shadow:0 18px 55px rgba(0,0,0,.26)}
+    .login{max-width:480px;margin:12vh auto 0}
+    .top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+    .stat{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:16px}
+    .stat b{display:block;font-size:30px;line-height:1.1}
+    .ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}.blue{color:var(--blue)}
+    .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .between{justify-content:space-between}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    label{display:block;font-size:12px;font-weight:700;margin:11px 0 6px;color:#ddd}
+    input,textarea,select{
+      width:100%;border:1px solid var(--line);background:#08080e;color:#fff;border-radius:10px;
+      padding:11px 12px;outline:none
     }
-
-    .container {
-      width: 100%;
-      max-width: 980px;
+    textarea{resize:vertical;min-height:120px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+    input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+    button,.btn{
+      appearance:none;border:0;border-radius:10px;padding:11px 14px;font-weight:800;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;text-decoration:none
     }
-
-    /* Schermata di Login */
-    #loginSection {
-      max-width: 440px;
-      margin: 80px auto;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 36px 28px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      position: relative;
-      overflow: hidden;
-    }
-
-    #loginSection::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
-    }
-
-    .login-icon {
-      font-size: 36px;
-      margin-bottom: 12px;
-      display: inline-block;
-    }
-
-    .form-group {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    input[type="password"], input[type="text"], input[type="email"], select, textarea {
-      width: 100%;
-      background: #08080a;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--gold);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      border: none;
-      transition: all 0.2s ease;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .btn-primary {
-      background: var(--gold);
-      color: #000;
-    }
-
-    .btn-primary:hover {
-      background: var(--gold-light);
-      transform: translateY(-1px);
-    }
-
-    .btn-send {
-      background: linear-gradient(135deg, #d4af37 0%, #f5d77f 100%);
-      color: #000;
-      font-weight: 700;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-    }
-
-    .btn-send:hover {
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
-    .error-msg {
-      color: var(--error);
-      font-size: 13px;
-      margin-top: 10px;
-      display: none;
-    }
-
-    /* Schermata Dashboard */
-    #dashboardSection {
-      display: none;
-      width: 100%;
-    }
-
-    .top-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: 9999px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--gold-light);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .stats-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .stat-number {
-      font-size: 42px;
-      font-weight: 800;
-      color: var(--gold-light);
-      font-family: 'JetBrains Mono', monospace;
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 6px;
-    }
-
-    .actions-bar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* Barra di Ricerca */
-    .search-wrapper {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 12px;
-    }
-
-    /* Tabella */
-    .table-container {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-
-    thead {
-      background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      padding: 14px 18px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--gold);
-      font-weight: 700;
-    }
-
-    td {
-      padding: 14px 18px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      font-size: 14px;
-    }
-
-    tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .email-cell {
-      font-family: 'JetBrains Mono', monospace;
-      color: #fff;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .copy-btn {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-muted);
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .copy-btn:hover {
-      color: #fff;
-      border-color: var(--gold);
-    }
-
-    .date-cell {
-      color: var(--text-muted);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .empty-state {
-      padding: 40px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    /* Modal Invio Massivo */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal {
-      background: #111116;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 800px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-      position: relative;
-    }
-
-    .modal-header {
-      padding: 24px 28px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      background: #111116;
-      z-index: 10;
-    }
-
-    .modal-body {
-      padding: 24px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .field-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tab-buttons {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .tab-btn {
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background: var(--gold);
-      color: #000;
-      border-color: var(--gold);
-    }
-
-    .preview-frame {
-      width: 100%;
-      height: 380px;
-      background: #000;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: auto;
-    }
-
-    /* Box Avanzamento Invio */
-    .progress-box {
-      display: none;
-      background: rgba(212, 175, 55, 0.08);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 10px;
-    }
-
-    .progress-bar-container {
-      width: 100%;
-      height: 10px;
-      background: #1a1a20;
-      border-radius: 999px;
-      overflow: hidden;
-      margin: 12px 0 8px 0;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--gold), var(--gold-light));
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-
-    /* Toast Notifica */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #1e1e24;
-      border: 1px solid var(--gold);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 10000;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    button.secondary,.btn.secondary{background:#20202b;color:#fff;border:1px solid var(--line)}
+    button.pink{background:linear-gradient(135deg,#ff2d77,#ff6aa1);color:#fff}
+    button.danger{background:#5d1d29;color:#fff;border:1px solid #833040}
+    button:disabled{opacity:.48;cursor:not-allowed}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;
+      font-size:11px;font-weight:800;border:1px solid var(--line);background:#181820}
+    .badge.ok{background:#112d1e;border-color:#285f41}.badge.warn{background:#2e2113;border-color:#6a4a22}
+    .notice,.success,.error{padding:12px 14px;border-radius:11px;margin-top:12px}
+    .notice{background:#19150d;border:1px solid #5a4829;color:#ffe5ab}
+    .success{background:#0d1e15;border:1px solid #255f3e;color:#acf3c9}
+    .error{background:#211015;border:1px solid #71303b;color:#ffc0c9}
+    .progress{height:10px;background:#09090e;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:9px}
+    .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold));transition:width .2s}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+    .table-wrap{overflow:auto;max-height:520px}
+    .tabs{display:flex;gap:8px;margin:10px 0}
+    .tabs button{padding:8px 11px}
+    iframe{width:100%;height:440px;background:#fff;border:1px solid var(--line);border-radius:10px}
+    .send-card{border:1px solid rgba(255,63,134,.28);background:linear-gradient(180deg,rgba(255,63,134,.05),transparent 45%)}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#09090e;border:1px solid var(--line);padding:2px 5px;border-radius:5px}
+    @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}}
+    @media(max-width:520px){.grid{grid-template-columns:1fr}.wrap{padding-left:12px;padding-right:12px}th:nth-child(3),td:nth-child(3){display:none}}
   </style>
 </head>
 <body>
+<main class="wrap">
+  <section id="loginPanel" class="panel login">
+    <div class="badge">AREA RISERVATA</div>
+    <h1 style="margin-top:14px">Mailing Admin</h1>
+    <p class="muted">Gestione iscritti e invio massivo tramite <b>Resend Broadcasts</b>.</p>
+    <form id="loginForm">
+      <label for="password">Password amministrativa</label>
+      <input id="password" type="password" autocomplete="current-password" required placeholder="ADMIN_PASSWORD">
+      <div class="row" style="margin-top:12px">
+        <button type="submit">Accedi</button>
+      </div>
+    </form>
+    <div id="loginError" class="error hidden"></div>
+  </section>
 
-  <div class="container">
-
-    <!-- SEZIONE LOGIN PASSWORD -->
-    <div id="loginSection">
-      <div class="login-icon">🔒</div>
-      <div class="badge" style="margin-bottom: 12px;">Area Riservata</div>
-      <h2 style="font-size: 20px; margin-bottom: 6px;">Accesso Mailing List</h2>
-      <p style="color: var(--text-muted); font-size: 13px;">
-        Inserisci la password per gestire gli iscritti e inviare comunicazioni massive via Resend.
-      </p>
-
-      <form id="loginForm" onsubmit="handleLogin(event)" class="form-group">
-        <input type="password" id="passwordInput" placeholder="Password di accesso" autofocus required />
-        <button type="submit" class="btn btn-primary" id="loginBtn">Sblocca Pannello</button>
-        <div id="errorMsg" class="error-msg">Password errata o connessione non riuscita.</div>
-      </form>
+  <section id="app" class="hidden">
+    <div class="top">
+      <div>
+        <div class="badge">RAFFA LIVE · RESEND</div>
+        <h1 style="margin-top:12px">Subscribers & Broadcasts</h1>
+        <p class="muted">La mailing parte da qui, ma l'infrastruttura di invio è quella di Resend Broadcasts.</p>
+      </div>
+      <button id="logoutBtn" class="secondary">Esci</button>
     </div>
 
-    <!-- SEZIONE DASHBOARD ISCRITTI -->
-    <div id="dashboardSection">
-      
-      <div class="top-header">
+    <div class="grid">
+      <div class="stat"><b id="totalCount">–</b><span class="muted">Iscritti KV</span></div>
+      <div class="stat"><b id="consentedCount" class="ok">–</b><span class="muted">Consenso verificato</span></div>
+      <div class="stat"><b id="legacyCount" class="warn">–</b><span class="muted">Legacy da migrare</span></div>
+      <div class="stat"><b id="segmentState" class="blue">–</b><span class="muted">Segment Resend</span></div>
+    </div>
+
+    <section class="panel">
+      <div class="row between">
         <div>
-          <div class="badge">Raffaella Carrà Hologram Official</div>
-          <h1 style="font-size: 26px; margin-top: 6px; font-weight: 700;">Gestione Newsletter</h1>
+          <h2>1. Collegamento Resend</h2>
+          <p class="muted">Crea o recupera automaticamente il Segment <b>Raffa Live — Consensi verificati</b>. Alla prima sincronizzazione i legacy vengono migrati automaticamente perché hai confermato che avevano già dato il consenso.</p>
         </div>
-        <button class="btn btn-secondary btn-sm" onclick="logout()">Esci ✖</button>
+        <div class="row">
+          <button id="setupBtn" class="secondary">Inizializza Resend</button>
+          <button id="syncBtn">Sincronizza ora</button>
+        </div>
       </div>
+      <div id="resendState" class="notice">Controllo configurazione…</div>
+      <div id="syncBox" class="hidden">
+        <div class="row between" style="margin-top:12px">
+          <span id="syncText" class="muted">Preparazione sincronizzazione…</span>
+          <strong id="syncPercent">0%</strong>
+        </div>
+        <div class="progress"><i id="syncBar"></i></div>
+      </div>
+    </section>
 
-      <!-- Scheda Statistiche & Azioni -->
-      <div class="stats-card">
+    <section class="panel">
+      <div class="row between">
         <div>
-          <div class="stat-number" id="totalCount">-</div>
-          <div class="stat-label">Totale Iscritti nel Database</div>
+          <h2>2. Iscritti</h2>
+          <p class="muted">I nuovi iscritti usano il consenso registrato; i legacy vengono marcati come migrazione amministrativa e aggiunti al Segment alla prima sincronizzazione.</p>
         </div>
-
-        <div class="actions-bar">
-          <button class="btn btn-send" onclick="openBroadcastModal()">
-            ✉️ Invia Email Massiva
-          </button>
-          <button class="btn btn-primary" onclick="downloadCSV()">
-            📥 Scarica CSV
-          </button>
-          <button class="btn btn-secondary" onclick="copyAllEmails()">
-            📋 Copia Tutte
-          </button>
-          <button class="btn btn-secondary" onclick="downloadTXT()">
-            📄 Scarica TXT
-          </button>
-        </div>
+        <input id="search" type="search" placeholder="Cerca email…" style="max-width:320px">
       </div>
-
-      <!-- Barra di Ricerca in Tempo Reale -->
-      <div class="search-wrapper">
-        <input type="text" id="searchInput" placeholder="🔍 Cerca email nella lista..." oninput="filterSubscribers()" />
-      </div>
-
-      <!-- Tabella Iscritti -->
-      <div class="table-container">
+      <div class="table-wrap" style="margin-top:10px">
         <table>
           <thead>
-            <tr>
-              <th style="width: 60px;">#</th>
-              <th>Indirizzo Email</th>
-              <th style="width: 200px;">Data Registrazione</th>
-            </tr>
+            <tr><th>Email</th><th>Consenso</th><th>Registrazione</th><th>Data consenso</th></tr>
           </thead>
-          <tbody id="subscribersTableBody">
-            <tr>
-              <td colspan="3" class="empty-state">Caricamento iscritti in corso...</td>
-            </tr>
-          </tbody>
+          <tbody id="tbody"></tbody>
         </table>
       </div>
+    </section>
 
-    </div>
 
-  </div>
-
-  <!-- MODAL INVIO EMAIL MASSIVA -->
-  <div id="broadcastModal" class="modal-overlay">
-    <div class="modal">
-      <div class="modal-header">
+    <section class="panel">
+      <div class="row between">
         <div>
-          <h2 style="font-size: 18px; font-weight: 700; color: #fff;">Invia Comunicazione Massiva (Resend)</h2>
-          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-            Invia un'email a tutti gli iscritti tramite l'API Batch di Resend.
+          <h2>3. Email automatica nuova iscrizione</h2>
+          <p class="muted">
+            Questa è la mail che parte automaticamente quando una persona inserisce la propria email sul sito.
+            La puoi modificare qui senza cambiare codice.
           </p>
         </div>
-        <button class="btn btn-secondary btn-sm" onclick="closeBroadcastModal()">Chiudi ✖</button>
+        <div id="signupTemplateBadge" class="badge">DEFAULT</div>
       </div>
 
-      <div class="modal-body">
-        
-        <!-- Mittente -->
-        <div>
-          <div class="field-label">
-            <span>Mittente (From)</span>
-            <span style="font-size: 11px; color: var(--gold-light);">Dominio certificato Resend</span>
-          </div>
-          <input type="text" id="broadcastFrom" value="Raffaella Carrà Official &lt;newsletter@raffaellacarraofficial.com&gt;" />
-        </div>
+      <label for="signupSubject">Oggetto</label>
+      <input id="signupSubject" placeholder="Oggetto email automatica">
 
-        <!-- Destinatari -->
+      <div class="tabs">
+        <button id="signupEditTabBtn" class="secondary" type="button">HTML</button>
+        <button id="signupPreviewTabBtn" class="secondary" type="button">Anteprima</button>
+      </div>
+
+      <div id="signupEditorPane">
+        <textarea id="signupHtmlEditor" style="min-height:280px"></textarea>
+        <p class="tiny">
+          Puoi usare <code>{{email}}</code> dentro oggetto/HTML/testo per inserire automaticamente l'email dell'iscritto.
+        </p>
+      </div>
+
+      <div id="signupPreviewPane" class="hidden">
+        <iframe id="signupPreviewFrame" title="Anteprima email automatica"></iframe>
+      </div>
+
+      <label for="signupTextEditor">Versione testo semplice</label>
+      <textarea id="signupTextEditor" style="min-height:120px"></textarea>
+
+      <div class="row between" style="margin-top:14px">
+        <div class="row" style="flex:1">
+          <input id="signupTestEmail" type="email" placeholder="Email per test" style="max-width:320px">
+          <button id="signupTestBtn" class="secondary" type="button">Invia test</button>
+        </div>
+        <div class="row">
+          <button id="signupResetBtn" class="danger" type="button">Ripristina default</button>
+          <button id="signupSaveBtn" type="button">Salva mail automatica</button>
+        </div>
+      </div>
+      <div id="signupTemplateStatus" class="hidden"></div>
+    </section>
+
+    <section class="panel send-card">
+      <div class="row between">
         <div>
-          <div class="field-label">Destinatari dell'invio</div>
-          <select id="broadcastTarget" onchange="updateRecipientCount()">
-            <option value="all">Tutti gli iscritti registrati (caricamento...)</option>
-            <option value="filtered">Solo gli iscritti filtrati dalla ricerca</option>
+          <h2>4. Crea Broadcast</h2>
+          <p class="muted">Prima dell'invio il pannello sincronizza automaticamente tutti i consensi verificati.</p>
+        </div>
+        <div class="badge ok">RESEND BROADCAST API</div>
+      </div>
+
+      <div class="split">
+        <div>
+          <label for="broadcastName">Nome interno campagna</label>
+          <input id="broadcastName" value="Raffa Live — Mailing 13 ottobre">
+        </div>
+        <div>
+          <label for="subject">Oggetto</label>
+          <input id="subject" value="L'attesa sta per finire. Stiamo arrivando ✨">
+        </div>
+      </div>
+
+      <label for="preheader">Preheader inbox</label>
+      <input id="preheader" value="Il 14 ottobre si apre un nuovo capitolo. Sei tra i primi a scoprirlo.">
+
+      <div class="tabs">
+        <button id="editTabBtn" class="secondary" type="button">HTML</button>
+        <button id="previewTabBtn" class="secondary" type="button">Anteprima</button>
+      </div>
+
+      <div id="editorPane">
+        <textarea id="htmlEditor"></textarea>
+        <p class="tiny">Il link di disiscrizione Resend viene aggiunto automaticamente se manca <code>{{{RESEND_UNSUBSCRIBE_URL}}}</code>.</p>
+      </div>
+      <div id="previewPane" class="hidden">
+        <iframe id="previewFrame" title="Anteprima email"></iframe>
+      </div>
+
+      <label for="textEditor">Versione testo semplice (opzionale)</label>
+      <textarea id="textEditor" style="min-height:90px" placeholder="Se vuoto, Resend genera il testo dall'HTML."></textarea>
+
+      <div class="panel" style="margin-top:14px;background:#0c0c12">
+        <h3>Test prima dell'invio reale</h3>
+        <div class="row">
+          <input id="testEmail" type="email" placeholder="tuamail@gmail.com" style="flex:1;min-width:220px">
+          <button id="testBtn" class="secondary" type="button">Test singolo</button>
+          <button id="realBroadcastTestBtn" class="pink" type="button">TEST BROADCAST REALE +3 MIN</button>
+        </div>
+        <p class="tiny" style="margin-top:9px">
+          Il test singolo usa <code>/emails</code>. Il TEST BROADCAST REALE crea invece un Segment dedicato solo a questa email,
+          crea un vero Broadcast Resend e lo programma automaticamente a +3 minuti.
+        </p>
+        <div id="testStatus" class="hidden"></div>
+        <div id="realBroadcastTestStatus" class="hidden"></div>
+      </div>
+
+      <div class="split" style="margin-top:14px">
+        <div>
+          <label for="sendMode">Modalità</label>
+          <select id="sendMode">
+            <option value="draft">Salva come bozza</option>
+            <option value="send">Invia adesso</option>
+            <option value="schedule">Programma invio</option>
           </select>
         </div>
-
-        <!-- Oggetto -->
-        <div>
-          <div class="field-label">Oggetto dell'email (Subject)</div>
-          <input type="text" id="broadcastSubject" placeholder="es. Aggiornamento esclusivo: aperte le prevendite ✨" />
+        <div id="scheduleWrap" class="hidden">
+          <label for="scheduledAt">Data e ora locale</label>
+          <input id="scheduledAt" type="datetime-local">
         </div>
-
-        <!-- Selettore Template -->
-        <div>
-          <div class="field-label">
-            <span>Modello Email</span>
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-secondary btn-sm" onclick="loadOfficialTemplate()">👑 Ricarica Grafica Carrà</button>
-              <button class="btn btn-secondary btn-sm" onclick="loadSimpleTemplate()">📄 Testo Semplice</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tabs Editor / Anteprima -->
-        <div>
-          <div class="tab-buttons">
-            <button class="tab-btn active" id="tabEditBtn" onclick="switchTab('edit')">Modifica HTML / Testo</button>
-            <button class="tab-btn" id="tabPreviewBtn" onclick="switchTab('preview')">Anteprima dal Vivo</button>
-          </div>
-
-          <div id="editorTab">
-            <textarea id="broadcastHtml" rows="12" style="font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.5;" oninput="updatePreview()"></textarea>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-              💡 Suggerimento: Puoi usare il segnaposto <code>{{email}}</code> per inserire l'email dell'iscritto.
-            </div>
-          </div>
-
-          <div id="previewTab" style="display:none;">
-            <iframe id="previewFrame" class="preview-frame"></iframe>
-          </div>
-        </div>
-
-        <!-- Sezione Invio Prova -->
-        <div style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border); padding: 16px; border-radius: 10px;">
-          <div class="field-label" style="margin-bottom: 8px;">
-            <span>🧪 Invia prima una prova alla tua casella</span>
-          </div>
-          <div style="display:flex; gap:8px;">
-            <input type="email" id="testEmailInput" placeholder="inserisci-tua-email@gmail.com" />
-            <button class="btn btn-secondary" onclick="sendTestEmail()" id="testSendBtn">Invia Test</button>
-          </div>
-        </div>
-
-        <!-- Box Avanzamento Invio Massivo -->
-        <div id="progressBox" class="progress-box">
-          <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
-            <span id="progressStatusText">Preparazione invio lotti batch...</span>
-            <span id="progressCountText">0%</span>
-          </div>
-          <div class="progress-bar-container">
-            <div id="progressBarFill" class="progress-bar-fill"></div>
-          </div>
-          <div id="progressDetailText" style="font-size: 11px; color: var(--text-muted);">
-            Invio a pacchetti di 50-100 destinatari per rispetto dei limiti di frequenza.
-          </div>
-        </div>
-
-        <!-- Pulsante Finale Invio Massivo -->
-        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
-          <button class="btn btn-secondary" onclick="closeBroadcastModal()">Annulla</button>
-          <button class="btn btn-send" id="massSendBtn" onclick="startMassSend()">
-            🚀 Invia Email a Tutti gli Iscritti
-          </button>
-        </div>
-
       </div>
-    </div>
-  </div>
 
-  <!-- Toast Notifica Copia -->
-  <div id="toast" class="toast">✓ Email copiata negli appunti</div>
+      <div class="notice">
+        Resend gestisce coda, throttling e gli unsubscribe. Chi si è già disiscritto in Resend viene saltato automaticamente dal Broadcast.
+      </div>
 
-  <script>
-    let currentPassword = '';
-    let subscribersList = [];
-    let isSending = false;
+      <div class="row between" style="margin-top:15px">
+        <span id="lastBroadcast" class="muted">Nessun Broadcast creato in questa sessione.</span>
+        <button id="broadcastBtn" class="pink" type="button">Crea Broadcast</button>
+      </div>
+      <div id="broadcastStatus" class="hidden"></div>
+    </section>
 
-    // Template ufficiale Raffaella Carrà ("Stiamo Arrivando" - Massima deliverability anti-spam)
-    const OFFICIAL_TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Raffaella Carrà - The Show Must Go On | Stiamo Arrivando</title>
-</head>
-<body style="margin: 0; padding: 0; background-color: #050505; font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased;">
-  
-  <!-- Preheader per anteprima inbox pulita e anti-spam -->
-  <div style="display:none;font-size:1px;color:#050505;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;">
-    L'attesa sta per finire. La produzione del primo Official Raffaella Carrà Hologram Concert è pronta. Ecco l'aggiornamento riservato alla lista esclusiva.
-  </div>
+    <section class="panel">
+      <h2>Ultimi Broadcast Resend</h2>
+      <div id="broadcastList" class="muted">Caricamento…</div>
+    </section>
+  </section>
+</main>
 
-  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #050505; padding: 40px 10px;">
-    <tr>
-      <td align="center">
-        
-        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #0a0a0a; border: 1px solid #1a1a1a; border-top: 4px solid #d4af37; border-radius: 8px; overflow: hidden;">
-          
-          <!-- Banner Superiore Ufficiale -->
-          <tr>
-            <td align="center" style="padding: 50px 30px 30px 30px; border-bottom: 1px solid #1a1a1a;">
-              <h1 style="color: #ffffff; font-size: 42px; margin: 0; font-family: 'Arial Black', Impact, Arial, sans-serif; text-transform: uppercase; letter-spacing: 6px; font-weight: 900;">
-                RAFFAELLA
-              </h1>
-              <h2 style="color: #d4af37; font-size: 15px; margin: 15px 0 0 0; font-family: Arial, sans-serif; font-style: italic; letter-spacing: 3px; font-weight: normal;">
-                The Show Must Go On
-              </h2>
-            </td>
-          </tr>
-
-          <!-- Corpo Principale -->
-          <tr>
-            <td align="center" style="padding: 40px 30px;">
-              
-              <h3 style="color: #ffffff; font-size: 24px; margin: 0 0 25px 0; font-weight: normal; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; font-style: italic; text-align: center;">
-                L'attesa sta per finire. Stiamo arrivando.
-              </h3>
-              
-              <p style="color: #cccccc; font-size: 15px; line-height: 1.8; margin: 0 0 25px 0; text-align: left;">
-                Qualche tempo fa hai scelto di unirti alla nostra lista esclusiva per essere tra i primissimi a vivere il ritorno sul palco di Raffaella Carrà in una veste straordinaria e mai vista prima.
-              </p>
-              
-              <p style="color: #cccccc; font-size: 15px; line-height: 1.8; margin: 0 0 35px 0; text-align: left;">
-                Oggi siamo entusiasti di annunciarti che la produzione del primo <strong style="color: #d4af37; font-weight: normal;">Official Raffaella Carrà Hologram Concert</strong> è entrata nel suo momento decisivo. La tecnologia olografica volumetrica di nuova generazione, l'audio rimasterizzato dai nastri originali e un corpo di ballo eccezionale sono pronti a far rivivere la sua leggenda.
-              </p>
-
-              <!-- Divisore Elegante Oro -->
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 auto 35px auto;">
-                <tr>
-                  <td align="center" style="border-top: 1px solid #222222; border-bottom: 1px solid #222222; padding: 18px 0;">
-                    <h2 style="color: #d4af37; font-size: 18px; margin: 0; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 3px; font-weight: normal;">
-                      Sei pronto a fare rumore?
-                    </h2>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Box Notifica Esclusiva -->
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #111111; border-left: 3px solid #d4af37; padding: 22px; margin-bottom: 35px;">
-                <tr>
-                  <td align="left">
-                    <p style="color: #ffffff; font-size: 14px; font-weight: bold; margin: 0 0 12px 0;">
-                      ✨ COSA ACCADRÀ A BREVE PER GLI ISCRITTI:
-                    </p>
-                    <p style="color: #aaaaaa; font-size: 13px; line-height: 1.6; margin: 0 0 8px 0;">
-                      ✓ <strong>Annuncio Date Ufficiali:</strong> sveleremo il calendario delle prime date nelle grandi arene.
-                    </p>
-                    <p style="color: #aaaaaa; font-size: 13px; line-height: 1.6; margin: 0 0 8px 0;">
-                      ✓ <strong>Accesso Prioritario 24h:</strong> riceverai un link riservato per acquistare i tuoi biglietti 24 ore prima dell'apertura generale.
-                    </p>
-                    <p style="color: #aaaaaa; font-size: 13px; line-height: 1.6; margin: 0;">
-                      ✓ <strong>Posti Migliori Garantiti:</strong> la certezza di scegliere le poltronissime prima del sold out.
-                    </p>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Bottone Call to Action Elegante -->
-              <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto 35px auto;">
-                <tr>
-                  <td align="center" style="border-radius: 4px; background-color: #d4af37;">
-                    <a href="https://raffaellacarraofficial.com" target="_blank" style="font-size: 13px; font-family: Arial, sans-serif; color: #000000; text-decoration: none; padding: 14px 28px; border-radius: 4px; display: inline-block; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
-                      SCOPRI IL SITO UFFICIALE ↗
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
-              <p style="color: #cccccc; font-size: 14px; line-height: 1.8; margin: 0 0 30px 0; text-align: left;">
-                Tieni d'occhio questa casella email nei prossimi giorni. Sarà qui che ti invieremo il codice e l'accesso diretto.
-              </p>
-
-              <!-- Firma -->
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 20px;">
-                <tr>
-                  <td align="right">
-                    <p style="color: #888888; font-size: 16px; margin: 0; font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; font-style: italic;">
-                      A presto,<br>
-                      <span style="color: #d4af37; font-size: 20px;">Raffa Holo Team</span>
-                    </p>
-                  </td>
-                </tr>
-              </table>
-
-            </td>
-          </tr>
-
-          <!-- Footer Antispam Certificato e Trasparente -->
-          <tr>
-            <td align="center" style="padding: 30px; background-color: #080808; border-top: 1px solid #151515;">
-              <p style="color: #666666; font-size: 11px; line-height: 1.6; margin: 0 0 10px 0;">
-                Hai ricevuto questa comunicazione perché ti sei iscritto alla lista prioritaria su <a href="https://raffaellacarraofficial.com" style="color: #d4af37; text-decoration: none;">raffaellacarraofficial.com</a>.
-              </p>
-              <p style="color: #555555; font-size: 11px; margin: 0 0 15px 0;">
-                Se non desideri più ricevere aggiornamenti sull'evento, rispondi a questa email scrivendo "CANCELLAMI".
-              </p>
-              <p style="color: #444444; font-size: 11px; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
-                © 2026 Raffaella Carrà Official Hologram Concert • Tutti i diritti riservati
-              </p>
-            </td>
-          </tr>
-
-        </table>
-
-      </td>
-    </tr>
+<script>
+(() => {
+  const OFFICIAL_TEMPLATE = `<!doctype html>
+<html>
+<body style="margin:0;padding:0;background:#050505;font-family:Arial,Helvetica,sans-serif;color:#fff">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#050505;padding:28px 10px">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:620px;background:#0b0b0b;border:1px solid #222;border-top:4px solid #d4af37;border-radius:10px;overflow:hidden">
+        <tr><td align="center" style="padding:44px 28px 30px">
+          <div style="font-size:40px;letter-spacing:5px;font-weight:900">RAFFAELLA</div>
+          <div style="margin-top:10px;color:#d4af37;font-size:14px;letter-spacing:3px;font-style:italic">THE SHOW MUST GO ON</div>
+        </td></tr>
+        <tr><td style="padding:10px 32px 38px">
+          <h1 style="font-family:Georgia,serif;font-size:26px;font-weight:400;font-style:italic;text-align:center;margin:15px 0 26px">L'attesa sta per finire.</h1>
+          <p style="color:#d5d5d5;font-size:15px;line-height:1.75">Sei nella lista ufficiale del primo <strong style="color:#d4af37">Raffaella Carrà Hologram Concert</strong>.</p>
+          <p style="color:#d5d5d5;font-size:15px;line-height:1.75">Il 14 ottobre si apre un nuovo capitolo. Essendo tra gli iscritti, riceverai gli aggiornamenti ufficiali e l'accesso alle comunicazioni dedicate.</p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;background:#111;border-left:3px solid #d4af37">
+            <tr><td style="padding:20px">
+              <div style="color:#d4af37;font-size:16px;letter-spacing:2px;text-align:center">SEI PRONTO A FARE RUMORE?</div>
+            </td></tr>
+          </table>
+          <p style="color:#888;font-size:12px;line-height:1.55;text-align:center;margin-top:30px">
+            Ricevi questa comunicazione perché hai acconsentito agli aggiornamenti via email.
+            <br><a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:#aaa;text-decoration:underline">Disiscriviti</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
   </table>
-
 </body>
 </html>`;
 
-    const SIMPLE_TEMPLATE = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #111;">
-  <h2 style="color: #d4af37;">Raffaella Carrà Hologram Official</h2>
-  <p>Ciao,</p>
-  <p>L'attesa sta per finire: stiamo arrivando con le date ufficiali del tour!</p>
-  <p>A presto,<br><strong>Raffa Holo Team</strong></p>
-</div>`;
+  const $ = id => document.getElementById(id);
+  let password = sessionStorage.getItem('raffa_admin_password') || '';
+  let subscribers = [];
+  let state = null;
+  let syncing = false;
+  let signupTemplateLoaded = false;
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedPwd = sessionStorage.getItem('subscribers_pwd');
-      if (savedPwd) {
-        currentPassword = savedPwd;
-        fetchSubscribers(savedPwd);
-      }
-      document.getElementById('broadcastSubject').value = "L'attesa sta per finire. Stiamo arrivando ✨";
-      document.getElementById('broadcastHtml').value = OFFICIAL_TEMPLATE;
-      updatePreview();
+  $('htmlEditor').value = OFFICIAL_TEMPLATE;
+
+  function fmt(value) {
+    if (!value) return '—';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString('it-IT');
+  }
+
+  function showMessage(el, type, text) {
+    el.className = type;
+    el.textContent = text;
+  }
+
+  function hideMessage(el) {
+    el.className = 'hidden';
+    el.textContent = '';
+  }
+
+  async function api(path, options = {}) {
+    const headers = new Headers(options.headers || {});
+    headers.set('x-admin-password', password);
+    if (options.body && !headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json');
+    }
+
+    return fetch(path, {
+      ...options,
+      headers,
+      cache: 'no-store'
     });
+  }
 
-    async function handleLogin(e) {
-      if (e) e.preventDefault();
-      const pwd = document.getElementById('passwordInput').value.trim();
-      const err = document.getElementById('errorMsg');
-      const btn = document.getElementById('loginBtn');
-      err.style.display = 'none';
-      btn.textContent = 'Verifica...';
-      btn.disabled = true;
+  async function jsonApi(path, options = {}) {
+    const response = await api(path, options);
+    let data = {};
+    try { data = await response.json(); } catch (_) {}
 
-      const success = await fetchSubscribers(pwd);
-      btn.textContent = 'Sblocca Pannello';
-      btn.disabled = false;
-
-      if (!success) {
-        err.style.display = 'block';
-      }
+    if (!response.ok || data.success === false) {
+      throw new Error(data.error || `Errore HTTP ${response.status}`);
     }
 
-    async function fetchSubscribers(pwd) {
-      try {
-        const res = await fetch('/api/subscribers?pwd=' + encodeURIComponent(pwd));
-        const data = await res.json();
+    return data;
+  }
 
-        if (res.ok && data.success) {
-          currentPassword = pwd;
-          sessionStorage.setItem('subscribers_pwd', pwd);
-          subscribersList = data.subscribers || [];
+  async function loadSubscribers() {
+    const data = await jsonApi('/api/subscribers');
+    subscribers = Array.isArray(data.subscribers) ? data.subscribers : [];
+    $('totalCount').textContent = data.count ?? subscribers.length;
+    $('consentedCount').textContent = data.consentedCount ?? subscribers.filter(x => x.consentVerified).length;
+    $('legacyCount').textContent = data.legacyCount ?? subscribers.filter(x => !x.consentVerified).length;
+    renderSubscribers();
+  }
 
-          document.getElementById('loginSection').style.display = 'none';
-          document.getElementById('dashboardSection').style.display = 'block';
-          document.getElementById('totalCount').textContent = data.count || subscribersList.length;
+  async function loadState() {
+    const response = await api('/api/resend-admin');
+    let data = {};
+    try { data = await response.json(); } catch (_) {}
 
-          renderTable(subscribersList);
-          updateRecipientCount();
-          return true;
-        } else {
-          return false;
-        }
-      } catch (err) {
-        console.error("Errore fetch:", err);
-        return false;
-      }
+    if (response.status === 401) throw new Error('Password non valida.');
+    if (response.status === 503) throw new Error(data.error || 'Configurazione Cloudflare incompleta.');
+
+    state = data;
+
+    if (data.signupTemplate && !signupTemplateLoaded) {
+      fillSignupTemplate(data.signupTemplate);
+      signupTemplateLoaded = true;
     }
 
-    function renderTable(list) {
-      const tbody = document.getElementById('subscribersTableBody');
-      if (!list || list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Nessun iscritto trovato.</td></tr>';
-        return;
-      }
+    if (data.segment?.id) {
+      $('segmentState').textContent = 'OK';
+      showMessage(
+        $('resendState'),
+        'success',
+        `Segment pronto: ${data.segment.name} · ${data.segment.id}`
+      );
+    } else {
+      $('segmentState').textContent = 'NO';
+      showMessage(
+        $('resendState'),
+        'error',
+        data.setupError || 'Segment Resend non configurato.'
+      );
+    }
 
-      let html = '';
-      list.forEach((sub, idx) => {
-        let dateFormatted = '-';
-        if (sub.date) {
-          try {
-            const d = new Date(sub.date);
-            dateFormatted = d.toLocaleDateString('it-IT', {
-              day: '2-digit', month: '2-digit', year: 'numeric',
-              hour: '2-digit', minute: '2-digit'
-            });
-          } catch (_) {}
-        }
+    renderBroadcasts(data.broadcasts || []);
 
-        html += `
-          <tr>
-            <td style="color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px;">${idx + 1}</td>
-            <td>
-              <div class="email-cell">
-                <span>${escapeHtml(sub.email)}</span>
-                <button class="copy-btn" onclick="copySingleEmail('${escapeHtml(sub.email)}')">Copia</button>
-              </div>
-            </td>
-            <td class="date-cell">${dateFormatted}</td>
-          </tr>
-        `;
+    if (data.lastBroadcast?.id) {
+      $('lastBroadcast').textContent =
+        `Ultimo: ${data.lastBroadcast.id} · ${data.lastBroadcast.mode} · ${data.lastBroadcast.subject}`;
+    }
+  }
+
+  function renderSubscribers() {
+    const q = $('search').value.trim().toLowerCase();
+    const list = q
+      ? subscribers.filter(item => String(item.email).toLowerCase().includes(q))
+      : subscribers;
+
+    const tbody = $('tbody');
+    tbody.textContent = '';
+
+    if (!list.length) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 4;
+      td.className = 'muted';
+      td.textContent = 'Nessun iscritto trovato.';
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+      return;
+    }
+
+    for (const item of list) {
+      const tr = document.createElement('tr');
+
+      const emailTd = document.createElement('td');
+      emailTd.textContent = item.email || '';
+
+      const consentTd = document.createElement('td');
+      const badge = document.createElement('span');
+      badge.className = 'badge ' + (item.consentVerified ? 'ok' : 'warn');
+      badge.textContent = item.legacyMigrated
+        ? 'LEGACY MIGRATO'
+        : (item.consentVerified ? 'VERIFICATO' : 'LEGACY');
+      consentTd.appendChild(badge);
+
+      const regTd = document.createElement('td');
+      regTd.textContent = fmt(item.date);
+
+      const consentDateTd = document.createElement('td');
+      consentDateTd.textContent = fmt(item.consentAt);
+
+      tr.append(emailTd, consentTd, regTd, consentDateTd);
+      tbody.appendChild(tr);
+    }
+  }
+
+  function renderBroadcasts(items) {
+    const box = $('broadcastList');
+    box.textContent = '';
+
+    if (!items.length) {
+      box.textContent = 'Nessun Broadcast disponibile oppure la chiave non consente la lettura.';
+      return;
+    }
+
+    const table = document.createElement('table');
+    const head = document.createElement('thead');
+    head.innerHTML = '<tr><th>Nome / Oggetto</th><th>Stato</th><th>Creato</th></tr>';
+    table.appendChild(head);
+
+    const body = document.createElement('tbody');
+    for (const item of items) {
+      const tr = document.createElement('tr');
+      const a = document.createElement('td');
+      a.textContent = item.name || item.subject || item.id || 'Broadcast';
+      const b = document.createElement('td');
+      b.textContent = item.status || '—';
+      const c = document.createElement('td');
+      c.textContent = fmt(item.created_at || item.createdAt);
+      tr.append(a, b, c);
+      body.appendChild(tr);
+    }
+    table.appendChild(body);
+    box.appendChild(table);
+  }
+
+
+  function fillSignupTemplate(template) {
+    if (!template) return;
+    $('signupSubject').value = template.subject || '';
+    $('signupHtmlEditor').value = template.html || '';
+    $('signupTextEditor').value = template.text || '';
+    $('signupTemplateBadge').textContent = template.isCustom ? 'PERSONALIZZATA' : 'DEFAULT';
+    $('signupTemplateBadge').className = 'badge ' + (template.isCustom ? 'ok' : '');
+    updateSignupPreview();
+  }
+
+  function updateSignupPreview() {
+    $('signupPreviewFrame').srcdoc = $('signupHtmlEditor').value || '';
+  }
+
+  async function saveSignupTemplate() {
+    const subject = $('signupSubject').value.trim();
+    const html = $('signupHtmlEditor').value;
+    const text = $('signupTextEditor').value;
+
+    if (!subject || !html.trim()) {
+      alert('Oggetto e HTML sono obbligatori.');
+      return;
+    }
+
+    $('signupSaveBtn').disabled = true;
+    showMessage($('signupTemplateStatus'), 'notice', 'Salvataggio mail automatica…');
+
+    try {
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({
+          action:'save_signup_template',
+          subject,
+          html,
+          text
+        })
       });
 
-      tbody.innerHTML = html;
+      fillSignupTemplate(data.signupTemplate);
+      signupTemplateLoaded = true;
+      showMessage(
+        $('signupTemplateStatus'),
+        'success',
+        'Mail automatica salvata. Le nuove iscrizioni useranno subito questo contenuto.'
+      );
+    } catch (error) {
+      showMessage($('signupTemplateStatus'), 'error', error.message);
+    } finally {
+      $('signupSaveBtn').disabled = false;
+    }
+  }
+
+  async function resetSignupTemplate() {
+    if (!confirm('Ripristinare la mail automatica originale?')) return;
+
+    $('signupResetBtn').disabled = true;
+    showMessage($('signupTemplateStatus'), 'notice', 'Ripristino template originale…');
+
+    try {
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({ action:'reset_signup_template' })
+      });
+
+      fillSignupTemplate(data.signupTemplate);
+      signupTemplateLoaded = true;
+      showMessage(
+        $('signupTemplateStatus'),
+        'success',
+        'Template originale ripristinato.'
+      );
+    } catch (error) {
+      showMessage($('signupTemplateStatus'), 'error', error.message);
+    } finally {
+      $('signupResetBtn').disabled = false;
+    }
+  }
+
+  async function testSignupTemplate() {
+    const to = $('signupTestEmail').value.trim();
+    if (!to || !to.includes('@')) {
+      alert('Inserisci una email di test valida.');
+      return;
     }
 
-    function filterSubscribers() {
-      const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      let filtered = subscribersList;
-      if (query) {
-        filtered = subscribersList.filter(s => s.email.toLowerCase().includes(query));
-      }
-      renderTable(filtered);
-      updateRecipientCount();
+    $('signupTestBtn').disabled = true;
+    showMessage($('signupTemplateStatus'), 'notice', 'Invio test mail automatica…');
+
+    try {
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({
+          action:'test_signup_template',
+          to,
+          subject:$('signupSubject').value.trim(),
+          html:$('signupHtmlEditor').value,
+          text:$('signupTextEditor').value
+        })
+      });
+
+      showMessage(
+        $('signupTemplateStatus'),
+        'success',
+        `Test mail automatica inviato${data.id ? ' · ' + data.id : ''}.`
+      );
+    } catch (error) {
+      showMessage($('signupTemplateStatus'), 'error', error.message);
+    } finally {
+      $('signupTestBtn').disabled = false;
     }
+  }
 
-    function getActiveFilteredList() {
-      const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      if (!query) return subscribersList;
-      return subscribersList.filter(s => s.email.toLowerCase().includes(query));
+  async function setupResend() {
+    $('setupBtn').disabled = true;
+    showMessage($('resendState'), 'notice', 'Configurazione Segment Resend…');
+
+    try {
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({ action:'setup' })
+      });
+      $('segmentState').textContent = 'OK';
+      showMessage(
+        $('resendState'),
+        'success',
+        `Segment pronto: ${data.segment.name} · ${data.segment.id}`
+      );
+      await loadState();
+    } catch (error) {
+      $('segmentState').textContent = 'NO';
+      showMessage($('resendState'), 'error', error.message);
+    } finally {
+      $('setupBtn').disabled = false;
     }
+  }
 
-    function updateRecipientCount() {
-      const target = document.getElementById('broadcastTarget');
-      const filtered = getActiveFilteredList();
-      target.options[0].text = `Tutti gli iscritti registrati (${subscribersList.length} contatti)`;
-      target.options[1].text = `Solo gli iscritti filtrati (${filtered.length} contatti)`;
-      
-      const massBtn = document.getElementById('massSendBtn');
-      const count = target.value === 'filtered' ? filtered.length : subscribersList.length;
-      massBtn.textContent = `🚀 Invia Email a ${count} Iscritti`;
-    }
+  async function syncAll({ silent = false } = {}) {
+    if (syncing) throw new Error('Sincronizzazione già in corso.');
+    syncing = true;
 
-    /* Modal Gestione Invio */
-    function openBroadcastModal() {
-      updateRecipientCount();
-      document.getElementById('broadcastModal').style.display = 'flex';
-      updatePreview();
-    }
+    $('syncBtn').disabled = true;
+    $('broadcastBtn').disabled = true;
+    $('syncBox').classList.remove('hidden');
+    $('syncBar').style.width = '2%';
+    $('syncPercent').textContent = '0%';
 
-    function closeBroadcastModal() {
-      if (isSending) {
-        if (!confirm("Un invio è in corso. Vuoi davvero chiudere la finestra?")) return;
-      }
-      document.getElementById('broadcastModal').style.display = 'none';
-    }
+    let cursor = null;
+    let pages = 0;
+    let totalProcessed = 0;
+    let totalSynced = 0;
+    let totalConsented = 0;
+    let totalMigratedLegacy = 0;
+    let totalSkipped = 0;
+    let totalErrors = 0;
+    let batchNumber = 0;
 
-    function switchTab(tab) {
-      const editBtn = document.getElementById('tabEditBtn');
-      const prevBtn = document.getElementById('tabPreviewBtn');
-      const editTab = document.getElementById('editorTab');
-      const prevTab = document.getElementById('previewTab');
-
-      if (tab === 'edit') {
-        editBtn.classList.add('active');
-        prevBtn.classList.remove('active');
-        editTab.style.display = 'block';
-        prevTab.style.display = 'none';
-      } else {
-        prevBtn.classList.add('active');
-        editBtn.classList.remove('active');
-        editTab.style.display = 'none';
-        prevTab.style.display = 'block';
-        updatePreview();
-      }
-    }
-
-    function updatePreview() {
-      const html = document.getElementById('broadcastHtml').value;
-      const iframe = document.getElementById('previewFrame');
-      iframe.srcdoc = html;
-    }
-
-    function loadOfficialTemplate() {
-      if (confirm("Vuoi ricaricare il modello grafico ufficiale Raffaella Carrà? Il testo e l'oggetto attuali verranno sostituiti.")) {
-        document.getElementById('broadcastSubject').value = "L'attesa sta per finire. Stiamo arrivando ✨";
-        document.getElementById('broadcastHtml').value = OFFICIAL_TEMPLATE;
-        updatePreview();
-      }
-    }
-
-    function loadSimpleTemplate() {
-      if (confirm("Vuoi caricare il modello a testo minimale? Il testo attuale verrà sostituito.")) {
-        document.getElementById('broadcastHtml').value = SIMPLE_TEMPLATE;
-        updatePreview();
-      }
-    }
-
-    /* Invio Test Singolo */
-    async function sendTestEmail() {
-      const testEmail = document.getElementById('testEmailInput').value.trim();
-      const subject = document.getElementById('broadcastSubject').value.trim();
-      const html = document.getElementById('broadcastHtml').value.trim();
-      const from = document.getElementById('broadcastFrom').value.trim();
-      const btn = document.getElementById('testSendBtn');
-
-      if (!testEmail || !testEmail.includes('@')) {
-        alert("Inserisci un indirizzo email valido per il test.");
-        return;
-      }
-      if (!subject) {
-        alert("Inserisci un oggetto per l'email di test.");
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = "Invio...";
-
-      try {
-        const res = await fetch('/api/send-broadcast', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-password': currentPassword
-          },
-          body: JSON.stringify({
-            password: currentPassword,
-            from: from,
-            subject: "[TEST] " + subject,
-            html: html,
-            recipients: [testEmail]
+    try {
+      do {
+        const data = await jsonApi('/api/resend-admin', {
+          method:'POST',
+          body:JSON.stringify({
+            action:'sync',
+            cursor
           })
         });
 
-        const data = await res.json();
-        if (res.ok && data.success) {
-          showToast(`✓ Email di prova inviata con successo a ${testEmail}`);
-        } else {
-          alert("Errore invio prova: " + (data.error || "Errore sconosciuto"));
-        }
-      } catch (e) {
-        alert("Errore di rete: " + e.message);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Invia Test";
+        pages++;
+        batchNumber++;
+        totalProcessed += data.processed || 0;
+        totalSynced += data.synced || 0;
+        totalConsented += data.consented || 0;
+        totalMigratedLegacy += data.migratedLegacy || 0;
+        totalSkipped += data.skippedTotal || 0;
+        totalErrors += Array.isArray(data.errors) ? data.errors.length : 0;
+        cursor = data.nextCursor || null;
+
+        const consentedTotal = subscribers.length || 1;
+        const percent = Math.min(
+          98,
+          Math.max(4, Math.round((totalProcessed / consentedTotal) * 100))
+        );
+
+        $('syncBar').style.width = percent + '%';
+        $('syncPercent').textContent = percent + '%';
+        $('syncText').textContent =
+          `Scaglione ${batchNumber} · processati ${totalProcessed}/${consentedTotal} · sincronizzati ${totalSynced} · saltati ${totalSkipped} · legacy migrati ${totalMigratedLegacy} · errori reali ${totalErrors}`;
+
+        // V41: ogni scaglione è una nuova invocazione Worker.
+        // La pausa evita raffiche di richieste a Cloudflare/Resend.
+        if (cursor) await new Promise(resolve => setTimeout(resolve, 800));
+      } while (cursor);
+
+      $('syncBar').style.width = '100%';
+      $('syncPercent').textContent = '100%';
+      $('syncText').textContent =
+        `Sincronizzazione completata in ${batchNumber} scaglioni: ${totalSynced} contatti Resend · ${totalSkipped} email saltate · legacy migrati ${totalMigratedLegacy} · ${totalErrors} errori reali`;
+
+      if (totalErrors > 0) {
+        throw new Error(
+          `Sincronizzazione terminata con ${totalErrors} errori. Non invio il Broadcast finché non sono risolti.`
+        );
       }
+
+      if (!silent) {
+        showMessage(
+          $('resendState'),
+          'success',
+          `Segment sincronizzato. ${totalSynced} contatti pronti per i Broadcast${totalMigratedLegacy ? ` · ${totalMigratedLegacy} legacy migrati` : ''}.`
+        );
+      }
+
+      await loadSubscribers();
+
+      return {
+        totalProcessed,
+        totalSynced,
+        totalConsented,
+        totalMigratedLegacy,
+        totalSkipped,
+        totalErrors
+      };
+    } finally {
+      syncing = false;
+      $('syncBtn').disabled = false;
+      $('broadcastBtn').disabled = false;
+    }
+  }
+
+  function updatePreview() {
+    $('previewFrame').srcdoc = $('htmlEditor').value;
+  }
+
+  async function sendTest() {
+    const to = $('testEmail').value.trim();
+    if (!to || !to.includes('@')) {
+      alert('Inserisci una email di test valida.');
+      return;
     }
 
-    /* Invio Massivo a Lotti */
-    async function startMassSend() {
-      const targetType = document.getElementById('broadcastTarget').value;
-      const recipientsList = targetType === 'filtered' ? getActiveFilteredList() : subscribersList;
-      const emails = recipientsList.map(s => s.email);
+    $('testBtn').disabled = true;
+    showMessage($('testStatus'), 'notice', 'Invio test…');
 
-      if (emails.length === 0) {
-        alert("Nessun iscritto a cui inviare l'email.");
-        return;
-      }
-
-      const subject = document.getElementById('broadcastSubject').value.trim();
-      const html = document.getElementById('broadcastHtml').value.trim();
-      const from = document.getElementById('broadcastFrom').value.trim();
-
-      if (!subject) {
-        alert("Inserisci l'oggetto dell'email.");
-        return;
-      }
-      if (!html) {
-        alert("Inserisci il contenuto dell'email.");
-        return;
-      }
-
-      const confirmMsg = `Confermi l'invio dell'email a ${emails.length} destinatari?\n\nOggetto: "${subject}"\nMittente: "${from}"\n\nQuesta operazione non può essere annullata.`;
-      if (!confirm(confirmMsg)) return;
-
-      isSending = true;
-      const massBtn = document.getElementById('massSendBtn');
-      massBtn.disabled = true;
-
-      const progressBox = document.getElementById('progressBox');
-      const pStatus = document.getElementById('progressStatusText');
-      const pCount = document.getElementById('progressCountText');
-      const pFill = document.getElementById('progressBarFill');
-      const pDetail = document.getElementById('progressDetailText');
-
-      progressBox.style.display = 'block';
-
-      const BATCH_SIZE = 50; // Inviamo 50 email per ogni chiamata HTTP per fluidità e zero timeout
-      let totalSent = 0;
-      let totalErrors = 0;
-
-      for (let i = 0; i < emails.length; i += BATCH_SIZE) {
-        const chunk = emails.slice(i, i + BATCH_SIZE);
-        const currentBatchNum = Math.floor(i / BATCH_SIZE) + 1;
-        const totalBatches = Math.ceil(emails.length / BATCH_SIZE);
-
-        pStatus.textContent = `Invio in corso: lotto ${currentBatchNum} di ${totalBatches}...`;
-
-        try {
-          const res = await fetch('/api/send-broadcast', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-admin-password': currentPassword
-            },
-            body: JSON.stringify({
-              password: currentPassword,
-              from: from,
-              subject: subject,
-              html: html,
-              recipients: chunk
-            })
-          });
-
-          const data = await res.json();
-          if (res.ok && data.success) {
-            totalSent += data.sentCount || chunk.length;
-          } else {
-            totalErrors += chunk.length;
-            console.error("Errore nel lotto:", data.error);
-          }
-        } catch (err) {
-          totalErrors += chunk.length;
-          console.error("Errore di rete lotto:", err);
-        }
-
-        const percentage = Math.min(100, Math.round(((i + chunk.length) / emails.length) * 100));
-        pCount.textContent = `${percentage}% (${totalSent}/${emails.length})`;
-        pFill.style.width = `${percentage}%`;
-        pDetail.textContent = `Inviate con successo: ${totalSent} | Errori: ${totalErrors}`;
-
-        // Pausa di 600ms tra i lotti per il rate limit
-        if (i + BATCH_SIZE < emails.length) {
-          await new Promise(r => setTimeout(r, 600));
-        }
-      }
-
-      isSending = false;
-      massBtn.disabled = false;
-      pStatus.textContent = `🎉 Invio completato! ${totalSent} email inviate con successo.`;
-      showToast(`✓ Invio completato: ${totalSent} email inviate!`);
-    }
-
-    /* Funzioni Export e Copia */
-    function copySingleEmail(email) {
-      navigator.clipboard.writeText(email).then(() => {
-        showToast('✓ Email copiata!');
+    try {
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({
+          action:'test',
+          to,
+          subject:$('subject').value.trim(),
+          html:$('htmlEditor').value,
+          text:$('textEditor').value
+        })
       });
+
+      showMessage(
+        $('testStatus'),
+        'success',
+        `Test inviato correttamente${data.id ? ' · ' + data.id : ''}.`
+      );
+    } catch (error) {
+      showMessage($('testStatus'), 'error', error.message);
+    } finally {
+      $('testBtn').disabled = false;
+    }
+  }
+
+
+  async function sendRealBroadcastTest() {
+    const to = $('testEmail').value.trim();
+    const subject = $('subject').value.trim();
+    const html = $('htmlEditor').value.trim();
+
+    if (!to || !to.includes('@')) {
+      alert('Inserisci una email di test valida.');
+      return;
     }
 
-    function copyAllEmails() {
-      if (subscribersList.length === 0) return;
-      const emails = subscribersList.map(s => s.email).join(', ');
-      navigator.clipboard.writeText(emails).then(() => {
-        showToast(`✓ Copiate ${subscribersList.length} email negli appunti`);
+    if (!subject || !html) {
+      alert('Oggetto e HTML sono obbligatori.');
+      return;
+    }
+
+    const ok = confirm(
+      `Creare un vero Broadcast Resend destinato SOLO a ${to} e programmarlo tra circa 3 minuti?\n\n` +
+      `Questo serve a testare davvero Segment → Broadcast → Scheduling → Invio.`
+    );
+    if (!ok) return;
+
+    $('realBroadcastTestBtn').disabled = true;
+    $('testBtn').disabled = true;
+
+    showMessage(
+      $('realBroadcastTestStatus'),
+      'notice',
+      'Creo Segment TEST dedicato, aggiungo il contatto e programmo il vero Broadcast a +3 minuti…'
+    );
+
+    try {
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({
+          action:'test_broadcast',
+          to,
+          subject,
+          preheader:$('preheader').value.trim(),
+          html,
+          text:$('textEditor').value
+        })
       });
+
+      const id = data.broadcast?.id || data.resend?.id || '';
+      const when = data.scheduledAt ? fmt(data.scheduledAt) : 'tra circa 3 minuti';
+
+      showMessage(
+        $('realBroadcastTestStatus'),
+        'success',
+        `TEST BROADCAST REALE programmato SOLO per ${to} · ${when}${id ? ' · ID ' + id : ''}. Aspetta l'arrivo della mail: se arriva, hai verificato l'intero flusso Broadcast.`
+      );
+
+      await loadState();
+    } catch (error) {
+      showMessage($('realBroadcastTestStatus'), 'error', error.message);
+    } finally {
+      $('realBroadcastTestBtn').disabled = false;
+      $('testBtn').disabled = false;
+    }
+  }
+
+  async function createBroadcast() {
+    const mode = $('sendMode').value;
+    const subject = $('subject').value.trim();
+    const html = $('htmlEditor').value.trim();
+
+    if (!subject || !html) {
+      alert('Oggetto e HTML sono obbligatori.');
+      return;
     }
 
-    function downloadCSV() {
-      if (!currentPassword) return;
-      window.location.href = `/api/subscribers?pwd=${encodeURIComponent(currentPassword)}&format=csv`;
+    let scheduledAt = null;
+    if (mode === 'schedule') {
+      const local = $('scheduledAt').value;
+      if (!local) {
+        alert('Scegli data e ora della programmazione.');
+        return;
+      }
+      const date = new Date(local);
+      if (Number.isNaN(date.getTime())) {
+        alert('Data non valida.');
+        return;
+      }
+      scheduledAt = date.toISOString();
     }
 
-    function downloadTXT() {
-      if (subscribersList.length === 0) return;
-      const content = subscribersList.map(s => s.email).join('\n');
-      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'iscritti_raffaella_carra.txt';
-      link.click();
-      URL.revokeObjectURL(link.href);
-      showToast('✓ File TXT scaricato');
+    if (mode === 'send' || mode === 'schedule') {
+      const verb = mode === 'send' ? 'INVIARE ORA' : 'PROGRAMMARE';
+      if (!confirm(`${verb} il Broadcast a tutti i contatti con consenso presenti nel Segment Resend?`)) {
+        return;
+      }
+
+      const token = prompt('Per confermare scrivi esattamente INVIA');
+      if (token !== 'INVIA') {
+        alert('Invio annullato.');
+        return;
+      }
     }
 
-    function logout() {
-      sessionStorage.removeItem('subscribers_pwd');
-      currentPassword = '';
-      document.getElementById('passwordInput').value = '';
-      document.getElementById('dashboardSection').style.display = 'none';
-      document.getElementById('loginSection').style.display = 'block';
-    }
+    $('broadcastBtn').disabled = true;
+    showMessage($('broadcastStatus'), 'notice', 'Preparazione Broadcast…');
 
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 2500);
-    }
+    try {
+      if (mode !== 'draft') {
+        showMessage(
+          $('broadcastStatus'),
+          'notice',
+          'Sincronizzo prima tutti i consensi verificati con Resend…'
+        );
+        await syncAll({ silent:true });
+      } else {
+        await setupResend();
+      }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+      showMessage(
+        $('broadcastStatus'),
+        'notice',
+        mode === 'draft'
+          ? 'Creo la bozza su Resend…'
+          : (mode === 'schedule' ? 'Programmo il Broadcast su Resend…' : 'Invio il Broadcast tramite Resend…')
+      );
+
+      const data = await jsonApi('/api/resend-admin', {
+        method:'POST',
+        body:JSON.stringify({
+          action:'broadcast',
+          name:$('broadcastName').value.trim(),
+          subject,
+          preheader:$('preheader').value.trim(),
+          html,
+          text:$('textEditor').value,
+          mode,
+          scheduledAt,
+          confirmation:(mode === 'send' || mode === 'schedule') ? 'INVIA' : ''
+        })
+      });
+
+      const id = data.broadcast?.id || data.resend?.id || '';
+      const message =
+        mode === 'draft'
+          ? `Bozza creata su Resend${id ? ' · ' + id : ''}.`
+          : mode === 'schedule'
+            ? `Broadcast programmato${id ? ' · ' + id : ''} per ${fmt(scheduledAt)}.`
+            : `Broadcast affidato alla coda Resend${id ? ' · ' + id : ''}.`;
+
+      showMessage($('broadcastStatus'), 'success', message);
+      $('lastBroadcast').textContent = message;
+      await loadState();
+    } catch (error) {
+      showMessage($('broadcastStatus'), 'error', error.message);
+    } finally {
+      $('broadcastBtn').disabled = false;
     }
-  </script>
+  }
+
+  async function login() {
+    try {
+      await Promise.all([loadSubscribers(), loadState()]);
+      $('loginPanel').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      sessionStorage.setItem('raffa_admin_password', password);
+      $('password').value = '';
+      hideMessage($('loginError'));
+    } catch (error) {
+      password = '';
+      sessionStorage.removeItem('raffa_admin_password');
+      showMessage($('loginError'), 'error', error.message);
+      $('app').classList.add('hidden');
+      $('loginPanel').classList.remove('hidden');
+    }
+  }
+
+  $('loginForm').addEventListener('submit', event => {
+    event.preventDefault();
+    password = $('password').value.trim();
+    if (password) login();
+  });
+
+  $('logoutBtn').addEventListener('click', () => {
+    password = '';
+    subscribers = [];
+    state = null;
+    sessionStorage.removeItem('raffa_admin_password');
+    $('app').classList.add('hidden');
+    $('loginPanel').classList.remove('hidden');
+  });
+
+  $('setupBtn').addEventListener('click', setupResend);
+  $('syncBtn').addEventListener('click', () => {
+    syncAll().catch(error => showMessage($('resendState'), 'error', error.message));
+  });
+  $('search').addEventListener('input', renderSubscribers);
+  $('testBtn').addEventListener('click', sendTest);
+  $('realBroadcastTestBtn').addEventListener('click', sendRealBroadcastTest);
+  $('broadcastBtn').addEventListener('click', createBroadcast);
+
+  $('signupSaveBtn').addEventListener('click', saveSignupTemplate);
+  $('signupResetBtn').addEventListener('click', resetSignupTemplate);
+  $('signupTestBtn').addEventListener('click', testSignupTemplate);
+
+  $('signupEditTabBtn').addEventListener('click', () => {
+    $('signupEditorPane').classList.remove('hidden');
+    $('signupPreviewPane').classList.add('hidden');
+  });
+
+  $('signupPreviewTabBtn').addEventListener('click', () => {
+    updateSignupPreview();
+    $('signupEditorPane').classList.add('hidden');
+    $('signupPreviewPane').classList.remove('hidden');
+  });
+
+  $('sendMode').addEventListener('change', () => {
+    $('scheduleWrap').classList.toggle('hidden', $('sendMode').value !== 'schedule');
+    $('broadcastBtn').textContent =
+      $('sendMode').value === 'draft' ? 'Crea bozza'
+      : $('sendMode').value === 'schedule' ? 'Programma Broadcast'
+      : 'Invia Broadcast';
+  });
+
+  $('editTabBtn').addEventListener('click', () => {
+    $('editorPane').classList.remove('hidden');
+    $('previewPane').classList.add('hidden');
+  });
+
+  $('previewTabBtn').addEventListener('click', () => {
+    updatePreview();
+    $('editorPane').classList.add('hidden');
+    $('previewPane').classList.remove('hidden');
+  });
+
+  if (password) login();
+})();
+</script>
 </body>
 </html>
