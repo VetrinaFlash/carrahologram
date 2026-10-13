@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v15-style')) return;
+  if (document.getElementById('launch-page-v16-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v15-style';
+  style.id = 'launch-page-v16-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1948,6 +1948,46 @@
   }
 }
 
+
+
+/* ========================================================================== */
+/* V16 — MOBILE PIÙ LARGO / EFFETTO FULL                                      */
+/* ========================================================================== */
+
+/*
+  V15 manteneva correttamente visibili i tre partner, ma la locandina risultava
+  troppo "stretta" su iPhone.
+
+  Invece di deformare l'immagine, allarghiamo realmente il poster-frame oltre
+  i bordi del viewport. Il renderer 9-slice ricalcola quindi la locandina su un
+  frame leggermente più largo e il contenitore principale taglia solo pochi px
+  laterali. Il centro non viene stirato.
+*/
+@media(max-aspect-ratio:1/1){
+  .poster-frame{
+    left:-4vw!important;
+    right:-4vw!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+}
+
+/* iPhone stretti: un filo più di presenza, senza mangiare i loghi laterali. */
+@media(max-width:430px) and (max-aspect-ratio:1/1){
+  .poster-frame{
+    left:-4.5vw!important;
+    right:-4.5vw!important;
+  }
+}
+
+/* Su schermi molto stretti non andiamo oltre per proteggere Laserman/Atlantico. */
+@media(max-width:350px) and (max-aspect-ratio:1/1){
+  .poster-frame{
+    left:-4vw!important;
+    right:-4vw!important;
+  }
+}
+
 `;
   document.head.appendChild(style);
 })();
@@ -2296,7 +2336,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V15 — fullscreen mobile con fascia partner sempre visibile.
+// Launch page V16 — mobile più largo, fullscreen e fascia partner visibile.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2323,8 +2363,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV15 === '1') return;
-    panel.dataset.launchV15 = '1';
+    if (!panel || panel.dataset.launchV16 === '1') return;
+    panel.dataset.launchV16 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2577,15 +2617,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV15() {
+  function initLaunchV16() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV15, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV16, { once:true });
   } else {
-    initLaunchV15();
+    initLaunchV16();
   }
 })();
