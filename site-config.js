@@ -3672,3 +3672,39 @@ window.CARRA_CONFIG = Object.freeze({
   `;
   document.head.appendChild(style);
 })();
+
+
+// V35 — mobile mail lower + desktop ticket/mail equal width.
+(() => {
+  if (document.getElementById('launch-page-v35-mail-layout')) return;
+
+  const style = document.createElement('style');
+  style.id = 'launch-page-v35-mail-layout';
+  style.textContent = `
+    /* ---------------- DESKTOP ---------------- */
+    @media (min-aspect-ratio:1001/1000){
+      /* Stessa larghezza ottica: Vivaticket e newsletter 50/50. */
+      .action-dock .ticket-button,
+      .action-dock .home-signup{
+        flex:0 0 calc((100% - 12px)/2)!important;
+        width:calc((100% - 12px)/2)!important;
+        max-width:none!important;
+      }
+    }
+
+    /* ---------------- MOBILE ---------------- */
+    @media (max-aspect-ratio:1/1){
+      /* Più aria tra Vivaticket e newsletter. */
+      .action-dock .home-signup{
+        top:calc(var(--poster-ticket-y,63%) + 46px)!important;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .action-dock .home-signup{
+        top:calc(var(--poster-ticket-y,63%) + 46px)!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+})();

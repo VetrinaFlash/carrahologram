@@ -1,0 +1,3 @@
+JS syntax: OK
+Desktop equal width: OK
+Mobile mail lower: OK
