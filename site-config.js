@@ -3204,3 +3204,109 @@ window.CARRA_CONFIG = Object.freeze({
     initLaunchV21();
   }
 })();
+
+
+// V22 — notebook / MacBook 14 fix for signup row.
+(() => {
+  if (document.getElementById('launch-page-v22-macbook-fix')) return;
+  const style = document.createElement('style');
+  style.id = 'launch-page-v22-macbook-fix';
+  style.textContent = `
+    @media (min-aspect-ratio:1001/1000) and (max-width:1600px){
+      .action-dock{
+        width:min(1280px,84vw)!important;
+        gap:16px!important;
+        align-items:center!important;
+      }
+
+      .ticket-button{
+        flex:0 0 calc(41% - 8px)!important;
+        width:calc(41% - 8px)!important;
+        max-width:none!important;
+      }
+
+      .home-signup{
+        flex:0 0 calc(59% - 8px)!important;
+        width:calc(59% - 8px)!important;
+        max-width:none!important;
+      }
+
+      .home-signup,
+      .home-signup form,
+      .home-signup .email-row{
+        min-width:0!important;
+      }
+
+      .home-signup .email-row{
+        grid-template-columns:minmax(0,1fr) 102px!important;
+        grid-template-rows:31px 12px!important;
+        height:47px!important;
+        min-height:47px!important;
+        padding:3px 5px!important;
+        column-gap:6px!important;
+        row-gap:0!important;
+        border-radius:11px!important;
+      }
+
+      .home-signup .email-row > input[type="email"]{
+        height:31px!important;
+        min-height:31px!important;
+        align-self:end!important;
+        padding:0 10px!important;
+        font-size:12.2px!important;
+      }
+
+      .home-signup .email-row > button[type="submit"]{
+        grid-row:1 / span 2!important;
+        align-self:stretch!important;
+        min-width:102px!important;
+        width:102px!important;
+        height:auto!important;
+        min-height:0!important;
+        padding:0 12px!important;
+        margin:0!important;
+        border-radius:8px!important;
+        font-size:9px!important;
+        letter-spacing:.04em!important;
+      }
+
+      .home-signup .email-row > .carra-consent-row{
+        margin:0 0 0 8px!important;
+        gap:4px!important;
+        min-width:0!important;
+        max-width:100%!important;
+        overflow:hidden!important;
+        white-space:nowrap!important;
+        font-size:5.8px!important;
+        line-height:1!important;
+        align-items:center!important;
+      }
+
+      .home-signup .email-row > .carra-consent-row > span{
+        display:block!important;
+        min-width:0!important;
+        overflow:hidden!important;
+        text-overflow:ellipsis!important;
+        white-space:nowrap!important;
+      }
+
+      .home-signup .email-row > .carra-consent-row a{
+        white-space:nowrap!important;
+      }
+
+      .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
+        flex:0 0 8px!important;
+        width:8px!important;
+        height:8px!important;
+        min-width:8px!important;
+        min-height:8px!important;
+      }
+
+      .home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked::after{
+        font-size:5px!important;
+        line-height:8px!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+})();

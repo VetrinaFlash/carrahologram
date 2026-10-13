@@ -1,0 +1,1 @@
+V22 fix specifico per notebook/MacBook 14: allarga la newsletter, riduce il bottone iscritti, compatta la riga consenso e impedisce che PRIVACY finisca sotto il bottone. Sostituire site-config.js nel branch new.
