@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v17-style')) return;
+  if (document.getElementById('launch-page-v18-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v17-style';
+  style.id = 'launch-page-v18-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -2032,6 +2032,40 @@
     max-width:94vw!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V18 — MOBILE TRUE COVER                                                    */
+/* ========================================================================== */
+
+/*
+  V16/V17 allargavano solo il contenitore. Se su un iPhone era l'altezza del
+  frame a limitare il renderer, la scala interna restava praticamente uguale.
+  V18 cambia il renderer mobile vero e proprio: COVER uniforme, non stretch.
+*/
+@media(max-aspect-ratio:1/1){
+  .poster-frame{
+    left:0!important;
+    right:0!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+
+  /* Primo paint identico al canvas finale: niente fase iniziale "stretta". */
+  .poster-frame .poster-art{
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+    object-fit:cover!important;
+    object-position:50% 50%!important;
+  }
+
+  .poster-frame .poster-canvas{
+    width:100%!important;
+    height:100%!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -2380,7 +2414,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V17 — mobile molto più pieno in larghezza.
+// Launch page V18 — mobile true-cover: il renderer riempie davvero la larghezza.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2407,8 +2441,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV17 === '1') return;
-    panel.dataset.launchV17 = '1';
+    if (!panel || panel.dataset.launchV18 === '1') return;
+    panel.dataset.launchV18 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2585,7 +2619,14 @@ window.CARRA_CONFIG = Object.freeze({
       const iw = poster.naturalWidth;
       const ih = poster.naturalHeight;
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-      const scale = Math.min(w / iw, h / ih);
+
+      // V18: desktop continua a usare la geometria originale "contain".
+      // Su mobile invece usiamo un vero COVER del poster: così la grafica
+      // riempie realmente il frame anche quando prima era l'altezza a limitare
+      // lo scale (motivo per cui V16/V17 potevano sembrare identiche).
+      const scale = desktop
+        ? Math.min(w / iw, h / ih)
+        : Math.max(w / iw, h / ih);
       const x = (w - iw * scale) / 2;
       const y = (h - ih * scale) / 2;
 
@@ -2593,6 +2634,13 @@ window.CARRA_CONFIG = Object.freeze({
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
+
+      if (!desktop) {
+        // Rimpiazza il render mobile precedente con il poster in cover.
+        // Nessuno stretch: scala uniforme e crop simmetrico solo dove serve.
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(poster, x, y, iw * scale, ih * scale);
+      }
 
       let sourceCx, sourceCy, radius, targetCx, targetCy, eraseBox;
 
@@ -2661,15 +2709,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV17() {
+  function initLaunchV18() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV17, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV18, { once:true });
   } else {
-    initLaunchV17();
+    initLaunchV18();
   }
 })();

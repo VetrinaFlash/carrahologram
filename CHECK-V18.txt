@@ -1,0 +1,4 @@
+JS syntax: OK
+Mobile renderer cover: OK
+Mobile canvas redraw: OK
+CSS object-fit cover: OK
