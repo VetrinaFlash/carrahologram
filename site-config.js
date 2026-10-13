@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v16-style')) return;
+  if (document.getElementById('launch-page-v17-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v16-style';
+  style.id = 'launch-page-v17-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1988,6 +1988,50 @@
   }
 }
 
+
+
+/* ========================================================================== */
+/* V17 — MOBILE PIÙ PIENO IN LARGHEZZA                                        */
+/* ========================================================================== */
+
+/*
+  V16 era ancora troppo conservativa.
+  V17 porta la scena mobile a ~118-120vw, centrata, così su iPhone riempie
+  molto di più lo schermo senza deformare il contenuto.
+*/
+@media(max-aspect-ratio:1/1){
+  .poster-frame{
+    left:-9vw!important;
+    right:-9vw!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+}
+
+@media(max-width:430px) and (max-aspect-ratio:1/1){
+  .poster-frame{
+    left:-10vw!important;
+    right:-10vw!important;
+  }
+}
+
+@media(max-width:390px) and (max-aspect-ratio:1/1){
+  .poster-frame{
+    left:-9.5vw!important;
+    right:-9.5vw!important;
+  }
+}
+
+/* I controlli restano riferiti al viewport reale, non al frame allargato. */
+@media(max-aspect-ratio:1/1){
+  .action-dock .ticket-button{
+    max-width:90vw!important;
+  }
+
+  .action-dock .home-signup{
+    max-width:94vw!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -2336,7 +2380,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V16 — mobile più largo, fullscreen e fascia partner visibile.
+// Launch page V17 — mobile molto più pieno in larghezza.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2363,8 +2407,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV16 === '1') return;
-    panel.dataset.launchV16 = '1';
+    if (!panel || panel.dataset.launchV17 === '1') return;
+    panel.dataset.launchV17 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2617,15 +2661,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV16() {
+  function initLaunchV17() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV16, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV17, { once:true });
   } else {
-    initLaunchV16();
+    initLaunchV17();
   }
 })();
