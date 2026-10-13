@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v13-style')) return;
+  if (document.getElementById('launch-page-v14-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v13-style';
+  style.id = 'launch-page-v14-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1795,6 +1795,68 @@
     margin-left:6px!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V14 — RIPRISTINO FULLSCREEN MOBILE / IPHONE                                */
+/* ========================================================================== */
+
+/*
+  V8 aveva lasciato poster-art visibile anche dopo che il canvas era pronto.
+  Su iPhone questo faceva prevalere la locandina in modalità "contain", quindi
+  non sembrava più realmente full-screen.
+
+  Su mobile torniamo alla logica originale:
+  - poster originale visibile subito durante il caricamento;
+  - appena il canvas è pronto, il poster sparisce;
+  - resta il canvas che estende solo i bordi della scenografia fino allo schermo.
+*/
+@media(max-aspect-ratio:1/1){
+  .poster-frame{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+    margin:0!important;
+    overflow:hidden!important;
+  }
+
+  .poster-frame .poster-art{
+    opacity:1!important;
+  }
+
+  .poster-frame.rtl-clean-ready .poster-art,
+  .poster-frame.is-rendered.rtl-clean-ready .poster-art{
+    opacity:0!important;
+    pointer-events:none!important;
+  }
+
+  .poster-frame .poster-canvas{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    opacity:0!important;
+  }
+
+  .poster-frame.rtl-clean-ready .poster-canvas{
+    opacity:1!important;
+  }
+}
+
+/* Safari/iPhone: usa l'altezza dinamica reale del viewport. */
+@supports(height:100dvh){
+  @media(max-aspect-ratio:1/1){
+    html,body,
+    .experience,
+    .poster-frame{
+      height:100dvh!important;
+      min-height:100dvh!important;
+    }
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -2143,7 +2205,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V13 — rimossa voce 'Scarica la locandina'.
+// Launch page V14 — ripristino fullscreen mobile/iPhone.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2170,8 +2232,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV13 === '1') return;
-    panel.dataset.launchV13 = '1';
+    if (!panel || panel.dataset.launchV14 === '1') return;
+    panel.dataset.launchV14 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2424,15 +2486,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV13() {
+  function initLaunchV14() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV13, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV14, { once:true });
   } else {
-    initLaunchV13();
+    initLaunchV14();
   }
 })();
