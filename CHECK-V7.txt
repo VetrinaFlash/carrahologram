@@ -1,0 +1,2 @@
+site-config.js syntax: OK
+launch-page-v7.css braces: OK

@@ -1,27 +1,83 @@
-// V6 PREPAINT FIX
-// Il poster sorgente contiene ancora la dicitura "Official Radio Partner".
-// Il canvas la rimuove quando carica il background pulito; per evitare che
-// compaia anche solo per un frame, nascondiamo poster/canvas finché la patch
-// RTL pulita non è pronta.
+// V7 FAST PREPAINT
+// V6 nascondeva l'intera locandina finché il background pulito RTL non era pronto:
+// questo eliminava il flash "Official Radio Partner", ma rendeva il caricamento
+// percepito più lento. V7 mostra subito la locandina e maschera soltanto la piccola
+// riga di testo finché il canvas definitivo non è pronto.
 (() => {
+  const portrait = window.matchMedia('(max-aspect-ratio: 1/1)').matches;
+
+  const rtlClean = new Image();
+  rtlClean.decoding = 'async';
+  rtlClean.src = portrait ? 'rtl-background-mobile.png' : 'rtl-background-desktop.png';
+  window.__CARRA_RTL_CLEAN_IMAGE = rtlClean;
+  window.__CARRA_RTL_CLEAN_KIND = portrait ? 'mobile' : 'desktop';
+
   const style = document.createElement('style');
   style.id = 'carra-prepaint-radio-fix';
   style.textContent = `
     .poster-frame .poster-art{
-      opacity:0!important;
+      opacity:1!important;
     }
     .poster-frame .poster-canvas{
       opacity:0!important;
-      transition:opacity .12s ease-out;
+      transition:opacity .055s linear;
+    }
+    .poster-frame.rtl-clean-ready .poster-art{
+      opacity:0!important;
     }
     .poster-frame.rtl-clean-ready .poster-canvas{
       opacity:1!important;
+    }
+    .poster-frame .radio-prepaint-mask{
+      position:absolute;
+      z-index:2;
+      pointer-events:none;
+      border-radius:999px;
+      background:rgba(4,5,17,.24);
+      backdrop-filter:blur(7px);
+      -webkit-backdrop-filter:blur(7px);
+      opacity:1;
+      transition:opacity .045s linear;
+    }
+    .poster-frame.rtl-clean-ready .radio-prepaint-mask{
+      opacity:0;
+    }
+    @media(min-aspect-ratio:1001/1000){
+      .poster-frame .radio-prepaint-mask{
+        left:43%;
+        top:81.5%;
+        width:14%;
+        height:2.8%;
+      }
+    }
+    @media(max-aspect-ratio:1/1){
+      .poster-frame .radio-prepaint-mask{
+        left:38%;
+        top:70.4%;
+        width:24%;
+        height:2.3%;
+      }
     }
     .radio-partner span{
       display:none!important;
     }
   `;
   document.head.appendChild(style);
+
+  const installMask = () => {
+    const frame = document.querySelector('.poster-frame');
+    if (!frame || frame.querySelector('.radio-prepaint-mask')) return;
+    const mask = document.createElement('span');
+    mask.className = 'radio-prepaint-mask';
+    mask.setAttribute('aria-hidden', 'true');
+    frame.appendChild(mask);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', installMask, { once:true });
+  } else {
+    installMask();
+  }
 })();
 
 // Elegant sparkle override: loaded after concert.css so it can refine the
@@ -331,10 +387,10 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V6 — elimina completamente il flash 'Official Radio Partner'.
+// Launch page V7 — caricamento rapido senza flash 'Official Radio Partner'.
 (() => {
-  const STYLE_HREF = 'launch-page-v6.css?v=20261013-1';
-  if (!document.querySelector(`link[href^="launch-page-v6.css"]`)) {
+  const STYLE_HREF = 'launch-page-v7.css?v=20261013-1';
+  if (!document.querySelector(`link[href^="launch-page-v7.css"]`)) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = STYLE_HREF;
@@ -366,8 +422,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV6 === '1') return;
-    panel.dataset.launchV6 = '1';
+    if (!panel || panel.dataset.launchV7 === '1') return;
+    panel.dataset.launchV7 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -452,11 +508,27 @@ window.CARRA_CONFIG = Object.freeze({
     if (!frame || !poster || !canvas) return;
 
     const backgrounds = {
-      desktop: new Image(),
-      mobile: new Image()
+      desktop: null,
+      mobile: null
     };
-    backgrounds.desktop.src = 'rtl-background-desktop.png';
-    backgrounds.mobile.src = 'rtl-background-mobile.png';
+
+    const preloadedKind = window.__CARRA_RTL_CLEAN_KIND;
+    const preloadedImage = window.__CARRA_RTL_CLEAN_IMAGE;
+    if (preloadedKind && preloadedImage) {
+      backgrounds[preloadedKind] = preloadedImage;
+    }
+
+    function getBackground(kind) {
+      if (backgrounds[kind]) return backgrounds[kind];
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = kind === 'desktop'
+        ? 'rtl-background-desktop.png'
+        : 'rtl-background-mobile.png';
+      image.addEventListener('load', schedule, { once:true });
+      backgrounds[kind] = image;
+      return image;
+    }
 
     let raf = 0;
 
@@ -513,7 +585,7 @@ window.CARRA_CONFIG = Object.freeze({
       if (!poster.complete || !poster.naturalWidth || !canvas.width || !canvas.height) return;
 
       const desktop = poster.naturalWidth > poster.naturalHeight;
-      const background = backgrounds[desktop ? 'desktop' : 'mobile'];
+      const background = getBackground(desktop ? 'desktop' : 'mobile');
       if (!background.complete || !background.naturalWidth) return;
 
       const ctx = canvas.getContext('2d');
@@ -586,7 +658,11 @@ window.CARRA_CONFIG = Object.freeze({
       frame.classList.add('rtl-clean-ready');
     }
 
-    Object.values(backgrounds).forEach(image => image.addEventListener('load', schedule));
+    Object.values(backgrounds).forEach(image => {
+      if (!image) return;
+      if (image.complete && image.naturalWidth) schedule();
+      else image.addEventListener('load', schedule, { once:true });
+    });
     poster.addEventListener('load', schedule);
     window.addEventListener('resize', schedule, { passive: true });
     window.addEventListener('orientationchange', schedule, { passive: true });
@@ -597,15 +673,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV6() {
+  function initLaunchV7() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV6, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV7, { once:true });
   } else {
-    initLaunchV6();
+    initLaunchV7();
   }
 })();
