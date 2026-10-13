@@ -1,0 +1,7 @@
+JS syntax: OK
+True-cover V18 mantenuto: OK
+Partner strip function: OK
+Laserman clean: OK
+RTL clean: OK
+Atlantico clean: OK
+Desktop strip hidden: OK

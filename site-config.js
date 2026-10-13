@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v18-style')) return;
+  if (document.getElementById('launch-page-v19-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v18-style';
+  style.id = 'launch-page-v19-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -2066,6 +2066,100 @@
     height:100%!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V19 — PARTNER STRIP MOBILE SEMPRE VISIBILE                                 */
+/* ========================================================================== */
+
+/*
+  Con il true-cover V18 il poster riempie finalmente tutta la larghezza,
+  ma il crop laterale può sacrificare i loghi ai bordi.
+
+  Soluzione V19:
+  - NON tocchiamo il true-cover;
+  - i 3 partner vengono resi come fascia dedicata sopra la newsletter;
+  - usiamo i PNG clean già presenti nel progetto;
+  - RTL resta senza la scritta "Official Radio Partner";
+  - desktop resta identico.
+*/
+.mobile-partners-restored{
+  display:none;
+}
+
+@media(max-aspect-ratio:1/1){
+  .mobile-partners-restored{
+    position:absolute;
+    z-index:6;
+    left:12px;
+    right:12px;
+    bottom:8px;
+    height:48px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:end;
+    gap:10px;
+    pointer-events:none;
+    isolation:isolate;
+  }
+
+  .mobile-partners-restored::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    left:-12px;
+    right:-12px;
+    top:-22px;
+    bottom:-8px;
+    background:linear-gradient(
+      180deg,
+      rgba(4,5,17,0) 0%,
+      rgba(4,5,17,.34) 38%,
+      rgba(4,5,17,.78) 72%,
+      rgba(4,5,17,.94) 100%
+    );
+    pointer-events:none;
+  }
+
+  .mobile-partners-restored .mobile-partner{
+    display:block;
+    max-width:100%;
+    height:auto;
+    object-fit:contain;
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.45));
+  }
+
+  .mobile-partner--laserman{
+    justify-self:start;
+    width:min(28vw,104px);
+    max-height:42px;
+  }
+
+  .mobile-partner--rtl{
+    justify-self:center;
+    width:min(11vw,42px);
+    max-height:42px;
+  }
+
+  .mobile-partner--atlantico{
+    justify-self:end;
+    width:min(27vw,100px);
+    max-height:40px;
+  }
+}
+
+@media(max-width:360px) and (max-aspect-ratio:1/1){
+  .mobile-partners-restored{
+    left:9px;
+    right:9px;
+    gap:7px;
+    height:44px;
+  }
+
+  .mobile-partner--laserman{width:min(27vw,92px)}
+  .mobile-partner--rtl{width:min(10vw,36px)}
+  .mobile-partner--atlantico{width:min(26vw,88px)}
+}
 `;
   document.head.appendChild(style);
 })();
@@ -2414,7 +2508,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V18 — mobile true-cover: il renderer riempie davvero la larghezza.
+// Launch page V19 — true-cover mobile + fascia partner dedicata sempre visibile.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2441,8 +2535,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV18 === '1') return;
-    panel.dataset.launchV18 = '1';
+    if (!panel || panel.dataset.launchV19 === '1') return;
+    panel.dataset.launchV19 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2709,15 +2803,31 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV18() {
+  function ensureMobilePartnerStrip() {
+    const frame = document.querySelector('.poster-frame');
+    if (!frame || frame.querySelector('.mobile-partners-restored')) return;
+
+    const strip = document.createElement('div');
+    strip.className = 'mobile-partners-restored';
+    strip.setAttribute('aria-hidden', 'true');
+    strip.innerHTML = `
+      <img class="mobile-partner mobile-partner--laserman" src="logo-laserman-clean.png" alt="">
+      <img class="mobile-partner mobile-partner--rtl" src="logo-rtl-clean.png" alt="">
+      <img class="mobile-partner mobile-partner--atlantico" src="logo-atlantico-clean.png" alt="">
+    `;
+    frame.appendChild(strip);
+  }
+
+  function initLaunchV19() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
+    ensureMobilePartnerStrip();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV18, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV19, { once:true });
   } else {
-    initLaunchV18();
+    initLaunchV19();
   }
 })();
