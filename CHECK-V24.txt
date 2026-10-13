@@ -1,0 +1,7 @@
+JS syntax: OK
+Desktop seam overscan: OK
+Desktop RTL alignment: OK
+Mobile mail above logos: OK
+No partner bordered box: OK
+Footer backdrop: OK
+RTL optical size: OK

@@ -3123,7 +3123,7 @@ window.CARRA_CONFIG = Object.freeze({
         sourceCy = 780;
         radius = 46;
         targetCx = 758;
-        targetCy = 786;
+        targetCy = 798;
         eraseBox = { left: 692, top: 708, width: 134, height: 146, pad: 18 };
       } else {
         // Mobile: il logo sale/scende insieme alla locandina, ma resta tra i
@@ -3450,5 +3450,182 @@ window.CARRA_CONFIG = Object.freeze({
     document.addEventListener('DOMContentLoaded', ensureMobilePartnerStripV23, { once:true });
   } else {
     ensureMobilePartnerStripV23();
+  }
+})();
+
+
+// V24 — clean mobile footer + desktop seam/logo alignment.
+(() => {
+  if (document.getElementById('launch-page-v24-footer-fix')) return;
+
+  const style = document.createElement('style');
+  style.id = 'launch-page-v24-footer-fix';
+  style.textContent = `
+    /* ---------------- DESKTOP ---------------- */
+    @media (min-aspect-ratio:1001/1000){
+      /* 2px overscan removes the thin lateral seam sometimes visible on notebooks. */
+      .poster-frame{
+        left:-2px!important;
+        right:-2px!important;
+        width:auto!important;
+        max-width:none!important;
+      }
+    }
+
+    /* ---------------- MOBILE ---------------- */
+    .mobile-footer-backdrop-v24{display:none}
+
+    @media (max-aspect-ratio:1/1){
+      /* Let the artwork continue behind the footer instead of ending above it. */
+      .poster-frame{
+        bottom:0!important;
+      }
+
+      /* V23 pseudo-footer is replaced by one clean footer veil. */
+      .poster-frame::after{
+        display:none!important;
+      }
+
+      .mobile-footer-backdrop-v24{
+        display:block;
+        position:fixed;
+        z-index:8;
+        left:0;
+        right:0;
+        bottom:0;
+        height:132px;
+        pointer-events:none;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(4,5,17,0) 0%,
+            rgba(4,5,17,.30) 20%,
+            rgba(4,5,17,.82) 52%,
+            rgba(4,5,17,.97) 100%
+          );
+      }
+
+      /* Newsletter stays ABOVE the partner row. */
+      .action-dock .home-signup{
+        z-index:11!important;
+        bottom:calc(55px + env(safe-area-inset-bottom))!important;
+        width:min(93vw,400px)!important;
+        max-width:93vw!important;
+      }
+
+      .home-signup .email-row{
+        height:48px!important;
+        min-height:48px!important;
+        border-radius:11px!important;
+        background:linear-gradient(145deg,rgba(7,10,27,.92),rgba(4,6,18,.96))!important;
+        border-color:rgba(255,255,255,.14)!important;
+        box-shadow:0 9px 28px rgba(0,0,0,.27)!important;
+      }
+
+      /* Partner row: NO extra rounded box/border. */
+      .mobile-partners-restored-v23{
+        z-index:10!important;
+        bottom:calc(9px + env(safe-area-inset-bottom))!important;
+        width:min(91vw,392px)!important;
+        height:35px!important;
+        padding:0 5px!important;
+        gap:12px!important;
+        grid-template-columns:minmax(0,1fr) 52px minmax(0,1fr)!important;
+        align-items:center!important;
+      }
+
+      .mobile-partners-restored-v23::before{
+        display:none!important;
+        content:none!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner{
+        align-self:center!important;
+        filter:drop-shadow(0 2px 7px rgba(0,0,0,.48))!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--laserman{
+        justify-self:start!important;
+        width:auto!important;
+        height:28px!important;
+        max-width:31vw!important;
+        max-height:28px!important;
+        object-fit:contain!important;
+        object-position:left center!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--rtl{
+        justify-self:center!important;
+        width:38px!important;
+        height:38px!important;
+        max-width:38px!important;
+        max-height:38px!important;
+        object-fit:contain!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--atlantico{
+        justify-self:end!important;
+        width:auto!important;
+        height:27px!important;
+        max-width:30vw!important;
+        max-height:27px!important;
+        object-fit:contain!important;
+        object-position:right center!important;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .mobile-footer-backdrop-v24{
+        height:128px!important;
+      }
+
+      .action-dock .home-signup{
+        bottom:calc(53px + env(safe-area-inset-bottom))!important;
+        width:94vw!important;
+        max-width:94vw!important;
+      }
+
+      .mobile-partners-restored-v23{
+        bottom:calc(8px + env(safe-area-inset-bottom))!important;
+        width:92vw!important;
+        height:34px!important;
+        grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr)!important;
+        gap:9px!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--laserman{
+        height:26px!important;
+        max-height:26px!important;
+        max-width:30vw!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--rtl{
+        width:35px!important;
+        height:35px!important;
+        max-width:35px!important;
+        max-height:35px!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--atlantico{
+        height:25px!important;
+        max-height:25px!important;
+        max-width:29vw!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  function installFooterBackdropV24(){
+    if (document.querySelector('.mobile-footer-backdrop-v24')) return;
+    const veil = document.createElement('div');
+    veil.className = 'mobile-footer-backdrop-v24';
+    veil.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(veil);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', installFooterBackdropV24, { once:true });
+  } else {
+    installFooterBackdropV24();
   }
 })();
