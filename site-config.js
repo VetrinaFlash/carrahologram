@@ -305,10 +305,10 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V3 — descrizione concerto, ticket diretto, dock compatto e RTL responsive.
+// Launch page V4 — dock riallineato, home signup compatto e RTL allineato ai partner.
 (() => {
-  const STYLE_HREF = 'launch-page-v3.css?v=20261013-1';
-  if (!document.querySelector(`link[href^="launch-page-v2.css"]`)) {
+  const STYLE_HREF = 'launch-page-v4.css?v=20261013-1';
+  if (!document.querySelector(`link[href^="launch-page-v4.css"]`)) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = STYLE_HREF;
@@ -340,8 +340,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV3 === '1') return;
-    panel.dataset.launchV3 = '1';
+    if (!panel || panel.dataset.launchV4 === '1') return;
+    panel.dataset.launchV4 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -408,10 +408,10 @@ window.CARRA_CONFIG = Object.freeze({
     const scale = Math.min(bounds.width / poster.naturalWidth, bounds.height / poster.naturalHeight);
     const renderedHeight = poster.naturalHeight * scale;
     const y = (bounds.height - renderedHeight) / 2;
-    // V3: il dock resta subito sotto la data e non scende sulla fascia sponsor.
-    let ratio = 0.725;
-    if (window.innerHeight <= 820) ratio = 0.719;
-    if (window.innerHeight <= 700) ratio = 0.713;
+    // V4: il dock scende sotto la data senza invadere la fascia partner.
+    let ratio = 0.758;
+    if (window.innerHeight <= 820) ratio = 0.752;
+    if (window.innerHeight <= 700) ratio = 0.745;
     const dockY = bounds.top + y + renderedHeight * ratio;
     document.documentElement.style.setProperty('--launch-dock-y', `${dockY.toFixed(1)}px`);
   }
@@ -516,8 +516,8 @@ window.CARRA_CONFIG = Object.freeze({
         sourceCy = 780;
         radius = 46;
         targetCx = 758;
-        targetCy = 754;
-        eraseBox = { left: 696, top: 718, width: 126, height: 126, pad: 16 };
+        targetCy = 786;
+        eraseBox = { left: 692, top: 708, width: 134, height: 146, pad: 18 };
       } else {
         // Mobile: il logo sale/scende insieme alla locandina, ma resta tra i
         // due partner in basso invece di galleggiare troppo in alto tra le gambe.
@@ -525,8 +525,8 @@ window.CARRA_CONFIG = Object.freeze({
         sourceCy = 1177;
         radius = 49;
         targetCx = 431;
-        targetCy = 1325;
-        eraseBox = { left: 365, top: 1110, width: 132, height: 138, pad: 16 };
+        targetCy = 1416;
+        eraseBox = { left: 360, top: 1102, width: 142, height: 154, pad: 18 };
       }
 
       // Cancella la vecchia posizione del logo usando il background pulito.
@@ -568,15 +568,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV3() {
+  function initLaunchV4() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV3, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV4, { once:true });
   } else {
-    initLaunchV3();
+    initLaunchV4();
   }
 })();

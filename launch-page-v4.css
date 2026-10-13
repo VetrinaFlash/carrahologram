@@ -1,0 +1,770 @@
+/* ========================================================================== */
+/* RAFFAELLA CARRÀ — LAUNCH PAGE V4                                          */
+/* Branch: new (senza countdown). Caricato da site-config.js.                 */
+/* ========================================================================== */
+
+:root{
+  --launch-red:#ef2848;
+  --launch-red-2:#ff3f67;
+  --launch-gold:#e4c98f;
+  --launch-panel:#070916;
+  --launch-glass:rgba(8,11,29,.88);
+}
+
+/* ---------- Header / navigazione ---------- */
+.desktop-navigation{gap:10px!important}
+.desktop-navigation button{
+  min-height:38px;
+  padding:0 14px!important;
+  border:1px solid transparent!important;
+  border-radius:999px;
+  background:rgba(7,10,27,.22)!important;
+  color:rgba(255,255,255,.86)!important;
+  backdrop-filter:blur(8px);
+  transition:background .2s ease,border-color .2s ease,color .2s ease,transform .2s ease!important;
+}
+.desktop-navigation button:hover,
+.desktop-navigation button:focus-visible{
+  color:#fff!important;
+  border-color:rgba(228,201,143,.52)!important;
+  background:rgba(15,18,40,.78)!important;
+  transform:translateY(-1px);
+}
+
+.quiet-button,.icon-button,.language-control select{
+  border-color:rgba(255,255,255,.18)!important;
+  background:rgba(5,8,24,.74)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+/* ---------- CTA / campi coerenti ---------- */
+.ticket-button,
+.email-row,
+.detail-links>a,
+.detail-links>button,
+.menu-links button,
+.close-button{
+  border-color:rgba(255,255,255,.16)!important;
+}
+
+.ticket-label,
+.primary-button,
+.email-row button{
+  background:linear-gradient(135deg,var(--launch-red),var(--launch-red-2))!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:0 8px 24px rgba(239,40,72,.22),0 0 0 1px rgba(255,255,255,.04) inset!important;
+  transition:transform .2s ease,filter .2s ease,box-shadow .2s ease!important;
+}
+.primary-button:hover,
+.email-row button:hover,
+.ticket-button:hover .ticket-label{
+  filter:brightness(1.08);
+  box-shadow:0 10px 30px rgba(239,40,72,.34),0 0 0 1px rgba(255,255,255,.08) inset!important;
+}
+.primary-button:active,.email-row button:active{transform:translateY(1px)}
+
+.email-row{
+  background:linear-gradient(145deg,rgba(7,10,27,.95),rgba(4,6,18,.97))!important;
+  box-shadow:0 8px 28px rgba(0,0,0,.20),0 0 0 1px rgba(255,255,255,.025) inset;
+}
+.email-row:focus-within{
+  border-color:rgba(228,201,143,.72)!important;
+  box-shadow:0 0 0 1px rgba(228,201,143,.18),0 8px 34px rgba(0,0,0,.26)!important;
+}
+
+/* ---------- Pannelli ---------- */
+.panel{
+  border-color:rgba(255,255,255,.15)!important;
+  border-top-color:rgba(228,201,143,.62)!important;
+  background:
+    radial-gradient(circle at 18% 0%,rgba(239,40,72,.10),transparent 30%),
+    linear-gradient(145deg,rgba(18,20,42,.985),rgba(5,7,19,.992))!important;
+  box-shadow:0 28px 100px rgba(0,0,0,.76),0 0 0 1px rgba(255,255,255,.025) inset!important;
+}
+.panel::backdrop{background:rgba(2,3,17,.84)!important;backdrop-filter:blur(12px)!important}
+.panel h2{color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.32)}
+.eyebrow{color:var(--launch-gold)!important;font-weight:700}
+.close-button{background:rgba(255,255,255,.055)!important}
+.close-button:hover{background:rgba(255,255,255,.11)!important;border-color:rgba(228,201,143,.5)!important}
+
+.menu-links{gap:7px!important}
+.menu-links button{
+  padding:14px 15px!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  border-radius:11px!important;
+  background:rgba(255,255,255,.025)!important;
+}
+.menu-links button:hover{background:rgba(255,255,255,.07)!important;border-color:rgba(228,201,143,.36)!important;color:#fff!important}
+
+/* ---------- IL CONCERTO ---------- */
+#infoDialog.concert-info-panel{
+  width:min(760px,calc(100% - 28px))!important;
+  max-height:min(88dvh,900px)!important;
+  padding:44px 42px 34px!important;
+}
+#infoDialog.concert-info-panel h2{
+  margin:14px 0 14px!important;
+  font-size:clamp(30px,4.2vw,46px)!important;
+  letter-spacing:-.045em!important;
+}
+#infoDialog .panel-intro.concert-lead{
+  color:#fff!important;
+  font-size:clamp(15px,1.4vw,17px)!important;
+  line-height:1.62!important;
+  font-weight:650;
+  margin-bottom:18px!important;
+}
+.concert-story{
+  display:grid;
+  gap:14px;
+  margin:0 0 24px;
+  color:rgba(239,241,249,.82);
+  font-size:14px;
+  line-height:1.72;
+}
+.concert-story p{margin:0}
+.concert-story strong{color:#fff;font-weight:750}
+.concert-story .concert-story-finale{
+  margin-top:4px;
+  padding:16px 17px;
+  border:1px solid rgba(228,201,143,.24);
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(228,201,143,.075),rgba(239,40,72,.055));
+  color:#fff;
+  font-weight:700;
+}
+#infoDialog .event-details{
+  margin:24px 0 16px!important;
+  padding:16px 0!important;
+}
+#infoDialog .detail-links{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px!important;
+  margin-bottom:14px!important;
+}
+#infoDialog .detail-links>a,
+#infoDialog .detail-links>button{
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:10px 12px!important;
+  border:1px solid rgba(255,255,255,.13)!important;
+  border-radius:10px;
+  background:rgba(255,255,255,.035)!important;
+  color:#fff!important;
+  text-align:center!important;
+  font-weight:650;
+  line-height:1.25;
+}
+#infoDialog .detail-links>a:hover,
+#infoDialog .detail-links>button:hover{
+  border-color:rgba(228,201,143,.48)!important;
+  background:rgba(228,201,143,.08)!important;
+}
+
+/* ---------- Landscape desktop: dock agganciato alla locandina, non al viewport ---------- */
+@media (min-aspect-ratio:1001/1000){
+  .action-dock{
+    top:var(--launch-dock-y,74.5%)!important;
+    bottom:auto!important;
+    left:50%!important;
+    right:auto!important;
+    transform:translateX(-50%)!important;
+    width:min(1080px,82vw)!important;
+    gap:18px!important;
+    align-items:flex-end!important;
+  }
+  .ticket-button{
+    width:calc((100% - 18px)/2)!important;
+    height:54px!important;
+    border-radius:13px!important;
+    padding:5px 7px 5px 18px!important;
+  }
+  .ticket-button>img{width:clamp(118px,10vw,145px)!important;max-height:26px!important}
+  .ticket-label{height:100%!important;border-radius:8px!important;font-size:12px!important;letter-spacing:.075em!important}
+  .home-signup{width:calc((100% - 18px)/2)!important}
+  .home-signup label{font-size:10px!important;margin-bottom:5px!important;letter-spacing:.095em!important}
+  .home-signup .email-row{height:54px!important;border-radius:13px!important}
+  .home-signup .email-row button{min-height:42px!important;height:100%!important;padding:0 24px!important;font-size:11px!important}
+  .home-signup .email-row input{font-size:14px!important;padding:0 13px!important}
+}
+
+/* MacBook / notebook: meno ingombro senza comprimere la locandina. */
+@media (min-width:1100px) and (max-height:950px) and (min-aspect-ratio:1001/1000){
+  .controls{height:56px!important;padding:0 28px!important}
+  .header-navigation{gap:14px!important}
+  .desktop-navigation button{min-height:34px!important;padding:0 11px!important;font-size:9.5px!important}
+  .quiet-button,.icon-button,.language-control select{height:38px!important;min-height:38px!important}
+  .action-dock{width:min(1000px,80vw)!important;gap:16px!important}
+  .ticket-button{width:calc((100% - 16px)/2)!important;height:50px!important}
+  .home-signup{width:calc((100% - 16px)/2)!important}
+  .home-signup .email-row{height:50px!important}
+  .home-signup .email-row button{min-height:38px!important;padding:0 21px!important}
+  .home-signup label{font-size:9.4px!important;margin-bottom:4px!important}
+}
+
+@media (min-width:1100px) and (max-height:780px) and (min-aspect-ratio:1001/1000){
+  .action-dock{width:min(900px,76vw)!important;gap:14px!important}
+  .ticket-button{width:calc((100% - 14px)/2)!important;height:44px!important;padding-left:13px!important}
+  .ticket-button>img{width:105px!important}
+  .ticket-label{font-size:10px!important;padding:0 12px!important}
+  .home-signup{width:calc((100% - 14px)/2)!important}
+  .home-signup .email-row{height:44px!important;padding:4px 5px!important}
+  .home-signup .email-row button{min-height:34px!important;font-size:10px!important;padding:0 16px!important}
+  .home-signup .email-row input{font-size:13px!important;padding:0 9px!important}
+  .home-signup label{font-size:8.5px!important;margin-bottom:3px!important}
+}
+
+/* ---------- Mobile ---------- */
+@media(max-aspect-ratio:1/1){
+  #infoDialog.concert-info-panel{padding:42px 22px 26px!important;max-height:calc(100dvh - 20px)!important}
+  #infoDialog.concert-info-panel h2{font-size:31px!important}
+  #infoDialog .detail-links{grid-template-columns:1fr!important}
+  .concert-story{font-size:13px;line-height:1.65;gap:12px}
+  .concert-story .concert-story-finale{padding:14px}
+  .menu-links button{padding:13px 14px!important}
+}
+
+@media(max-width:430px){
+  #infoDialog.concert-info-panel{width:calc(100% - 14px)!important;border-radius:15px!important}
+}
+
+
+/* ========================================================================== */
+/* V3 — DOCK COMPATTO / ALLINEAMENTO VIVATICKET + EMAIL / MOBILE FIX          */
+/* ========================================================================== */
+
+/*
+  Obiettivo:
+  - ticket ed email sulla stessa riga ottica su desktop;
+  - form home compatto come il countdown;
+  - checkbox consenso non deve far crescere il box;
+  - su mobile ticket + email diventano un unico gruppo sotto la data;
+  - niente form appoggiato in fondo sopra Atlantico / Laserman.
+*/
+
+/* Base home signup: il consenso vive sotto il campo senza allargarne l'altezza. */
+.home-signup,
+.home-signup form{
+  position:relative!important;
+}
+
+.home-signup > form > label[for="homeEmail"]{
+  color:#efd7a5!important;
+  font-weight:700!important;
+  text-transform:uppercase!important;
+  letter-spacing:.095em!important;
+  text-shadow:0 1px 5px rgba(0,0,0,.95)!important;
+}
+
+.home-signup .carra-consent-row{
+  color:rgba(255,255,255,.90)!important;
+  text-shadow:0 1px 4px rgba(0,0,0,.95)!important;
+}
+
+.home-signup .carra-consent-row a{
+  color:#fff!important;
+  font-weight:800!important;
+}
+
+/* ---------- Desktop / notebook ---------- */
+@media (min-aspect-ratio:1001/1000){
+  .action-dock{
+    width:min(980px,78vw)!important;
+    gap:12px!important;
+    align-items:center!important;
+    z-index:6!important;
+  }
+
+  .ticket-button,
+  .home-signup{
+    width:calc((100% - 12px)/2)!important;
+    flex:0 0 calc((100% - 12px)/2)!important;
+  }
+
+  .ticket-button{
+    height:48px!important;
+    padding:4px 6px 4px 16px!important;
+    border-radius:12px!important;
+    align-self:center!important;
+  }
+
+  .ticket-button>img{
+    width:clamp(110px,9vw,136px)!important;
+    max-height:24px!important;
+  }
+
+  .ticket-label{
+    height:100%!important;
+    min-width:0!important;
+    border-radius:7px!important;
+    padding:0 18px!important;
+    font-size:11px!important;
+    letter-spacing:.08em!important;
+  }
+
+  .home-signup{
+    height:48px!important;
+    align-self:center!important;
+  }
+
+  .home-signup form{
+    height:48px!important;
+  }
+
+  .home-signup > form > label[for="homeEmail"]{
+    position:absolute!important;
+    left:9px!important;
+    top:-14px!important;
+    margin:0!important;
+    font-size:8.1px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+
+  .home-signup .email-row{
+    height:48px!important;
+    min-height:48px!important;
+    padding:4px 5px!important;
+    border-radius:12px!important;
+    gap:5px!important;
+  }
+
+  .home-signup .email-row input{
+    height:100%!important;
+    padding:0 11px!important;
+    font-size:13px!important;
+  }
+
+  .home-signup .email-row button{
+    min-height:38px!important;
+    height:38px!important;
+    padding:0 19px!important;
+    border-radius:7px!important;
+    font-size:10px!important;
+    letter-spacing:.075em!important;
+    flex:0 0 auto!important;
+  }
+
+  .home-signup .carra-consent-row{
+    position:absolute!important;
+    z-index:2!important;
+    left:7px!important;
+    top:calc(100% + 3px)!important;
+    width:max-content!important;
+    max-width:calc(100% - 10px)!important;
+    margin:0!important;
+    gap:4px!important;
+    font-size:6.8px!important;
+    line-height:1.05!important;
+    white-space:nowrap!important;
+  }
+
+  .home-signup .carra-consent-row input[type="checkbox"]{
+    flex-basis:10px!important;
+    width:10px!important;
+    height:10px!important;
+  }
+
+  .home-signup .carra-consent-row input[type="checkbox"]:checked::after{
+    font-size:7px!important;
+    line-height:10px!important;
+  }
+}
+
+/* MacBook / notebook: ancora più compatto, senza scendere sui loghi sponsor. */
+@media (min-width:1100px) and (max-height:900px) and (min-aspect-ratio:1001/1000){
+  .action-dock{
+    width:min(920px,76vw)!important;
+    gap:10px!important;
+  }
+
+  .ticket-button,
+  .home-signup{
+    width:calc((100% - 10px)/2)!important;
+    flex-basis:calc((100% - 10px)/2)!important;
+  }
+
+  .ticket-button,
+  .home-signup,
+  .home-signup form,
+  .home-signup .email-row{
+    height:44px!important;
+    min-height:44px!important;
+  }
+
+  .ticket-button>img{width:108px!important}
+  .ticket-label{font-size:10px!important;padding:0 14px!important}
+
+  .home-signup > form > label[for="homeEmail"]{
+    top:-12px!important;
+    font-size:7.5px!important;
+  }
+
+  .home-signup .email-row button{
+    min-height:34px!important;
+    height:34px!important;
+    padding:0 15px!important;
+    font-size:9.5px!important;
+  }
+
+  .home-signup .email-row input{
+    font-size:12.5px!important;
+    padding:0 8px!important;
+  }
+
+  .home-signup .carra-consent-row{
+    top:calc(100% + 2px)!important;
+    font-size:6.2px!important;
+  }
+}
+
+/* ---------- Mobile / portrait ---------- */
+@media (max-aspect-ratio:1/1){
+  /*
+    concert.css usava display:contents e separava il ticket dal form:
+    il ticket stava al centro mentre il form finiva sul bordo inferiore.
+    V3 li riunisce in un unico blocco compatto sotto la data.
+  */
+  .action-dock{
+    display:flex!important;
+    position:fixed!important;
+    z-index:7!important;
+    top:var(--poster-ticket-y,63%)!important;
+    bottom:auto!important;
+    left:50%!important;
+    right:auto!important;
+    transform:translateX(-50%)!important;
+    width:min(92vw,390px)!important;
+    height:auto!important;
+    padding:0!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    justify-content:flex-start!important;
+    gap:6px!important;
+  }
+
+  .action-dock .ticket-button{
+    position:relative!important;
+    inset:auto!important;
+    left:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    transform:none!important;
+    width:100%!important;
+    min-width:0!important;
+    height:45px!important;
+    padding:4px 5px 4px 15px!important;
+    border-radius:12px!important;
+    flex:none!important;
+  }
+
+  .action-dock .ticket-button:hover{
+    transform:translateY(-1px)!important;
+  }
+
+  .action-dock .ticket-button>img{
+    width:112px!important;
+    max-height:24px!important;
+  }
+
+  .action-dock .ticket-label{
+    min-width:0!important;
+    flex:1!important;
+    padding:0 14px!important;
+    border-radius:7px!important;
+    font-size:10.5px!important;
+    letter-spacing:.075em!important;
+  }
+
+  .action-dock .home-signup{
+    position:relative!important;
+    inset:auto!important;
+    left:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    transform:none!important;
+    width:100%!important;
+    height:auto!important;
+  }
+
+  .home-signup > form > label[for="homeEmail"]{
+    margin:0 0 3px 4px!important;
+    font-size:7.6px!important;
+    line-height:1!important;
+    text-align:left!important;
+  }
+
+  .home-signup .email-row{
+    height:41px!important;
+    min-height:41px!important;
+    padding:3px 4px!important;
+    gap:4px!important;
+    border-radius:11px!important;
+  }
+
+  .home-signup .email-row input{
+    height:100%!important;
+    padding:0 9px!important;
+    font-size:13px!important;
+  }
+
+  .home-signup .email-row button{
+    min-height:33px!important;
+    height:33px!important;
+    padding:0 14px!important;
+    border-radius:7px!important;
+    font-size:9.5px!important;
+    letter-spacing:.045em!important;
+  }
+
+  .home-signup .carra-consent-row{
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:4px 2px 0!important;
+    padding:0!important;
+    gap:5px!important;
+    font-size:6.8px!important;
+    line-height:1.08!important;
+    text-align:left!important;
+  }
+
+  .home-signup .carra-consent-row input[type="checkbox"]{
+    flex:0 0 11px!important;
+    width:11px!important;
+    height:11px!important;
+  }
+
+  .home-signup .carra-consent-row input[type="checkbox"]:checked::after{
+    font-size:8px!important;
+    line-height:11px!important;
+  }
+
+  /* Lascia respirare il popup lungo del concerto sui telefoni. */
+  #infoDialog.concert-info-panel{
+    width:min(94vw,760px)!important;
+  }
+}
+
+/* Telefoni stretti: nessuna uscita laterale, CTA sempre leggibile. */
+@media (max-width:390px) and (max-aspect-ratio:1/1){
+  .action-dock{
+    width:94vw!important;
+  }
+
+  .action-dock .ticket-button{
+    height:43px!important;
+    padding-left:12px!important;
+  }
+
+  .action-dock .ticket-button>img{
+    width:100px!important;
+  }
+
+  .action-dock .ticket-label{
+    font-size:9.5px!important;
+    padding:0 10px!important;
+  }
+
+  .home-signup .email-row{
+    height:39px!important;
+  }
+
+  .home-signup .email-row button{
+    min-height:31px!important;
+    height:31px!important;
+    padding:0 11px!important;
+    font-size:9px!important;
+  }
+
+  .home-signup .carra-consent-row{
+    font-size:6.3px!important;
+  }
+}
+
+
+/* ========================================================================== */
+/* V4 FINAL OVERRIDES — DOCK + EMAIL + RTL VISUAL BALANCE                     */
+/* ========================================================================== */
+
+/* Home newsletter: niente label flottante sopra la data.
+   L'input mantiene aria-label/placeholder, quindi resta accessibile. */
+.home-signup > form > label[for="homeEmail"]{
+  display:none!important;
+}
+
+/* Desktop: due moduli perfettamente allineati e compatti. */
+@media (min-aspect-ratio:1001/1000){
+  .action-dock{
+    width:min(960px,76vw)!important;
+    gap:10px!important;
+    align-items:center!important;
+  }
+
+  .ticket-button,
+  .home-signup{
+    width:calc((100% - 10px)/2)!important;
+    flex:0 0 calc((100% - 10px)/2)!important;
+  }
+
+  .ticket-button,
+  .home-signup,
+  .home-signup form,
+  .home-signup .email-row{
+    height:46px!important;
+    min-height:46px!important;
+  }
+
+  .ticket-button{
+    padding:4px 5px 4px 15px!important;
+    border-radius:11px!important;
+  }
+
+  .ticket-button>img{
+    width:112px!important;
+    max-height:23px!important;
+  }
+
+  .ticket-label{
+    font-size:10px!important;
+    padding:0 14px!important;
+    border-radius:7px!important;
+  }
+
+  .home-signup .email-row{
+    padding:4px!important;
+    gap:4px!important;
+    border-radius:11px!important;
+  }
+
+  .home-signup .email-row input{
+    padding:0 9px!important;
+    font-size:12.5px!important;
+  }
+
+  .home-signup .email-row button{
+    min-height:36px!important;
+    height:36px!important;
+    padding:0 15px!important;
+    font-size:9.5px!important;
+    border-radius:7px!important;
+  }
+
+  .home-signup .carra-consent-row{
+    top:calc(100% + 3px)!important;
+    left:5px!important;
+    max-width:calc(100% - 8px)!important;
+    font-size:6px!important;
+    line-height:1.04!important;
+    gap:4px!important;
+  }
+}
+
+/* Notebook / MacBook: non comprimere la data e non toccare i partner. */
+@media (min-width:1100px) and (max-height:900px) and (min-aspect-ratio:1001/1000){
+  .action-dock{
+    width:min(900px,74vw)!important;
+  }
+
+  .ticket-button,
+  .home-signup,
+  .home-signup form,
+  .home-signup .email-row{
+    height:42px!important;
+    min-height:42px!important;
+  }
+
+  .ticket-button>img{width:104px!important}
+  .ticket-label{font-size:9.3px!important}
+
+  .home-signup .email-row button{
+    min-height:32px!important;
+    height:32px!important;
+    padding:0 13px!important;
+    font-size:9px!important;
+  }
+
+  .home-signup .email-row input{
+    font-size:12px!important;
+  }
+
+  .home-signup .carra-consent-row{
+    font-size:5.7px!important;
+  }
+}
+
+/* Mobile: ticket + email restano un blocco unico compatto sotto la data.
+   Il logo RTL è gestito dal canvas V4 più in basso, sulla riga dei partner. */
+@media (max-aspect-ratio:1/1){
+  .action-dock{
+    width:min(90vw,370px)!important;
+    gap:5px!important;
+  }
+
+  .action-dock .ticket-button{
+    height:43px!important;
+    border-radius:11px!important;
+  }
+
+  .action-dock .ticket-button>img{
+    width:106px!important;
+  }
+
+  .action-dock .ticket-label{
+    font-size:10px!important;
+    padding:0 12px!important;
+  }
+
+  .action-dock .home-signup{
+    width:100%!important;
+  }
+
+  .home-signup .email-row{
+    height:39px!important;
+    min-height:39px!important;
+    padding:3px 4px!important;
+    border-radius:10px!important;
+  }
+
+  .home-signup .email-row input{
+    font-size:12.5px!important;
+    padding:0 8px!important;
+  }
+
+  .home-signup .email-row button{
+    min-height:31px!important;
+    height:31px!important;
+    padding:0 12px!important;
+    font-size:9px!important;
+    border-radius:6px!important;
+  }
+
+  .home-signup .carra-consent-row{
+    margin:3px 2px 0!important;
+    font-size:6.25px!important;
+    line-height:1.06!important;
+    gap:4px!important;
+  }
+
+  .home-signup .carra-consent-row input[type="checkbox"]{
+    flex-basis:10px!important;
+    width:10px!important;
+    height:10px!important;
+  }
+
+  .home-signup .carra-consent-row input[type="checkbox"]:checked::after{
+    font-size:7px!important;
+    line-height:10px!important;
+  }
+}
+
+@media (max-width:390px) and (max-aspect-ratio:1/1){
+  .action-dock{width:92vw!important}
+  .action-dock .ticket-button>img{width:98px!important}
+  .action-dock .ticket-label{font-size:9.3px!important}
+  .home-signup .carra-consent-row{font-size:5.9px!important}
+}
