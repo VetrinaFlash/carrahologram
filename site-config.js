@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v20-style')) return;
+  if (document.getElementById('launch-page-v21-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v20-style';
+  style.id = 'launch-page-v21-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -2293,6 +2293,222 @@
     margin-right:2px!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V21 — MOBILE FINAL POLISH                                                   */
+/* ========================================================================== */
+
+@media(max-aspect-ratio:1/1){
+
+  /* Header meno invasivo: nello screenshot V20 copriva troppo RAFFAELLA. */
+  .controls{
+    height:44px!important;
+    padding:0 10px!important;
+    align-items:center!important;
+  }
+
+  .header-navigation{
+    gap:6px!important;
+  }
+
+  .quiet-button{
+    min-height:35px!important;
+    height:35px!important;
+    padding:0 11px!important;
+    gap:7px!important;
+    font-size:9.8px!important;
+    letter-spacing:.075em!important;
+  }
+
+  .quiet-button svg{
+    width:15px!important;
+    height:15px!important;
+  }
+
+  .tools{
+    gap:6px!important;
+  }
+
+  .icon-button{
+    width:36px!important;
+    min-width:36px!important;
+    height:35px!important;
+    min-height:35px!important;
+  }
+
+  .equalizer{
+    transform:scale(.88)!important;
+  }
+
+  .language-control select{
+    width:58px!important;
+    height:35px!important;
+    min-height:35px!important;
+    padding:0 22px 0 12px!important;
+    font-size:9.8px!important;
+  }
+
+  .language-control svg{
+    right:10px!important;
+  }
+
+  /*
+    Frame: guadagniamo alcuni pixel verticali rispetto alla V20.
+    La mail è stata resa più bassa, quindi possiamo lasciare più poster visibile.
+  */
+  .poster-frame{
+    bottom:calc(54px + env(safe-area-inset-bottom))!important;
+  }
+
+  /*
+    Il primo paint resta pieno.
+    Il canvas V21 sostituisce subito questa immagine con la geometria rifinita.
+  */
+  .poster-frame .poster-art{
+    object-fit:cover!important;
+    object-position:50% 50%!important;
+  }
+
+  /* CTA ticket meno massiccia e più elegante. */
+  .action-dock .ticket-button{
+    width:min(88vw,360px)!important;
+    max-width:88vw!important;
+    height:41px!important;
+    min-height:41px!important;
+    padding:4px 5px 4px 14px!important;
+    border-radius:11px!important;
+    gap:12px!important;
+  }
+
+  .action-dock .ticket-button>img{
+    width:104px!important;
+    max-height:22px!important;
+  }
+
+  .action-dock .ticket-label{
+    min-width:0!important;
+    padding:0 14px!important;
+    border-radius:7px!important;
+    font-size:9.9px!important;
+    letter-spacing:.075em!important;
+    gap:8px!important;
+  }
+
+  .action-dock .ticket-label svg{
+    width:15px!important;
+    height:15px!important;
+  }
+
+  /* Newsletter: più leggera, meno "blocco nero", più aria dal browser. */
+  .action-dock .home-signup{
+    width:min(92vw,390px)!important;
+    max-width:92vw!important;
+    bottom:calc(9px + env(safe-area-inset-bottom))!important;
+  }
+
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 80px!important;
+    grid-template-rows:29px 14px!important;
+    height:47px!important;
+    min-height:47px!important;
+    padding:3px 4px!important;
+    column-gap:5px!important;
+    border-radius:10px!important;
+    background:linear-gradient(
+      145deg,
+      rgba(7,10,27,.90),
+      rgba(4,6,18,.94)
+    )!important;
+    box-shadow:0 7px 24px rgba(0,0,0,.25)!important;
+  }
+
+  .home-signup .email-row > input[type="email"]{
+    height:29px!important;
+    padding:0 9px!important;
+    font-size:12.6px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:80px!important;
+    height:29px!important;
+    min-height:29px!important;
+    padding:0 8px!important;
+    border-radius:7px!important;
+    font-size:8.9px!important;
+    letter-spacing:.035em!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    height:14px!important;
+    min-height:14px!important;
+    margin:0 4px!important;
+    gap:4px!important;
+    font-size:5.9px!important;
+    line-height:1!important;
+    align-items:center!important;
+    white-space:nowrap!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
+    flex:0 0 7px!important;
+    width:7px!important;
+    height:7px!important;
+    min-width:7px!important;
+    min-height:7px!important;
+    border-radius:1px!important;
+    margin:0!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked::after{
+    font-size:4.8px!important;
+    line-height:7px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row a{
+    font-weight:700!important;
+  }
+}
+
+@media(max-width:390px) and (max-aspect-ratio:1/1){
+  .quiet-button{
+    padding:0 10px!important;
+    font-size:9.2px!important;
+  }
+
+  .icon-button{
+    width:34px!important;
+    min-width:34px!important;
+  }
+
+  .language-control select{
+    width:54px!important;
+    padding-left:10px!important;
+  }
+
+  .action-dock .ticket-button{
+    width:90vw!important;
+    max-width:90vw!important;
+  }
+
+  .action-dock .home-signup{
+    width:94vw!important;
+    max-width:94vw!important;
+  }
+
+  .home-signup .email-row{
+    grid-template-columns:minmax(0,1fr) 76px!important;
+  }
+
+  .home-signup .email-row > button[type="submit"]{
+    min-width:76px!important;
+    font-size:8.5px!important;
+  }
+
+  .home-signup .email-row > .carra-consent-row{
+    font-size:5.55px!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -2641,7 +2857,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V20 — mobile pulito: true-cover, partner originali, dock compatto.
+// Launch page V21 — rifinitura mobile: poster pieno, più contenuto visibile, controlli compatti.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2668,8 +2884,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV20 === '1') return;
-    panel.dataset.launchV20 = '1';
+    if (!panel || panel.dataset.launchV21 === '1') return;
+    panel.dataset.launchV21 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2851,18 +3067,23 @@ window.CARRA_CONFIG = Object.freeze({
       // Su mobile invece usiamo un vero COVER del poster: così la grafica
       // riempie realmente il frame anche quando prima era l'altezza a limitare
       // lo scale (motivo per cui V16/V17 potevano sembrare identiche).
-      const scale = desktop
-        ? Math.min(w / iw, h / ih)
-        : Math.max(w / iw, h / ih);
-      const x = (w - iw * scale) / 2;
+      const containScale = Math.min(w / iw, h / ih);
+      const coverScale = Math.max(w / iw, h / ih);
 
-      // V20 mobile: manteniamo il vero cover, ma lo biasiamo leggermente
-      // verso il basso della locandina. In questo modo la fascia partner
-      // originale (Laserman / RTL / Atlantico) resta visibile senza duplicati.
-      const coverOverflowY = Math.max(0, ih * scale - h);
+      // V21 mobile:
+      // usiamo quasi tutto il cover (96.8%) ma mai meno del contain.
+      // In questo modo la grafica continua a sembrare edge-to-edge, però
+      // recuperiamo parecchi pixel verticali: più RAFFAELLA in alto e
+      // partner completi in basso.
+      const scale = desktop
+        ? containScale
+        : Math.max(containScale, coverScale * 0.968);
+
+      const x = (w - iw * scale) / 2;
+      const overflowY = Math.max(0, ih * scale - h);
       const y = desktop
         ? (h - ih * scale) / 2
-        : -coverOverflowY * 0.68;
+        : (overflowY > 0 ? -overflowY * 0.70 : (h - ih * scale) / 2);
 
       ctx.save();
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -2870,15 +3091,27 @@ window.CARRA_CONFIG = Object.freeze({
       ctx.imageSmoothingQuality = 'high';
 
       if (!desktop) {
-        // V20: cover uniforme, nessuno stretch. Il crop è più forte in alto
-        // che in basso per conservare la riga dei partner originali.
         ctx.clearRect(0, 0, w, h);
+
+        // Riempie SOLO gli eventuali pochi pixel esterni con le bande
+        // originali del poster. Il soggetto e le scritte non vengono stirati.
+        const edge = 18;
+        if (x > 0) {
+          ctx.drawImage(poster, 0, 0, edge, ih, 0, 0, x + 1, h);
+          ctx.drawImage(poster, iw - edge, 0, edge, ih, x + iw * scale - 1, 0, w - (x + iw * scale) + 1, h);
+        }
+        if (y > 0) {
+          ctx.drawImage(poster, 0, 0, iw, edge, 0, 0, w, y + 1);
+          ctx.drawImage(poster, 0, ih - edge, iw, edge, 0, y + ih * scale - 1, w, h - (y + ih * scale) + 1);
+        }
+
+        // Core della locandina: scala uniforme, nessuna deformazione.
         ctx.drawImage(poster, x, y, iw * scale, ih * scale);
 
-        // Anche il pulsante biglietti segue la stessa geometria del canvas.
+        // Il pulsante biglietti segue la stessa geometria del poster.
         document.documentElement.style.setProperty(
           '--poster-ticket-y',
-          `${(bounds.top + y + ih * scale * 0.636).toFixed(1)}px`
+          `${(bounds.top + y + ih * scale * 0.636 + 4).toFixed(1)}px`
         );
       }
 
@@ -2958,7 +3191,7 @@ window.CARRA_CONFIG = Object.freeze({
     document.querySelectorAll('.mobile-partners-restored').forEach(el => el.remove());
   }
 
-  function initLaunchV20() {
+  function initLaunchV21() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
@@ -2966,8 +3199,8 @@ window.CARRA_CONFIG = Object.freeze({
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV20, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV21, { once:true });
   } else {
-    initLaunchV20();
+    initLaunchV21();
   }
 })();

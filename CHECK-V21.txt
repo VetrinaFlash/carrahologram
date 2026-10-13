@@ -1,0 +1,8 @@
+JS syntax: OK
+Near-cover mobile: OK
+No face/text stretch: OK
+Edge fill: OK
+Partner overlay absent: OK
+Header compact: OK
+Ticket compact: OK
+Signup compact: OK
