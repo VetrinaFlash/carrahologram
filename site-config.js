@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v9-style')) return;
+  if (document.getElementById('launch-page-v10-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v9-style';
+  style.id = 'launch-page-v10-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1482,6 +1482,172 @@
     margin-left:7px!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V10 — UI COERENTE CON IL SITO: ROSA/ROSSO, NIENTE ORO                      */
+/* ========================================================================== */
+
+:root{
+  --launch-red:#ef2848;
+  --launch-red-2:#ff3f67;
+  --launch-pink:#ff4f86;
+  --launch-pink-soft:rgba(255,79,134,.18);
+  --launch-panel:#070916;
+}
+
+/* Pannelli: niente bordo oro, solo accento rosa/rosso discreto */
+.panel,
+#menuDialog.menu-panel,
+#infoDialog.concert-info-panel{
+  border:1px solid rgba(255,255,255,.13)!important;
+  border-top-color:rgba(255,79,134,.42)!important;
+  background:
+    radial-gradient(circle at 18% 0%,rgba(239,40,72,.12),transparent 31%),
+    linear-gradient(145deg,rgba(17,19,39,.988),rgba(5,7,19,.995))!important;
+  box-shadow:
+    0 28px 100px rgba(0,0,0,.76),
+    0 0 0 1px rgba(255,79,134,.025) inset!important;
+}
+
+/* Titoli / eyebrow: rosa, non oro */
+.eyebrow,
+#menuDialog .eyebrow,
+#infoDialog .eyebrow{
+  color:#ff6f9d!important;
+  text-shadow:0 0 18px rgba(255,79,134,.12)!important;
+}
+
+.panel h2,
+#menuDialog h2,
+#infoDialog h2{
+  color:#fff!important;
+}
+
+/* Close button coerente rosa */
+.close-button,
+#menuDialog .close-button{
+  border-color:rgba(255,255,255,.14)!important;
+  background:rgba(255,255,255,.045)!important;
+}
+.close-button:hover,
+.close-button:focus-visible,
+#menuDialog .close-button:hover,
+#menuDialog .close-button:focus-visible{
+  border-color:rgba(255,79,134,.48)!important;
+  background:rgba(255,79,134,.10)!important;
+}
+
+/* Menu: niente contorni dorati, hover rosa */
+#menuDialog .menu-links button{
+  border:1px solid rgba(255,255,255,.11)!important;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.038),rgba(255,255,255,.015))!important;
+  color:#fff!important;
+  box-shadow:none!important;
+}
+
+#menuDialog .menu-links button:hover,
+#menuDialog .menu-links button:focus-visible{
+  border-color:rgba(255,79,134,.46)!important;
+  background:
+    linear-gradient(145deg,rgba(255,79,134,.095),rgba(239,40,72,.055))!important;
+  color:#fff!important;
+}
+
+#menuDialog .menu-links button > span:last-child{
+  color:#ff6f9d!important;
+}
+
+#menuDialog .menu-links small{
+  border:1px solid rgba(255,79,134,.25)!important;
+  color:#ff7aa5!important;
+  background:rgba(255,79,134,.075)!important;
+}
+
+/* Link e micro-accenti nelle sezioni */
+.detail-links>a,
+.detail-links>button,
+.menu-links button{
+  border-color:rgba(255,255,255,.11)!important;
+}
+
+#infoDialog .detail-links>a:hover,
+#infoDialog .detail-links>button:hover{
+  border-color:rgba(255,79,134,.42)!important;
+  background:rgba(255,79,134,.075)!important;
+}
+
+.concert-story .concert-story-finale{
+  border-color:rgba(255,79,134,.22)!important;
+  background:linear-gradient(135deg,rgba(255,79,134,.07),rgba(239,40,72,.055))!important;
+}
+
+/* Privacy link: rosa invece di oro */
+.home-signup .email-row > .carra-consent-row a,
+.home-signup .carra-consent-row a{
+  color:#ff7aa5!important;
+  text-decoration-color:rgba(255,122,165,.72)!important;
+}
+
+/* Checkbox: più sottile, meno "cicciona" */
+.home-signup .email-row > .carra-consent-row input[type="checkbox"],
+.home-signup .carra-consent-row input[type="checkbox"]{
+  flex:0 0 9px!important;
+  width:9px!important;
+  height:9px!important;
+  border-radius:2px!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  background:rgba(6,7,20,.98)!important;
+  box-shadow:none!important;
+  margin-top:1px!important;
+}
+
+.home-signup .email-row > .carra-consent-row input[type="checkbox"]:hover,
+.home-signup .carra-consent-row input[type="checkbox"]:hover{
+  border-color:#ff7aa5!important;
+}
+
+.home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked,
+.home-signup .carra-consent-row input[type="checkbox"]:checked{
+  border-color:#ff5576!important;
+  background:linear-gradient(135deg,#ef2848,#ff4c72)!important;
+  box-shadow:0 0 0 1px rgba(239,40,72,.13)!important;
+}
+
+.home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked::after,
+.home-signup .carra-consent-row input[type="checkbox"]:checked::after{
+  inset:-1px 0 0!important;
+  font-size:6.6px!important;
+  line-height:9px!important;
+}
+
+/* Testo consenso: più fine e meno pesante */
+.home-signup .email-row > .carra-consent-row,
+.home-signup .carra-consent-row{
+  font-weight:500!important;
+  letter-spacing:0!important;
+  color:rgba(255,255,255,.80)!important;
+}
+
+@media(min-aspect-ratio:1001/1000){
+  .home-signup .email-row > .carra-consent-row{
+    font-size:6.85px!important;
+    gap:4px!important;
+  }
+}
+
+@media(max-aspect-ratio:1/1){
+  .home-signup .email-row > .carra-consent-row{
+    font-size:6.05px!important;
+    gap:4px!important;
+  }
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
+    flex-basis:9px!important;
+    width:9px!important;
+    height:9px!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -1830,7 +1996,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V9 — dock più leggibile, checkbox privacy rifinita, stesso fast-load.
+// Launch page V10 — UI rosa coerente + checkbox privacy sottile.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -1857,8 +2023,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV9 === '1') return;
-    panel.dataset.launchV9 = '1';
+    if (!panel || panel.dataset.launchV10 === '1') return;
+    panel.dataset.launchV10 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2108,15 +2274,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV9() {
+  function initLaunchV10() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV9, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV10, { once:true });
   } else {
-    initLaunchV9();
+    initLaunchV10();
   }
 })();

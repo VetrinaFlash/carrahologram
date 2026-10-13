@@ -1,0 +1,2 @@
+JS syntax: OK
+CSS braces: OK
