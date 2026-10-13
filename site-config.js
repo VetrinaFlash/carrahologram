@@ -3784,3 +3784,169 @@ window.CARRA_CONFIG = Object.freeze({
   `;
   document.head.appendChild(style);
 })();
+
+
+// V26 — mobile: remove fake gap, keep mail directly under Vivaticket, logos only once below.
+(() => {
+  if (document.getElementById('launch-page-v26-mobile-stack-fix')) return;
+
+  const style = document.createElement('style');
+  style.id = 'launch-page-v26-mobile-stack-fix';
+  style.textContent = `
+    @media (max-aspect-ratio:1/1){
+      /* Keep the mobile dock as a real compact stack. */
+      .action-dock{
+        gap:10px!important;
+      }
+
+      /* V25 was moving the newsletter upward with bottom:..., leaving a fake empty gap.
+         Reset it so the form sits directly under the ticket CTA. */
+      .action-dock .home-signup{
+        position:relative!important;
+        inset:auto!important;
+        left:auto!important;
+        right:auto!important;
+        top:auto!important;
+        bottom:auto!important;
+        transform:none!important;
+        width:100%!important;
+        max-width:100%!important;
+        margin:0!important;
+        z-index:12!important;
+      }
+
+      .home-signup,
+      .home-signup form{
+        gap:0!important;
+      }
+
+      .home-signup .email-row{
+        height:50px!important;
+        min-height:50px!important;
+        border-radius:12px!important;
+        background:linear-gradient(145deg,rgba(8,11,29,.95),rgba(4,6,19,.98))!important;
+        border:1px solid rgba(255,255,255,.13)!important;
+        box-shadow:0 10px 24px rgba(0,0,0,.22)!important;
+      }
+
+      .home-signup .email-row input{
+        font-size:15px!important;
+      }
+
+      .home-signup .email-row button{
+        min-width:118px!important;
+      }
+
+      .home-signup .carra-consent-row{
+        margin-top:6px!important;
+        padding:0 2px!important;
+        min-height:auto!important;
+        font-size:10.6px!important;
+        line-height:1.18!important;
+      }
+
+      .home-signup .carra-consent-row input[type="checkbox"]{
+        width:13px!important;
+        height:13px!important;
+        min-width:13px!important;
+        min-height:13px!important;
+        margin-top:1px!important;
+      }
+
+      /* Darken only the real footer zone so the original poster logos don't visually duplicate. */
+      .mobile-footer-backdrop-v24{
+        height:82px!important;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(4,5,17,0) 0%,
+            rgba(4,5,17,.16) 16%,
+            rgba(4,5,17,.62) 44%,
+            rgba(4,5,17,.90) 72%,
+            rgba(4,5,17,.985) 100%
+          )!important;
+      }
+
+      /* Bottom partner strip stays clearly below the mail form. */
+      .mobile-partners-restored-v23{
+        z-index:11!important;
+        bottom:calc(10px + env(safe-area-inset-bottom))!important;
+        width:min(88vw,374px)!important;
+        height:34px!important;
+        padding:0 2px!important;
+        gap:12px!important;
+        grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr)!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--laserman{
+        height:26px!important;
+        max-height:26px!important;
+        max-width:29vw!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--rtl{
+        width:35px!important;
+        height:35px!important;
+        max-width:35px!important;
+        max-height:35px!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--atlantico{
+        height:25px!important;
+        max-height:25px!important;
+        max-width:28vw!important;
+      }
+    }
+
+    @media (max-width:390px) and (max-aspect-ratio:1/1){
+      .action-dock{
+        gap:9px!important;
+      }
+
+      .home-signup .email-row{
+        height:48px!important;
+        min-height:48px!important;
+      }
+
+      .home-signup .email-row button{
+        min-width:110px!important;
+      }
+
+      .home-signup .carra-consent-row{
+        font-size:10px!important;
+      }
+
+      .mobile-footer-backdrop-v24{
+        height:78px!important;
+      }
+
+      .mobile-partners-restored-v23{
+        width:89vw!important;
+        bottom:calc(8px + env(safe-area-inset-bottom))!important;
+        height:33px!important;
+        grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr)!important;
+        gap:10px!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--laserman{
+        height:25px!important;
+        max-height:25px!important;
+        max-width:28vw!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--rtl{
+        width:33px!important;
+        height:33px!important;
+        max-width:33px!important;
+        max-height:33px!important;
+      }
+
+      .mobile-partners-restored-v23 .mobile-partner--atlantico{
+        height:24px!important;
+        max-height:24px!important;
+        max-width:27vw!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+})();
