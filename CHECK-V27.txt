@@ -1,0 +1,7 @@
+JS syntax: OK
+Base V21: OK
+No synthetic partner insertion: OK
+Experimental overlays hidden/removed: OK
+Mail under ticket: OK
+Desktop RTL aligned: OK
+Desktop seam fix: OK

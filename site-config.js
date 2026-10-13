@@ -3206,12 +3206,31 @@ window.CARRA_CONFIG = Object.freeze({
 })();
 
 
-// V22 — notebook / MacBook 14 fix for signup row.
+// V27 — clean rebuild from V21: no synthetic logo strips, mail directly under Vivaticket.
 (() => {
-  if (document.getElementById('launch-page-v22-macbook-fix')) return;
+  if (document.getElementById('launch-page-v27-clean-rebuild')) return;
+
   const style = document.createElement('style');
-  style.id = 'launch-page-v22-macbook-fix';
+  style.id = 'launch-page-v27-clean-rebuild';
   style.textContent = `
+    /* Remove every experimental footer/logo overlay from later iterations. */
+    .mobile-partners-restored,
+    .mobile-partners-restored-v23,
+    .mobile-footer-backdrop-v24{
+      display:none!important;
+    }
+
+    /* ---------------- DESKTOP / MACBOOK ---------------- */
+    @media (min-aspect-ratio:1001/1000){
+      /* Tiny overscan removes the desktop lateral seam without changing layout. */
+      .poster-frame{
+        left:-2px!important;
+        right:-2px!important;
+        width:auto!important;
+        max-width:none!important;
+      }
+    }
+
     @media (min-aspect-ratio:1001/1000) and (max-width:1600px){
       .action-dock{
         width:min(1280px,84vw)!important;
@@ -3244,709 +3263,147 @@ window.CARRA_CONFIG = Object.freeze({
         min-height:47px!important;
         padding:3px 5px!important;
         column-gap:6px!important;
-        row-gap:0!important;
-        border-radius:11px!important;
-      }
-
-      .home-signup .email-row > input[type="email"]{
-        height:31px!important;
-        min-height:31px!important;
-        align-self:end!important;
-        padding:0 10px!important;
-        font-size:12.2px!important;
       }
 
       .home-signup .email-row > button[type="submit"]{
-        grid-row:1 / span 2!important;
-        align-self:stretch!important;
         min-width:102px!important;
         width:102px!important;
-        height:auto!important;
-        min-height:0!important;
-        padding:0 12px!important;
         margin:0!important;
-        border-radius:8px!important;
         font-size:9px!important;
-        letter-spacing:.04em!important;
       }
 
       .home-signup .email-row > .carra-consent-row{
         margin:0 0 0 8px!important;
-        gap:4px!important;
-        min-width:0!important;
-        max-width:100%!important;
+        font-size:5.8px!important;
         overflow:hidden!important;
         white-space:nowrap!important;
-        font-size:5.8px!important;
-        line-height:1!important;
-        align-items:center!important;
       }
 
       .home-signup .email-row > .carra-consent-row > span{
-        display:block!important;
         min-width:0!important;
         overflow:hidden!important;
         text-overflow:ellipsis!important;
         white-space:nowrap!important;
       }
-
-      .home-signup .email-row > .carra-consent-row a{
-        white-space:nowrap!important;
-      }
-
-      .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
-        flex:0 0 8px!important;
-        width:8px!important;
-        height:8px!important;
-        min-width:8px!important;
-        min-height:8px!important;
-      }
-
-      .home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked::after{
-        font-size:5px!important;
-        line-height:8px!important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-})();
-
-
-// V23 — mobile: newsletter sopra i loghi, partner allineati in una riga pulita.
-(() => {
-  if (document.getElementById('launch-page-v23-mobile-order-fix')) return;
-  const style = document.createElement('style');
-  style.id = 'launch-page-v23-mobile-order-fix';
-  style.textContent = `
-    .mobile-partners-restored-v23{display:none}
-
-    @media (max-aspect-ratio:1/1){
-      .poster-frame::after{
-        content:"";
-        position:absolute;
-        left:0;
-        right:0;
-        bottom:0;
-        height:118px;
-        background:linear-gradient(
-          180deg,
-          rgba(5,7,18,0) 0%,
-          rgba(5,7,18,.26) 20%,
-          rgba(5,7,18,.72) 56%,
-          rgba(5,7,18,.96) 100%
-        );
-        z-index:5;
-        pointer-events:none;
-      }
-
-      .action-dock .home-signup{
-        z-index:10!important;
-        bottom:calc(56px + env(safe-area-inset-bottom))!important;
-        width:min(92vw,390px)!important;
-      }
-
-      .mobile-partners-restored-v23{
-        position:fixed;
-        z-index:9;
-        left:50%;
-        transform:translateX(-50%);
-        bottom:calc(10px + env(safe-area-inset-bottom));
-        width:min(92vw,390px);
-        height:34px;
-        padding:0 12px;
-        display:grid;
-        grid-template-columns:1fr auto 1fr;
-        align-items:end;
-        gap:10px;
-        pointer-events:none;
-        isolation:isolate;
-      }
-
-      .mobile-partners-restored-v23::before{
-        content:"";
-        position:absolute;
-        inset:-5px 0 -4px;
-        z-index:-1;
-        border-radius:12px;
-        background:linear-gradient(180deg, rgba(6,8,22,.28), rgba(6,8,22,.62));
-        box-shadow:0 10px 24px rgba(0,0,0,.22), 0 0 0 1px rgba(255,255,255,.035) inset;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner{
-        display:block;
-        max-width:100%;
-        height:auto;
-        object-fit:contain;
-        filter:drop-shadow(0 2px 6px rgba(0,0,0,.35));
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        justify-self:start;
-        width:min(30vw,118px);
-        max-height:29px;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        justify-self:center;
-        width:min(13vw,46px);
-        max-height:31px;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        justify-self:end;
-        width:min(29vw,112px);
-        max-height:28px;
-      }
-    }
-
-    @media (max-width:390px) and (max-aspect-ratio:1/1){
-      .action-dock .home-signup{
-        width:94vw!important;
-        bottom:calc(56px + env(safe-area-inset-bottom))!important;
-      }
-
-      .mobile-partners-restored-v23{
-        width:94vw;
-        padding:0 10px;
-        gap:8px;
-        height:32px;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        width:min(29vw,106px);
-        max-height:27px;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        width:min(12vw,42px);
-        max-height:29px;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        width:min(28vw,104px);
-        max-height:26px;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-
-  function ensureMobilePartnerStripV23(){
-    const frame = document.querySelector('.poster-frame');
-    if (!frame) return;
-    document.querySelectorAll('.mobile-partners-restored').forEach(el => el.remove());
-    if (document.querySelector('.mobile-partners-restored-v23')) return;
-    const strip = document.createElement('div');
-    strip.className = 'mobile-partners-restored-v23';
-    strip.setAttribute('aria-hidden', 'true');
-    strip.innerHTML = `
-      <img class="mobile-partner mobile-partner--laserman" src="logo-laserman-clean.png" alt="">
-      <img class="mobile-partner mobile-partner--rtl" src="logo-rtl-clean.png" alt="">
-      <img class="mobile-partner mobile-partner--atlantico" src="logo-atlantico-clean.png" alt="">
-    `;
-    document.body.appendChild(strip);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensureMobilePartnerStripV23, { once:true });
-  } else {
-    ensureMobilePartnerStripV23();
-  }
-})();
-
-
-// V24 — clean mobile footer + desktop seam/logo alignment.
-(() => {
-  if (document.getElementById('launch-page-v24-footer-fix')) return;
-
-  const style = document.createElement('style');
-  style.id = 'launch-page-v24-footer-fix';
-  style.textContent = `
-    /* ---------------- DESKTOP ---------------- */
-    @media (min-aspect-ratio:1001/1000){
-      /* 2px overscan removes the thin lateral seam sometimes visible on notebooks. */
-      .poster-frame{
-        left:-2px!important;
-        right:-2px!important;
-        width:auto!important;
-        max-width:none!important;
-      }
     }
 
     /* ---------------- MOBILE ---------------- */
-    .mobile-footer-backdrop-v24{display:none}
-
     @media (max-aspect-ratio:1/1){
-      /* Let the artwork continue behind the footer instead of ending above it. */
+      /*
+        Keep the original V21 artwork/footer.
+        No duplicated PNG logos: Laserman / RTL / Atlantico are the poster ones.
+      */
       .poster-frame{
-        bottom:0!important;
+        bottom:calc(54px + env(safe-area-inset-bottom))!important;
       }
 
-      /* V23 pseudo-footer is replaced by one clean footer veil. */
-      .poster-frame::after{
-        display:none!important;
+      .action-dock{
+        display:contents!important;
       }
 
-      .mobile-footer-backdrop-v24{
-        display:block;
-        position:fixed;
-        z-index:8;
-        left:0;
-        right:0;
-        bottom:0;
-        height:132px;
-        pointer-events:none;
-        background:
-          linear-gradient(
-            180deg,
-            rgba(4,5,17,0) 0%,
-            rgba(4,5,17,.30) 20%,
-            rgba(4,5,17,.82) 52%,
-            rgba(4,5,17,.97) 100%
-          );
+      .action-dock .ticket-button{
+        position:fixed!important;
+        z-index:8!important;
+        left:50%!important;
+        top:var(--poster-ticket-y,63%)!important;
+        right:auto!important;
+        bottom:auto!important;
+        transform:translateX(-50%)!important;
+        width:min(90vw,380px)!important;
+        max-width:90vw!important;
+        height:42px!important;
       }
 
-      /* Newsletter stays ABOVE the partner row. */
+      /*
+        This is the actual requested order:
+        VIVATICKET
+        [small gap]
+        EMAIL
+        [artwork gap]
+        ORIGINAL PARTNER LOGOS
+      */
       .action-dock .home-signup{
-        z-index:11!important;
-        bottom:calc(55px + env(safe-area-inset-bottom))!important;
-        width:min(93vw,400px)!important;
-        max-width:93vw!important;
+        position:fixed!important;
+        z-index:9!important;
+        left:50%!important;
+        right:auto!important;
+        top:calc(var(--poster-ticket-y,63%) + 50px)!important;
+        bottom:auto!important;
+        transform:translateX(-50%)!important;
+        width:min(90vw,380px)!important;
+        max-width:90vw!important;
+        height:auto!important;
+        margin:0!important;
+        padding:0!important;
       }
 
       .home-signup .email-row{
         height:48px!important;
         min-height:48px!important;
         border-radius:11px!important;
-        background:linear-gradient(145deg,rgba(7,10,27,.92),rgba(4,6,18,.96))!important;
-        border-color:rgba(255,255,255,.14)!important;
-        box-shadow:0 9px 28px rgba(0,0,0,.27)!important;
+        background:linear-gradient(145deg,rgba(7,10,27,.93),rgba(4,6,18,.97))!important;
+        border:1px solid rgba(255,255,255,.14)!important;
+        box-shadow:0 8px 24px rgba(0,0,0,.24)!important;
       }
 
-      /* Partner row: NO extra rounded box/border. */
-      .mobile-partners-restored-v23{
-        z-index:10!important;
-        bottom:calc(9px + env(safe-area-inset-bottom))!important;
-        width:min(91vw,392px)!important;
-        height:35px!important;
-        padding:0 5px!important;
-        gap:12px!important;
-        grid-template-columns:minmax(0,1fr) 52px minmax(0,1fr)!important;
-        align-items:center!important;
+      .home-signup .email-row > input[type="email"]{
+        font-size:13px!important;
       }
 
-      .mobile-partners-restored-v23::before{
-        display:none!important;
-        content:none!important;
+      .home-signup .email-row > button[type="submit"]{
+        min-width:84px!important;
+        height:auto!important;
+        min-height:0!important;
+        margin:0!important;
+        font-size:9px!important;
       }
 
-      .mobile-partners-restored-v23 .mobile-partner{
-        align-self:center!important;
-        filter:drop-shadow(0 2px 7px rgba(0,0,0,.48))!important;
+      .home-signup .email-row > .carra-consent-row{
+        margin:0 4px!important;
+        font-size:5.9px!important;
+        line-height:1!important;
       }
 
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        justify-self:start!important;
-        width:auto!important;
-        height:28px!important;
-        max-width:31vw!important;
-        max-height:28px!important;
-        object-fit:contain!important;
-        object-position:left center!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        justify-self:center!important;
-        width:38px!important;
-        height:38px!important;
-        max-width:38px!important;
-        max-height:38px!important;
-        object-fit:contain!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        justify-self:end!important;
-        width:auto!important;
-        height:27px!important;
-        max-width:30vw!important;
-        max-height:27px!important;
-        object-fit:contain!important;
-        object-position:right center!important;
+      .home-signup .email-row > .carra-consent-row input[type="checkbox"]{
+        width:7px!important;
+        height:7px!important;
+        min-width:7px!important;
+        min-height:7px!important;
       }
     }
 
     @media (max-width:390px) and (max-aspect-ratio:1/1){
-      .mobile-footer-backdrop-v24{
-        height:128px!important;
-      }
-
+      .action-dock .ticket-button,
       .action-dock .home-signup{
-        bottom:calc(53px + env(safe-area-inset-bottom))!important;
-        width:94vw!important;
-        max-width:94vw!important;
-      }
-
-      .mobile-partners-restored-v23{
-        bottom:calc(8px + env(safe-area-inset-bottom))!important;
         width:92vw!important;
-        height:34px!important;
-        grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr)!important;
-        gap:9px!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        height:26px!important;
-        max-height:26px!important;
-        max-width:30vw!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        width:35px!important;
-        height:35px!important;
-        max-width:35px!important;
-        max-height:35px!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        height:25px!important;
-        max-height:25px!important;
-        max-width:29vw!important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-
-  function installFooterBackdropV24(){
-    if (document.querySelector('.mobile-footer-backdrop-v24')) return;
-    const veil = document.createElement('div');
-    veil.className = 'mobile-footer-backdrop-v24';
-    veil.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(veil);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', installFooterBackdropV24, { once:true });
-  } else {
-    installFooterBackdropV24();
-  }
-})();
-
-
-// V25 — mobile: place mail form between Vivaticket CTA and bottom logos.
-(() => {
-  if (document.getElementById('launch-page-v25-mobile-stack')) return;
-
-  const style = document.createElement('style');
-  style.id = 'launch-page-v25-mobile-stack';
-  style.textContent = `
-    @media (max-aspect-ratio:1/1){
-      /* Stronger lower veil so the original poster footer stays visually behind. */
-      .mobile-footer-backdrop-v24{
-        height:168px!important;
-        background:
-          linear-gradient(
-            180deg,
-            rgba(4,5,17,0) 0%,
-            rgba(4,5,17,.20) 18%,
-            rgba(4,5,17,.66) 46%,
-            rgba(4,5,17,.92) 70%,
-            rgba(4,5,17,.985) 100%
-          )!important;
-      }
-
-      /* Mail block sits BETWEEN ticket button and logos. */
-      .action-dock .home-signup{
-        z-index:12!important;
-        bottom:calc(72px + env(safe-area-inset-bottom))!important;
-        width:min(92vw,398px)!important;
         max-width:92vw!important;
       }
 
-      .home-signup,
-      .home-signup form{
-        gap:0!important;
-      }
-
-      .home-signup .email-row{
-        height:50px!important;
-        min-height:50px!important;
-        border-radius:12px!important;
-        background:linear-gradient(145deg,rgba(8,11,29,.93),rgba(4,6,19,.97))!important;
-        border:1px solid rgba(255,255,255,.13)!important;
-        box-shadow:0 10px 28px rgba(0,0,0,.28)!important;
-      }
-
-      .home-signup .email-row input{
-        font-size:15px!important;
-      }
-
-      .home-signup .email-row button{
-        min-width:118px!important;
-      }
-
-      .home-signup .carra-consent-row{
-        margin-top:7px!important;
-        padding:0 2px!important;
-        min-height:auto!important;
-        font-size:11.2px!important;
-        line-height:1.22!important;
-      }
-
-      .home-signup .carra-consent-row input[type="checkbox"]{
-        width:14px!important;
-        height:14px!important;
-        min-width:14px!important;
-        min-height:14px!important;
-        margin-top:1px!important;
-      }
-
-      /* Logos stay as the last visual band, below the mail form. */
-      .mobile-partners-restored-v23{
-        z-index:11!important;
-        bottom:calc(12px + env(safe-area-inset-bottom))!important;
-        width:min(90vw,388px)!important;
-        height:34px!important;
-        padding:0 4px!important;
-        gap:12px!important;
-        grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr)!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        height:26px!important;
-        max-height:26px!important;
-        max-width:30vw!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        width:36px!important;
-        height:36px!important;
-        max-width:36px!important;
-        max-height:36px!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        height:25px!important;
-        max-height:25px!important;
-        max-width:29vw!important;
-      }
-    }
-
-    @media (max-width:390px) and (max-aspect-ratio:1/1){
-      .mobile-footer-backdrop-v24{
-        height:164px!important;
-      }
-
       .action-dock .home-signup{
-        bottom:calc(68px + env(safe-area-inset-bottom))!important;
-        width:93vw!important;
-        max-width:93vw!important;
+        top:calc(var(--poster-ticket-y,63%) + 49px)!important;
       }
 
       .home-signup .email-row{
-        height:48px!important;
-        min-height:48px!important;
+        height:47px!important;
+        min-height:47px!important;
       }
 
-      .home-signup .email-row button{
-        min-width:110px!important;
-      }
-
-      .home-signup .carra-consent-row{
-        font-size:10.5px!important;
-      }
-
-      .mobile-partners-restored-v23{
-        bottom:calc(10px + env(safe-area-inset-bottom))!important;
-        width:91vw!important;
-        height:33px!important;
-        gap:10px!important;
-        grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr)!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        height:25px!important;
-        max-height:25px!important;
-        max-width:29vw!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        width:34px!important;
-        height:34px!important;
-        max-width:34px!important;
-        max-height:34px!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        height:24px!important;
-        max-height:24px!important;
-        max-width:28vw!important;
+      .home-signup .email-row > .carra-consent-row{
+        font-size:5.55px!important;
       }
     }
   `;
   document.head.appendChild(style);
-})();
 
+  function cleanupExperimentalFooter(){
+    document.querySelectorAll(
+      '.mobile-partners-restored, .mobile-partners-restored-v23, .mobile-footer-backdrop-v24'
+    ).forEach(el => el.remove());
+  }
 
-// V26 — mobile: remove fake gap, keep mail directly under Vivaticket, logos only once below.
-(() => {
-  if (document.getElementById('launch-page-v26-mobile-stack-fix')) return;
-
-  const style = document.createElement('style');
-  style.id = 'launch-page-v26-mobile-stack-fix';
-  style.textContent = `
-    @media (max-aspect-ratio:1/1){
-      /* Keep the mobile dock as a real compact stack. */
-      .action-dock{
-        gap:10px!important;
-      }
-
-      /* V25 was moving the newsletter upward with bottom:..., leaving a fake empty gap.
-         Reset it so the form sits directly under the ticket CTA. */
-      .action-dock .home-signup{
-        position:relative!important;
-        inset:auto!important;
-        left:auto!important;
-        right:auto!important;
-        top:auto!important;
-        bottom:auto!important;
-        transform:none!important;
-        width:100%!important;
-        max-width:100%!important;
-        margin:0!important;
-        z-index:12!important;
-      }
-
-      .home-signup,
-      .home-signup form{
-        gap:0!important;
-      }
-
-      .home-signup .email-row{
-        height:50px!important;
-        min-height:50px!important;
-        border-radius:12px!important;
-        background:linear-gradient(145deg,rgba(8,11,29,.95),rgba(4,6,19,.98))!important;
-        border:1px solid rgba(255,255,255,.13)!important;
-        box-shadow:0 10px 24px rgba(0,0,0,.22)!important;
-      }
-
-      .home-signup .email-row input{
-        font-size:15px!important;
-      }
-
-      .home-signup .email-row button{
-        min-width:118px!important;
-      }
-
-      .home-signup .carra-consent-row{
-        margin-top:6px!important;
-        padding:0 2px!important;
-        min-height:auto!important;
-        font-size:10.6px!important;
-        line-height:1.18!important;
-      }
-
-      .home-signup .carra-consent-row input[type="checkbox"]{
-        width:13px!important;
-        height:13px!important;
-        min-width:13px!important;
-        min-height:13px!important;
-        margin-top:1px!important;
-      }
-
-      /* Darken only the real footer zone so the original poster logos don't visually duplicate. */
-      .mobile-footer-backdrop-v24{
-        height:82px!important;
-        background:
-          linear-gradient(
-            180deg,
-            rgba(4,5,17,0) 0%,
-            rgba(4,5,17,.16) 16%,
-            rgba(4,5,17,.62) 44%,
-            rgba(4,5,17,.90) 72%,
-            rgba(4,5,17,.985) 100%
-          )!important;
-      }
-
-      /* Bottom partner strip stays clearly below the mail form. */
-      .mobile-partners-restored-v23{
-        z-index:11!important;
-        bottom:calc(10px + env(safe-area-inset-bottom))!important;
-        width:min(88vw,374px)!important;
-        height:34px!important;
-        padding:0 2px!important;
-        gap:12px!important;
-        grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr)!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        height:26px!important;
-        max-height:26px!important;
-        max-width:29vw!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        width:35px!important;
-        height:35px!important;
-        max-width:35px!important;
-        max-height:35px!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        height:25px!important;
-        max-height:25px!important;
-        max-width:28vw!important;
-      }
-    }
-
-    @media (max-width:390px) and (max-aspect-ratio:1/1){
-      .action-dock{
-        gap:9px!important;
-      }
-
-      .home-signup .email-row{
-        height:48px!important;
-        min-height:48px!important;
-      }
-
-      .home-signup .email-row button{
-        min-width:110px!important;
-      }
-
-      .home-signup .carra-consent-row{
-        font-size:10px!important;
-      }
-
-      .mobile-footer-backdrop-v24{
-        height:78px!important;
-      }
-
-      .mobile-partners-restored-v23{
-        width:89vw!important;
-        bottom:calc(8px + env(safe-area-inset-bottom))!important;
-        height:33px!important;
-        grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr)!important;
-        gap:10px!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--laserman{
-        height:25px!important;
-        max-height:25px!important;
-        max-width:28vw!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--rtl{
-        width:33px!important;
-        height:33px!important;
-        max-width:33px!important;
-        max-height:33px!important;
-      }
-
-      .mobile-partners-restored-v23 .mobile-partner--atlantico{
-        height:24px!important;
-        max-height:24px!important;
-        max-width:27vw!important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', cleanupExperimentalFooter, { once:true });
+  } else {
+    cleanupExperimentalFooter();
+  }
 })();
