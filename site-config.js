@@ -1,8 +1,8 @@
 // V8 INLINE LAUNCH CSS — niente richiesta separata launch-page.css.
 (() => {
-  if (document.getElementById('launch-page-v10-style')) return;
+  if (document.getElementById('launch-page-v11-style')) return;
   const style = document.createElement('style');
-  style.id = 'launch-page-v10-style';
+  style.id = 'launch-page-v11-style';
   style.textContent = `/* ========================================================================== */
 /* RAFFAELLA CARRÀ — LAUNCH PAGE V8                                          */
 /* Branch: new (senza countdown). Caricato da site-config.js.                 */
@@ -1648,6 +1648,67 @@
     height:9px!important;
   }
 }
+
+
+/* ========================================================================== */
+/* V11 — CHECKBOX PRIVACY ULTRA-SOTTILE                                       */
+/* ========================================================================== */
+
+.home-signup .email-row > .carra-consent-row input[type="checkbox"],
+.home-signup .carra-consent-row input[type="checkbox"]{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  flex:0 0 8px!important;
+  width:8px!important;
+  height:8px!important;
+  min-width:8px!important;
+  min-height:8px!important;
+  padding:0!important;
+  margin:1px 0 0 0!important;
+  border:1px solid rgba(255,255,255,.68)!important;
+  border-radius:1.5px!important;
+  background:rgba(5,6,18,.96)!important;
+  box-shadow:none!important;
+  outline:none!important;
+}
+
+.home-signup .email-row > .carra-consent-row input[type="checkbox"]:hover,
+.home-signup .carra-consent-row input[type="checkbox"]:hover{
+  border-color:#ff7aa5!important;
+  background:rgba(255,79,134,.035)!important;
+}
+
+.home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked,
+.home-signup .carra-consent-row input[type="checkbox"]:checked{
+  border-color:#ff5576!important;
+  background:#ef2848!important;
+  box-shadow:none!important;
+}
+
+.home-signup .email-row > .carra-consent-row input[type="checkbox"]:checked::after,
+.home-signup .carra-consent-row input[type="checkbox"]:checked::after{
+  content:'✓'!important;
+  position:absolute!important;
+  inset:-1px 0 0!important;
+  font:900 5.2px/8px Arial,Helvetica,sans-serif!important;
+  color:#fff!important;
+  text-align:center!important;
+}
+
+.home-signup .email-row > .carra-consent-row{
+  gap:3px!important;
+}
+
+@media(max-aspect-ratio:1/1){
+  .home-signup .email-row > .carra-consent-row input[type="checkbox"],
+  .home-signup .carra-consent-row input[type="checkbox"]{
+    flex-basis:8px!important;
+    width:8px!important;
+    height:8px!important;
+    min-width:8px!important;
+    min-height:8px!important;
+  }
+}
 `;
   document.head.appendChild(style);
 })();
@@ -1996,7 +2057,7 @@ window.CARRA_CONFIG = Object.freeze({
   }, { once: true });
 })();
 
-// Launch page V10 — UI rosa coerente + checkbox privacy sottile.
+// Launch page V11 — checkbox privacy ultra-sottile e più elegante.
 (() => {
   const TICKET_URL = 'https://www.vivaticket.com/it/ticket/raffaella-carra-hologram/320642';
 
@@ -2023,8 +2084,8 @@ window.CARRA_CONFIG = Object.freeze({
 
   function enhanceConcertPanel() {
     const panel = document.getElementById('infoDialog');
-    if (!panel || panel.dataset.launchV10 === '1') return;
-    panel.dataset.launchV10 = '1';
+    if (!panel || panel.dataset.launchV11 === '1') return;
+    panel.dataset.launchV11 = '1';
     panel.classList.add('concert-info-panel');
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -2274,15 +2335,15 @@ window.CARRA_CONFIG = Object.freeze({
     schedule();
   }
 
-  function initLaunchV10() {
+  function initLaunchV11() {
     enhanceConcertPanel();
     updateDockPosition();
     initRtlAlignment();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLaunchV10, { once:true });
+    document.addEventListener('DOMContentLoaded', initLaunchV11, { once:true });
   } else {
-    initLaunchV10();
+    initLaunchV11();
   }
 })();
