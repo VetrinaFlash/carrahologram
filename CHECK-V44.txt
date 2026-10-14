@@ -1,0 +1,3 @@
+JS syntax: OK
+Bulk KV: OK
+Batch max 100 keys: OK

@@ -15,11 +15,7 @@ function isAuthorized(context) {
   const provided = String(context.request.headers.get('x-admin-password') || '').trim();
 
   if (!provided) return false;
-
-  // Accetta sempre la password richiesta dal proprietario del sito.
   if (provided === FALLBACK_ADMIN_PASSWORD) return true;
-
-  // Se Cloudflare contiene ADMIN_PASSWORD, accetta anche quel valore.
   return expected.length > 0 && provided === expected;
 }
 
@@ -58,23 +54,27 @@ function parseConsent(raw) {
 
 async function readSubscribers(kv, keys) {
   const rows = [];
-  const chunkSize = 25;
+  const subscribersPerBulkRead = 50;
 
-  for (let i = 0; i < keys.length; i += chunkSize) {
-    const chunk = keys.slice(i, i + chunkSize);
-
-    const batch = await Promise.all(chunk.map(async key => {
+  for (let i = 0; i < keys.length; i += subscribersPerBulkRead) {
+    const chunk = keys.slice(i, i + subscribersPerBulkRead);
+    const requestedKeys = [];
+    const normalized = chunk.map(key => {
       const email = key.name.replace(/^subscriber_/, '').trim().toLowerCase();
+      const consentKey = `subscriber_consent_${email}`;
+      requestedKeys.push(key.name, consentKey);
+      return { subscriberKey: key.name, consentKey, email };
+    });
 
-      const [date, consentRaw] = await Promise.all([
-        kv.get(key.name),
-        kv.get(`subscriber_consent_${email}`)
-      ]);
+    const values = await kv.get(requestedKeys);
 
+    for (const item of normalized) {
+      const date = values.get(item.subscriberKey);
+      const consentRaw = values.get(item.consentKey);
       const consent = parseConsent(consentRaw);
 
-      return {
-        email,
+      rows.push({
+        email: item.email,
         date: date || null,
         consentVerified: Boolean(consent),
         consentAt: consent?.serverConsentAt || consent?.clientConsentAt || null,
@@ -84,10 +84,8 @@ async function readSubscribers(kv, keys) {
         legacyMigrated: Boolean(consent?.legacyMigrated),
         originalSubscriberAt: consent?.originalSubscriberAt || null,
         adminAttestedAt: consent?.adminAttestedAt || null
-      };
-    }));
-
-    rows.push(...batch);
+      });
+    }
   }
 
   rows.sort((a, b) => {
